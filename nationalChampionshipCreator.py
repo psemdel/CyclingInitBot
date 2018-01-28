@@ -4,7 +4,8 @@ Created on Thu Jan  4 15:30:20 2018
 
 @author: maxime delzenne
 """
-import cyclingInitBotLow
+from CyclingInitBotLow import *
+
 
 def nationalChampionshipBasic(pywikibot,repo,item,siteIn,Master,Year,country_code,Idpresent): 
   
@@ -262,3 +263,9 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
                 #Link to master (championship...)
                 addComprend(pywikibot,repo,item,noQ(IdClmpresent),u'link clm féminin')
 
+if __name__ == '__main__':
+   from nationTeamTable import nationalTeamTable 
+   [teamTableFemmes, endkk]=nationalTeamTable()
+   print(endkk)
+   print(teamCIOsearch(teamTableFemmes,'FRA'))
+   

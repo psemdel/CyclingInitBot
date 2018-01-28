@@ -4,44 +4,79 @@ Created on Thu Jan  4 15:29:49 2018
 
 @author: maxime delzenne
 """
-import cyclingInitBotLow
+from CyclingInitBotLow import *
 
-def StageRaceBasic(pywikibot,repo,item,siteIn,country_code,Master,StartDate, EndDate):
+def StageRaceBasic(pywikibot,repo,item,siteIn,country_code,Master,StartDate, EndDate, UCI, year):
 #No need for the table here    
        
     addValue(pywikibot,repo,item,31,Master,u'Nature') 
     addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
     addValue(pywikibot,repo,item,17,country_code,u'country')
 
-    if(u'P580' in item.claims):
-        a=1
-    else:
-        claim=  pywikibot.Claim(repo, u'P580') #date de début
-        claim.setTarget(StartDate)
-        item.addClaim(claim, summary=u'Adding starting date')  
+    addDate(pywikibot,repo,item,580,StartDate,u'starting date')
+    addDate(pywikibot,repo,item,582,EndDate,u'ending date')
+    
+    if UCI==u"yes":
+        calendarID=calendaruciID(pywikibot,site,repo,time, year)
+        addValue(pywikibot,repo,item,361,noQ(calendarID),u'part of')
         
-    if(u'P582' in item.claims):
-        a=1
-    else:
-        claim=  pywikibot.Claim(repo, u'P582') #date de fin
-        claim.setTarget(EndDate)
-        item.addClaim(claim, summary=u'Adding ending date') 
-        
-def StageBasic(pywikibot,repo,item,site,Number,country_code,Master,StageRaceBegin):
+def StageBasic(pywikibot,repo,item,site,Number,country_code,Master,inputDate):
 
     if Number==0:
         addValue(pywikibot,repo,item,31,485321,u'Nature')  #prologue
     else:
         addValue(pywikibot,repo,item,31,18131152,u'Nature')  #étape   
     
-    
     addValue(pywikibot,repo,item,361,Master,u'part of')
     addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
     addValue(pywikibot,repo,item,17,country_code,u'country')
     addValue(pywikibot,repo,item,1545,str(Number),u'order')
+    #StageRaceBegin later 
     
-    #StageRaceBegin later   
+
+def DateFinder(pywikibot,repo,site,Number,FirstStage,LastStage, StageRaceBegin,StageRaceEnd):
     
+    daysInMonth = [0 for x in range(13)] #Start at 1
+    daysInMonth[1]=31
+    daysInMonth[2]=28
+    daysInMonth[3]=31
+    daysInMonth[4]=30
+    daysInMonth[5]=31
+    daysInMonth[6]=30
+    daysInMonth[7]=31
+    daysInMonth[8]=31
+    daysInMonth[9]=30
+    daysInMonth[10]=31
+    daysInMonth[11]=30
+    daysInMonth[12]=31
+    
+    if Number==FirstStage:
+         OutputDate=StageRaceBegin
+    elif Number==LastStage:
+         OutputDate=StageRaceEnd
+    else:
+         monthBegin=StageRaceBegin.month
+         yearBegin=StageRaceBegin.year
+         OutputDate=pywikibot.WbTime(site=site,year=yearBegin)
+         dayTemp=StageRaceBegin.day+(Number-FirstStage)
+         
+         if dayTemp>daysInMonth[monthBegin]:
+             dayTemp=dayTemp-daysInMonth[monthBegin]
+             monthTemp=monthBegin+1
+             if monthTemp>12:
+                 yearTemp=yearBegin+1
+                 monthTemp=monthTemp-12
+             else:
+                 yearTemp=yearBegin
+         else:
+                 monthTemp=monthBegin
+                 yearTemp=yearBegin
+         OutputDate.day=dayTemp
+         OutputDate.month=monthTemp
+         OutputDate.year=yearTemp
+    return OutputDate         
+         
+
 def StageLabel(Number, Genre, StageRaceName, Year):
     mylabel={}
         
@@ -57,14 +92,15 @@ def StageLabel(Number, Genre, StageRaceName, Year):
 
 
 def StageRaceCreator(pywikibot,site,repo,time,teamTableFemmes):   
-    StageRaceName=u"Santos Women's Tour"
+    StageRaceName=u"Womens Herald Sun Tour"
     StageRaceGenre=u'du ' #+space
-    StageRaceMasterId=22661614
+    StageRaceMasterId=47509863
     Year=2018
-    StageRaceBegin=pywikibot.WbTime(site=site,year=Year, month=1, day=11, precision='day')
-    StageRaceEnd=pywikibot.WbTime(site=site,year=Year, month=1, day=14, precision='day')
+    UCI=u"yes"
+    StageRaceBegin=pywikibot.WbTime(site=site,year=Year, month=1, day=30, precision='day')
+    StageRaceEnd=pywikibot.WbTime(site=site,year=Year, month=1, day=31, precision='day')
     FirstStage=1
-    LastStage=4
+    LastStage=2
     CountryCIO=u'AUS'
     mydescription={}
     #StageRaceEnd=pywikibot.WbTime(site=siteIn,year=2017, month=1, day=1, precision='day')
@@ -92,7 +128,7 @@ def StageRaceCreator(pywikibot,site,repo,time,teamTableFemmes):
         mydescription[u'fr']=u'édition ' + str(Year) + StageRaceGenre + StageRaceName
         item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
     
-    StageRaceBasic(pywikibot,repo,item,site,teamTableFemmes[kk][3],StageRaceMasterId,StageRaceBegin,StageRaceEnd)
+    StageRaceBasic(pywikibot,repo,item,site,teamTableFemmes[kk][3],StageRaceMasterId,StageRaceBegin,StageRaceEnd, UCI, Year)
     
     #Search previous
     Yearprevious= Year-1
@@ -125,7 +161,7 @@ def StageRaceCreator(pywikibot,site,repo,time,teamTableFemmes):
     #link to master
     itemMaster= pywikibot.ItemPage(repo, u'Q'+ str(StageRaceMasterId))
     itemMaster.get()
-    addComprend(pywikibot,repo,itemMaster,noQ(Idpresent),u'link year '+ str(Year)) 
+    addMultipleValue(pywikibot,repo,itemMaster,527,noQ(Idpresent),u'link year '+ str(Year),0) 
     
     #Create the stages
     stageLabel={}  
@@ -143,14 +179,17 @@ def StageRaceCreator(pywikibot,site,repo,time,teamTableFemmes):
             print(stageLabel['fr']+' already present several times')
         else:    
             print(stageLabel['fr']+' already present')
-    
+
         itemStagePresent=pywikibot.ItemPage(repo, IdStagepresent)
         itemStagePresent.get()
         if get_description('fr',itemStagePresent)=='':
             mydescription[u'fr']=u'étape'+" " + StageRaceGenre + StageRaceName + " "+ str(Year)
             itemStagePresent.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
         StageBasic(pywikibot,repo,itemStagePresent,site,ii,teamTableFemmes[kk][3],noQ(Idpresent),StageRaceBegin)
-         #Link to previous
+        stageDate=DateFinder(pywikibot,repo,site,ii,FirstStage,LastStage, StageRaceBegin,StageRaceEnd)
+        addDate(pywikibot,repo,itemStagePresent,585,stageDate,u'date')
+        
+        #Link to previous
         if ii==0:
             lookforprevious=0
         else:   
@@ -175,6 +214,9 @@ def StageRaceCreator(pywikibot,site,repo,time,teamTableFemmes):
                 addValue(pywikibot,repo,itemStagePrevious,156,noQ(IdStagepresent),u'link next')
         
         #Link to the master for this year, so item
-        addComprend(pywikibot,repo,item,noQ(IdStagepresent),u'link stage '+str(ii)) 
+        addMultipleValue(pywikibot,repo,item,527,noQ(IdStagepresent),u'link stage '+str(ii),0) 
         #Link to next
         #Not required 
+  
+
+    

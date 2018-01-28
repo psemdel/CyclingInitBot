@@ -4,8 +4,8 @@ Created on Thu Jan  4 15:28:39 2018
 
 @author: maxime delzenne
 """
+from CyclingInitBotLow import *
 
-import cyclingInitBotLow
 
 #==Get==
 def nationalTeamAlias(teamTable,kk, Year):
@@ -102,7 +102,7 @@ def Nationalteamcreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
     for kk in range(kkinit,endkk):  #endkk
         group=teamTableFemmes[kk][8]
         if group==1:
-            for ii in range(1990,2019):
+            for ii in range(1990,2019): #range(1990,2019)
                 Year=ii
                  
                 mylabel={}
@@ -158,5 +158,11 @@ def Nationalteamcreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
                 #link to master
                 itemMaster= pywikibot.ItemPage(repo, u'Q'+ str(teamTableFemmes[kk][4]))
                 itemMaster.get()
-                addComprend(pywikibot,repo,itemMaster,noQ(Idpresent),u'link year '+ str(Year)) 
+                addMultipleValue(pywikibot,repo,itemMaster,527,noQ(Idpresent),u'link year '+ str(Year)) 
 
+if __name__ == '__main__':
+   from nationTeamTable import nationalTeamTable 
+   [teamTableFemmes, endkk]=nationalTeamTable()
+   print(endkk)
+   print(teamCIOsearch(teamTableFemmes,'FRA'))
+   
