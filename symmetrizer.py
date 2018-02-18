@@ -54,7 +54,7 @@ def addUCIcalendar(pywikibot,site,repo,time, masterID):
         else:
            print(u"edition not UCI " + item.getID())
 
-def calendaruciID(pywikibot,site,repo,time, year):  
+def calendaruciID(year):  
     if  year == "2018":
         calendarID="Q47005682"
     elif year == "2017":
@@ -89,7 +89,7 @@ def calendaruciID(pywikibot,site,repo,time, year):
 def calendarSymmetrizer(pywikibot,site,repo,time, year):
     from pywikibot import pagegenerators 
     
-    calendarID=calendaruciID(pywikibot,site,repo,time, year)
+    calendarID=calendaruciID(year)
 
     #use the query
     query = "SELECT DISTINCT ?item WHERE {?item wdt:P361 wd:" + calendarID +"}"

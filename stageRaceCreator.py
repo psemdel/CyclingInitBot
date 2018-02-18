@@ -5,20 +5,21 @@ Created on Thu Jan  4 15:29:49 2018
 @author: maxime delzenne
 """
 from CyclingInitBotLow import *
+from symmetrizer import *
 
 def StageRaceBasic(pywikibot,repo,item,siteIn,country_code,Master,StartDate, EndDate, UCI, year):
 #No need for the table here    
        
     addValue(pywikibot,repo,item,31,Master,u'Nature') 
     addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
-    addValue(pywikibot,repo,item,17,country_code,u'country')
+    addValue(pywikibot,repo,item,17,country_code,u'country') 
 
     addDate(pywikibot,repo,item,580,StartDate,u'starting date')
     addDate(pywikibot,repo,item,582,EndDate,u'ending date')
     
     if UCI==u"yes":
-        calendarID=calendaruciID(pywikibot,site,repo,time, year)
-        addValue(pywikibot,repo,item,361,noQ(calendarID),u'part of')
+        calendarID=calendaruciID(year)
+        addValue(pywikibot,repo,item,361,noQ(calendarID),u'part of') #
         
 def StageBasic(pywikibot,repo,item,site,Number,country_code,Master,inputDate):
 
@@ -29,7 +30,7 @@ def StageBasic(pywikibot,repo,item,site,Number,country_code,Master,inputDate):
     
     addValue(pywikibot,repo,item,361,Master,u'part of')
     addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
-    addValue(pywikibot,repo,item,17,country_code,u'country')
+    addValue(pywikibot,repo,item,17,country_code,u'country') 
     addValue(pywikibot,repo,item,1545,str(Number),u'order')
     #StageRaceBegin later 
     
@@ -92,16 +93,16 @@ def StageLabel(Number, Genre, StageRaceName, Year):
 
 
 def StageRaceCreator(pywikibot,site,repo,time,teamTableFemmes):   
-    StageRaceName=u"Womens Herald Sun Tour"
-    StageRaceGenre=u'du ' #+space
-    StageRaceMasterId=47509863
+    StageRaceName=u"Tour of Eftalia Hotels and Velo Alanya"
+    StageRaceGenre=u' du ' #+space
+    StageRaceMasterId=47531313
     Year=2018
     UCI=u"yes"
-    StageRaceBegin=pywikibot.WbTime(site=site,year=Year, month=1, day=30, precision='day')
-    StageRaceEnd=pywikibot.WbTime(site=site,year=Year, month=1, day=31, precision='day')
+    StageRaceBegin=pywikibot.WbTime(site=site,year=Year, month=2, day=2, precision='day')
+    StageRaceEnd=pywikibot.WbTime(site=site,year=Year, month=2, day=4, precision='day')
     FirstStage=1
-    LastStage=2
-    CountryCIO=u'AUS'
+    LastStage=3
+    CountryCIO=u'TUR'
     mydescription={}
     #StageRaceEnd=pywikibot.WbTime(site=siteIn,year=2017, month=1, day=1, precision='day')
     

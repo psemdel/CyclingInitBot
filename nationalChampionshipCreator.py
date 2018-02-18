@@ -17,7 +17,7 @@ def nationalChampionshipBasic(pywikibot,repo,item,siteIn,Master,Year,country_cod
         addValue(pywikibot,repo,item,361,noQ(Idchamp),u'part of') 
         itemMaster= pywikibot.ItemPage(repo, Idchamp)
         itemMaster.get()
-        addComprend(pywikibot,repo,itemMaster,noQ(Idpresent),u'link year')
+        addMultipleValue(pywikibot,repo,itemMaster,527,noQ(Idpresent),u'link year',0)
         
     addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
     addValue(pywikibot,repo,item,17,country_code,u'country')   
@@ -93,13 +93,20 @@ def nationalChampionshipClmLabel(teamTable,kk,Year):
     return mylabel
 
 
-def NationalChampionshipCreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
-    kkinit=teamCIOsearch(teamTableFemmes, u'NZL')
+def NationalChampionshipCreator(pywikibot,site,repo,time,teamTableFemmes,endkk,option):
+    kkinit=teamCIOsearch(teamTableFemmes, u'FRA')
+    
+    if option=='clmoff':
+        clm=0
+    else:
+        clm=1
     #print(kkinit)
-    for kk in range(kkinit,endkk):  #endkk
+    for kk in range(kkinit,kkinit+1):  #endkk
+    ##kk=kkinit
+    ##if 1==1:
         group=teamTableFemmes[kk][8]
         if group==1:
-            for ii in range(2010,2019):
+            for ii in range(1951,2019):
                 Year=ii
                 group=1
                 #Create the championship
@@ -153,7 +160,7 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
                 #link to master
                 itemMaster= pywikibot.ItemPage(repo, u'Q'+ str(teamTableFemmes[kk][9]))
                 itemMaster.get()
-                addComprend(pywikibot,repo,itemMaster,noQ(Idpresent),u'link year '+ str(Year)) 
+                addMultipleValue(pywikibot,repo,itemMaster,527,noQ(Idpresent),u'link year '+ str(Year),0) 
                 
                 #Create the road race
                 time.sleep(1.0)
@@ -204,64 +211,65 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
                 #Link to master (En ligne...)
                 itemEnLigneMaster= pywikibot.ItemPage(repo, u'Q'+ str(teamTableFemmes[kk][10]))
                 itemEnLigneMaster.get()
-                addComprend(pywikibot,repo,itemEnLigneMaster,noQ(IdEnLignepresent),u'link year '+ str(Year))
+                addMultipleValue(pywikibot,repo,itemEnLigneMaster,527,noQ(IdEnLignepresent),u'link year '+ str(Year),0)
                 
                 #Link to master (championship...)
-                addComprend(pywikibot,repo,item,noQ(IdEnLignepresent),u'link course en ligne féminine')
+                addMultipleValue(pywikibot,repo,item,527,noQ(IdEnLignepresent),u'link course en ligne féminine',0)
                 
                  #Create the Clm
                 time.sleep(1.0)
-                mylabelClm=nationalChampionshipClmLabel(teamTableFemmes,kk,Year)
-                IdClmpresent=searchItem(pywikibot,site,mylabelClm['fr'])
-                if (IdClmpresent==u'Q0'):
-                    print(mylabelClm['fr']+' created')
-                        #Type code
-                    IdClmpresent = create_item(pywikibot,site, mylabelClm)
+                if clm==1:
+                    mylabelClm=nationalChampionshipClmLabel(teamTableFemmes,kk,Year)
+                    IdClmpresent=searchItem(pywikibot,site,mylabelClm['fr'])
+                    if (IdClmpresent==u'Q0'):
+                        print(mylabelClm['fr']+' created')
+                            #Type code
+                        IdClmpresent = create_item(pywikibot,site, mylabelClm)
+                    
+                    elif (IdClmpresent==u'Q1'):
+                        print(mylabelClm['fr']+' already present several times')
+                    else:    
+                        print(mylabelClm['fr']+' already present')
                 
-                elif (IdClmpresent==u'Q1'):
-                    print(mylabelClm['fr']+' already present several times')
-                else:    
-                    print(mylabelClm['fr']+' already present')
-            
-                itemClm =pywikibot.ItemPage(repo, IdClmpresent)
-                itemClm.get()
-                #Same function as EnLigne
-                nationalChampionshipEnLigneBasic(pywikibot,repo,itemClm,site,teamTableFemmes[kk][11],teamTableFemmes[kk][3],Year)
-               
-                
-                #Link to previous
-                mylabelClmprevious=nationalChampionshipClmLabel(teamTableFemmes,kk,Yearprevious)
-                IdClmprevious=searchItem(pywikibot,site,mylabelClmprevious['fr'])
-                if (IdClmprevious==u'Q0')or(IdClmprevious==u'Q1'):  #no previous or several
-                   a=1
-                else:
-                    addValue(pywikibot,repo,itemClm,155,noQ(IdClmprevious),u'link previous') 
-                        #Link to the previous
-                    itemClmPrevious=pywikibot.ItemPage(repo, IdClmprevious)
-                    itemClmPrevious.get()
-                    addValue(pywikibot,repo,itemClmPrevious,156,noQ(IdClmpresent),u'link next')
-                
-                #Link to next
-                mylabelClmnext=nationalChampionshipClmLabel(teamTableFemmes,kk,Yearnext)
-                IdClmnext=searchItem(pywikibot,site,mylabelClmnext['fr'])
-                
-                time.sleep(1.0)
-                if (IdClmnext==u'Q0')or(IdClmnext==u'Q1'):  #no next or 
-                    a=1
-                else:
-                   addValue(pywikibot,repo,itemClm,156,noQ(IdClmnext),u'link next')  
-                   #Link to the next
-                   itemClmNext=pywikibot.ItemPage(repo, IdClmnext)
-                   itemClmNext.get()
-                   addValue(pywikibot,repo,itemClmNext,155,noQ(IdClmpresent),u'link previous')
-                
-                #Link to master (clm...)
-                itemClmMaster= pywikibot.ItemPage(repo, u'Q'+ str(teamTableFemmes[kk][11]))
-                itemClmMaster.get()
-                addComprend(pywikibot,repo,itemClmMaster,noQ(IdClmpresent),u'link year '+ str(Year))
-                 
-                #Link to master (championship...)
-                addComprend(pywikibot,repo,item,noQ(IdClmpresent),u'link clm féminin')
+                    itemClm =pywikibot.ItemPage(repo, IdClmpresent)
+                    itemClm.get()
+                    #Same function as EnLigne
+                    nationalChampionshipEnLigneBasic(pywikibot,repo,itemClm,site,teamTableFemmes[kk][11],teamTableFemmes[kk][3],Year)
+                   
+                    
+                    #Link to previous
+                    mylabelClmprevious=nationalChampionshipClmLabel(teamTableFemmes,kk,Yearprevious)
+                    IdClmprevious=searchItem(pywikibot,site,mylabelClmprevious['fr'])
+                    if (IdClmprevious==u'Q0')or(IdClmprevious==u'Q1'):  #no previous or several
+                       a=1
+                    else:
+                        addValue(pywikibot,repo,itemClm,155,noQ(IdClmprevious),u'link previous') 
+                            #Link to the previous
+                        itemClmPrevious=pywikibot.ItemPage(repo, IdClmprevious)
+                        itemClmPrevious.get()
+                        addValue(pywikibot,repo,itemClmPrevious,156,noQ(IdClmpresent),u'link next')
+                    
+                    #Link to next
+                    mylabelClmnext=nationalChampionshipClmLabel(teamTableFemmes,kk,Yearnext)
+                    IdClmnext=searchItem(pywikibot,site,mylabelClmnext['fr'])
+                    
+                    time.sleep(1.0)
+                    if (IdClmnext==u'Q0')or(IdClmnext==u'Q1'):  #no next or 
+                        a=1
+                    else:
+                       addValue(pywikibot,repo,itemClm,156,noQ(IdClmnext),u'link next')  
+                       #Link to the next
+                       itemClmNext=pywikibot.ItemPage(repo, IdClmnext)
+                       itemClmNext.get()
+                       addValue(pywikibot,repo,itemClmNext,155,noQ(IdClmpresent),u'link previous')
+                    
+                    #Link to master (clm...)
+                    itemClmMaster= pywikibot.ItemPage(repo, u'Q'+ str(teamTableFemmes[kk][11]))
+                    itemClmMaster.get()
+                    addMultipleValue(pywikibot,repo,itemClmMaster,527,noQ(IdClmpresent),u'link year '+ str(Year),0)
+                     
+                    #Link to master (championship...)
+                    addMultipleValue(pywikibot,repo,item,527,noQ(IdClmpresent),u'link clm féminin',0)
 
 if __name__ == '__main__':
    from nationTeamTable import nationalTeamTable 

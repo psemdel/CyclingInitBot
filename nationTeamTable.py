@@ -401,7 +401,7 @@ def nationalTeamTable():
     kk+=1
     
     teamTableFemmes[kk][1]=u'Grande-Bretagne'
-    teamTableFemmes[kk][2]=u"de"
+    teamTableFemmes[kk][2]=u"de "
     teamTableFemmes[kk][3]=145
     teamTableFemmes[kk][4]=28840624
     teamTableFemmes[kk][5]=u'Great Britain'
@@ -608,6 +608,20 @@ def nationalTeamTable():
     teamTableFemmes[kk][11]=45083963
     kk+=1 
     
+    teamTableFemmes[kk][1]=u'Namibie'
+    teamTableFemmes[kk][2]=u"de "
+    teamTableFemmes[kk][3]=1030
+    teamTableFemmes[kk][4]=48648460
+    teamTableFemmes[kk][5]=u'Namibia'
+    teamTableFemmes[kk][6]=u'Namibian'
+    teamTableFemmes[kk][7]=u'NAM'
+    teamTableFemmes[kk][8]=1
+    teamTableFemmes[kk][9]=1826259
+    teamTableFemmes[kk][10]=31271492
+    teamTableFemmes[kk][11]=31271499
+    kk+=1
+    
+    
     teamTableFemmes[kk][1]=u'Pays-Bas'
     teamTableFemmes[kk][2]=u"des "
     teamTableFemmes[kk][3]=55
@@ -798,6 +812,16 @@ def nationalTeamTable():
     teamTableFemmes[kk][9]=17624413
     teamTableFemmes[kk][10]=45172237
     teamTableFemmes[kk][11]=45172232
+    kk+=1
+    
+    teamTableFemmes[kk][1]=u'Turquie'
+    teamTableFemmes[kk][2]=u"de"
+    teamTableFemmes[kk][3]=43
+    teamTableFemmes[kk][4]=0
+    teamTableFemmes[kk][5]=u'Turkey'
+    teamTableFemmes[kk][6]=u'Turkish'
+    teamTableFemmes[kk][7]=u'TUR'
+    teamTableFemmes[kk][8]=1
     kk+=1
     
     teamTableFemmes[kk][1]=u'Ukraine'

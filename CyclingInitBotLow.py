@@ -43,7 +43,8 @@ def deleteValue(pywikibot,repo,item,propertyNummer,value,comment):
    
     
 def addMultipleValue(pywikibot,repo,item,propertyNummer,value,comment,overpass): #Same as add value but for comprend
-    if overpass==1:  #To add a value and then delete it
+    #check if the value is not already present
+    if overpass==1:  #To add a value and then delete it for sorting purpose
         Addc=1
     else:
         Addc=1
@@ -54,7 +55,7 @@ def addMultipleValue(pywikibot,repo,item,propertyNummer,value,comment,overpass):
                if listOfcomprend[ii].getTarget()==itemToAdd: #Already there
                     Addc=0
                     print('Item already in the Master list')
-        
+    #add the value    
     if Addc==1:  
        claim=pywikibot.Claim(repo, u'P'+str(propertyNummer)) 
        target = pywikibot.ItemPage(repo, u'Q'+str(value))
@@ -62,6 +63,38 @@ def addMultipleValue(pywikibot,repo,item,propertyNummer,value,comment,overpass):
        item.addClaim(claim, summary=u'Adding '+comment) 
     return Addc
     
+def addWinner(pywikibot,site,repo,item,value,order):
+    propertyNummer=1346
+    if order==1:
+        qualifierNummer='Q20882667'
+        
+    elif order==2:
+        qualifierNummer='Q20882668'
+    elif order==3:  
+        qualifierNummer='Q20882669'
+    else:
+        qualifierNummer='Q20882667'  
+    
+    Addc=1
+    if(u'P'+str(propertyNummer) in item.claims):
+        listOfWinner=item.claims.get(u'P'+str(propertyNummer))
+        itemToAdd=pywikibot.ItemPage(repo,value)
+        #look if already there as a rider can't be first, second and third at the same time
+        for ii in range(len(listOfWinner)):
+           if listOfWinner[ii].getTarget()==itemToAdd: #Already there
+                Addc=0
+                print('winner already in the list')
+        
+    if Addc==1:   
+        claim=pywikibot.Claim(repo, u'P'+str(propertyNummer)) 
+
+        target = pywikibot.ItemPage(repo, value)
+        claim.setTarget(target)
+        item.addClaim(claim, summary=u'Adding winner')
+        qualifierDe=pywikibot.page.Claim(site, 'P642', isQualifier=True)
+        targetQualifier = pywikibot.ItemPage(repo, qualifierNummer)
+        qualifierDe.setTarget(targetQualifier)
+        claim.addQualifier(qualifierDe)
 
       
 def noQ(itemID):

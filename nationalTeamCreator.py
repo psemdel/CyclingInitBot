@@ -97,9 +97,11 @@ def nationalTeamDescription(teamTable,kk,Year):
  
 
 def Nationalteamcreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
-    kkinit=teamCIOsearch(teamTableFemmes, u'USA')
+    kkinit=teamCIOsearch(teamTableFemmes, u'NAM')
+    kk=kkinit
     print(kkinit)
-    for kk in range(kkinit,endkk):  #endkk
+    if kk==kkinit:
+    #for kk in range(kkinit,endkk):  #endkk
         group=teamTableFemmes[kk][8]
         if group==1:
             for ii in range(1990,2019): #range(1990,2019)
@@ -158,7 +160,7 @@ def Nationalteamcreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
                 #link to master
                 itemMaster= pywikibot.ItemPage(repo, u'Q'+ str(teamTableFemmes[kk][4]))
                 itemMaster.get()
-                addMultipleValue(pywikibot,repo,itemMaster,527,noQ(Idpresent),u'link year '+ str(Year)) 
+                addMultipleValue(pywikibot,repo,itemMaster,527,noQ(Idpresent),u'link year '+ str(Year),0) 
 
 if __name__ == '__main__':
    from nationTeamTable import nationalTeamTable 
