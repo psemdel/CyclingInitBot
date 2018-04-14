@@ -171,20 +171,28 @@ def dateSorter(pywikibot,site,repo,time,IdTeamPage,VicOrComp):
          listeDesVictoires.append(victoireTemp)
     
     newOrder=[0 for x in range(len(listOfcomprend))]
+    oldOrder=[0 for x in range(len(listOfcomprend))]
     for x in range(len(listOfcomprend)):
         newOrder[x]=x
+        oldOrder[x]=x
     newOrder=dateSort(listeDesVictoires,newOrder)
     print(newOrder)
-
-    for ii in range(len(newOrder)): #
-        key=newOrder[ii]
-        itemID=listeDesVictoires[key].itemID
-        #delete the old one
-        #allclaims=item.claims[u'P'+str(propertyNumber)] 
-        #claim=allclaims[0]
-
-        deleteValue(pywikibot,repo,item,propertyNumber,noQ(itemID),'race for sorting')
-        addMultipleValue(pywikibot,repo,item,propertyNumber, noQ(itemID),'race for sorting',1)
+    reorder=1
+    orderfine=1
+    
+    if reorder==1:
+        for ii in range(len(newOrder)): #
+            if newOrder[ii]!=oldOrder[ii]: #when the first has to be moved all have to be moved
+                orderfine=0
+            if orderfine==0:
+                key=newOrder[ii]
+                itemID=listeDesVictoires[key].itemID
+                #delete the old one
+                #allclaims=item.claims[u'P'+str(propertyNumber)] 
+                #claim=allclaims[0]
+        
+                deleteValue(pywikibot,repo,item,propertyNumber,noQ(itemID),'race for sorting')
+                addMultipleValue(pywikibot,repo,item,propertyNumber, noQ(itemID),'race for sorting',1)
 
 
 def nameSorter(pywikibot,site,repo,time,IdTeamPage, TeamOrOther):

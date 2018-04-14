@@ -27,157 +27,141 @@ def palmaresImporter():
     
     inputstr="""
 |-
-|[[1951]]|| [[Nantes]]||[[Lucienne Benoît]]||[[Georgette Rodet]]||[[Jeannine Lemaire]]
+| 1959 || [[Beryl Burton]] || [[Millie Robinson]] || [[Sheila Holmes]]
 |-
-|[[1952]]|| [[Montlhéry]]||[[Jeannine Lemaire]]||[[Gaby Guillard]]||[[Huguette Luneau]]
+| 1960 || [[Beryl Burton]] || [[Sheila Holmes]] || [[Val Baxendine]]
 |-
-|[[1953]]|| [[Nantes]]||[[Jeannine Lemaire]]||[[Gaby Guillard]]||[[Reine Lacave]]
+| 1961 || [[Jo Bowers]] || [[Beryl Burton]] || [[Jan Smith]]
 |-
-|[[1954]]|| [[Roanne]]|| [[Noelle Naulot]]||[[Jeannine Lemaire]]||[[Joséphine Bardelet]]
+| 1962 || [[Jo Bowers]] || [[Pat Pepper]] || [[Cynthia Cary]]
 |-
-|[[1955]]|| [[Montlhéry]]||[[Lydia Brein-Haritonides]] ||[[Marie-Jeanne Donabedian]]||[[Simone Demory]]
+| 1963 || [[Beryl Burton]] || [[Pat Pepper]] || [[Jo Bowers]]
 |-
-|[[1956]]|| [[Longwy]]||[[Lily Herse]]||[[Marie-Jeanne Donabedian]]||[[Renée Vissac]]
+| 1964 || [[Val Rushworth]] || [[Sylvia Beardon]] || [[Ann Illingworth]]
 |-
-|[[1957]]|| [[Bourg-en-Bresse]]||[[Jeannine Meriau]]||[[Pierrette Soupiret]]||[[Marie-Jeanne Donabedian]] 
+| 1965 || [[Beryl Burton]] || [[Susan Crow]] || [[Joan Kershaw]]
 |-
-|[[1958]]|| [[Montlhéry]]||[[Lily Herse]]||[[Renée Vissac]]||[[Gilberte Rocaboy]]
+| 1966 || [[Beryl Burton]] || [[Christine Goodfellow]] || [[Ann Illingworth]]
 |-
-|[[1959]]|| [[Landivisiau]]||[[Lily Herse]]||[[Renée Vissac]]||[[Simone Demory]]
+| 1967 || [[Beryl Burton]] || [[Barbara Mapplebeck]] || [[Pat Pepper]]
 |-
-|[[1960]]|| [[Annemasse]]||[[Renée Vissac]]||[[Lily Herse]]||[[Andrée Vaudel]]
+| 1968 || [[Beryl Burton]] || [[Barbara Mapplebeck]] || [[Sylvia Beardon]]
 |-
-|[[1961]]|| [[Louvroil]]||[[Lily Herse]]||[[Simone Heutte]]||[[Renée Vissac]]
+| 1969 || [[Ann Horswell]] || [[Bernadette Swinnerton]] || [[Pat Pepper]]
 |-
-|[[1962]]|| [[Saint-Hilaire-du-Harcouët]]||[[Lily Herse]]||[[Andrée Flageolet]]||[[Renée Vissac]]
+| 1970 || [[Beryl Burton]] || [[Joan Kershaw]] || [[Brenda Brown]]
 |-
-|[[1963]]|| [[Sancerre]]||[[Lily Herse]]||[[Renée Thuin]]||[[Andrée Flageolet]]
+| 1971 || [[Beryl Burton]] || [[Bernadette Swinnerton]] || [[Ann Bailey]]
 |-
-|[[1964]]|| [[Coutances]]||[[Andrée Flageolet]]||[[Lily Herse]]||[[Renée Vissac]]
+| 1972 || [[Beryl Burton]] || [[Ann Bailey]] || [[Pat Pepper]]
 |-
-|[[1965]]|| [[Bully-les-Mines]]||[[Lily Herse]]||[[Renée Vissac]] ||[[Simone Boubechiche]]
+| 1973 || [[Beryl Burton]] || [[Denise Burton]] || [[Christine Goodfellow]]
 |-
-|[[1966]]|| [[Le Havre]]||[[Gisèle Caille]]||[[Claude Bordujenko]] ||[[Lily Herse]]
+| 1974 || [[Beryl Burton]] || [[Carol Barton]] || [[Christine Goodfellow]]
 |-
-|[[1967]]|| [[Xertigny]]||[[Lily Herse]] ||[[Christiane Rousseau]]||[[Renée Vissac]]
+| 1975 || [[Jayne Westbury]] || [[Denise Burton]] || [[Cath Swinnerton]]
 |-
-|[[1968]]|| [[Port-de-Bouc]]||[[Chantal N'Guyen]]||[[Jacky Barbedette]]||[[Micheline Le Moigne]]
+| 1976 || [[Denise Burton]] || [[Beryl Burton]] || [[Carol Barton]]
 |-
-|[[1969]]|| [[Rouen-les-Essarts]]||[[Geneviève Gambillon]]||[[Danièle Piton]]||[[Micheline Le Moigne]]
+| 1977 || [[Cath Swinnerton]] || [[Faith Murray]] || [[Josie Randall]]
 |-
-|[[1970]]|| [[Serent]]||[[Geneviève Gambillon]]||[[Micheline Le Moigne]]||[[Chantal Heuveline]]
+| 1978 || [[Brenda Atkinson]] || [[Denise Burton]] || [[Cathy Swinnerton]]
 |-
-|[[1971]]|| [[Jeumont]]||[[Annick Chapron]]||[[Geneviève Gambillon]]||[[Béatrice Vachet]]
+| 1979 || [[Brenda Atkinson]] || [[Cath Swinnerton]] || [[Bernadette Griffiths]]
 |-
-|[[1972]]|| [[Vitteaux]]||[[Geneviève Gambillon]]||[[Josiane Bost]]||[[Sylviane Junal]]
+| 1980 || [[Jill Bishop]] || [[Julie Earnshaw]] || [[Brenda Atkinson]]
 |-
-|[[1973]]|| [[Dax]]||[[Élisabeth Camus]]||[[Mauricette Carpentier]]||[[Geneviève Gambillon]]
+| 1981 || [[Mandy Jones]] || [[Julie Earnshaw]] || [[Vicki Thomas]]
 |-
-|[[1974]]|| [[Montpinchon]]||[[Geneviève Gambillon]]||[[Annick Chapron]]||[[Élisabeth Camus]]
+| 1982 || [[Brenda Atkinson]] || [[Cath Swinnerton]] || [[Cath Swinnerton]]
 |-
-|[[1975]]|| [[Callac]]||[[Geneviève Gambillon]]||[[Josiane Bost]]||[[Jeanine Martin-Leborgne]]
+| 1983 || [[Mandy Jones]] || [[Judith Painter]] || [[Linda Gornall]]
 |-
-|[[1976]]|| [[Lignac]]||[[Geneviève Gambillon]]||[[Nicole Verzier]]||[[Josiane Bost]]
+| 1984 || [[Cath Swinnerton]] || [[Maria Blower]] || [[Muriel Sharp]]
 |-
-|[[1977]]|| [[Pomport]]||[[Geneviève Gambillon]]||[[Josiane Bost]]||[[Nicole Verzier]]
+| 1985 || [[Brenda Tate]] || [[Lisa Bramani]] || [[Vicki Thomas]]
 |-
-|[[1978]]|| [[Escoussens]]||[[Chantal Fortier]]||[[Colette Savary-Davaine]]||[[Élisabeth Camus]]
+| 1986 || [[Lisa Bramani]] || [[Vicki Thomas]] || [[Linda Flavell]]
 |-
-|[[1979]]|| [[Neufchâtel-en-Saosnois]]||[[Jeannie Longo]]||[[Élisabeth Camus]]||[[Nathalie Diart]]
+| 1987 || [[Lisa Bramani]] || [[Sally Hodge]] || [[Linda Gornall]]
 |-
-|[[1980]]|| [[Villié-Morgon]]||[[Jeannie Longo]]||[[Chantal Fortier]]||[[Sylvie Brémond]]
+| 1988 || [[Lisa Bramani]] || [[Sally Hodge]] || [[Maria Blower]]
 |-
-|[[1981]]|| [[Charleville-Mézières]]||[[Jeannie Longo]]||[[Fabienne Amedro]]||[[Valérie Simonnet]]
+| 1989 || [[Lisa Bramani]] || [[Sue Wright]] || [[Maria Blower]]
 |-
-|[[1982]]|| [[Bressuire]]||[[Jeannie Longo]]||[[Fabienne Amedro]]||[[Chantal Pouline]]
+| 1990 || [[Marie Purvis]] || [[Alison Butler]] || [[Maxine Johnson]]
 |-
-|[[1983]]|| [[Wintzenheim]]||[[Jeannie Longo]]||[[Corinne Crunelle]]||[[Dominique Damiani]]
+| 1991 || [[Marie Purvis]] || [[Clare Greenwood]] || [[Linda Gornall]]
 |-
-|[[1984]]|| [[Berck (Pas-de-Calais)|Berck]]||[[Jeannie Longo]]||[[Isabelle Nicoloso]]||[[Nathalie Pelletier]]
+| 1992 || [[Marie Purvis]] || [[Sarah Phillips]] || [[Clare Greenwood]]
 |-
-|[[1985]]|| [[Chailley]]||[[Jeannie Longo]]||[[Valérie Simonnet]]||[[Dominique Damiani]]
+| 1993 || [[Marie Purvis]] || [[Maxine Johnson]] || [[Sarah Phillips]]
 |-
-|[[1986]]|| [[Châteaulin]]||[[Jeannie Longo-Ciprelli]]||[[Valérie Simonnet]]||[[Isabelle Nicoloso|Isabelle Nicoloso-Verger]]
+| 1994 || [[Maxine Johnson]] || [[Jenny Kershaw]] || [[Sally Boyden]]
 |-
-|[[1987]]|| [[Lugny (Saône-et-Loire)|Lugny]]||[[Jeannie Longo-Ciprelli]]||[[Valérie Simonnet]]||[[Martine L'Haridon]]
+| 1995 || [[Marie Purvis]] || [[Ann Plant]] || [[Jenny Kershaw]]
 |-
-|[[1988]]|| [[Saint-Étienne]]||[[Jeannie Longo-Ciprelli]]||[[Valérie Simonnet]]||[[Dominique Damiani]]
+| 1996 || [[Maria Lawrence]] || [[Ann Plant]] || [[Angela Hunter]]
 |-
-|[[1989]]|| [[Montluçon]]||[[Jeannie Longo-Ciprelli]]||[[Valérie Simonnet]]||[[Sandrine Lestrade]]
+| 1997 || [[Maria Lawrence]] || [[Isla Rowntree]] || [[Angela Hunter]]
 |-
-|[[1990]]|| [[Saint-Saulge]]||[[Catherine Marsal]]||[[Elisabeth Mahaut]]||[[Barbara Aulnette]]
+| 1998 || [[Megan Huges]] || [[Louise Jones]] || [[Sally Boyden]]
 |-
-|[[1991]]|| [[Saint-Saulge]]||[[Marion Clignet]]||[[Nathalie Cantet]]||[[Sandrine Lestrade]]
+| 1999 || [[Nicole Cooke]] || [[Yvonne McGregor]] || [[Ceris Gilfillan]]
 |-
-|[[1992]]|| [[Avize]]||[[Jeannie Longo-Ciprelli]]||[[Marion Clignet]]||[[Laurence Leboucher]]
+| 2000 || [[Ceris Gilfillan]] || [[Caroline Alexander]] || [[Yvonne McGregor]]
 |-
-|[[1993]]|| [[Châtellerault]]||[[Marion Clignet]]||[[Catherine Marsal]]||[[Corinne Legal]]
+| 2001 || [[Nicole Cooke]] || [[Ceris Gilfillan]] || [[Sara Symington]]
 |-
-|[[1994]]|| [[Fontenay-le-Comte]]||[[Chantal Gorostegui]]||[[Jocelyne Hugi-Messori]]||[[Catherine Marsal]]
+| 2002 || [[Nicole Cooke]] || [[Rachel Heal]] || [[Melanie Sears]]
 |-
-|[[1995]]|| [[La Cluse-et-Mijoux]]||[[Jeannie Longo-Ciprelli]]||[[Catherine Marsal]]||[[Élisabeth Chevanne-Brunel]]
+| 2003 || [[Nicole Cooke]] || [[Rachel Heal]] || [[Vicki Pincombe]]
 |-
-|[[1996]]|| [[Castres]]||[[Catherine Marsal]]||[[Jeannie Longo-Ciprelli]]||[[Jocelyne Hugi-Messori]]
+| 2004 || [[Nicole Cooke]] || [[Rachel Heal]] || [[Vicki Pincombe]]
 |-
-|[[1997]]|| [[Montlhéry]]||[[Sylvie Riedle]]||[[Emmanuelle Farcy]]||[[Catherine Marsal]]
+| 2005 || [[Nicole Cooke]] || [[Rachel Heal]] || [[Emma Davies]]
 |-
-|[[1998]]|| [[Clermont-Ferrand]]||[[Jeannie Longo-Ciprelli]]||[[Séverine Desbouys]]||[[Fany Lecourtois]]
+| 2006 || [[Nicole Cooke]] || [[Lorna Webb]] || [[Joanna Rowsell]]
 |-
-|[[1999]]|| [[Clermont-Ferrand]]||[[Jeannie Longo-Ciprelli]]||[[Géraldine Jehl-Loewenguth]]||[[Séverine Desbouys]]
+| 2007 || [[Nicole Cooke]] || [[Rachel Heal]] || [[Helen Wyman]]
 |-
-|[[2000]]|| [[Le Poiré-sur-Vie]]||[[Jeannie Longo-Ciprelli]]||[[Catherine Marsal]]||[[Magali Le Floc'h]]
+| 2008 || [[Nicole Cooke]] || [[Emma Pooley]] || [[Joanna Rowsell]]
 |-
-|[[2001]]|| [[Argenton-sur-Creuse]]||[[Jeannie Longo-Ciprelli]]||[[Sonia Huguet]]||[[Catherine Marsal]]
+| 2009 || [[Nicole Cooke]] || [[Elizabeth Armitstead]] || [[Emma Pooley]]
 |-
-|[[2002]] ||[[Briançon]]||[[Magali Le Floc'h]]||[[Edwige Pitel]]||[[Béatrice Thomas]]
+| 2010 || [[Emma Pooley]] || [[Elizabeth Armitstead]] || [[Nicole Cooke]]
 |-
-|[[2003]]|| [[Plumelec]]||[[Sonia Huguet]]||[[Maryline Salvetat]]||[[Delphine Guille]]
+| 2011 || [[Elizabeth Armitstead]] || [[Nicole Cooke]] || [[Sharon Laws]]
 |-
-|[[2004]]|| [[Pont-du-Fossé]]||[[Jeannie Longo-Ciprelli]]||[[Élisabeth Chevanne-Brunel]]||[[Sandrine Marcuz-Moreau]]
+| 2012 || [[Sharon Laws]] || [[Elizabeth Armitstead]] || [[Emma Pooley]]
 |-
-|[[2005]]|| [[Boulogne-sur-Mer]]||[[Magali Le Floc'h]]||[[Sandrine Marcuz-Moreau]]||[[Karine Gautard-Roussel]]
+| 2013 || [[Elizabeth Armitstead]] || [[Laura Trott]] || [[Danielle King]]
 |-
-|[[2006]]|| [[Chantonnay]]||[[Jeannie Longo-Ciprelli]]||[[Béatrice Thomas]]||[[Élodie Touffet]]
+| 2014||[[Laura Trott]]||[[Danielle King]]||[[Elizabeth Armitstead]]
 |-
-|[[2007]]|| [[Aurillac]]||[[Edwige Pitel]]||[[Jeannie Longo-Ciprelli]]||[[Marina Jaunatre]]
+| 2015||[[Elizabeth Armitstead]]||[[Alice Barnes ]]||[[Laura Trott]]
 |-
-|[[2008]]|| [[Semur-en-Auxois]]||[[Jeannie Longo]]||[[Christel Ferrier-Bruneau]]||[[Edwige Pitel]]
+| 2016||[[Hannah Barnes]]||[[Alice Barnes]]||[[Lucy Garner]]
 |-
-|[[2009]]|| [[Saint-Brieuc]]||[[Christel Ferrier-Bruneau]]||[[Marina Jaunatre]]|| [[Jeannie Longo]]
-|-
-|[[2010]]|| [[Chantonnay]]||[[Mélodie Lesueur]]||[[Amélie Rivat]]||[[Jeannie Longo]]
-|-
-|[[2011]]|| [[Boulogne-sur-Mer]]||[[Christel Ferrier-Bruneau]]||[[Jeannie Longo]]||[[Magdalena de Saint-Jean]]
-|-
-|[[2012]] || [[Saint-Amand-les-Eaux]] || [[Marion Rousse]] || [[Julie Krasniak]] || [[Fanny Riberot]]
-|-
-|[[2013]] || [[Communauté de communes de Plabennec et des Abers|Pays des Abers]] || [[Élise Delzenne ]] || [[Amélie Rivat]] || [[Aude Biannic]]
-|-
-|[[2014]] || [[Futuroscope]] || [[Pauline Ferrand-Prévot]] || [[Mélodie Lesueur]] || [[Fanny Riberot]]
-|-
-|[[2015]] || [[Chantonnay]] || [[Pauline Ferrand-Prévot]] || [[Audrey Cordon]] || [[Amélie Rivat]]
-|-
-|[[2016]] || [[Vesoul]] || [[Edwige Pitel]] || [[Marjolaine Bazin]] || [[Audrey Cordon]]
-|-
-|[[2017]] || [[Saint-Omer (Pas-de-Calais)|Saint Omer]] || [[Charlotte Bravard]] || [[Amélie Rivat]] || [[Marjolaine Bazin]]
-|}"""
-
-    
-    championshipID='Q30332844'
+| 2017 || [[Elizabeth Armitstead]] || [[Katie Archibald]] || [[Hannah Barnes]] 
+ """
+ 
+    championshipID='Q27048419'
     
     #inputstr=input()
     tableOfwinner=palmaresParsing(inputstr)
-    print(tableOfwinner)
+    #print(tableOfwinner)
     numberofabsentriders, tableOfwinnerOut=wikidataelementAnalyser(pywikibot,site,tableOfwinner)
-   
-    if numberofabsentriders==0:
+    test=1
+        
+    if numberofabsentriders==0 and test==0:
         palmaresFilling(pywikibot,site,repo,tableOfwinner,championshipID)
     
     
 def palmaresParsing(inputstr):
     #parsing of the raw input
     tableofRow=inputstr.split("|-")
-    ColumnOfwinner=2
+    ColumnOfwinner=1
     tableOfwinner = [[0 for x in range(4)] for y in range(len(tableofRow)-1)] 
     
     for ii in range(0,len(tableofRow)-1):#range(len(tableofRow))
@@ -185,9 +169,9 @@ def palmaresParsing(inputstr):
         tableofCell=tableofRow[1+ii].split("||")
         #get the year
         tempforyear=tableofCell[0].split("|")
-        linksplit1=tempforyear[1].split("[[")  
-        link=linksplit1[1].split("]]") 
-        tableOfwinner[ii][0]=int(link[0])
+        #linksplit1=tempforyear[1].split("[[")  
+        #link=linksplit1[1].split("]]") 
+        tableOfwinner[ii][0]=int(tempforyear[1]) #link[0]
         #get first winner
         for jj in range(ColumnOfwinner,ColumnOfwinner+3):
               linksplit1=tableofCell[jj].split("[[")  
@@ -220,9 +204,11 @@ def palmaresFilling(pywikibot,site,repo,tableOfwinner,championshipID ):
               addWinner(pywikibot, site,repo,itempresent,tableOfwinner[ii][3],3)
 
 def wikidataelementAnalyser(pywikibot,site,tableOfwinner):
+
     #look for riders not created
     counter=0
     tableOfwinnerOut=tableOfwinner
+    exceptionTable=listOfException()
     
     for ii in range(len(tableOfwinner)):
         for jj in range(1,4):
@@ -231,11 +217,13 @@ def wikidataelementAnalyser(pywikibot,site,tableOfwinner):
                 print(tableOfwinner[ii][jj]+ ' not found')
                 counter=counter+1
             elif (Idtemp==u'Q1'):
-                print(tableOfwinner[ii][jj]+ ' found several times')
                 #list of exceptions
-                if tableOfwinner[ii][jj]=='JG':
-                    tableOfwinnerOut[ii][jj]='Q112'
-                
+                for ll in range(1,len(exceptionTable)):
+                    if tableOfwinner[ii][jj]==exceptionTable[ll][0]:
+                        tableOfwinnerOut[ii][jj]=exceptionTable[ll][1]
+                if tableOfwinner[ii][jj]==0:  
+                    print(tableOfwinner[ii][jj]+ ' found several times')
+   
             else:
                 tableOfwinnerOut[ii][jj]=Idtemp
                  
@@ -245,18 +233,17 @@ def wikidataelementAnalyser(pywikibot,site,tableOfwinner):
         print(str(counter)+' riders not found')
     return counter, tableOfwinnerOut
     
-  
 def riderFastInit():
    [pywikibot,site,repo,time]=wikiinit()
    mydescription={}
    label={}
    
-   Name=u"Béatrice Vachet"
-   mydescription['fr']=u'Coureuse cycliste française'
+   Name=u"Flor Aparecida Palma Dos Santos"
+   mydescription['fr']=u'Coureuse cycliste chilienne'
    label['fr']=Name
    
   ## kkinit=teamCIOsearch(teamTableFemmes, u'NAM')
-   CountryCIO=u'FRA'
+   CountryCIO=u'CHI'
    kk=teamCIOsearch(teamTableFemmes, CountryCIO)
    Idrider=searchItem(pywikibot,site,Name)
 
@@ -270,7 +257,70 @@ def riderFastInit():
        addValue(pywikibot,repo,item,27,teamTableFemmes[kk][3],u'nationality')
        addValue(pywikibot,repo,item,106,2309784,u'cyclist')
   
+    
+def listOfException():
+    exceptionTable = [[0 for x in range(2)] for y in range(100)] 
+    kk = 1
+    
+    exceptionTable[kk][0]=u'Louis Engel'   
+    exceptionTable[kk][1]=u'Q3261842'
+    kk+=1
+    exceptionTable[kk][0]=u'Anthony Roux'   
+    exceptionTable[kk][1]=u'Q512801'
+    kk+=1                        
+    exceptionTable[kk][0]=u'Jérémy Roy'   
+    exceptionTable[kk][1]=u'Q705331'
+    kk+=1   
+    exceptionTable[kk][0]=u'Pierre Latour'   
+    exceptionTable[kk][1]=u'Q17486055'
+    kk+=1          
+    exceptionTable[kk][0]=u'Émile Engel'   
+    exceptionTable[kk][1]=u'Q3112436'
+    kk+=1 
+    exceptionTable[kk][0]=u'André Raynaud'   
+    exceptionTable[kk][1]=u'Q522455'
+    kk+=1 
+    exceptionTable[kk][0]=u'Paul Maye'  
+    exceptionTable[kk][1]=u'Q493674'
+    kk+=1     
+    exceptionTable[kk][0]=u'Marcel Laurent'   
+    exceptionTable[kk][1]=u'Q3289108'
+    kk+=1     
+    exceptionTable[kk][0]=u'Jean Rey'   
+    exceptionTable[kk][1]=u'Q3174287'
+    kk+=1     
+    exceptionTable[kk][0]=u'Bernard Gauthier'   
+    exceptionTable[kk][1]=u'Q822440'
+    kk+=1   
+    exceptionTable[kk][0]=u'Jacques Dupont'   
+    exceptionTable[kk][1]=u'Q275830'
+    kk+=1       
+    exceptionTable[kk][0]=u'François Mahé'   
+    exceptionTable[kk][1]=u'Q2011167'
+    kk+=1       
+    exceptionTable[kk][0]=u'Georges Groussard'   
+    exceptionTable[kk][1]=u'Q1338784'
+    kk+=1          
+    exceptionTable[kk][0]=u'Michel Périn'   
+    exceptionTable[kk][1]=u'Q3310553'
+    kk+=1    
+    exceptionTable[kk][0]=u'Jean Dumont'   
+    exceptionTable[kk][1]=u'Q2018336'
+    kk+=1        
+    exceptionTable[kk][0]=u'Mariano Martinez'   
+    exceptionTable[kk][1]=u'Q2405300'
+    kk+=1  
+    exceptionTable[kk][0]=u'Raymond Martin'   
+    exceptionTable[kk][1]=u'Q2069946'
+    kk+=1  
+    exceptionTable[kk][0]=u'François Simon'   
+    exceptionTable[kk][1]=u'Q1451199'
+    kk+=1
+    
+    
 
+    return exceptionTable
+    
 if __name__ == '__main__':
     #palmaresImporter()
     riderFastInit()

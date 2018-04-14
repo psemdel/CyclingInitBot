@@ -5,6 +5,9 @@ Created on Sun Jan 14 21:57:25 2018
 @author: maxime delzenne
 """
 
+from calendarList import*
+from CyclingInitBotLow import *
+
 def addUCIcalendar(pywikibot,site,repo,time, masterID):
    
     
@@ -54,42 +57,12 @@ def addUCIcalendar(pywikibot,site,repo,time, masterID):
         else:
            print(u"edition not UCI " + item.getID())
 
-def calendaruciID(year):  
-    if  year == "2018":
-        calendarID="Q47005682"
-    elif year == "2017":
-        calendarID="Q27765666"	
-    elif year == "2016": 
-        calendarID="Q22696468"
-    elif year == "2015": 
-        calendarID="Q18348936"
-    elif year == "2014": 
-        calendarID="Q15831496"	
-    elif year == "2013": 
-        calendarID="Q6425932"	
-    elif year == "2012": 
-        calendarID="Q2466796"	
-    elif year == "2011": 
-        calendarID="Q2466792"
-    elif year == "2010": 
-        calendarID="Q2933831"
-    elif year == "2009": 
-        calendarID="Q2933830"
-    elif year == "2008": 
-        calendarID="Q2933828"
-    elif year == "2007": 
-        calendarID="Q3650627"	
-    elif year == "2006": 
-        calendarID="Q16154659"  
-    else:
-        calendarID="Q0"
+
         
-    return calendarID
-        
-def calendarSymmetrizer(pywikibot,site,repo,time, year):
+def calendarSymmetrizer(pywikibot,site,repo,time, calendarID):
     from pywikibot import pagegenerators 
     
-    calendarID=calendaruciID(year)
+    #calendarID=calendaruciID(year)
 
     #use the query
     query = "SELECT DISTINCT ?item WHERE {?item wdt:P361 wd:" + calendarID +"}"
@@ -97,7 +70,7 @@ def calendarSymmetrizer(pywikibot,site,repo,time, year):
         
     itemCalendar =pywikibot.ItemPage(repo, calendarID)
     itemCalendar.get()
-    SumAddc=0
+    SumAddc=1
     
     for item in ListOfItem:
         valueTemp=item.getID()
@@ -107,5 +80,11 @@ def calendarSymmetrizer(pywikibot,site,repo,time, year):
     if SumAddc!=0:
         dateSorter(pywikibot,site,repo,time,calendarID,u'Comp')
 
-
+def calendarSymmetrizerMass(pywikibot,site,repo,time):
+    calendarL=calendarList()
+    
+    for ii in range(len(calendarL)):
+        calendarID=calendarL[ii]
+        calendarSymmetrizer(pywikibot,site,repo,time, calendarID)
+    
 
