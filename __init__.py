@@ -5,18 +5,23 @@ Created on Thu Jan  4 15:35:56 2018
 @author: maxime delzenne
 """
 from nationTeamTable import nationalTeamTable 
+from ProTeamTable import *
+from ccTable import *
 from nameSorter import *
 from stageRaceCreator import *
 from nationalChampionshipCreator import *
+from ccChampionshipCreator import *
 from nationalTeamCreator import *
+from ProTeamCreator import *
 from symmetrizer import *
 from calendarList import *
 from CyclingInitBotLow import *
 from calendarList import*
 
 if __name__ == '__main__':
-   [teamTableFemmes, endkk]=nationalTeamTable()
+   #[teamTableFemmes, endkk]=nationalTeamTable()
+   from ProTeamTable import AmateurTeamTable
+   #[teamTableFemmes, endkk]=ProTeamTable()
+   [teamTableFemmes, endkk]=AmateurTeamTable()
    print(endkk)
-   print(teamCIOsearch(teamTableFemmes,'FRA'))
-
    

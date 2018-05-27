@@ -7,6 +7,7 @@ Created on Sun Jan 14 21:57:25 2018
 
 from calendarList import*
 from CyclingInitBotLow import *
+from nameSorter import *
 
 def addUCIcalendar(pywikibot,site,repo,time, masterID):
    

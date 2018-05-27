@@ -165,6 +165,16 @@ def teamCIOsearch(teamTable, CIOcode):
             break
     return result
 
+def CIOtoIDsearch(teamTable, CIOcode):
+    result=0
+    
+    for ii in range(len(teamTable)):
+        if teamTable[ii][7]==CIOcode:
+            result=teamTable[ii][3]
+            break
+    return result
+
+
 #==Create==
 def create_item(pywikibot,site, label_dict):
     new_item = pywikibot.ItemPage(site)

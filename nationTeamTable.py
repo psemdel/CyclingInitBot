@@ -308,7 +308,7 @@ def nationalTeamTable():
     teamTable[kk][1]=u'Cuba'
     teamTable[kk][2]=u"de "
     teamTable[kk][3]=241
-    teamTable[kk][4]=43307086
+    teamTable[kk][4]=43307111
     teamTable[kk][5]=u'Cuba'
     teamTable[kk][6]=u'Cuban'
     teamTable[kk][7]=u'CUB'
@@ -316,6 +316,21 @@ def nationalTeamTable():
     teamTable[kk][9]=2954801
     teamTable[kk][10]=30512013
     teamTable[kk][11]=30511620
+    kk+=1
+    
+    teamTable[kk][1]=u'Chypre'
+    teamTable[kk][2]=u"de "
+    teamTable[kk][3]=229
+    teamTable[kk][4]=53869566
+    teamTable[kk][5]=u'Cyprus'
+    teamTable[kk][6]=u'Cypriot'
+    teamTable[kk][7]=u'CYP'
+    teamTable[kk][8]=1
+    teamTable[kk][9]=2954799
+    teamTable[kk][10]=53869580
+    teamTable[kk][11]=53869589
+    teamTable[kk][12]=24621530
+    teamTable[kk][13]=24621627
     kk+=1
     
     teamTable[kk][1]=u'République tchèque'
