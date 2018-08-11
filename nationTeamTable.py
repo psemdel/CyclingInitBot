@@ -125,7 +125,7 @@ def nationalTeamTable():
     teamTable[kk][4]=43092975
     teamTable[kk][5]=u'American Samoa'
     teamTable[kk][6]=u'American Samoan'
-    teamTable[kk][7]=u'ASA'
+    teamTable[kk][7]=u'ASA'  #to check
     teamTable[kk][8]=3
     kk+=1 
     
@@ -181,6 +181,20 @@ def nationalTeamTable():
     teamTable[kk][11]=29642128
     kk+=1
     
+    teamTable[kk][1]=u'Belize'
+    teamTable[kk][2]=u"du "
+    teamTable[kk][3]=242
+    teamTable[kk][4]=0
+    teamTable[kk][5]=u'Belize'
+    teamTable[kk][6]=u'Belizean'
+    teamTable[kk][7]=u'BIZ'
+    teamTable[kk][8]=3
+    teamTable[kk][9]=16538226
+    teamTable[kk][10]=50404774
+    teamTable[kk][11]=50404789
+    kk+=1
+    
+    
     teamTable[kk][1]=u'Biélorussie'
     teamTable[kk][2]=u"de "
     teamTable[kk][3]=184
@@ -203,6 +217,8 @@ def nationalTeamTable():
     teamTable[kk][7]=u'BOL'
     teamTable[kk][8]=2
     kk+=1
+    
+    
     
     teamTable[kk][1]=u'Brésil'
     teamTable[kk][2]=u"du "
@@ -288,9 +304,10 @@ def nationalTeamTable():
     teamTable[kk][7]=u'CRC'
     teamTable[kk][8]=1
     teamTable[kk][9]=2955204
-    teamTable[kk][10]=33081176
+    teamTable[kk][10]=33081164
     teamTable[kk][11]=33081846
-    kk+=1
+    kk+=1 
+    
     
     teamTable[kk][1]=u'Croatie'
     teamTable[kk][2]=u"de "
@@ -351,7 +368,7 @@ def nationalTeamTable():
     teamTable[kk][3]=35
     teamTable[kk][4]=33510054
     teamTable[kk][5]=u'Denmark'
-    teamTable[kk][6]=u'Dane'
+    teamTable[kk][6]=u'Danish'
     teamTable[kk][7]=u'DEN'
     teamTable[kk][8]=1
     teamTable[kk][9]=129483
@@ -452,6 +469,19 @@ def nationalTeamTable():
     teamTable[kk][11]=30332699
     kk+=1
     
+    teamTable[kk][1]=u'Grèce'
+    teamTable[kk][2]=u"de "
+    teamTable[kk][3]=41
+    teamTable[kk][4]=0
+    teamTable[kk][5]=u'Greece'
+    teamTable[kk][6]=u'Greek'
+    teamTable[kk][7]=u'GRE'
+    teamTable[kk][8]=3
+    teamTable[kk][9]=2955090
+    teamTable[kk][10]=55221006
+    teamTable[kk][11]=55220999
+    kk+=1
+    
     teamTable[kk][1]=u'Guatemala'
     teamTable[kk][2]=u"du "
     teamTable[kk][3]=774
@@ -489,6 +519,19 @@ def nationalTeamTable():
     teamTable[kk][9]=2955089
     teamTable[kk][10]=32161692
     teamTable[kk][11]=32163348
+    kk+=1
+    
+    teamTable[kk][1]=u'Iran'
+    teamTable[kk][2]=u"d'"
+    teamTable[kk][3]=794
+    teamTable[kk][4]=0
+    teamTable[kk][5]=u'Iran'
+    teamTable[kk][6]=u'Iranian'
+    teamTable[kk][7]=u'IRI'
+    teamTable[kk][8]=3
+    teamTable[kk][9]=2912687
+    teamTable[kk][10]=55995447
+    teamTable[kk][11]=55995576
     kk+=1
     
     teamTable[kk][1]=u'Irlande'
@@ -536,7 +579,7 @@ def nationalTeamTable():
     teamTable[kk][4]=33994132
     teamTable[kk][5]=u'Japan'
     teamTable[kk][6]=u'Japanese'
-    teamTable[kk][7]=u'JAP'
+    teamTable[kk][7]=u'JPN'  #CIO is JAP
     teamTable[kk][8]=1
     teamTable[kk][9]=80646
     teamTable[kk][10]=30557308
@@ -555,6 +598,8 @@ def nationalTeamTable():
     teamTable[kk][10]=31510394
     teamTable[kk][11]=31529645
     kk+=1
+    
+ 
     
     teamTable[kk][1]=u'Lettonie'
     teamTable[kk][2]=u"de "
@@ -578,8 +623,8 @@ def nationalTeamTable():
     teamTable[kk][7]=u'LTU'
     teamTable[kk][8]=1
     teamTable[kk][9]=129523
-    teamTable[kk][10]=32604399
-    teamTable[kk][11]=32603698
+    teamTable[kk][10]=32604159
+    teamTable[kk][11]=32603438
     kk+=1
     
     teamTable[kk][1]=u'Luxembourg'
@@ -687,14 +732,30 @@ def nationalTeamTable():
     teamTable[kk][11]=45084575
     kk+=1
     
+    teamTable[kk][1]=u'Paraguay'
+    teamTable[kk][2]=u'du '
+    teamTable[kk][3]=733
+    teamTable[kk][4]=55791200
+    teamTable[kk][5]=u'Paraguay'
+    teamTable[kk][6]=u'Paraguayan'
+    teamTable[kk][7]=u'PAR'  #CIO is PHL
+    teamTable[kk][8]=3
+    teamTable[kk][9]=2955211
+    teamTable[kk][10]=55791222
+    teamTable[kk][11]=55791233
+    kk+=1
+    
     teamTable[kk][1]=u'Philippines'
     teamTable[kk][2]=u"des "
     teamTable[kk][3]=928
     teamTable[kk][4]=42394736
     teamTable[kk][5]=u'Philippines'
     teamTable[kk][6]=u'Philippines'
-    teamTable[kk][7]=u'PHL'
+    teamTable[kk][7]=u'PHI'  #CIO is PHL
     teamTable[kk][8]=3
+    teamTable[kk][9]=16538206
+    teamTable[kk][10]=55808632
+    teamTable[kk][11]=55808642
     kk+=1
     
     teamTable[kk][1]=u'Pologne'
@@ -723,13 +784,28 @@ def nationalTeamTable():
     teamTable[kk][11]=45084954
     kk+=1
     
+    teamTable[kk][1]=u'Porto Rico'
+    teamTable[kk][2]=u"de "
+    teamTable[kk][3]=1183
+    teamTable[kk][4]=0
+    teamTable[kk][5]=u'Puerto Rico'
+    teamTable[kk][6]=u'Puerto Rican'
+    teamTable[kk][7]=u'PUR'
+    teamTable[kk][8]=3
+    teamTable[kk][9]=17624398
+    teamTable[kk][10]=55185809
+    teamTable[kk][11]=55185811
+    kk+=1
+    
+    
+    
     teamTable[kk][1]=u'Roumanie'
     teamTable[kk][2]=u"de "
     teamTable[kk][3]=218
     teamTable[kk][4]=42394605
     teamTable[kk][5]=u'Romania'
     teamTable[kk][6]=u'Romanian'
-    teamTable[kk][7]=u'ROU'
+    teamTable[kk][7]=u'ROM'  #CIO is ROU
     teamTable[kk][8]=1
     teamTable[kk][9]=2955100
     teamTable[kk][10]=32609249
@@ -762,12 +838,25 @@ def nationalTeamTable():
     teamTable[kk][11]=31272638
     kk+=1
     
+    teamTable[kk][1]=u'Rwanda'
+    teamTable[kk][2]=u"du "
+    teamTable[kk][3]=1037
+    teamTable[kk][4]=0
+    teamTable[kk][5]=u'Rwanda'
+    teamTable[kk][6]=u'Rwandan'
+    teamTable[kk][7]=u'RWA'
+    teamTable[kk][8]=3
+    teamTable[kk][9]=16538267
+    teamTable[kk][10]=55185740
+    teamTable[kk][11]=55185725
+    kk+=1
+    
     teamTable[kk][1]=u'Slovénie'
     teamTable[kk][2]=u"de "
     teamTable[kk][3]=215
     teamTable[kk][4]=43093898
     teamTable[kk][5]=u'Slovenia'
-    teamTable[kk][6]=u'Slovene'
+    teamTable[kk][6]=u'Slovenian'
     teamTable[kk][7]=u'SLO'
     teamTable[kk][8]=1
     teamTable[kk][9]=129650
@@ -818,7 +907,7 @@ def nationalTeamTable():
     teamTable[kk][2]=u"de "
     teamTable[kk][3]=34
     teamTable[kk][4]=33539201
-    teamTable[kk][5]=u'Swedend'
+    teamTable[kk][5]=u'Sweden'
     teamTable[kk][6]=u'Swedish'
     teamTable[kk][7]=u'SWE'
     teamTable[kk][8]=1

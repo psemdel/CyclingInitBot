@@ -65,17 +65,16 @@ def addMultipleValue(pywikibot,repo,item,propertyNummer,value,comment,overpass):
     
 def addWinner(pywikibot,site,repo,item,value,order):
     propertyNummer=1346
+    Addc=1
     if order==1:
         qualifierNummer='Q20882667'
-        
     elif order==2:
         qualifierNummer='Q20882668'
     elif order==3:  
         qualifierNummer='Q20882669'
     else:
-        qualifierNummer='Q20882667'  
+        Addc=0  
     
-    Addc=1
     if(u'P'+str(propertyNummer) in item.claims):
         listOfWinner=item.claims.get(u'P'+str(propertyNummer))
         itemToAdd=pywikibot.ItemPage(repo,value)
@@ -158,11 +157,13 @@ def getItems(api,site, itemtitle):
 #==Select
 def teamCIOsearch(teamTable, CIOcode):
     result=0
+    print( teamTable[35][7]==CIOcode)
     
     for ii in range(len(teamTable)):
         if teamTable[ii][7]==CIOcode:
             result=ii
             break
+    
     return result
 
 def CIOtoIDsearch(teamTable, CIOcode):

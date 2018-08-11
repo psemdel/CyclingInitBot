@@ -103,8 +103,8 @@ def nationalChampionshipClmLabel(teamTable,kk,Year, ManOrWoman):
     mylabel[u'fr']=label_part1_fr + " " + genre_fr + country_fr + " " + label_part2_fr + " "+ str(Year)
     return mylabel
 
-def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWoman, option):
-    kkinit=teamCIOsearch(teamTable, u'CYP')
+def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWoman, option, startYear,EndYear,Country):
+    kkinit=teamCIOsearch(teamTable,Country)
     
     if option=='clmoff':
         clm=0
@@ -124,7 +124,7 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWo
         if 1==1:
         ##group=teamTable[kk][8]
         ##if group==1:
-            for ii in range(2010,2019):
+            for ii in range( startYear,EndYear):
                 Year=ii
                 group=1
                 #Create the championship

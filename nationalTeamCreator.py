@@ -69,7 +69,7 @@ def nationalTeamLabel(teamTable,kk,Year):
     mylabel={}
     
     #Teamlabel_fr
-    label_part1_fr = u"Équipe"
+    label_part1_fr = u"équipe"
     label_part2_fr = u"féminine de cyclisme sur route"
     mylabel[u'fr']=label_part1_fr + " " + genre_fr + country_fr + " " + label_part2_fr + " "+ str(Year)
      
@@ -88,7 +88,7 @@ def nationalTeamDescription(teamTable,kk,Year):
     mydescription={}
     
     #mydescription_fr
-    description_part1_fr = u'Saison'
+    description_part1_fr = u'saison'
     description_part2_fr = u"de l'équipe"
     description_part3_fr = u"de cyclisme sur route"
     mydescription[u'fr']=description_part1_fr + " "+  str(Year)+ " "+description_part2_fr+" " +genre_fr + country_fr +" "+description_part3_fr  

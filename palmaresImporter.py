@@ -26,136 +26,107 @@ def palmaresImporter():
     [pywikibot,site,repo,time]=wikiinit()
     
     inputstr="""
+| 1974 ||[[France Richer]]||[[Marilyn Freeman]] ||[[Jane McVeigh]]
 |-
-| 1959 || [[Beryl Burton]] || [[Millie Robinson]] || [[Sheila Holmes]]
+| 1974 ||[[France Richer]]||[[Marilyn Freeman]] ||[[Jane McVeigh]]
 |-
-| 1960 || [[Beryl Burton]] || [[Sheila Holmes]] || [[Val Baxendine]]
+| 1975 || [[Karen Strong]] ||[[Jane McVeigh]] ||[[Betty Schepens]]
 |-
-| 1961 || [[Jo Bowers]] || [[Beryl Burton]] || [[Jan Smith]]
+| 1976 || [[Karen Strong]] ||[[Dora Horbatiuk ]] ||[[Sylvia Burka]]
 |-
-| 1962 || [[Jo Bowers]] || [[Pat Pepper]] || [[Cynthia Cary]]
+| 1977 || [[Sylvia Burka]] || [[Karen Strong]]||[[Carole Vanier]]
 |-
-| 1963 || [[Beryl Burton]] || [[Pat Pepper]] || [[Jo Bowers]]
+| 1978 || [[Sylvia Burka]] ||[[J. Stevens]] ||[[M.A. Kokan]]
 |-
-| 1964 || [[Val Rushworth]] || [[Sylvia Beardon]] || [[Ann Illingworth]]
+| 1979 ||[[Karen Strong]] ||[[Sylvia Burka]] ||[[Marie-Claude Audet]]
 |-
-| 1965 || [[Beryl Burton]] || [[Susan Crow]] || [[Joan Kershaw]]
+| 1980 || [[Sylvia Burka]] ||[[Carole Vanier]] ||[[Marie-Claude Audet]]
 |-
-| 1966 || [[Beryl Burton]] || [[Christine Goodfellow]] || [[Ann Illingworth]]
+| 1981 || [[Karen Strong]] ||[[Carole Vanier]] ||[[Geneviève Brunet]]
 |-
-| 1967 || [[Beryl Burton]] || [[Barbara Mapplebeck]] || [[Pat Pepper]]
+| 1982 || [[Verena Buhler]] || [[Laural Zilke]] ||[[Karen Strong]]
 |-
-| 1968 || [[Beryl Burton]] || [[Barbara Mapplebeck]] || [[Sylvia Beardon]]
+| 1983 || [[Marie-Claude Audet]] || [[Karen Strong]]|| [[Verena Buhler]]
 |-
-| 1969 || [[Ann Horswell]] || [[Bernadette Swinnerton]] || [[Pat Pepper]]
+| 1984 || [[Geneviève Brunet]] ||[[Marie-Claude Audet]] ||[[Laural Zilke]]
 |-
-| 1970 || [[Beryl Burton]] || [[Joan Kershaw]] || [[Brenda Brown]]
+| 1985 || [[Barbara Lang]] ||[[Sarah Neil]] || [[Pamela Bryan]]
 |-
-| 1971 || [[Beryl Burton]] || [[Bernadette Swinnerton]] || [[Ann Bailey]]
+|1986 || [[Sarah Neil]] ||[[Barbara Lang]] || [[Denise Kelly]]
 |-
-| 1972 || [[Beryl Burton]] || [[Ann Bailey]] || [[Pat Pepper]]
+| 1987 || [[Geneviève Brunet]] ||[[Alison Sydor]] ||  [[Barbara Lang]]
 |-
-| 1973 || [[Beryl Burton]] || [[Denise Burton]] || [[Christine Goodfellow]]
+| 1988 || [[Sarah Neil]] || [[Maria Hawkins]]||[[Edie Fischer]]
 |-
-| 1974 || [[Beryl Burton]] || [[Carol Barton]] || [[Christine Goodfellow]]
+| 1989 || [[Laurel Zike]] ||[[Maria Hawkins]]||[[Edie Fischer]]
 |-
-| 1975 || [[Jayne Westbury]] || [[Denise Burton]] || [[Cath Swinnerton]]
+|1990 || [[Alison Sydor]] || [[Maria Hawkins]] || [[Sarah Neil]]
 |-
-| 1976 || [[Denise Burton]] || [[Beryl Burton]] || [[Carol Barton]]
+|1991 || [[Alison Sydor]] || [[Denise Kelly]] || [[Maria Hawkins]]
 |-
-| 1977 || [[Cath Swinnerton]] || [[Faith Murray]] || [[Josie Randall]]
+|1992 || [[Clara Hughes]] || [[Susan Palmer-Komar]] || [[Linda Jackson]]
 |-
-| 1978 || [[Brenda Atkinson]] || [[Denise Burton]] || [[Cathy Swinnerton]]
+|1993 || [[Alison Sydor]] || [[Clara Hughes]] || [[Megan McKenna]]
 |-
-| 1979 || [[Brenda Atkinson]] || [[Cath Swinnerton]] || [[Bernadette Griffiths]]
+|1994 || [[Alison Sydor]] || [[Leslie Tomlinson]] || [[Clara Hughes]]
 |-
-| 1980 || [[Jill Bishop]] || [[Julie Earnshaw]] || [[Brenda Atkinson]]
+|1995 || [[Linda Jackson]] || [[Susan Palmer-Komar]] || [[Alison Sydor]]
 |-
-| 1981 || [[Mandy Jones]] || [[Julie Earnshaw]] || [[Vicki Thomas]]
+|1996 || [[Susan Palmer-Komar]] || [[Anne Samplonius]] || [[Leigh Hobson]]
 |-
-| 1982 || [[Brenda Atkinson]] || [[Cath Swinnerton]] || [[Cath Swinnerton]]
+|1997 || [[Linda Jackson]] || [[Julia Farell]] || [[Susan Palmer-Komar]]
 |-
-| 1983 || [[Mandy Jones]] || [[Judith Painter]] || [[Linda Gornall]]
+|1998 || [[Linda Jackson]] || [[Alison Sydor]] || [[Lyne Bessette]]
 |-
-| 1984 || [[Cath Swinnerton]] || [[Maria Blower]] || [[Muriel Sharp]]
+|1999 || [[Clara Hughes]] || [[Lyne Bessette]] || [[Sandy Espeseth]]
 |-
-| 1985 || [[Brenda Tate]] || [[Lisa Bramani]] || [[Vicki Thomas]]
+|2000 || [[Sandy Espeseth]] || [[Mélanie Nadeau]] || [[Leigh Hobson]]
 |-
-| 1986 || [[Lisa Bramani]] || [[Vicki Thomas]] || [[Linda Flavell]]
+|2001 || [[Lyne Bessette]] || [[Sandy Espeseth]] || [[Geneviève Jeanson]]
 |-
-| 1987 || [[Lisa Bramani]] || [[Sally Hodge]] || [[Linda Gornall]]
+|2002 || [[Katy St Laurent]] || [[Julie Pepin]] || [[Sandy Espeseth]]
 |-
-| 1988 || [[Lisa Bramani]] || [[Sally Hodge]] || [[Maria Blower]]
+|2003 || [[Geneviève Jeanson]] || [[Lyne Bessette]] || [[Susan Palmer-Komar]]
 |-
-| 1989 || [[Lisa Bramani]] || [[Sue Wright]] || [[Maria Blower]]
+|2004 || [[Lyne Bessette]] || [[Manon Jutras]] || [[Erinne Willock]]
 |-
-| 1990 || [[Marie Purvis]] || [[Alison Butler]] || [[Maxine Johnson]]
+|2005 || [[Geneviève Jeanson]] || [[Erinne Willock]] || [[Susan Palmer-Komar]]
 |-
-| 1991 || [[Marie Purvis]] || [[Clare Greenwood]] || [[Linda Gornall]]
+|2006 || [[Alexandra Wrubleski]] || [[Anne Samplonius]] || [[Leigh Hobson]]
 |-
-| 1992 || [[Marie Purvis]] || [[Sarah Phillips]] || [[Clare Greenwood]]
+|2007 || [[Gina Grain]] || [[Marni Hambleton]] || [[Moriah McGregor]]
 |-
-| 1993 || [[Marie Purvis]] || [[Maxine Johnson]] || [[Sarah Phillips]]
+|2008 || [[Alexandra Wrubleski]] || [[Leigh Hobson]] || [[Felicia Gomez Greer]]
 |-
-| 1994 || [[Maxine Johnson]] || [[Jenny Kershaw]] || [[Sally Boyden]]
+|2009 || [[Alison Testroete]] || [[Gina Grain]] || [[Merrill Collins]]
 |-
-| 1995 || [[Marie Purvis]] || [[Ann Plant]] || [[Jenny Kershaw]]
+|2010 || [[Joëlle Numainville]] || [[Tara Whitten]] || [[Alison Testroete]]
 |-
-| 1996 || [[Maria Lawrence]] || [[Ann Plant]] || [[Angela Hunter]]
+|2011 || [[Véronique Fortin]] || [[Lex Albrecht]] || [[Erinne Willock]]
 |-
-| 1997 || [[Maria Lawrence]] || [[Isla Rowntree]] || [[Angela Hunter]]
+|2012 || [[Denise Ramsden]] || [[Clara Hughes]] || [[Joëlle Numainville]]
 |-
-| 1998 || [[Megan Huges]] || [[Louise Jones]] || [[Sally Boyden]]
+|2013 || [[Joëlle Numainville]] || [[Leah Kirchmann]] || [[Lex Albrecht]]
 |-
-| 1999 || [[Nicole Cooke]] || [[Yvonne McGregor]] || [[Ceris Gilfillan]]
+| 2014 || [[Leah Kirchmann]] || [[Denise Ramsden]] || [[Leah Guloien]]
 |-
-| 2000 || [[Ceris Gilfillan]] || [[Caroline Alexander]] || [[Yvonne McGregor]]
+| 2015 || [[Joëlle Numainville]]  || [[Leah Kirchmann]]|| [[Jamie Gilgen]]
 |-
-| 2001 || [[Nicole Cooke]] || [[Ceris Gilfillan]] || [[Sara Symington]]
+| 2016|| [[Annie Foreman-Mackey]]  || [[Joëlle Numainville]]  || [[Leah Kirchmann]]
 |-
-| 2002 || [[Nicole Cooke]] || [[Rachel Heal]] || [[Melanie Sears]]
-|-
-| 2003 || [[Nicole Cooke]] || [[Rachel Heal]] || [[Vicki Pincombe]]
-|-
-| 2004 || [[Nicole Cooke]] || [[Rachel Heal]] || [[Vicki Pincombe]]
-|-
-| 2005 || [[Nicole Cooke]] || [[Rachel Heal]] || [[Emma Davies]]
-|-
-| 2006 || [[Nicole Cooke]] || [[Lorna Webb]] || [[Joanna Rowsell]]
-|-
-| 2007 || [[Nicole Cooke]] || [[Rachel Heal]] || [[Helen Wyman]]
-|-
-| 2008 || [[Nicole Cooke]] || [[Emma Pooley]] || [[Joanna Rowsell]]
-|-
-| 2009 || [[Nicole Cooke]] || [[Elizabeth Armitstead]] || [[Emma Pooley]]
-|-
-| 2010 || [[Emma Pooley]] || [[Elizabeth Armitstead]] || [[Nicole Cooke]]
-|-
-| 2011 || [[Elizabeth Armitstead]] || [[Nicole Cooke]] || [[Sharon Laws]]
-|-
-| 2012 || [[Sharon Laws]] || [[Elizabeth Armitstead]] || [[Emma Pooley]]
-|-
-| 2013 || [[Elizabeth Armitstead]] || [[Laura Trott]] || [[Danielle King]]
-|-
-| 2014||[[Laura Trott]]||[[Danielle King]]||[[Elizabeth Armitstead]]
-|-
-| 2015||[[Elizabeth Armitstead]]||[[Alice Barnes ]]||[[Laura Trott]]
-|-
-| 2016||[[Hannah Barnes]]||[[Alice Barnes]]||[[Lucy Garner]]
-|-
-| 2017 || [[Elizabeth Armitstead]] || [[Katie Archibald]] || [[Hannah Barnes]] 
+| 2017 || [[Allison Beveridge]] || [[Kirsti Lay]] || [[Alison Jackson]]
  """
  
-    championshipID='Q27048419'
+    championshipID='Q31096001'
     
     #inputstr=input()
     tableOfwinner=palmaresParsing(inputstr)
     #print(tableOfwinner)
-    numberofabsentriders, tableOfwinnerOut=wikidataelementAnalyser(pywikibot,site,tableOfwinner)
+    numberofabsentriders, counterrepeat, tableOfwinnerOut=wikidataelementAnalyser(pywikibot,site,tableOfwinner)
     test=1
         
-    if numberofabsentriders==0 and test==0:
-        palmaresFilling(pywikibot,site,repo,tableOfwinner,championshipID)
+    if numberofabsentriders==0 and test==0 and counterrepeat==0:
+        palmaresFilling(pywikibot,site,repo,tableOfwinnerOut,championshipID)
     
     
 def palmaresParsing(inputstr):
@@ -169,12 +140,10 @@ def palmaresParsing(inputstr):
         tableofCell=tableofRow[1+ii].split("||")
         #get the year
         tempforyear=tableofCell[0].split("|")
-        #linksplit1=tempforyear[1].split("[[")  
-        #link=linksplit1[1].split("]]") 
         tableOfwinner[ii][0]=int(tempforyear[1]) #link[0]
         #get first winner
         for jj in range(ColumnOfwinner,ColumnOfwinner+3):
-              linksplit1=tableofCell[jj].split("[[")  
+              linksplit1=tableofCell[jj].split("[[")
               link=linksplit1[1].split("]]") 
               tableOfwinner[ii][jj-ColumnOfwinner+1]=link[0]
         
@@ -207,6 +176,7 @@ def wikidataelementAnalyser(pywikibot,site,tableOfwinner):
 
     #look for riders not created
     counter=0
+    counterrepeat=0
     tableOfwinnerOut=tableOfwinner
     exceptionTable=listOfException()
     
@@ -218,32 +188,38 @@ def wikidataelementAnalyser(pywikibot,site,tableOfwinner):
                 counter=counter+1
             elif (Idtemp==u'Q1'):
                 #list of exceptions
+                exceptionfound=0
                 for ll in range(1,len(exceptionTable)):
                     if tableOfwinner[ii][jj]==exceptionTable[ll][0]:
                         tableOfwinnerOut[ii][jj]=exceptionTable[ll][1]
-                if tableOfwinner[ii][jj]==0:  
+                        exceptionfound=1
+                if exceptionfound==0:
+                    print(tableOfwinner[ii][jj])
                     print(tableOfwinner[ii][jj]+ ' found several times')
-   
+                    counterrepeat+=1
             else:
                 tableOfwinnerOut[ii][jj]=Idtemp
                  
-    if counter==0:
+    if counter==0 and counterrepeat==0:
         print('All riders found!!')
-    else:
+    elif counterrepeat==0:
         print(str(counter)+' riders not found')
-    return counter, tableOfwinnerOut
+    else:
+        print(str(counterrepeat)+' riders found several times')
+        
+    return counter, counterrepeat, tableOfwinnerOut
     
 def riderFastInit():
    [pywikibot,site,repo,time]=wikiinit()
    mydescription={}
    label={}
-   
-   Name=u"Flor Aparecida Palma Dos Santos"
-   mydescription['fr']=u'Coureuse cycliste chilienne'
+ 
+   Name=u"Fatemeh Feizi"
+   mydescription['fr']=u'Coureuse cycliste iranienne'
    label['fr']=Name
    
   ## kkinit=teamCIOsearch(teamTableFemmes, u'NAM')
-   CountryCIO=u'CHI'
+   CountryCIO=u'IRI'
    kk=teamCIOsearch(teamTableFemmes, CountryCIO)
    Idrider=searchItem(pywikibot,site,Name)
 
@@ -316,14 +292,144 @@ def listOfException():
     exceptionTable[kk][0]=u'François Simon'   
     exceptionTable[kk][1]=u'Q1451199'
     kk+=1
-    
+    exceptionTable[kk][0]=u'Jan Smith'
+    exceptionTable[kk][1]=u'Q54555914'
+    kk+=1
+    exceptionTable[kk][0]=u'Susan Crow'
+    exceptionTable[kk][1]=u'Q54555931'
+    kk+=1
+    exceptionTable[kk][0]=u'Maxine Johnson'
+    exceptionTable[kk][1]=u'Q6795975'
+    kk+=1
+    exceptionTable[kk][0]=u'Sarah Phillips'
+    exceptionTable[kk][1]=u'Q19867752' 
+    kk+=1
+    exceptionTable[kk][0]=u'Sally Boyden'
+    exceptionTable[kk][1]=u'Q7405083' 
+    kk+=1   
+    exceptionTable[kk][0]=u'Louise Jones'
+    exceptionTable[kk][1]=u'Q6688807' 
+    kk+=1  
+    exceptionTable[kk][0]=u'Emma Davies'
+    exceptionTable[kk][1]=u'Q5372774' 
+    kk+=1   
+    exceptionTable[kk][0]=u'Jessica Allen'
+    exceptionTable[kk][1]=u'Q6187080' 
+    kk+=1   
+    exceptionTable[kk][0]=u'Julia Shaw'
+    exceptionTable[kk][1]=u'Q6306728' 
+    kk+=1
+    exceptionTable[kk][0]=u'María Isabel Moreno'
+    exceptionTable[kk][1]=u'Q439421' 
+    kk+=1
+    exceptionTable[kk][0]=u'Belen Lopez'
+    exceptionTable[kk][1]=u'Q16223239' 
+    kk+=1
+    exceptionTable[kk][0]=u'Belén López'
+    exceptionTable[kk][1]=u'Q16223239' 
+    kk+=1
+    exceptionTable[kk][0]=u'Gloria Rodríguez'
+    exceptionTable[kk][1]=u'Q19519085'
+    kk+=1
+    exceptionTable[kk][0]=u'Alicia González'
+    exceptionTable[kk][1]=u'Q19661974'
+    kk+=1
+    exceptionTable[kk][0]=u'María Mora'
+    exceptionTable[kk][1]=u'Q51296237'
+    kk+=1
+    exceptionTable[kk][0]=u'Ana Fernandez'
+    exceptionTable[kk][1]=u'Q55187131'
+    kk+=1
+    exceptionTable[kk][0]=u'Ana Fernández'
+    exceptionTable[kk][1]=u'Q55187131'
+    kk+=1
+    exceptionTable[kk][0]=u'Yelena Antonova'
+    exceptionTable[kk][1]=u'Q19559969'
+    kk+=1
+    exceptionTable[kk][0]=u'Stephanie Pohl'
+    exceptionTable[kk][1]=u'Q2344233'
+    kk+=1
+    exceptionTable[kk][0]=u'Svetlana Kuznetsova'
+    exceptionTable[kk][1]=u'Q21063641'
+    kk+=1
+    exceptionTable[kk][0]=u'Olga Sokolova'
+    exceptionTable[kk][1]=u'Q14552179'
+    kk+=1
+    exceptionTable[kk][0]=u'Lisa Klein'
+    exceptionTable[kk][1]=u'Q15825971'
+    kk+=1
+    exceptionTable[kk][0]=u'Claudia Lehmann'
+    exceptionTable[kk][1]=u'Q15794537'
+    kk+=1
+    exceptionTable[kk][0]=u'Emilie Aubry'
+    exceptionTable[kk][1]=u'Q513806'
+    kk+=1
+    exceptionTable[kk][0]=u'Maria Heim'
+    exceptionTable[kk][1]=u'Q1532305'
+    kk+=1
+    exceptionTable[kk][0]=u'Lone Larsen'
+    exceptionTable[kk][1]=u'Q20830249'
+    kk+=1
+    exceptionTable[kk][0]=u'Helle Jensen'
+    exceptionTable[kk][1]=u'Q55422442'
+    kk+=1
+    exceptionTable[kk][0]=u'Sara Mustonen'
+    exceptionTable[kk][1]=u'Q4968493'
+    kk+=1
+    exceptionTable[kk][0]=u'Marie Lindberg'
+    exceptionTable[kk][1]=u'Q19519692'
+    kk+=1
+    exceptionTable[kk][0]=u'Eva Johansson'
+    exceptionTable[kk][1]=u'Q55754271'
+    kk+=1   
+    exceptionTable[kk][0]=u'Lauren Hall'
+    exceptionTable[kk][1]=u'Q16212170'
+    kk+=1      
+    exceptionTable[kk][0]=u'Amanda Miller'
+    exceptionTable[kk][1]=u'Q18154419'
+    kk+=1      
+    exceptionTable[kk][0]=u'Brooke Miller'
+    exceptionTable[kk][1]=u'Q18154419'
+    kk+=1      
+    exceptionTable[kk][0]=u'Jessica Phillips'
+    exceptionTable[kk][1]=u'Q20715018'
+    kk+=1
+    exceptionTable[kk][0]=u'Emma White'
+    exceptionTable[kk][1]=u'Q24300644'
+    kk+=1  
+    exceptionTable[kk][0]=u'Linda Stein'
+    exceptionTable[kk][1]=u'Q11780418'
+    kk+=1 
+    exceptionTable[kk][0]=u'Jane Robinson'
+    exceptionTable[kk][1]=u'Q55809416'
+    kk+=1 
+    exceptionTable[kk][0]=u'Linda Jackson'
+    exceptionTable[kk][1]=u'Q511699'
+    kk+=1
+    exceptionTable[kk][0]=u'Geneviève Gauthier'
+    exceptionTable[kk][1]=u'Q55814114'
+    kk+=1
+    exceptionTable[kk][0]=u'Laura Brown'
+    exceptionTable[kk][1]=u'Q1807714'
+    kk+=1
+    exceptionTable[kk][0]=u'Barbara Lang'
+    exceptionTable[kk][1]=u'Q55813877'
+    kk+=1
+    exceptionTable[kk][0]=u'Denise Ramsden'
+    exceptionTable[kk][1]=u'Q2240672'
+    kk+=1    
+    exceptionTable[kk][0]=u'Alison Jackson'
+    exceptionTable[kk][1]=u'Q21067366'
+    kk+=1
     
 
     return exceptionTable
     
 if __name__ == '__main__':
-    #palmaresImporter()
-    riderFastInit()
+    #print(teamCIOsearch(teamTableFemmes, u'GBR'))
+   # print(teamTableFemmes[35][3])
+ #palmaresImporter()
+ riderFastInit()
     
     
     

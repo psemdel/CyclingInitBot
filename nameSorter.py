@@ -115,11 +115,16 @@ def dateSorterEmpty(pywikibot,site,repo,time,IdTeamPage,VicOrComp, listOfItem):
 
     for ii in range(len(listOfItem)):  
          listOfItem[ii].get()
-         if(u'P'+str(585) in listOfItem[ii].claims): #course d'un jour
+         
+         if (u'P'+str(580) in listOfItem[ii].claims): #course à étapes
+             claimTemp=listOfItem[ii].claims[u'P'+str(580)]
+             dateTemp=claimTemp[0].getTarget()
+             print(dateTemp)
+         elif(u'P'+str(585) in listOfItem[ii].claims): #course d'un jour
              claimTemp=listOfItem[ii].claims[u'P'+str(585)]
              dateTemp=claimTemp[0].getTarget()
-         elif (u'P'+str(580) in listOfItem[ii].claims): #course à étapes
-             claimTemp=listOfItem[ii].claims[u'P'+str(580)]
+         elif (u'P'+str(582) in listOfItem[ii].claims): #course à étapes
+             claimTemp=listOfItem[ii].claims[u'P'+str(582)]
              dateTemp=claimTemp[0].getTarget()
          else:
              print(listOfItem[ii].labels['fr'] + u' has no date')
@@ -138,9 +143,9 @@ def dateSorterEmpty(pywikibot,site,repo,time,IdTeamPage,VicOrComp, listOfItem):
         itemID=listeDesVictoires[key].itemID
         #delete the old one
         #allclaims=item.claims[u'P'+str(propertyNumber)] 
-        #claim=allclaims[0]
+        claim=allclaims[0]
         addMultipleValue(pywikibot,repo,item,propertyNumber, noQ(itemID),'race for sorting',1)
-
+#
 
 def dateSorter(pywikibot,site,repo,time,IdTeamPage,VicOrComp):
     item= pywikibot.ItemPage(repo, IdTeamPage)
@@ -158,11 +163,11 @@ def dateSorter(pywikibot,site,repo,time,IdTeamPage,VicOrComp):
     for ii in range(len(listOfcomprend)):  
          listOfItem[ii]=listOfcomprend[ii].getTarget()
          listOfItem[ii].get()
-         if(u'P'+str(585) in listOfItem[ii].claims): #course d'un jour
-             claimTemp=listOfItem[ii].claims[u'P'+str(585)]
-             dateTemp=claimTemp[0].getTarget()
-         elif (u'P'+str(580) in listOfItem[ii].claims): #course à étapes
+         if(u'P'+str(580) in listOfItem[ii].claims):  #course à étapes
              claimTemp=listOfItem[ii].claims[u'P'+str(580)]
+             dateTemp=claimTemp[0].getTarget()
+         elif (u'P'+str(585) in listOfItem[ii].claims): #course d'un jour
+             claimTemp=listOfItem[ii].claims[u'P'+str(585)]
              dateTemp=claimTemp[0].getTarget()
          else:
              print(listOfItem[ii].labels['fr'] + u' has no date')
@@ -183,7 +188,15 @@ def dateSorter(pywikibot,site,repo,time,IdTeamPage,VicOrComp):
     if reorder==1:
         for ii in range(len(newOrder)): #
             if newOrder[ii]!=oldOrder[ii]: #when the first has to be moved all have to be moved
-                orderfine=0
+                if ii==0:
+                    #confirm=input('First race changed confirm (1) : ')
+                    #if confirm==1:
+                    orderfine=0
+                    #else:
+                    #    break
+                else:
+                    orderfine=0
+
             if orderfine==0:
                 key=newOrder[ii]
                 itemID=listeDesVictoires[key].itemID
