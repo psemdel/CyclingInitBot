@@ -26,98 +26,54 @@ def palmaresImporter():
     [pywikibot,site,repo,time]=wikiinit()
     
     inputstr="""
-| 1974 ||[[France Richer]]||[[Marilyn Freeman]] ||[[Jane McVeigh]]
+    |1993||[[Ildiko Paczova]]||[[Lenka Ilavská]]||[[Iveta Sitarova]]
 |-
-| 1974 ||[[France Richer]]||[[Marilyn Freeman]] ||[[Jane McVeigh]]
+|1993||[[Ildiko Paczova]]||[[Lenka Ilavská]]||[[Iveta Sitarova]]
 |-
-| 1975 || [[Karen Strong]] ||[[Jane McVeigh]] ||[[Betty Schepens]]
+|1994||[[Lenka Ilavská]]||[[Elena Barillova]]||[[Jaroslava Komankova]]
 |-
-| 1976 || [[Karen Strong]] ||[[Dora Horbatiuk ]] ||[[Sylvia Burka]]
+|1995||[[Eva Orvošová]]||[[Jaroslava Komankova]]||[[Jana Nikova]]
 |-
-| 1977 || [[Sylvia Burka]] || [[Karen Strong]]||[[Carole Vanier]]
+|1996||[[Lenka Ilavská]]||[[Elena Barillova]]||[[Jaroslava Komankova]]
 |-
-| 1978 || [[Sylvia Burka]] ||[[J. Stevens]] ||[[M.A. Kokan]]
+|1997||[[Lenka Ilavská]]||[[Ildiko Paczova]]||[[Zlatica Bazola-Gavlakova]]
 |-
-| 1979 ||[[Karen Strong]] ||[[Sylvia Burka]] ||[[Marie-Claude Audet]]
+|1998||[[Lenka Ilavská]]||[[Elena Barillova]]||[[Jaroslava Komankova]]
 |-
-| 1980 || [[Sylvia Burka]] ||[[Carole Vanier]] ||[[Marie-Claude Audet]]
+|1999||[[Lenka Ilavská]]||[[Elena Barillova]]||[[Janette Bohmova]]
 |-
-| 1981 || [[Karen Strong]] ||[[Carole Vanier]] ||[[Geneviève Brunet]]
+|2000||[[Zlatica Bazola-Gavlakova]]||[[Elena Barillova]]||[[Janka Stevkova]]
 |-
-| 1982 || [[Verena Buhler]] || [[Laural Zilke]] ||[[Karen Strong]]
+|2001||[[Lenka Ilavská]]||[[Zlatica Bazola-Gavlakova]]||[[Janka Stevkova]]
 |-
-| 1983 || [[Marie-Claude Audet]] || [[Karen Strong]]|| [[Verena Buhler]]
+|2002||[[Zlatica Bazola-Gavlakova]]||[[Alena Buresova]]||[[Katarina Lehocka]]
 |-
-| 1984 || [[Geneviève Brunet]] ||[[Marie-Claude Audet]] ||[[Laural Zilke]]
+|2006||[[Zuzana Vojtasova]]||[[Zuzana Vojtasova]]||[[Zuzana Vojtasova]]
 |-
-| 1985 || [[Barbara Lang]] ||[[Sarah Neil]] || [[Pamela Bryan]]
+|2007||[[Katarina Uhlarikova]]||[[Zuzana Vojtasova]]||[[Zuzana Vojtasova]]
 |-
-|1986 || [[Sarah Neil]] ||[[Barbara Lang]] || [[Denise Kelly]]
+|2008||[[Eva Potocna ]]||[[Katarina Uhlarikova]]||[[Katarina Uhlarikova]]
 |-
-| 1987 || [[Geneviève Brunet]] ||[[Alison Sydor]] ||  [[Barbara Lang]]
+|2009||[[Alzbeta Pavlendova]]||[[Monika Kadlecova ]]||[[Katarina Uhlariková]]
 |-
-| 1988 || [[Sarah Neil]] || [[Maria Hawkins]]||[[Edie Fischer]]
+|2010||[[Katarina Uhlariková]]||[[Alzbeta Pavlendová]]||[[Monika Kadlecová]]
 |-
-| 1989 || [[Laurel Zike]] ||[[Maria Hawkins]]||[[Edie Fischer]]
+|2011||[[Janka Števková]]||[[Monika Kadlecová]]||[[Julia Jurcová]]
 |-
-|1990 || [[Alison Sydor]] || [[Maria Hawkins]] || [[Sarah Neil]]
+|2012||[[Alžbeta Pavlendová]]||[[Monika Kadlecová]]||[[Livia Hanesová]]
 |-
-|1991 || [[Alison Sydor]] || [[Denise Kelly]] || [[Maria Hawkins]]
+|2013||[[Monika Kadlecova]]||[[Livia Hanesova]]||[[Andrea Juhasova]]
 |-
-|1992 || [[Clara Hughes]] || [[Susan Palmer-Komar]] || [[Linda Jackson]]
+|2014||[[Monika Kadlecova]]||[[Lubica Dadova]]||[[Alžbeta Pavlendová]]
 |-
-|1993 || [[Alison Sydor]] || [[Clara Hughes]] || [[Megan McKenna]]
+|2015||[[Alžbeta Pavlendová]]||[[Tereza Medvedova]]||[[Livia Hanesova]]
 |-
-|1994 || [[Alison Sydor]] || [[Leslie Tomlinson]] || [[Clara Hughes]]
+|2016||[[Janka Stevkova]]||[[Livia Hanesova]]||[[Tereza Medvedova]]
 |-
-|1995 || [[Linda Jackson]] || [[Susan Palmer-Komar]] || [[Alison Sydor]]
-|-
-|1996 || [[Susan Palmer-Komar]] || [[Anne Samplonius]] || [[Leigh Hobson]]
-|-
-|1997 || [[Linda Jackson]] || [[Julia Farell]] || [[Susan Palmer-Komar]]
-|-
-|1998 || [[Linda Jackson]] || [[Alison Sydor]] || [[Lyne Bessette]]
-|-
-|1999 || [[Clara Hughes]] || [[Lyne Bessette]] || [[Sandy Espeseth]]
-|-
-|2000 || [[Sandy Espeseth]] || [[Mélanie Nadeau]] || [[Leigh Hobson]]
-|-
-|2001 || [[Lyne Bessette]] || [[Sandy Espeseth]] || [[Geneviève Jeanson]]
-|-
-|2002 || [[Katy St Laurent]] || [[Julie Pepin]] || [[Sandy Espeseth]]
-|-
-|2003 || [[Geneviève Jeanson]] || [[Lyne Bessette]] || [[Susan Palmer-Komar]]
-|-
-|2004 || [[Lyne Bessette]] || [[Manon Jutras]] || [[Erinne Willock]]
-|-
-|2005 || [[Geneviève Jeanson]] || [[Erinne Willock]] || [[Susan Palmer-Komar]]
-|-
-|2006 || [[Alexandra Wrubleski]] || [[Anne Samplonius]] || [[Leigh Hobson]]
-|-
-|2007 || [[Gina Grain]] || [[Marni Hambleton]] || [[Moriah McGregor]]
-|-
-|2008 || [[Alexandra Wrubleski]] || [[Leigh Hobson]] || [[Felicia Gomez Greer]]
-|-
-|2009 || [[Alison Testroete]] || [[Gina Grain]] || [[Merrill Collins]]
-|-
-|2010 || [[Joëlle Numainville]] || [[Tara Whitten]] || [[Alison Testroete]]
-|-
-|2011 || [[Véronique Fortin]] || [[Lex Albrecht]] || [[Erinne Willock]]
-|-
-|2012 || [[Denise Ramsden]] || [[Clara Hughes]] || [[Joëlle Numainville]]
-|-
-|2013 || [[Joëlle Numainville]] || [[Leah Kirchmann]] || [[Lex Albrecht]]
-|-
-| 2014 || [[Leah Kirchmann]] || [[Denise Ramsden]] || [[Leah Guloien]]
-|-
-| 2015 || [[Joëlle Numainville]]  || [[Leah Kirchmann]]|| [[Jamie Gilgen]]
-|-
-| 2016|| [[Annie Foreman-Mackey]]  || [[Joëlle Numainville]]  || [[Leah Kirchmann]]
-|-
-| 2017 || [[Allison Beveridge]] || [[Kirsti Lay]] || [[Alison Jackson]]
+|2017|| [[Alžbeta Pavlendová]] || [[Janka Stevkova]] || [[Tereza Medvedova]]
  """
  
-    championshipID='Q31096001'
+    championshipID='Q45171831'
     
     #inputstr=input()
     tableOfwinner=palmaresParsing(inputstr)
@@ -168,9 +124,9 @@ def palmaresFilling(pywikibot,site,repo,tableOfwinner,championshipID ):
           else:  #good
               itempresent =pywikibot.ItemPage(repo, Idpresent)
               itempresent.get()
-              addWinner(pywikibot, site,repo,itempresent,tableOfwinner[ii][1],1)    
-              addWinner(pywikibot, site,repo,itempresent,tableOfwinner[ii][2],2)    
-              addWinner(pywikibot, site,repo,itempresent,tableOfwinner[ii][3],3)
+              addWinner(pywikibot, site,repo,itempresent,tableOfwinner[ii][1],1,0)    
+              addWinner(pywikibot, site,repo,itempresent,tableOfwinner[ii][2],2,0)    
+              addWinner(pywikibot, site,repo,itempresent,tableOfwinner[ii][3],3,0)
 
 def wikidataelementAnalyser(pywikibot,site,tableOfwinner):
 
@@ -214,12 +170,12 @@ def riderFastInit():
    mydescription={}
    label={}
  
-   Name=u"Fatemeh Feizi"
-   mydescription['fr']=u'Coureuse cycliste iranienne'
+   Name=u"Eline Coudeville"
+   mydescription['fr']=u'Coureuse cycliste amateur belge'
    label['fr']=Name
    
   ## kkinit=teamCIOsearch(teamTableFemmes, u'NAM')
-   CountryCIO=u'IRI'
+   CountryCIO=u'BEL'
    kk=teamCIOsearch(teamTableFemmes, CountryCIO)
    Idrider=searchItem(pywikibot,site,Name)
 
@@ -421,8 +377,35 @@ def listOfException():
     exceptionTable[kk][0]=u'Alison Jackson'
     exceptionTable[kk][1]=u'Q21067366'
     kk+=1
+    exceptionTable[kk][0]=u'Ulrike Baumgartner'
+    exceptionTable[kk][1]=u'Q25320642'
+    kk+=1
+    exceptionTable[kk][0]=u'Barbara Mayer'
+    exceptionTable[kk][1]=u'Q31095264'
+    kk+=1
+    exceptionTable[kk][0]=u'Alison Wright'
+    exceptionTable[kk][1]=u'Q19757742'
+    kk+=1   
+    exceptionTable[kk][0]=u'Alexis Rhodes'
+    exceptionTable[kk][1]=u'Q468953'
+    kk+=1      
+    exceptionTable[kk][0]=u'Grace Brown'
+    exceptionTable[kk][1]=u'Q39270192'
+    kk+=1       
+    exceptionTable[kk][0]=u'Margaret Henderson'
+    exceptionTable[kk][1]=u'Q57045220'
+    kk+=1      
+    exceptionTable[kk][0]=u'Kate Perry'
+    exceptionTable[kk][1]=u'Q29050111'
+    kk+=1    
+    exceptionTable[kk][0]=u'Sarah Ulmer'
+    exceptionTable[kk][1]=u'Q176489'
+    kk+=1     
+    exceptionTable[kk][0]=u'Fernanda Yapura'
+    exceptionTable[kk][1]=u'Q42594667'
+    kk+=1       
     
-
+    
     return exceptionTable
     
 if __name__ == '__main__':

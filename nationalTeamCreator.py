@@ -97,14 +97,14 @@ def nationalTeamDescription(teamTable,kk,Year):
  
 
 def Nationalteamcreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
-    kkinit=teamCIOsearch(teamTableFemmes, u'NAM')
-    kk=kkinit
-    print(kkinit)
-    if kk==kkinit:
-    #for kk in range(kkinit,endkk):  #endkk
+    kkinit=teamCIOsearch(teamTableFemmes, u'UKR')
+    #kk=kkinit
+    #print(kkinit)
+    #if kk==kkinit:
+    for kk in range(kkinit,endkk):  #endkk
         group=teamTableFemmes[kk][8]
         if group==1:
-            for ii in range(1990,2019): #range(1990,2019)
+            for ii in range(2019,2020): #range(1990,2019)
                 Year=ii
                  
                 mylabel={}

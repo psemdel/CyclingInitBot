@@ -145,7 +145,7 @@ def nationalTeamTable():
     teamTable[kk][1]=u'Autriche'
     teamTable[kk][2]=u"d'"
     teamTable[kk][3]=40
-    teamTable[kk][4]=42394445
+    teamTable[kk][4]=34679945
     teamTable[kk][5]=u'Austria'
     teamTable[kk][6]=u'Austrian'
     teamTable[kk][7]=u'AUT'
@@ -405,7 +405,7 @@ def nationalTeamTable():
     teamTable[kk][1]=u'Estonie'
     teamTable[kk][2]=u"d'"
     teamTable[kk][3]=191
-    teamTable[kk][4]=43744966
+    teamTable[kk][4]=33987947
     teamTable[kk][5]=u'Estonia'
     teamTable[kk][6]=u'Estonian'
     teamTable[kk][7]=u'EST'
@@ -930,13 +930,13 @@ def nationalTeamTable():
     kk+=1
     
     teamTable[kk][1]=u'Turquie'
-    teamTable[kk][2]=u"de"
+    teamTable[kk][2]=u"de "
     teamTable[kk][3]=43
     teamTable[kk][4]=0
     teamTable[kk][5]=u'Turkey'
     teamTable[kk][6]=u'Turkish'
     teamTable[kk][7]=u'TUR'
-    teamTable[kk][8]=1
+    teamTable[kk][8]=2
     kk+=1
     
     teamTable[kk][1]=u'Ukraine'

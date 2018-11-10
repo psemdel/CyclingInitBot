@@ -91,13 +91,13 @@ def proTeamDescription(teamTable,kk,Year):
  
 
 def proteamcreator(pywikibot,site,repo,time,teamTableFemmes,nationalTeamTable,endkk,proamateur,countrytocreate):
-    Year=2018
+    Year=2019
     kkinit=1
 
     #if kk==kkinit:
     for kk in range(kkinit,endkk):  #endkk
-        if proamateur==1 or (proamateur==0 and countrytocreate==teamTableFemmes[kk][3] and (teamTableFemmes[kk][4]==1 or teamTableFemmes[kk][5]==1)): #
-            
+        if (proamateur==1 and teamTableFemmes[kk][6]==1) or (proamateur==0 and countrytocreate==teamTableFemmes[kk][3] and (teamTableFemmes[kk][4]==1 or teamTableFemmes[kk][5]==1)): #
+        #teamTableFemmes[kk][5]==0 or    
             mylabel={}
             mylabel=proTeamLabel(teamTableFemmes,kk,Year)
             Idpresent=searchItem(pywikibot,site,mylabel['fr'])

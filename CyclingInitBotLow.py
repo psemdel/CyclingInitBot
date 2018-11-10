@@ -63,11 +63,22 @@ def addMultipleValue(pywikibot,repo,item,propertyNummer,value,comment,overpass):
        item.addClaim(claim, summary=u'Adding '+comment) 
     return Addc
     
-def addWinner(pywikibot,site,repo,item,value,order):
+def addWinner(pywikibot,site,repo,item,value,order,GeneralOrStage):
     propertyNummer=1346
+    qualifierNummer=-1
     Addc=1
+    
     if order==1:
-        qualifierNummer='Q20882667'
+        if GeneralOrStage==0:
+            qualifierNummer='Q20882667'
+        elif GeneralOrStage==2:
+            qualifierNummer='Q20883007'
+        elif GeneralOrStage==3:  
+            qualifierNummer='Q20883212'
+        elif GeneralOrStage==4:  
+            qualifierNummer='Q20883139'
+        else:
+            qualifierNummer='Q20882667'
     elif order==2:
         qualifierNummer='Q20882668'
     elif order==3:  
@@ -75,25 +86,26 @@ def addWinner(pywikibot,site,repo,item,value,order):
     else:
         Addc=0  
     
-    if(u'P'+str(propertyNummer) in item.claims):
-        listOfWinner=item.claims.get(u'P'+str(propertyNummer))
-        itemToAdd=pywikibot.ItemPage(repo,value)
-        #look if already there as a rider can't be first, second and third at the same time
-        for ii in range(len(listOfWinner)):
-           if listOfWinner[ii].getTarget()==itemToAdd: #Already there
-                Addc=0
-                print('winner already in the list')
-        
-    if Addc==1:   
-        claim=pywikibot.Claim(repo, u'P'+str(propertyNummer)) 
-
-        target = pywikibot.ItemPage(repo, value)
-        claim.setTarget(target)
-        item.addClaim(claim, summary=u'Adding winner')
-        qualifierDe=pywikibot.page.Claim(site, 'P642', isQualifier=True)
-        targetQualifier = pywikibot.ItemPage(repo, qualifierNummer)
-        qualifierDe.setTarget(targetQualifier)
-        claim.addQualifier(qualifierDe)
+    if qualifierNummer!=-1:
+        if(u'P'+str(propertyNummer) in item.claims):
+            listOfWinner=item.claims.get(u'P'+str(propertyNummer))
+            itemToAdd=pywikibot.ItemPage(repo,value)
+            #look if already there as a rider can't be first, second and third at the same time
+            for ii in range(len(listOfWinner)):
+               if listOfWinner[ii].getTarget()==itemToAdd: #Already there
+                    Addc=0
+                    print('winner already in the list')
+            
+        if Addc==1:   
+            claim=pywikibot.Claim(repo, u'P'+str(propertyNummer)) 
+    
+            target = pywikibot.ItemPage(repo, value)
+            claim.setTarget(target)
+            item.addClaim(claim, summary=u'Adding winner')
+            qualifierDe=pywikibot.page.Claim(site, 'P642', isQualifier=True)
+            targetQualifier = pywikibot.ItemPage(repo, qualifierNummer)
+            qualifierDe.setTarget(targetQualifier)
+            claim.addQualifier(qualifierDe)
 
       
 def noQ(itemID):
@@ -103,22 +115,22 @@ def noQ(itemID):
 #==date==
 def compareDates(date1,date2):
     #equal to 1 if date 1 is higher than 2, otherwise 2, and 0 if equal
-    year1=date1.year
-    year2=date2.year
+    year1=int(date1.year)
+    year2=int(date2.year)
     if year1>year2:
         output=1
     elif year1<year2:
         output=2
     else:
-        month1=date1.month
-        month2=date2.month
+        month1=int(date1.month)
+        month2=int(date2.month)
         if month1>month2:
             output=1
         elif month1<month2:
             output=2
         else:
-             day1=date1.day
-             day2=date2.day
+             day1=int(date1.day)
+             day2=int(date2.day)
              if day1>day2:
                  output=1
              elif day1<day2:

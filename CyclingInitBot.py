@@ -29,31 +29,31 @@ def main():
     [proteamTable, proendkk]=ProTeamTable()
     [amateurteamTable, amateurendkk]=AmateurTeamTable()
    # [teamTable, endkk]=nationalTeamTable()
-    selector=12
+    selector=13
 
     if selector==0:
         Nationalteamcreator(pywikibot,site,repo,time,teamTable,endkk)
     elif selector==1:
         ManOrWoman=u'woman'
         Option=u'clmon' #'clmoff'
-        startYear=2018
-        EndYear=2019
-        Country=u'IRI'        
+        startYear=1995
+        EndYear=2010
+        Country=u'NZL'        
         NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWoman,Option, startYear,EndYear,Country)
     elif selector==2:
-        StageRaceName=u"Tour féminin du Guatemala"
+        StageRaceName=u"Tour du Costa Rica féminin"
         StageRaceGenre=u'du ' #+space
-        StageRaceMasterId=55739408
+        StageRaceMasterId=16960754
         Year=2018
         UCI=u"yes"
-        StageRaceBegin=pywikibot.WbTime(site=site,year=Year, month=8, day=2, precision='day')
-        StageRaceEnd=pywikibot.WbTime(site=site,year=Year, month=8, day=5, precision='day')
+        StageRaceBegin=pywikibot.WbTime(site=site,year=Year, month=11, day=7, precision='day')
+        StageRaceEnd=pywikibot.WbTime(site=site,year=Year, month=11, day=9, precision='day')
         FirstStage=1
-        LastStage=4
-        CountryCIO=u'GUA'
+        LastStage=3
+        CountryCIO=u'CRC'
         StageRaceCreator(pywikibot,site,repo,time,teamTable,StageRaceName,StageRaceGenre,StageRaceMasterId,Year,UCI,StageRaceBegin,StageRaceEnd,FirstStage,LastStage,CountryCIO)
     elif selector==3:
-        IdTeamPage=u'Q47089126'
+        IdTeamPage=u'Q57983448'
         TeamOrOther=u'Team'
         nameSorter(pywikibot,site,repo,time, IdTeamPage, TeamOrOther)
     elif selector==4:
@@ -69,7 +69,7 @@ def main():
     elif selector==7:
         calendarSymmetrizerMass(pywikibot,site,repo,time)
     elif selector==8: 
-       proamateur=0 #1 is pro
+       proamateur=1 #1 is pro
        group=1 #group to create
        countrytocreate=u'GER'
        if proamateur==1:
@@ -81,22 +81,34 @@ def main():
        Option=u'clmon' #'clmoff'
        ccChampionshipCreator(pywikibot,site,repo,time,tempccTable,ccendkk,ManOrWoman, Option)
     elif selector==10:
-         StageRaceName=u"Tour de Delta féminin"
+         StageRaceName=u"Tour de Toscane féminin-Mémorial Michela Fanini"
          StageRaceGenre=u"du "
-         StageRaceMasterId=28232668
+         StageRaceMasterId=369183
          Year=2018
          UCI=u"yes"
-         StageRaceDate=pywikibot.WbTime(site=site,year=Year, month=7, day=8, precision='day')
+         StageRaceDate=pywikibot.WbTime(site=site,year=Year, month=7, day=7, precision='day')
          CountryCIO=u'CAN'
          SingleDayRaceCreator(pywikibot,site,repo,time,teamTable,StageRaceName,StageRaceGenre,StageRaceMasterId,Year,UCI,StageRaceDate,CountryCIO)
     elif selector==11:
-        RaceID='Q47035022'
-        StageOrGeneral=0  #1 == stage, #0 == general, #2 == points
+        RaceID='Q57968196'
+        StageOrGeneral=0 #1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team
         final=0
-        classificationImporter(pywikibot,site,repo,StageOrGeneral,RaceID,final)
+        separator=";"
+        maxkk=10
+        classificationImporter(pywikibot,site,repo,StageOrGeneral,RaceID,final,separator,maxkk)
     elif selector==12: 
-        year=u'2015'
-        UCIclassificationImporter(pywikibot,site,repo,year)
+        year=u'2018'
+        separator=";"
+        test=0
+        UCIclassificationImporter(pywikibot,site,repo,year,separator,test)
+    elif selector==13:
+        RaceID='Q55638555'
+        prologueorfinal=1 #0=prologue, 1=final, 2=one day race
+        separator=";"
+        chrono="on"
+        test=0
+        timeofrace=pywikibot.WbTime(site=site,year=2018, month=7, day=19, precision='day')    
+        listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separator,timeofrace,chrono,test)    
     else: 
         print('do nothing')
         

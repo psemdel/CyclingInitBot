@@ -7,11 +7,11 @@ Created on Sat Jan  6 11:48:04 2018
 from CyclingInitBotLow import *
 
 def nameParser(inputName):
-    nameTable=[u'' for x in range(8)] #[ for y in range(j)] 
+    nameTable=[u'' for x in range(12)] #[ for y in range(j)] 
     jj=0
     
     for ii in range(len(inputName)):
-        if inputName[ii]==' ':
+        if inputName[ii]==' ' or inputName[ii]=="'":
             jj=jj+1
         else:
             nameTable[jj]=nameTable[jj]+inputName[ii]
@@ -32,6 +32,33 @@ def nameInterpreter(inputName):
          familyName=completeTheName(int(index), inputName)
 
     return familyName
+
+def checkTeam(inputName):
+    temp1=inputName.find(u"equipe d'")
+    temp2=inputName.find(u"equipe des")
+    temp3=inputName.find(u"equipe du")
+    temp4=inputName.find(u"equipe de")
+    temp5=inputName.find(u"championnats d'")
+    temp6=inputName.find(u"championnats des")
+    temp7=inputName.find(u"championnats du")
+    temp8=inputName.find(u"championnats de")
+    outputName=u''
+    
+    if temp1!=-1 or temp2!=-1 or temp3!=-1 or temp4!=-1 or temp5!=-1 or temp6!=-1 or temp7!=-1 or temp8!=-1:
+        parsedName=nameParser(inputName)
+        for ii in range(2,11):
+            if parsedName[ii]==u'':
+                a=1
+            else:
+                if outputName==u'':
+                    outputName=parsedName[ii]
+                else:
+                    outputName=outputName+u' '+parsedName[ii]
+    else:
+        outputName=inputName
+    #print(outputName)
+    return outputName
+
 
 def completeTheName(index, inputName):
        familyName=inputName[index]
@@ -60,7 +87,8 @@ class CyclistName:
                         'i': ['î', 'ï'],
                         'u': ['ù', 'ü', 'û'],
                         'o': ['ô', 'ö'],
-                        's': ['š']}
+                        's': ['š'],
+                        'n': ['ñ']}
             for (char, accented_chars) in accents.items():
                 for accented_char in accented_chars:
                     ligne = ligne.replace(accented_char, char)
@@ -218,7 +246,7 @@ def nameSorter(pywikibot,site,repo,time,IdTeamPage, TeamOrOther):
     listeDesCyclistes=[]
     nameToParseInput=[]
     
-    if TeamOrOther==u'Team':
+    if TeamOrOther==u'Team' or TeamOrOther==u'Champ':
         propertyNumber=527 #comprend
     else:
         propertyNumber=1923 #liste des équipes participantes
@@ -254,6 +282,7 @@ def nameSorter(pywikibot,site,repo,time,IdTeamPage, TeamOrOther):
             nameToParse[ii][2]=familyName[ii]
     else: #If not human no need to do all this stuff
         for ii in range(len(nameToParse)):
+            nameToParse[ii][1]=checkTeam(nameToParse[ii][1])
             nameToParse[ii][2]=nameToParse[ii][1]
   
     sortedName=sorted(nameToParse, key=lambda tup: tup[2])
