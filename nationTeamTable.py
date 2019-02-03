@@ -556,8 +556,8 @@ def nationalTeamTable():
     teamTable[kk][7]=u'ISR'
     teamTable[kk][8]=1
     teamTable[kk][9]=2954766
-    teamTable[kk][10]=30349217
-    teamTable[kk][11]=30349232
+    teamTable[kk][10]=30349213
+    teamTable[kk][11]=30349222
     kk+=1
     
     teamTable[kk][1]=u'Italie'
@@ -610,8 +610,8 @@ def nationalTeamTable():
     teamTable[kk][7]=u'LAT'
     teamTable[kk][8]=1
     teamTable[kk][9]=1983791
-    teamTable[kk][10]=30557029
-    teamTable[kk][11]=30556202
+    teamTable[kk][10]=30556990
+    teamTable[kk][11]=30556121
     kk+=1
     
     teamTable[kk][1]=u'Lituanie'
@@ -695,7 +695,7 @@ def nationalTeamTable():
     
     teamTable[kk][1]=u'Pays-Bas'
     teamTable[kk][2]=u"des "
-    teamTable[kk][3]=55
+    teamTable[kk][3]=29999
     teamTable[kk][4]=27701263
     teamTable[kk][5]=u'Netherland'
     teamTable[kk][6]=u'Netherlands'
@@ -914,6 +914,19 @@ def nationalTeamTable():
     teamTable[kk][9]=2465478
     teamTable[kk][10]=30349432
     teamTable[kk][11]=30349441
+    kk+=1
+    
+    teamTable[kk][1]=u'Thaïlande'
+    teamTable[kk][2]=u"de "
+    teamTable[kk][3]=869
+    teamTable[kk][4]=34009293
+    teamTable[kk][5]=u'Thaïland'
+    teamTable[kk][6]=u'Thailandese'
+    teamTable[kk][7]=u'THA'
+    teamTable[kk][8]=2
+    teamTable[kk][9]=17624418
+    teamTable[kk][10]=60883855
+    teamTable[kk][11]=60883940
     kk+=1
     
     teamTable[kk][1]=u'Taïwan'

@@ -21,7 +21,7 @@ def SingleDayRaceBasic(pywikibot,repo,item,siteIn,country_code,Master, Date, UCI
         
    
 
-def SingleDayRaceCreator(pywikibot,site,repo,time,teamTableFemmes,StageRaceName,StageRaceGenre,StageRaceMasterId,Year,UCI,StageRaceDate,CountryCIO):   
+def SingleDayRaceCreator(pywikibot,site,repo,time,teamTableFemmes,StageRaceName,StageRaceGenre,StageRaceMasterId,Year,UCI,StageRaceDate,CountryCIO,Class):   
     mydescription={}
     
     mylabel={}
@@ -41,11 +41,22 @@ def SingleDayRaceCreator(pywikibot,site,repo,time,teamTableFemmes,StageRaceName,
     item.get()
     
     if get_description('fr',item)=='':
-        mydescription[u'fr']=u'édition ' + str(Year) + StageRaceGenre + StageRaceName
+        mydescription[u'fr']=u'édition ' + str(Year) + " "+StageRaceGenre + StageRaceName
         item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
     
     SingleDayRaceBasic(pywikibot,repo,item,site,CIOtoIDsearch(teamTableFemmes, CountryCIO),StageRaceMasterId,StageRaceDate, UCI, Year)
     
+    if Class==11:
+        ClassId=22231110
+    elif Class==21:
+        ClassId=22231112
+    elif Class==12:
+        ClassId=22231111
+    elif Class==22:
+        ClassId=22231113
+        
+    if ClassId:
+        addMultipleValue(pywikibot,repo,item,31,ClassId,u'Class',0)
     #Search previous
     Yearprevious= Year-1
     mylabelprevious=StageRaceName + " " + str(Yearprevious)

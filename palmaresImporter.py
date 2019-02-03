@@ -26,54 +26,33 @@ def palmaresImporter():
     [pywikibot,site,repo,time]=wikiinit()
     
     inputstr="""
-    |1993||[[Ildiko Paczova]]||[[Lenka Ilavská]]||[[Iveta Sitarova]]
+    |-
+| 2007 || [[Grete Treier]] || [[Maaris Meier]] || [[Laura Lepasalu]]
 |-
-|1993||[[Ildiko Paczova]]||[[Lenka Ilavská]]||[[Iveta Sitarova]]
+| 2007 || [[Grete Treier]] || [[Maaris Meier]] || [[Laura Lepasalu]]
 |-
-|1994||[[Lenka Ilavská]]||[[Elena Barillova]]||[[Jaroslava Komankova]]
+| 2008 || [[Grete Treier]] || [[Laura Lepasalu]] || [[Liisa Ehrberg]] 
 |-
-|1995||[[Eva Orvošová]]||[[Jaroslava Komankova]]||[[Jana Nikova]]
+| 2009 || [[Maaris Meier]] || [[Liisa Ehrberg]]  || [[Daisi Rist]]
 |-
-|1996||[[Lenka Ilavská]]||[[Elena Barillova]]||[[Jaroslava Komankova]]
+| 2010 || [[Grete Treier]] || [[Liisa Ehrberg]]  || [[Kristel Koort]]
 |-
-|1997||[[Lenka Ilavská]]||[[Ildiko Paczova]]||[[Zlatica Bazola-Gavlakova]]
+| 2011 || [[Grete Treier]] || [[Liisi Rist]]  || [[Kristel Koort]]
 |-
-|1998||[[Lenka Ilavská]]||[[Elena Barillova]]||[[Jaroslava Komankova]]
+| 2012 || [[Grete Treier]] || [[Liisi Rist]]  || [[Liisa Ehrberg]]
 |-
-|1999||[[Lenka Ilavská]]||[[Elena Barillova]]||[[Janette Bohmova]]
+| 2013 || [[Liisi Rist]] || [[Kristel Koort]] || [[Liisa Ehrberg]]
 |-
-|2000||[[Zlatica Bazola-Gavlakova]]||[[Elena Barillova]]||[[Janka Stevkova]]
+| 2014 || [[Liisi Rist]] || [[Liisa Ehrberg]] || [[Kristel Koort]]
 |-
-|2001||[[Lenka Ilavská]]||[[Zlatica Bazola-Gavlakova]]||[[Janka Stevkova]]
+| 2015 || [[Liisa Ehrberg]] || [[Liisi Rist]] || [[Kelly Kalm]]
 |-
-|2002||[[Zlatica Bazola-Gavlakova]]||[[Alena Buresova]]||[[Katarina Lehocka]]
+| 2016 || [[Kelly Kalm]] || [[Janelle Uikoband]] || [[Mae Lang]]
 |-
-|2006||[[Zuzana Vojtasova]]||[[Zuzana Vojtasova]]||[[Zuzana Vojtasova]]
-|-
-|2007||[[Katarina Uhlarikova]]||[[Zuzana Vojtasova]]||[[Zuzana Vojtasova]]
-|-
-|2008||[[Eva Potocna ]]||[[Katarina Uhlarikova]]||[[Katarina Uhlarikova]]
-|-
-|2009||[[Alzbeta Pavlendova]]||[[Monika Kadlecova ]]||[[Katarina Uhlariková]]
-|-
-|2010||[[Katarina Uhlariková]]||[[Alzbeta Pavlendová]]||[[Monika Kadlecová]]
-|-
-|2011||[[Janka Števková]]||[[Monika Kadlecová]]||[[Julia Jurcová]]
-|-
-|2012||[[Alžbeta Pavlendová]]||[[Monika Kadlecová]]||[[Livia Hanesová]]
-|-
-|2013||[[Monika Kadlecova]]||[[Livia Hanesova]]||[[Andrea Juhasova]]
-|-
-|2014||[[Monika Kadlecova]]||[[Lubica Dadova]]||[[Alžbeta Pavlendová]]
-|-
-|2015||[[Alžbeta Pavlendová]]||[[Tereza Medvedova]]||[[Livia Hanesova]]
-|-
-|2016||[[Janka Stevkova]]||[[Livia Hanesova]]||[[Tereza Medvedova]]
-|-
-|2017|| [[Alžbeta Pavlendová]] || [[Janka Stevkova]] || [[Tereza Medvedova]]
+| 2017 || [[Kelly Kalm]] || [[Mathilde Nigul]] || [[Merili Sirvel]]
  """
  
-    championshipID='Q45171831'
+    championshipID='Q43745198'
     
     #inputstr=input()
     tableOfwinner=palmaresParsing(inputstr)
@@ -164,20 +143,19 @@ def wikidataelementAnalyser(pywikibot,site,tableOfwinner):
         print(str(counterrepeat)+' riders found several times')
         
     return counter, counterrepeat, tableOfwinnerOut
-    
-def riderFastInit():
+   
+
+def riderFastInit(name,description,CountryCIO):
    [pywikibot,site,repo,time]=wikiinit()
    mydescription={}
    label={}
  
-   Name=u"Eline Coudeville"
-   mydescription['fr']=u'Coureuse cycliste amateur belge'
-   label['fr']=Name
+   mydescription['fr']=description
+   label['fr']=name
    
   ## kkinit=teamCIOsearch(teamTableFemmes, u'NAM')
-   CountryCIO=u'BEL'
    kk=teamCIOsearch(teamTableFemmes, CountryCIO)
-   Idrider=searchItem(pywikibot,site,Name)
+   Idrider=searchItem(pywikibot,site,name)
 
    if (Idrider==u'Q0'):  #no rider with this name  
        Id = create_item(pywikibot,site, label)

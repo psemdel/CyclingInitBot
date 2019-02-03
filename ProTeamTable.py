@@ -249,12 +249,12 @@ def ProTeamTable():
     teamTable[kk][6]=0
     kk+=1     
     
-    teamTable[kk][1]=u"Servetto-Stradalli Cycle"
+    teamTable[kk][1]=u"Servetto-Piumate-Beltrami TSA"
     teamTable[kk][2]=17011701
     teamTable[kk][3]=u'ITA'
     teamTable[kk][4]=u'SER'
     teamTable[kk][5]=2
-    teamTable[kk][6]=0
+    teamTable[kk][6]=1
     kk+=1       
     
     teamTable[kk][1]=u"Sho-Air Twenty20"
@@ -350,7 +350,7 @@ def ProTeamTable():
     teamTable[kk][3]=u'ITA'
     teamTable[kk][4]=u'VAL'
     teamTable[kk][5]=2
-    teamTable[kk][6]=1
+    teamTable[kk][6]=0
     kk+=1 
 
     teamTable[kk][1]=u"Virtu Cycling Women"

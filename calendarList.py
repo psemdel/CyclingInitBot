@@ -57,10 +57,11 @@ def calendaruciID(year):
         calendarID="Q3650627"	
     elif year == "2006": 
         calendarID="Q16154659"  
+    elif year == "2019":
+        calendarID="Q57267790"
     else:
         calendarID="Q0"
-        
-    print(calendarID)
+
     return calendarID
 
          
