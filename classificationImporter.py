@@ -17,26 +17,12 @@ def timeconverter(input):
         return 0
     else:
         timesplit=input.split(":")
-        return int(timesplit[0])*3600+int(timesplit[1])*60+int(timesplit[2])
+        if len(timesplit)==3:
+            return int(timesplit[0])*3600+int(timesplit[1])*60+int(timesplit[2])
+        else:
+            return int(int(timesplit[0])*60+int(timesplit[1]))
 
-def listofteam():
-    teamList = [[0 for x in range(2)] for y in range(100)] 
-    kk = 1
-    
-    teamList[kk][0]=u'CANYON // SRAM RACING'   
-    teamList[kk][1]=u'Q45536829'
-    kk+=1    
-    teamList[kk][0]=u'WIGGLE HIGH5'   
-    teamList[kk][1]=u'Q47034223'
-    kk+=1       
-    teamList[kk][0]=u'WAOWDEALS PRO CYCLING TEAM'   
-    teamList[kk][1]=u'Q45900995'
-    kk+=1   
-    teamList[kk][0]=u'MITCHELTON SCOTT'   
-    teamList[kk][1]=u'Q43144477'
-    kk+=1  
-
-def searchRider(pywikibot,site,resulttable,kk,reversename):
+def searchRider(pywikibot,site,repo,resulttable,kk,reversename):
     if reversename==1:
         nameTable=[u'' for x in range(8)] #[ for y in range(j)] 
         jj=0
@@ -78,7 +64,7 @@ def searchRider(pywikibot,site,resulttable,kk,reversename):
     else:
       return '0'
     #no exception
-    RiderID=searchItem(pywikibot,site, RiderName )
+    RiderID=searchItemRider(pywikibot,site,repo, RiderName )
     if RiderID=='Q0':
         print(RiderName +' not found')
         return '0'
@@ -105,22 +91,6 @@ def searchTeam(pywikibot,site,resulttable,kk,column):
         return '0'
     else:
         return TeamID
-    
-def listOfTeamException():  
-    exceptionTable = [[0 for x in range(2)] for y in range(100)] 
-    kk = 1
-    
-    exceptionTable[kk][0]=u'ORS 2017'   
-    exceptionTable[kk][1]=u'Q27865610'
-    kk+=1
-    exceptionTable[kk][0]=u'SUN 2017'   
-    exceptionTable[kk][1]=u'Q28133168'
-    kk+=1
-    exceptionTable[kk][0]=u'LSL 2017'   
-    exceptionTable[kk][1]=u'Q28047488'
-    kk+=1
-    
-    return exceptionTable
 
 def UCIclassificationImporter(pywikibot,site,repo,year, separator,test): #
     resulttable = [[0 for x in range(10)] for y in range(1000)] 
@@ -180,8 +150,8 @@ def UCIclassificationImporter(pywikibot,site,repo,year, separator,test): #
             TeamID='0'
             RiderID='0'
             if resulttable[nn][5]!=0:
-                TeamID=searchTeam(pywikibot,site,resulttable,nn,5)
-                RiderID=searchRider(pywikibot,site,resulttable,nn,reversename)
+                TeamID=searchTeam(pywikibot,site,resulttable,nn,6)
+                RiderID=searchRider(pywikibot,site,repo,resulttable,nn,reversename)
             if RiderID!='0' and TeamID!='0' and test==0:
                item =pywikibot.ItemPage(repo, TeamID)
                item.get()
@@ -210,7 +180,7 @@ def UCIclassificationImporter(pywikibot,site,repo,year, separator,test): #
                    claim.addQualifier(qualifierPoints)
     
 
-def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, separator,maxkk):
+def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, separator,maxkk,year):
     filepath='C:\temp\Result\Results.csv'
     #For Europa
     resulttable = [[0 for x in range(20)] for y in range(20)] 
@@ -223,7 +193,6 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
     pointsrow=-1
     teamcoderow=-1
     reversename=0
-    year=2018
     
     with open('Results.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=separator, quotechar='|')
@@ -265,17 +234,22 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
                 if pointsrow==-1 and resultrow!=-1: #sometimes the points are in result
                     pointsrow=resultrow
   
-                if GeneralOrStage==2 or GeneralOrStage==3: #points or mountains
+                if GeneralOrStage==2 or GeneralOrStage==3 or GeneralOrStage==6 or GeneralOrStage==7: #points or mountains
                     resulttable[kk-1][4]=float(row[pointsrow].replace(",",".")) #points
                 else:
-                    resulttable[kk-1][4]=timeconverter(row[resultrow]) #time
                     if kk==1:
+                        resulttable[kk-1][4]=timeconverter(row[resultrow]) #time
                         resulttable[kk-1][5]=0 #ecart
                     else:
-                        if resulttable[kk-1][4]==0:
-                            resulttable[kk-1][5]=0
+                        if row[resultrow].find("+")==0:
+                            temp=row[resultrow][1:]
+                            resulttable[kk-1][5]=timeconverter(temp)
                         else:
-                            resulttable[kk-1][5]=resulttable[kk-1][4]-resulttable[0][4]
+                            resulttable[kk-1][4]=timeconverter(row[resultrow]) #time
+                            if resulttable[kk-1][4]==0:
+                                resulttable[kk-1][5]=0
+                            else:
+                                resulttable[kk-1][5]=resulttable[kk-1][4]-resulttable[0][4]
             kk=kk+1
     item =pywikibot.ItemPage(repo, RaceID)
     item.get()
@@ -286,14 +260,15 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
         propertyNummer='3494'  #points
     elif GeneralOrStage==3:    
         propertyNummer='4320'  #mountains
-    elif GeneralOrStage==4:    
+    elif GeneralOrStage==4 or GeneralOrStage==7:    
         propertyNummer='4323'#youth 
     elif GeneralOrStage==5:    
-        propertyNummer='3497'   
+        propertyNummer='3497'#teamtime
+    elif GeneralOrStage==6:    
+        propertyNummer='3496'#team points   
     else: #0
         propertyNummer='2321'  #general
     
-    #print(resulttable)
     test=0
     if test==0:
         if(u'P'+str(propertyNummer) in item.claims):  #already there do nothing
@@ -302,12 +277,13 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
             claim=pywikibot.Claim(repo, u'P'+str(propertyNummer))  
             kk=0
             while kk<maxkk:
-                if GeneralOrStage==5: #team
+                if GeneralOrStage==5 or GeneralOrStage==6: #team
                     TeamID=searchTeam(pywikibot,site,resulttable,kk,6)
                     RiderID=TeamID
                 else:
-                    RiderID=searchRider(pywikibot,site,resulttable,kk,reversename)
+                    RiderID=searchRider(pywikibot,site,repo,resulttable,kk,reversename)
                 if RiderID!='0':
+                   claim=pywikibot.Claim(repo, u'P'+str(propertyNummer))  
                    target = pywikibot.ItemPage(repo, RiderID)
                    claim.setTarget(target)
                    item.addClaim(claim, summary=u'Adding classification')
@@ -315,7 +291,7 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
                    targetQualifier =  pywikibot.WbQuantity(amount=int(resulttable[kk][0]), site=repo)
                    qualifierRank.setTarget(targetQualifier)
                    claim.addQualifier(qualifierRank)
-                   if GeneralOrStage==2 or GeneralOrStage==3:
+                   if GeneralOrStage==2 or GeneralOrStage==3 or GeneralOrStage==6 or GeneralOrStage==7:
                        qualifierPoints=pywikibot.page.Claim(site, 'P1358', isQualifier=True)
                        targetQualifier = pywikibot.WbQuantity(amount=int(resulttable[kk][4]), site=repo)
                        qualifierPoints.setTarget(targetQualifier)
@@ -365,27 +341,27 @@ def riderTricot(pywikibot,site,repo,riderID,timeOfRace,claim,chrono):
                 if row[6]==riderID:
                     #the rider won once champ on road
                     timeroad=pywikibot.WbTime(site=site,year=row[5], month=row[4], day=row[3], precision='day')    
-                    if compareDates(timeOfRace,timeroad)==1: #if race after championship
-                        if  timeroad.year>(timeOfRace.year+1): #if race too after championship
-                            a=1
-                        else:  #interesting case
+                    #timeOfRace>timeofroad and timeOfRace<=timeofroad+1 year
+                    if compareDates(timeOfRace,timeroad)==1 and timeOfRace.year<=(timeroad.year+1): #if race after championship
+                        print(timeroad.year)
+                        print(timeOfRace.year)
+                        if u'Q934877'==row[2]:
+                            worldroadchamp=row[2]
+                        elif u'Q30894544'==row[2]:
+                            eurroadchamp=row[2]
+                        else:
+                            roadchamp=row[2]
+                        if timeroad.year==timeOfRace.year:  #then it is clear
                             if u'Q934877'==row[2]:
-                                worldroadchamp=row[2]
+                                isworldroadchamp=1
                             elif u'Q30894544'==row[2]:
-                                eurroadchamp=row[2]
+                                iseurroadchamp=1
                             else:
-                                roadchamp=row[2]
-                            if timeroad.year==timeOfRace.year:  #then it is clear
-                                if u'Q934877'==row[2]:
-                                    isworldroadchamp=1
-                                elif u'Q30894544'==row[2]:
-                                    iseurroadchamp=1
-                                else:
-                                    isroadchamp=1
+                                isroadchamp=1
                 if row[13]==riderID:
                     timeclm=pywikibot.WbTime(site=site,year=row[12], month=row[11], day=row[10], precision='day')    
                     if compareDates(timeOfRace,timeclm)==1:
-                        if timeclm.year>(timeOfRace.year+1):
+                        if timeclm.year>(timeOfRace.year):
                             a=1
                         else:
                             if u'Q2630733'==row[9]:
@@ -559,7 +535,7 @@ def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separa
     #check if all riders are already present
     if test==1:
         for kk in range(len(resulttable)):
-            RiderID=searchRider(pywikibot,site,resulttable,kk,reversename)
+            RiderID=searchRider(pywikibot,site,repo,resulttable,kk,reversename)
 
     #print(resulttable)
     alreadylist=0
@@ -574,7 +550,7 @@ def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separa
             if prologueorfinal==1:
                 listOfcomprendbool=[0 for x in range(len(listOfcomprend))] 
             for kk in range(len(resulttable)):
-                RiderID=searchRider(pywikibot,site,resulttable,kk,reversename)
+                RiderID=searchRider(pywikibot,site,repo,resulttable,kk,reversename)
                 if RiderID!='0':
                     target = pywikibot.ItemPage(repo, RiderID)
                     #look for it

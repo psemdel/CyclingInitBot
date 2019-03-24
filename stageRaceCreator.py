@@ -8,35 +8,35 @@ from CyclingInitBotLow import *
 from symmetrizer import *
 
 def StageRaceBasic(pywikibot,repo,item,siteIn,country_code,Master,StartDate, EndDate, UCI, year):
-#No need for the table here    
-       
-    addValue(pywikibot,repo,item,31,Master,u'Nature') 
+#No need for the table here
+
+    addValue(pywikibot,repo,item,31,Master,u'Nature')
     addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
-    addValue(pywikibot,repo,item,17,country_code,u'country') 
+    addValue(pywikibot,repo,item,17,country_code,u'country')
 
     addDate(pywikibot,repo,item,580,StartDate,u'starting date')
     addDate(pywikibot,repo,item,582,EndDate,u'ending date')
-    
+
     if UCI==u"yes":
         calendarID=calendaruciID(str(year))
         addValue(pywikibot,repo,item,361,noQ(calendarID),u'part of') #
-        
+
 def StageBasic(pywikibot,repo,item,site,Number,country_code,Master,inputDate):
 
     if Number==0:
         addValue(pywikibot,repo,item,31,485321,u'Nature')  #prologue
     else:
-        addValue(pywikibot,repo,item,31,18131152,u'Nature')  #étape   
-    
+        addValue(pywikibot,repo,item,31,18131152,u'Nature')  #étape
+
     addValue(pywikibot,repo,item,361,Master,u'part of')
     addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
-    addValue(pywikibot,repo,item,17,country_code,u'country') 
+    addValue(pywikibot,repo,item,17,country_code,u'country')
     addValue(pywikibot,repo,item,1545,str(Number),u'order')
-    #StageRaceBegin later 
-    
+    #StageRaceBegin later
+
 
 def DateFinder(pywikibot,repo,site,Number,FirstStage,LastStage, StageRaceBegin,StageRaceEnd):
-    
+
     daysInMonth = [0 for x in range(13)] #Start at 1
     daysInMonth[1]=31
     daysInMonth[2]=28
@@ -76,101 +76,113 @@ def DateFinder(pywikibot,repo,site,Number,FirstStage,LastStage, StageRaceBegin,S
          OutputDate.month=monthTemp
          OutputDate.year=yearTemp
 
-    return OutputDate         
-         
+    return OutputDate
+
 
 def StageLabel(Number, Genre, StageRaceName, Year):
     mylabel={}
-        
+
     if Number==0:
         label_part1_fr = u"Prologue"
     elif Number==1:
         label_part1_fr = u"1re étape"
     else:
         label_part1_fr = str(Number)+u"e étape"
-        
+
     mylabel[u'fr']= label_part1_fr+" " + Genre + StageRaceName + " "+ str(Year)
     return mylabel
 
 
 def StageRaceCreator(pywikibot,site,repo,time,teamTableFemmes,StageRaceName,StageRaceGenre,StageRaceMasterId,
-                     Year,UCI,StageRaceBegin,StageRaceEnd,FirstStage,LastStage,CountryCIO,Createstage,Class):   
+                     Year,UCI,StageRaceBegin,StageRaceEnd,FirstStage,LastStage,CountryCIO,Createstage,Class,Onlystages,StageRaceId):
+    #StageRaceEnd=pywikibot.WbTime(site=siteIn,year=2017, month=1, day=1, precision='day')
+
+    #Create Item
+   ## kk=teamCIOsearch(teamTableFemmes, CountryCIO)
+
     mydescription={}
     #StageRaceEnd=pywikibot.WbTime(site=siteIn,year=2017, month=1, day=1, precision='day')
     
     #Create Item
    ## kk=teamCIOsearch(teamTableFemmes, CountryCIO)
-    
-    mylabel={}
-    mylabel[u'fr']=StageRaceName + " " + str(Year)
-    
-    Idpresent=searchItem(pywikibot,site,mylabel['fr'])
-    if (Idpresent==u'Q0'):
-        print(mylabel[u'fr']+' created')
-            #Type code
-        Idpresent = create_item(pywikibot,site, mylabel)
-    elif (Idpresent==u'Q1'):
-        print(mylabel['fr']+' already present several times')
-    else:    
-        print(mylabel['fr']+' already present')
-
-    item =pywikibot.ItemPage(repo, Idpresent)
-    item.get()
-    
-    if get_description('fr',item)=='':
-        mydescription[u'fr']=u'édition ' + str(Year) +" "+ StageRaceGenre + StageRaceName
-        item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
-    
-    StageRaceBasic(pywikibot,repo,item,site,CIOtoIDsearch(teamTableFemmes, CountryCIO),StageRaceMasterId,StageRaceBegin,StageRaceEnd, UCI, Year)
-    
-    if Class==11:
-        ClassId=22231110
-    elif Class==21:
-        ClassId=22231112
-    elif Class==12:
-        ClassId=22231111
-    elif Class==22:
-        ClassId=22231113
+    Createmain=u"yes"
+    if Onlystages=='yes':
+       Createmain=u'no'
+       Idpresent=u'Q'+ str(StageRaceId)
+       item =pywikibot.ItemPage(repo, Idpresent)
+       item.get()   
+   
+    if Createmain==u"yes":
+        mylabel={}
+        mylabel[u'fr']=StageRaceName + " " + str(Year)
         
-    if ClassId:
-        addMultipleValue(pywikibot,repo,item,31,ClassId,u'Class',0)
+        Idpresent=searchItem(pywikibot,site,mylabel['fr'])
+        if (Idpresent==u'Q0'):
+            print(mylabel[u'fr']+' created')
+                #Type code
+            Idpresent = create_item(pywikibot,site, mylabel)
+        elif (Idpresent==u'Q1'):
+            print(mylabel['fr']+' already present several times')
+        else:    
+            print(mylabel['fr']+' already present')
     
-    #Search previous
-    Yearprevious= Year-1
-    mylabelprevious=StageRaceName + " " + str(Yearprevious)
-    Idprevious=searchItem(pywikibot,site,mylabelprevious)
-    if (Idprevious==u'Q0')or(Idprevious==u'Q1'):  #no previous or several
-       a=1
-    else:
-        addValue(pywikibot,repo,item,155,noQ(Idprevious),u'link previous') 
-            #Link to the previous
-        itemPrevious=pywikibot.ItemPage(repo, Idprevious)
-        itemPrevious.get()
-        addValue(pywikibot,repo,itemPrevious,156,noQ(Idpresent),u'link next')
-             
-    #Search next   
-    Yearnext= Year+1
-    mylabelnext=StageRaceName + " " + str(Yearnext)
-    Idnext=searchItem(pywikibot,site,mylabelnext)
-    
-    time.sleep(1.0)
-    if (Idnext==u'Q0')or(Idnext==u'Q1'):  #no next or 
-        a=1
-    else:
-       addValue(pywikibot,repo,item,156,noQ(Idnext),u'link next')  
-       #Link to the next
-       itemNext=pywikibot.ItemPage(repo, Idnext)
-       itemNext.get()
-       addValue(pywikibot,repo,itemNext,155,noQ(Idpresent),u'link previous')
-    
-    #link to master
-    itemMaster= pywikibot.ItemPage(repo, u'Q'+ str(StageRaceMasterId))
-    itemMaster.get()
-    addMultipleValue(pywikibot,repo,itemMaster,527,noQ(Idpresent),u'link year '+ str(Year),0) 
+        item =pywikibot.ItemPage(repo, Idpresent)
+        item.get()
+        
+        if get_description('fr',item)=='':
+            mydescription[u'fr']=u'édition ' + str(Year) +" "+ StageRaceGenre + StageRaceName
+            item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
+        
+        StageRaceBasic(pywikibot,repo,item,site,CIOtoIDsearch(teamTableFemmes, CountryCIO),StageRaceMasterId,StageRaceBegin,StageRaceEnd, UCI, Year)
+        
+        if Class==11:
+            ClassId=22231110
+        elif Class==21:
+            ClassId=22231112
+        elif Class==12:
+            ClassId=22231111
+        elif Class==22:
+            ClassId=22231113
+            
+        if ClassId:
+            addMultipleValue(pywikibot,repo,item,31,ClassId,u'Class',0)
+        
+        #Search previous
+        Yearprevious= Year-1
+        mylabelprevious=StageRaceName + " " + str(Yearprevious)
+        Idprevious=searchItem(pywikibot,site,mylabelprevious)
+        if (Idprevious==u'Q0')or(Idprevious==u'Q1'):  #no previous or several
+           a=1
+        else:
+            addValue(pywikibot,repo,item,155,noQ(Idprevious),u'link previous') 
+                #Link to the previous
+            itemPrevious=pywikibot.ItemPage(repo, Idprevious)
+            itemPrevious.get()
+            addValue(pywikibot,repo,itemPrevious,156,noQ(Idpresent),u'link next')
+                 
+        #Search next   
+        Yearnext= Year+1
+        mylabelnext=StageRaceName + " " + str(Yearnext)
+        Idnext=searchItem(pywikibot,site,mylabelnext)
+        
+        time.sleep(1.0)
+        if (Idnext==u'Q0')or(Idnext==u'Q1'):  #no next or 
+            a=1
+        else:
+           addValue(pywikibot,repo,item,156,noQ(Idnext),u'link next')  
+           #Link to the next
+           itemNext=pywikibot.ItemPage(repo, Idnext)
+           itemNext.get()
+           addValue(pywikibot,repo,itemNext,155,noQ(Idpresent),u'link previous')
+        
+        #link to master
+        itemMaster= pywikibot.ItemPage(repo, u'Q'+ str(StageRaceMasterId))
+        itemMaster.get()
+        addMultipleValue(pywikibot,repo,itemMaster,527,noQ(Idpresent),u'link year '+ str(Year),0) 
     
     #Create the stages
-    stageLabel={}  
-    if Createstage==u"yes":        
+    if Createstage==u"yes" or Onlystages==u'yes':   
+        stageLabel={}  
         for ii in range(FirstStage,LastStage+1):
             stageLabel=StageLabel(ii, StageRaceGenre, StageRaceName, Year)
             
@@ -224,6 +236,5 @@ def StageRaceCreator(pywikibot,site,repo,time,teamTableFemmes,StageRaceName,Stag
             addMultipleValue(pywikibot,repo,item,527,noQ(IdStagepresent),u'link stage '+str(ii),0) 
             #Link to next
             #Not required 
-  
 
-    
+

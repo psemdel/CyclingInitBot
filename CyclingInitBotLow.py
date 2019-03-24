@@ -141,6 +141,42 @@ def compareDates(date1,date2):
 
 
 #==Search ==
+def isitacyclist(pywikibot,repo,itemId):
+    item =pywikibot.ItemPage(repo, itemId)
+    item.get()
+    if(u'P106' in item.claims):  #already there do nothing
+        listOfoccupation=item.claims.get(u'P106')
+        cyclistoccupation=pywikibot.ItemPage(repo,u'Q2309784')
+        for ii in range(len(listOfoccupation)):
+            if listOfoccupation[ii].getTarget()==cyclistoccupation: #Already there
+                return 1
+    return 0   
+
+def searchItemRider(pywikibot,site,repo,search_string):
+    from pywikibot.data import api
+    wikidataEntries =getItems(api, site, search_string)
+    temp=0
+    resultId=0
+    if(u'search-continue' in wikidataEntries):
+        #several results
+        wikidataSearchresult= wikidataEntries['search']
+        for ii in range(len(wikidataSearchresult)):
+            wikidataSearchresult1=wikidataSearchresult[ii]
+            tempId=wikidataSearchresult1['id']
+            temp=isitacyclist(pywikibot,repo,tempId)
+            if temp==1:
+                resultId=tempId
+        if resultId==0:
+            resultId=u'Q1'
+    elif(wikidataEntries['search']==[]):
+        #no result
+        resultId=u'Q0'
+    else:
+        wikidataSearchresult= wikidataEntries['search']
+        wikidataSearchresult1=wikidataSearchresult[0]
+        resultId=wikidataSearchresult1['id']
+    return resultId
+
 def searchItem(pywikibot,site,search_string):
     from pywikibot.data import api
     wikidataEntries =getItems(api, site, search_string)

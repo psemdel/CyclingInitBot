@@ -119,7 +119,7 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWo
         IndexClmRace=11
         
     #print(kkinit)
-    for kk in range(kkinit,endkk):  #endkk
+    for kk in range(kkinit,kkinit+1):  #endkk
     ##kk=kkinit
         ##if 1==1:
         group=teamTable[kk][8]

@@ -254,7 +254,7 @@ def ProTeamTable():
     teamTable[kk][3]=u'ITA'
     teamTable[kk][4]=u'SER'
     teamTable[kk][5]=2
-    teamTable[kk][6]=1
+    teamTable[kk][6]=0
     kk+=1       
     
     teamTable[kk][1]=u"Sho-Air Twenty20"
@@ -280,6 +280,7 @@ def ProTeamTable():
     teamTable[kk][5]=2
     teamTable[kk][6]=0
     kk+=1 
+    
 
     teamTable[kk][1]=u"Sunweb Women"
     teamTable[kk][2]=2292295
@@ -310,7 +311,7 @@ def ProTeamTable():
     teamTable[kk][3]=u'THA'
     teamTable[kk][4]=u'TWC'
     teamTable[kk][5]=2
-    teamTable[kk][6]=0
+    teamTable[kk][6]=1
     kk+=1      
     
     teamTable[kk][1]=u"Tibco-Silicon Valley Bank"
@@ -479,7 +480,7 @@ def AmateurTeamTable():
     teamTable[kk][2]=28829872
     teamTable[kk][3]=u'BEL'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0    
+    teamTable[kk][5]=0  
     kk+=1
     
     
@@ -490,13 +491,27 @@ def AmateurTeamTable():
     teamTable[kk][5]=0       
     kk+=1
     
+    teamTable[kk][1]=u"Illi-Bikes Women"
+    teamTable[kk][2]=61507365
+    teamTable[kk][3]=u'BEL'
+    teamTable[kk][4]=1
+    teamTable[kk][5]=0
+    kk+=1  	
+
+    teamTable[kk][1]=u"Rogelli-Gyproc"
+    teamTable[kk][2]=61747858
+    teamTable[kk][3]=u'BEL'
+    teamTable[kk][4]=1
+    teamTable[kk][5]=0
+    kk+=1 
+
     
     #Pays-Bas
     teamTable[kk][1]=u"Adelaar Ladies"
     teamTable[kk][2]=28942865
     teamTable[kk][3]=u'NED'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0    
+    teamTable[kk][5]=0
     kk+=1
     
     
@@ -504,13 +519,13 @@ def AmateurTeamTable():
     teamTable[kk][2]=28830557
     teamTable[kk][3]=u'NED'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0    
+    teamTable[kk][5]=0   
     kk+=1
     teamTable[kk][1]=u"Jan van Arckel"
     teamTable[kk][2]=28829796
     teamTable[kk][3]=u'NED'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0  
+    teamTable[kk][5]=0
     kk+=1
     teamTable[kk][1]=u"Maaslandster Veris CCN"
     teamTable[kk][2]=47505799
@@ -523,7 +538,7 @@ def AmateurTeamTable():
     teamTable[kk][2]=28942869
     teamTable[kk][3]=u'NED'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0  
+    teamTable[kk][5]=0
     kk+=1
     
     teamTable[kk][1]=u"Regioteam Noord-Holland Dames"
@@ -538,7 +553,7 @@ def AmateurTeamTable():
     teamTable[kk][2]=29550954
     teamTable[kk][3]=u'NED'
     teamTable[kk][4]=2
-    teamTable[kk][5]=0 
+    teamTable[kk][5]=0
     kk+=1
     
     teamTable[kk][1]=u"RWC Ahoy"
@@ -552,14 +567,14 @@ def AmateurTeamTable():
     teamTable[kk][2]=28869582
     teamTable[kk][3]=u'NED'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0 
+    teamTable[kk][5]=0
     kk+=1
     
     teamTable[kk][1]=u"Team Drenthe"
     teamTable[kk][2]=28942932
     teamTable[kk][3]=u'NED'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0 
+    teamTable[kk][5]=0
     kk+=1
     
     teamTable[kk][1]=u"TWC de Kempen Dames"
@@ -602,11 +617,11 @@ def AmateurTeamTable():
     teamTable[kk][5]=0
     kk+=1 
     
-    teamTable[kk][1]=u"NCC Group-Kuota-Torelli"
+    teamTable[kk][1]=u"Torelli-Assure"
     teamTable[kk][2]=29551008
     teamTable[kk][3]=u'GBR'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0 
+    teamTable[kk][5]=0
     kk+=1 
     
     teamTable[kk][1]=u"NJC-Biemme-Echelon"
@@ -616,14 +631,11 @@ def AmateurTeamTable():
     teamTable[kk][5]=0 
     kk+=1
     
-    
-    
-    
-    teamTable[kk][1]=u"Onform"
+    teamTable[kk][1]=u" Brother UK-Tifosi-OnForm"
     teamTable[kk][2]=51574577
     teamTable[kk][3]=u'GBR'
     teamTable[kk][4]=2
-    teamTable[kk][5]=0 
+    teamTable[kk][5]=0
     kk+=1  
     
     teamTable[kk][1]=u"YRDP Fred Whitton Challenge"
@@ -632,6 +644,22 @@ def AmateurTeamTable():
     teamTable[kk][4]=2
     teamTable[kk][5]=0 
     kk+=1
+    
+    teamTable[kk][1]=u"YRDP Fred Whitton Challenge"
+    teamTable[kk][2]=52107819
+    teamTable[kk][3]=u'GBR'
+    teamTable[kk][4]=2
+    teamTable[kk][5]=0 
+    kk+=1
+    
+    teamTable[kk][1]=u"Liv Awol"
+    teamTable[kk][2]=62123983
+    teamTable[kk][3]=u'GBR'
+    teamTable[kk][4]=2
+    teamTable[kk][5]=0
+    kk+=1
+       
+    #Brother UK - Fusion RT
     
 
     
@@ -661,14 +689,14 @@ def AmateurTeamTable():
     teamTable[kk][2]=41483289
     teamTable[kk][3]=u'FRA'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0 
+    teamTable[kk][5]=0
     kk+=1 
     
     teamTable[kk][1]=u"DN Languedoc Le Boulou"
     teamTable[kk][2]=47505786
     teamTable[kk][3]=u'FRA'
     teamTable[kk][4]=2
-    teamTable[kk][5]=0 
+    teamTable[kk][5]=0
     kk+=1 
 
     teamTable[kk][1]=u"Elles Pays de la Loire"
@@ -736,19 +764,28 @@ def AmateurTeamTable():
     teamTable[kk][5]=0 
     kk+=1
     
+    teamTable[kk][1]=u"Delikia Ginestar"
+    teamTable[kk][2]=61819593
+    teamTable[kk][3]=u'ESP'
+    teamTable[kk][4]=1
+    teamTable[kk][5]=0
+    kk+=1
+    
+    
+    
     #Suisse
     teamTable[kk][1]=u"Remax"
     teamTable[kk][2]=52108266
     teamTable[kk][3]=u'SUI'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0 
+    teamTable[kk][5]=0
     kk+=1 
     
     teamTable[kk][1]=u"Centre mondial du cyclisme"
     teamTable[kk][2]=2945868
     teamTable[kk][3]=u'SUI'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0 
+    teamTable[kk][5]=0
     kk+=1
     
     
@@ -758,7 +795,7 @@ def AmateurTeamTable():
     teamTable[kk][2]=23023574
     teamTable[kk][3]=u'DEN'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0 
+    teamTable[kk][5]=0
     kk+=1 
     
     
@@ -921,6 +958,12 @@ def AmateurTeamTable():
     teamTable[kk][5]=0
     kk+=1     
     
+    teamTable[kk][1]=u"Andy Schleck Cycles-Immo Losch"
+    teamTable[kk][2]=61967168
+    teamTable[kk][3]=u'LUX'
+    teamTable[kk][4]=2
+    teamTable[kk][5]=0
+    kk+=1   
     
     
     

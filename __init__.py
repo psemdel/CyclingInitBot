@@ -20,6 +20,7 @@ from calendarList import*
 from classificationImporter import*
 from SingleDayRaceCreator import*
 from exception import *
+from palmaresImporter import *
 
 if __name__ == '__main__':
    [teamTableFemmes, endkk]=nationalTeamTable()
