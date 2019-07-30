@@ -202,6 +202,28 @@ def getItems(api,site, itemtitle):
      else:
          return search_results
 
+def getPresentTeam(pywikibot,site,repo,RiderID,timeOfRace):
+    result=0
+    item =pywikibot.ItemPage(repo, RiderID)
+    item.get()
+    if (u'P54' in item.claims):
+        allteams=item.claims.get(u'P54')
+        for mm in range(len(allteams)):
+            noend=0
+            if ('P580' in allteams[mm].qualifiers):
+                 begintime=allteams[mm].qualifiers['P580'][0].getTarget()
+            if ('P582' in allteams[mm].qualifiers):
+                 endtime=allteams[mm].qualifiers['P582'][0].getTarget()
+                 if endtime.month==0:
+                     endtime.month=12
+                     endtime.day=31
+            else:
+                 endtime=pywikibot.WbTime(site=site,year=2100, month=1, day=1, precision='day')
+            if (compareDates(begintime,timeOfRace)==2 or compareDates(begintime,timeOfRace)==0) and (compareDates(endtime,timeOfRace)==1 or compareDates(begintime,timeOfRace)==0):             
+                 result=allteams[mm].getTarget().getID()
+                 break
+    return result
+
 #==Select
 def teamCIOsearch(teamTable, CIOcode):
     result=0
@@ -223,6 +245,13 @@ def CIOtoIDsearch(teamTable, CIOcode):
             break
     return result
 
+def IDtoCIOsearch(teamTable, ID):
+    result=0
+    for ii in range(len(teamTable)):
+        if teamTable[ii][3]==ID:
+            result=teamTable[ii][7]
+            break
+    return result
 
 #==Create==
 def create_item(pywikibot,site, label_dict):
@@ -248,3 +277,11 @@ def get_alias(language, wikidataitem):
       return wikidataitem.aliases[language]
   else:
       return('') 
+      
+if __name__ == '__main__': 
+    [pywikibot,site,repo,time]=wikiinit()  
+    RiderID=u'Q448984'      
+    timeOfRace=pywikibot.WbTime(site=site,year=2010, month=1, day=1, precision='day')
+    #begintime=pywikibot.WbTime(site=site,year=2008, month=1, day=1, precision='year')
+    #print(compareDates(begintime,timeOfRace))
+    getPresentTeam(pywikibot,site,RiderID,timeOfRace)

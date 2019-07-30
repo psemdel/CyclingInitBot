@@ -8,7 +8,6 @@ from CyclingInitBotLow import *
 
 
 def nationalChampionshipBasic(pywikibot,repo,item,siteIn,Master,Year,country_code,Idpresent): 
-  
     addValue(pywikibot,repo,item,31,Master,u'Nature') 
     Idchamp=searchItem(pywikibot,siteIn,u'Championnats nationaux de cyclisme sur route en '+str(Year))
     if (Idchamp==u'Q0')or(Idchamp==u'Q1'):  #no previous or several
@@ -35,7 +34,7 @@ def nationalChampionshipEnLigneBasic(pywikibot,repo,item,siteIn,Master,country_c
     
    if Addc==1:  
        claim=pywikibot.Claim(repo, u'P31') 
-       target = pywikibot.ItemPage(repo, u'Q22231119')
+       target = itemToAdd#pywikibot.ItemPage(repo, u'Q22231119')
        claim.setTarget(target)
        item.addClaim(claim, summary=u'Adding CN') 
     
@@ -49,7 +48,36 @@ def nationalChampionshipEnLigneBasic(pywikibot,repo,item,siteIn,Master,country_c
         date=pywikibot.WbTime(site=siteIn,year=Year, precision='year') 
         claim.setTarget(date)    
         item.addClaim(claim, summary=u'Adding date')
-        
+  
+def continentalChampionshipEnLigneBasic(pywikibot,repo,item,siteIn,Master,Year):
+   addValue(pywikibot,repo,item,31,Master,u'Nature') 
+   Addc=1
+  
+   listOfNature=item.claims.get(u'P31')
+   if Master==934877 or Master==2630733:
+       itemToAdd=pywikibot.ItemPage(repo,u'Q23015458') #CDM
+   else:
+       itemToAdd=pywikibot.ItemPage(repo,u'Q22231118') #CC
+   for ii in range(len(listOfNature)):
+       if listOfNature[ii].getTarget()==itemToAdd: #Already there
+            Addc=0
+            print('Item already in the Master list')
+    
+   if Addc==1:  
+       claim=pywikibot.Claim(repo, u'P31') 
+       target = itemToAdd
+       claim.setTarget(target)
+       item.addClaim(claim, summary=u'Adding CC') 
+    
+   addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
+   if(u'P585' in item.claims):
+        a=1
+   else:
+        claim=  pywikibot.Claim(repo, u'P585') #date
+        date=pywikibot.WbTime(site=siteIn,year=Year, precision='year') 
+        claim.setTarget(date)    
+        item.addClaim(claim, summary=u'Adding date')
+      
 def nationalChampionshipLabel(teamTable,kk,Year):
     #input
     country_fr =teamTable[kk][1]
@@ -103,9 +131,9 @@ def nationalChampionshipClmLabel(teamTable,kk,Year, ManOrWoman):
     mylabel[u'fr']=label_part1_fr + " " + genre_fr + country_fr + " " + label_part2_fr + " "+ str(Year)
     return mylabel
 
-def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWoman, option, startYear,EndYear,Country):
+def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWoman, option, startYear,EndYear,Country,CC):
     kkinit=teamCIOsearch(teamTable,Country)
-    
+    print(kkinit)
     if option=='clmoff':
         clm=0
     else:
@@ -122,8 +150,9 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWo
     for kk in range(kkinit,kkinit+1):  #endkk
     ##kk=kkinit
         ##if 1==1:
-        group=teamTable[kk][8]
-        if group==1:
+        #group=teamTable[kk][8]
+        #if group==1:
+        if 1==1:
             for ii in range( startYear,EndYear):
                 Year=ii
                 group=1
@@ -144,7 +173,9 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWo
             
                 item =pywikibot.ItemPage(repo, Idpresent)
                 item.get()
-                nationalChampionshipBasic(pywikibot,repo,item,site,teamTable[kk][9],Year,teamTable[kk][3],Idpresent)
+                
+                if CC==u'no':
+                    nationalChampionshipBasic(pywikibot,repo,item,site,teamTable[kk][9],Year,teamTable[kk][3],Idpresent)
                 
                 #Search previous
                 Yearprevious= Year-1
@@ -196,8 +227,12 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWo
             
                 itemEnLigne =pywikibot.ItemPage(repo, IdEnLignepresent)
                 itemEnLigne.get()
-                nationalChampionshipEnLigneBasic(pywikibot,repo,itemEnLigne,site,teamTable[kk][IndexRoadRace],teamTable[kk][3],Year)
-
+                
+                if CC==u'no':
+                    nationalChampionshipEnLigneBasic(pywikibot,repo,itemEnLigne,site,teamTable[kk][IndexRoadRace],teamTable[kk][3],Year)
+                else:
+                    continentalChampionshipEnLigneBasic(pywikibot,repo,item,siteIn,teamTable[kk][IndexRoadRace],Year)
+                    
                 #Link to previous
                 mylabelEnLigneprevious=nationalChampionshipEnLigneLabel(teamTable,kk,Yearprevious,ManOrWoman)
               
@@ -253,8 +288,11 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWo
                     itemClm =pywikibot.ItemPage(repo, IdClmpresent)
                     itemClm.get()
                     #Same function as EnLigne
-                    nationalChampionshipEnLigneBasic(pywikibot,repo,itemClm,site,teamTable[kk][IndexClmRace],teamTable[kk][3],Year)
-                   
+                    if CC==u'no':
+                        nationalChampionshipEnLigneBasic(pywikibot,repo,itemClm,site,teamTable[kk][IndexClmRace],teamTable[kk][3],Year)
+                    else:
+                        continentalChampionshipEnLigneBasic(pywikibot,repo,item,siteIn,teamTable[kk][IndexRoadRace],Year)
+                    
                     #Link to previous
                     mylabelClmprevious=nationalChampionshipClmLabel(teamTable,kk,Yearprevious,ManOrWoman)
                     IdClmprevious=searchItem(pywikibot,site,mylabelClmprevious['fr'])

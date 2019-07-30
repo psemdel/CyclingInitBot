@@ -20,6 +20,36 @@ def listOfException():
     exceptionTable[kk][1]=u'Q23907253'
     kk+=1    
     
+    exceptionTable[kk][0]=u'Jessica Allen'
+    exceptionTable[kk][1]=u'Q27306413' 
+    kk+=1   
+ 
+    exceptionTable[kk][0]=u'Nikolas Maes'
+    exceptionTable[kk][1]=u'Q1991336' 
+    kk+=1   
+    exceptionTable[kk][0]=u'jolien d`hoore'
+    exceptionTable[kk][1]=u'Q440790' 
+    kk+=1   
+    exceptionTable[kk][0]=u'Claire Moore'
+    exceptionTable[kk][1]=u'Q63040077' 
+    kk+=1       
+    exceptionTable[kk][0]=u'Kelly Murphy'
+    exceptionTable[kk][1]=u'Q33083846' 
+    kk+=1       
+    exceptionTable[kk][0]=u'Emma Smith'
+    exceptionTable[kk][1]=u'Q64143672' 
+    kk+=1       
+    exceptionTable[kk][0]=u'Maja Savic'
+    exceptionTable[kk][1]=u'Q59185359' 
+    kk+=1     
+    exceptionTable[kk][0]=u'Maja Savić'
+    exceptionTable[kk][1]=u'Q59185359' 
+    kk+=1  
+    exceptionTable[kk][0]=u'Katharine Hall'
+    exceptionTable[kk][1]=u'Q17306130' 
+    kk+=1      
+   
+    
     return exceptionTable
 
 def listofteam():

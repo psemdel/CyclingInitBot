@@ -23,41 +23,19 @@ from exception import *
 #|-
 #| 1982 || [[Claudia Tohermes]] || [[Geneviève Brunet]]|| [[C. Baril]]
 def palmaresImporter(pywikibot,site,repo,championshipID,test):
-   
+   #Q31271010
     inputstr="""
-| 2004 || [[Veronika Jeger]] || [[Mónika Király]] || [[Marta Vajda]] 
+| 2014 || [[Nour Dissem]] ||  [[Islam Yazidi]] ||  [[Sourour Merdassi ]]   
 |-
-| 2004 || [[Veronika Jeger]] || [[Mónika Király]] || [[Marta Vajda]] 
-|- 
-| 2006 || [[Mónika Király]] || [[Diana Szuromine-Pulsfort]] || [[Andrea Fülöp]]
+| 2014 || [[Nour Dissem]] ||  [[Islam Yazidi]] ||  [[Sourour Merdassi]]
 |-
-| 2007 || [[Mónika Király]] || [[Diana Szuromine-Pulsfort]] || [[Gabriella Palotai]]
-|-
-| 2008 || [[Anita Rita Kenyó]] || [[Mónika Király]] || [[Veronika Katonane Simon]]
-|-
-| 2009 || [[Mónika Király]] || [[Anita Rita Kenyó]]|| [[Veronika Katonane Simon]]
-|-
-| 2010 || [[Krisztina Fay]] || [[Sara Vidakovich]]|| [[Enikó Papp]]
-|-
-| 2011 || [[Anita Rita Kenyó]] || [[Krisztina Fay]]|| [[Veronika Anna Kormos]]
-|-
-| 2012 || [[Anita Rita Kenyó]] || [[Eszter Dosa]] || [[Veronika Anna Kormos]]
-|-
-| 2013 || [[Diana Szuromine-Pulsfort]] || [[Leila Al Saidi]] || [[Fruzsina Jakocs]]
-|-
-| 2014 || [[Diana Szuromine-Pulsfort]] || [[Barbara Benkó]] || [[Veronika Anna Kormos]]
-|-
-| 2015 || [[Diana Szuromine-Pulsfort]] || [[Mónika Király]] || [[Barbara Benkó]]
-|-
-| 2016 || [[Mónika Király]] || [[Barbara Benkó]] || [[Dorottya Kanti]]
-|-
-| 2017 || [[Mónika Király]] || [[Szonja Kapott]] || [[Eszter Temela]]
+| 2015 || [[Nour Dissem]] ||  [[Rihab Hajjaji]] ||  [[Aya Hafnaoui]]
  """
      
     #inputstr=input()
     tableOfwinner=palmaresParsing(inputstr)
     #print(tableOfwinner)
-    numberofabsentriders, counterrepeat, tableOfwinnerOut=wikidataelementAnalyser(pywikibot,site,tableOfwinner)
+    numberofabsentriders, counterrepeat, tableOfwinnerOut=wikidataelementAnalyser(pywikibot,site,repo,tableOfwinner)
         
     if numberofabsentriders==0 and test==0 and counterrepeat==0:
         palmaresFilling(pywikibot,site,repo,tableOfwinnerOut,championshipID)
@@ -106,7 +84,7 @@ def palmaresFilling(pywikibot,site,repo,tableOfwinner,championshipID ):
               addWinner(pywikibot, site,repo,itempresent,tableOfwinner[ii][2],2,0)    
               addWinner(pywikibot, site,repo,itempresent,tableOfwinner[ii][3],3,0)
 
-def wikidataelementAnalyser(pywikibot,site,tableOfwinner):
+def wikidataelementAnalyser(pywikibot,site,repo,tableOfwinner):
 
     #look for riders not created
     counter=0
@@ -116,7 +94,7 @@ def wikidataelementAnalyser(pywikibot,site,tableOfwinner):
     
     for ii in range(len(tableOfwinner)):
         for jj in range(1,4):
-            Idtemp=searchItem(pywikibot,site,tableOfwinner[ii][jj])
+            Idtemp=searchItemRider(pywikibot,site,repo, tableOfwinner[ii][jj] )
             if (Idtemp==u'Q0'):  #no previous or several
                 print(tableOfwinner[ii][jj]+ ' not found')
                 counter=counter+1

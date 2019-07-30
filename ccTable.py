@@ -15,11 +15,35 @@ def ccTable():
     #Item 3= National championship master
     #item 4= Road race woman
     #item 5= Clm woman
-    
-
-    
     kk = 1
+    teamTable[kk][1]=u'monde'
+    teamTable[kk][2]=u"du "
+    teamTable[kk][3]=506424
+    teamTable[kk][4]=934877
+    teamTable[kk][5]=2630733
+    kk+=1
     
+    teamTable[kk][1]=u'Afrique'
+    teamTable[kk][2]=u"d'"
+    teamTable[kk][3]=1771238
+    teamTable[kk][4]=50064341
+    teamTable[kk][5]=50063172
+    kk+=1
+    
+    teamTable[kk][1]=u'Asie'
+    teamTable[kk][2]=u"d'"
+    teamTable[kk][3]=4806618
+    teamTable[kk][4]=50061750
+    teamTable[kk][5]=50062728
+    kk+=1
+   
+    teamTable[kk][1]=u'panaméricains'
+    teamTable[kk][2]=u""
+    teamTable[kk][3]=18384474
+    teamTable[kk][4]=31271454
+    teamTable[kk][5]=31271381
+    kk+=1
+        
     teamTable[kk][1]=u'Océanie'
     teamTable[kk][2]=u"d'"
     teamTable[kk][3]=2954777

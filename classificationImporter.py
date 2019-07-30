@@ -8,19 +8,23 @@ Created on Sun Jul 22 16:21:08 2018
 #oDoc = XSCRIPTCONTEXT.getDocument()
 
 import csv
+import numpy as np
 import os
 from exception import *
 from CyclingInitBotLow import *
 
 def timeconverter(input):
-    if input==0 or input=='+00':
+    if input==0 or input=='0' or input=='+0' or input=='+00':
         return 0
     else:
         timesplit=input.split(":")
         if len(timesplit)==3:
             return int(timesplit[0])*3600+int(timesplit[1])*60+int(timesplit[2])
+        if len(timesplit)==2:
+            return int(timesplit[0])*60+int(timesplit[1])
+        
         else:
-            return int(int(timesplit[0])*60+int(timesplit[1]))
+            return int(timesplit[0])
 
 def searchRider(pywikibot,site,repo,resulttable,kk,reversename):
     if reversename==1:
@@ -234,7 +238,7 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
                 if pointsrow==-1 and resultrow!=-1: #sometimes the points are in result
                     pointsrow=resultrow
   
-                if GeneralOrStage==2 or GeneralOrStage==3 or GeneralOrStage==6 or GeneralOrStage==7: #points or mountains
+                if GeneralOrStage==2 or GeneralOrStage==3 or GeneralOrStage==6 or GeneralOrStage==7 or GeneralOrStage==8: #points or mountains
                     resulttable[kk-1][4]=float(row[pointsrow].replace(",",".")) #points
                 else:
                     if kk==1:
@@ -245,7 +249,9 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
                             temp=row[resultrow][1:]
                             resulttable[kk-1][5]=timeconverter(temp)
                         else:
+                            print(row[resultrow])
                             resulttable[kk-1][4]=timeconverter(row[resultrow]) #time
+  
                             if resulttable[kk-1][4]==0:
                                 resulttable[kk-1][5]=0
                             else:
@@ -266,6 +272,8 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
         propertyNummer='3497'#teamtime
     elif GeneralOrStage==6:    
         propertyNummer='3496'#team points   
+    elif GeneralOrStage==8:    
+        propertyNummer='4322'#sprint    
     else: #0
         propertyNummer='2321'  #general
     
@@ -337,6 +345,7 @@ def riderTricot(pywikibot,site,repo,riderID,timeOfRace,claim,chrono):
         spamreader = csv.reader(csvfile, delimiter=";", quotechar='|')
         for row in spamreader:
             savetable[kk]=row
+            #print(row)
             if kk>1:
                 if row[6]==riderID:
                     #the rider won once champ on road
@@ -465,7 +474,7 @@ def riderTricot(pywikibot,site,repo,riderID,timeOfRace,claim,chrono):
                qualifierTricot.setTarget(targetQualifier)
                claim.addQualifier(qualifierTricot)  
 
-def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separator,timeOfRace,chrono,test):
+def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separator,timeOfRace,chrono,test,teamTable):
     filepath='C:\temp\Result\Results.csv'
     #For Europa
     resulttable = [[0 for x in range(10)] for y in range(200)] 
@@ -501,7 +510,6 @@ def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separa
                         teamcoderow=jj 
                     elif row[jj]=='BIB':  
                         dossardrow=jj     
-                        
                     
                 if firstnamerow==-1 and namerow!=-1:
                     reversename=1
@@ -531,18 +539,49 @@ def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separa
     #Sort by dossard
     resulttable2=sorted(resulttable2, key=lambda tup: int(tup[4]))
     resulttable=resulttable2
-
     #check if all riders are already present
     if test==1:
         for kk in range(len(resulttable)):
             RiderID=searchRider(pywikibot,site,repo,resulttable,kk,reversename)
 
-    #print(resulttable)
     alreadylist=0
+    Year=timeOfRace.year
     if test==0:
         if(u'P'+str('710') in item.claims) and prologueorfinal==0:  #already there do nothing
             print(u'List of starters already there')
         else:   
+            #check national team
+            nationalteamdetected=0
+            allsameteam=1
+            for kk in range(len(resulttable)):
+                if int(resulttable[kk][4])%10==1:
+                    #insert last team
+                    if nationalteamdetected==1 and allsameteam==0:
+                        print(u'national team detected '+IDtoCIOsearch(teamTable, noQ(nationalteamnation)))
+                        for jj in range(nationalteambegin,kk):
+                            resulttable[jj][5]=IDtoCIOsearch(teamTable, noQ(nationalteamnation)) + " " + str(Year)
+                    nationalteamdetected=1
+                    nationalteambegin=kk
+                    nationalteamnation=u'reset'
+                    proteam=u'reset'
+                    allsameteam=1
+                if nationalteamdetected!=0:    
+                    RiderID=searchRider(pywikibot,site,repo,resulttable,kk,reversename)
+                    item =pywikibot.ItemPage(repo, RiderID)
+                    item.get()
+                    if (u'P27' in item.claims):
+                        nationality=item.claims.get(u'P27')
+                        if nationalteamnation==u'reset':
+                            nationalteamnation=nationality[0].getTarget().getID()
+                        else:
+                            if nationalteamnation!=nationality[0].getTarget().getID():
+                                nationalteamdetected=0
+                    team=getPresentTeam(pywikibot,site,repo,RiderID,timeOfRace)
+                    if proteam==u'reset':
+                        proteam=team
+                    else:
+                        if proteam!=team:
+                            allsameteam=0
             claim=pywikibot.Claim(repo, u'P'+str('710')) 
             if (u'P'+str('710') in item.claims):
                 alreadylist=1
@@ -569,6 +608,13 @@ def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separa
                         targetQualifier =resulttable[kk][4]  #pywikibot.WbQuantity(amount=resulttable[kk][4], site=repo)
                         qualifierDossard.setTarget(targetQualifier)
                         claim.addQualifier(qualifierDossard)
+                        if resulttable[kk][5]!=0:
+                            Idnationalteam=searchItem(pywikibot,site,resulttable[kk][5])
+                            if Idnationalteam!=u'Q0' and Idnationalteam!=u'Q1':
+                               print(Idnationalteam)
+                               qualifierTeam=pywikibot.page.Claim(site, 'P54', isQualifier=True)
+                               qualifierTeam.setTarget(Idnationalteam)
+                               claim.addQualifier(qualifierTeam)
                         if prologueorfinal==1 or prologueorfinal==2:
                            if resulttable[kk][0]=='' and prologueorfinal==2:
                                qualifierDNF=pywikibot.page.Claim(site, 'P1534', isQualifier=True)
@@ -597,7 +643,194 @@ def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separa
                          targetQualifier = pywikibot.ItemPage(repo, u'Q1210380')
                          qualifierDNF.setTarget(targetQualifier)
                          listOfcomprend[kk].addQualifier(qualifierDNF)
-             
-if __name__ == '__main__':              
-    exceptionTable=listOfException()
-    print(exceptionTable[0][0])
+                         
+                         
+def champlistcreator(pywikibot,site,repo,time):
+    dic ={'2019': 'Q60015262', '2018' : 'Q43920899', '2017' : 'Q28005879', '2016' : 'Q22021840',
+		'2015' : 'Q19296998', '2014' : 'Q15621925', '2013': 'Q3339162',
+		'2012' : 'Q1333003', '2011' : 'Q1143844', '2010' : 'Q1568490',
+		'2009' : 'Q263224', '2008' : 'Q826505', '2007' : 'Q43286248',
+		'2006' : 'Q43286261', '2005' : 'Q1335357', '2004' : 'Q43286272',
+		'2003' : 'Q43286289', '2002' : 'Q43286297', '2001' : 'Q43286309'
+	}
+    
+    dicroadrace =['Q934877','Q30894544','Q50064341','Q54315111','Q50061750','Q31271454']
+    dicclm=['Q2630733','Q30894543','Q50063172','Q50062728','Q54314912','Q31271381']
+    
+    startYear=2017
+    EndYear=2020
+    champtable = [[0 for x in range(15)] for y in range(1000)] 
+    ll=-1    
+
+    for ii in range(len(dicroadrace)):
+        Idroadrace=dicroadrace[ii]
+        masterID=Idroadrace
+        itemroadrace =pywikibot.ItemPage(repo, Idroadrace)
+        itemroadrace.get()
+        if(u'P527' in itemroadrace.claims):
+             listOfcomprend=itemroadrace.claims.get(u'P527')
+             for jj in range(len(listOfcomprend)):  
+                  itemthisyear =listOfcomprend[jj].getTarget()
+                  itemthisyear.get()
+                  datefound=0
+                  invalidprecision=0
+                  thereisawinner=0
+                  ll=ll+1
+                  champtable[ll][2]=masterID
+                  
+                  if (u'P585' in itemthisyear.claims):
+                     listofracedate=itemthisyear.claims.get(u'P585')
+                     racedate=listofracedate[0].getTarget()
+                     if racedate.day==1 and racedate.month==1:
+                         invalidprecision=1
+                     else:
+                         datefound=1
+                  if (u'P1346' in itemthisyear.claims):
+                     winners=itemthisyear.claims.get(u'P1346')
+                     for mm in range(len(winners)):
+                         thisqualID=winners[mm].qualifiers['P642'][0].getTarget().getID()
+                         if thisqualID=='Q20882667': #check qualifier
+                             tempwinner=winners[mm].getTarget().getID()
+                             thereisawinner=1       
+                         if datefound==1 and thereisawinner==1:
+                             champtable[ll][3]=racedate.day
+                             champtable[ll][4]=racedate.month
+                             champtable[ll][5]=racedate.year  
+                             champtable[ll][6]=tempwinner
+                         elif invalidprecision==1 and thereisawinner==1:
+                             print(thislabel)
+                             print('unsufficient precision')
+    ll=-1                          
+               
+    for ii in range(len(dicclm)):
+        Idroadrace=dicclm[ii]
+        masterID=Idroadrace
+        itemroadrace =pywikibot.ItemPage(repo, Idroadrace)
+        itemroadrace.get()
+        if(u'P527' in itemroadrace.claims):
+             listOfcomprend=itemroadrace.claims.get(u'P527')
+             for jj in range(len(listOfcomprend)):  
+                  itemthisyear =listOfcomprend[jj].getTarget()
+                  itemthisyear.get()
+                  datefound=0
+                  invalidprecision=0
+                  thereisawinner=0
+                  ll=ll+1
+                  champtable[ll][9]=masterID
+                  
+                  if (u'P585' in itemthisyear.claims):
+                     listofracedate=itemthisyear.claims.get(u'P585')
+                     racedate=listofracedate[0].getTarget()
+                     if racedate.day==1 and racedate.month==1:
+                         invalidprecision=1
+                     else:
+                         datefound=1
+                  if (u'P1346' in itemthisyear.claims):
+                     winners=itemthisyear.claims.get(u'P1346')
+                     for mm in range(len(winners)):
+                         thisqualID=winners[mm].qualifiers['P642'][0].getTarget().getID()
+                         if thisqualID=='Q20882667': #check qualifier
+                             tempwinner=winners[mm].getTarget().getID()
+                             thereisawinner=1       
+                         if datefound==1 and thereisawinner==1:
+                             champtable[ll][10]=racedate.day
+                             champtable[ll][11]=racedate.month
+                             champtable[ll][12]=racedate.year  
+                             champtable[ll][13]=tempwinner
+                         elif invalidprecision==1 and thereisawinner==1:
+                             print(thislabel)
+                             print('unsufficient precision')   
+                             
+                             
+                             
+    print(champtable)                          
+    #Look in the national championships
+    for ii in range( startYear,EndYear):
+        IdallNational=dic[str(ii)]
+        itemallNational =pywikibot.ItemPage(repo, IdallNational)
+        itemallNational.get()
+        if(u'P527' in itemallNational.claims):
+             listOfcomprend=itemallNational.claims.get(u'P527')
+             for jj in range(len(listOfcomprend)):  
+                  itemthisNational =listOfcomprend[jj].getTarget()
+                  itemthisNational.get()
+                  listOfcomprend2=itemthisNational.claims.get(u'P527')
+                  ll=ll+1
+                  for kk in range(len(listOfcomprend2)):
+                         itemthisRace =listOfcomprend2[kk].getTarget()
+                         itemthisRace.get()
+                         thislabel=get_label('fr',itemthisRace)
+                         #print(thislabel)
+                         datefound=0
+                         invalidprecision=0
+                         thereisawinner=0
+                         
+                         if thislabel.find("Course en ligne féminine aux")==0:
+                             if (u'P31' in itemthisRace.claims):
+                                 listofnature=itemthisRace.claims.get(u'P31')
+                                 masterID=listofnature[0].getTarget().getID()
+                                 champtable[ll][2]=masterID
+                             if (u'P585' in itemthisRace.claims):
+                                 listofracedate=itemthisRace.claims.get(u'P585')
+                                 racedate=listofracedate[0].getTarget()
+                                 if racedate.day==1 and racedate.month==1:
+                                     invalidprecision=1
+                                 else:
+                                     datefound=1
+                             if (u'P1346' in itemthisRace.claims):
+                                 winners=itemthisRace.claims.get(u'P1346')
+                                 for mm in range(len(winners)):
+                                     thisqualID=winners[mm].qualifiers['P642'][0].getTarget().getID()
+                                     if thisqualID=='Q20882667': #check qualifier
+                                         tempwinner=winners[mm].getTarget().getID()
+                                         thereisawinner=1
+                             if datefound==1 and thereisawinner==1:
+                                 champtable[ll][3]=racedate.day
+                                 champtable[ll][4]=racedate.month
+                                 champtable[ll][5]=racedate.year  
+                                 champtable[ll][6]=tempwinner
+                             elif invalidprecision==1 and thereisawinner==1:
+                                 print(thislabel)
+                                 print('unsufficient precision')
+                         elif thislabel.find("Contre-la-montre féminin aux")==0:
+                             if (u'P31' in itemthisRace.claims):
+                                 listofnature=itemthisRace.claims.get(u'P31')
+                                 masterID=listofnature[0].getTarget().getID()
+                                 champtable[ll][9]=masterID
+                             if (u'P585' in itemthisRace.claims):
+                                 listofracedate=itemthisRace.claims.get(u'P585')
+                                 racedate=listofracedate[0].getTarget()
+                                 if racedate.day==1 and racedate.month==1:
+                                     invalidprecision=1
+                                 else:
+                                     datefound=1
+                             if (u'P1346' in itemthisRace.claims):
+                                 winners=itemthisRace.claims.get(u'P1346')
+                                 for mm in range(len(winners)):
+                                     thisqualID=winners[mm].qualifiers['P642'][0].getTarget().getID()
+                                     if thisqualID=='Q20882667': #check qualifier
+                                         tempwinner=winners[mm].getTarget().getID()
+                                         thereisawinner=1
+                             if datefound==1 and thereisawinner==1:
+                                 champtable[ll][10]=racedate.day
+                                 champtable[ll][11]=racedate.month
+                                 champtable[ll][12]=racedate.year  
+                                 champtable[ll][13]=tempwinner
+                             elif invalidprecision==1 and thereisawinner==1:
+                                 print(thislabel)
+                                 print('unsufficient precision')      
+ 
+
+    with open('champ2.csv', 'w') as csvFile:
+        writer = csv.writer(csvFile)
+        writer.writerows(champtable)
+        
+def test():
+     champtable=[1,2]
+     np.savetxt('champ3.csv',champtable, delimiter=';')
+     
+           
+if __name__ == '__main__': 
+    [pywikibot,site,repo,time]=wikiinit()          
+    print(searchItem(pywikibot,site,'ESP 2019'))
+   # test

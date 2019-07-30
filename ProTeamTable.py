@@ -272,15 +272,7 @@ def ProTeamTable():
     teamTable[kk][5]=2
     teamTable[kk][6]=0
     kk+=1        
-    
-    teamTable[kk][1]=u"Storey Racing"
-    teamTable[kk][2]=29608773
-    teamTable[kk][3]=u'GBR'
-    teamTable[kk][4]=u'STR'
-    teamTable[kk][5]=2
-    teamTable[kk][6]=0
-    kk+=1 
-    
+       
 
     teamTable[kk][1]=u"Sunweb Women"
     teamTable[kk][2]=2292295
@@ -505,6 +497,14 @@ def AmateurTeamTable():
     teamTable[kk][5]=0
     kk+=1 
 
+    teamTable[kk][1]=u"S-bikes Bodhi"
+    teamTable[kk][2]=63759241
+    teamTable[kk][3]=u'BEL'
+    teamTable[kk][4]=1
+    teamTable[kk][5]=0
+    kk+=1 
+
+
     
     #Pays-Bas
     teamTable[kk][1]=u"Adelaar Ladies"
@@ -614,7 +614,7 @@ def AmateurTeamTable():
     teamTable[kk][2]=29608675
     teamTable[kk][3]=u'GBR'
     teamTable[kk][4]=2
-    teamTable[kk][5]=0
+    teamTable[kk][5]=1
     kk+=1 
     
     teamTable[kk][1]=u"Torelli-Assure"
@@ -659,6 +659,13 @@ def AmateurTeamTable():
     teamTable[kk][5]=0
     kk+=1
        
+    teamTable[kk][1]=u"Storey Racing"
+    teamTable[kk][2]=29608773
+    teamTable[kk][3]=u'GBR'
+    teamTable[kk][4]=2
+    teamTable[kk][5]=0
+    kk+=1 
+    
     #Brother UK - Fusion RT
     
 
@@ -761,7 +768,7 @@ def AmateurTeamTable():
     teamTable[kk][2]=53573952
     teamTable[kk][3]=u'ESP'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0 
+    teamTable[kk][5]=0
     kk+=1
     
     teamTable[kk][1]=u"Delikia Ginestar"
@@ -806,7 +813,7 @@ def AmateurTeamTable():
     teamTable[kk][3]=u'USA'
     teamTable[kk][4]=2
     teamTable[kk][5]=0
-    kk+=1  
+    kk+=1
     
     teamTable[kk][1]=u"Colavita-Bianchi"
     teamTable[kk][2]=24910599
@@ -928,7 +935,7 @@ def AmateurTeamTable():
      	
     
     #Mexique
-    teamTable[kk][1]=u"Conade Visit Mexico"
+    teamTable[kk][1]=u"Durango-Specialized-IED"
     teamTable[kk][2]=30053023
     teamTable[kk][3]=u'MEX'
     teamTable[kk][4]=1
@@ -964,6 +971,13 @@ def AmateurTeamTable():
     teamTable[kk][4]=2
     teamTable[kk][5]=0
     kk+=1   
+    
+    teamTable[kk][1]=u"Mike Greer Homes"
+    teamTable[kk][2]=61125738
+    teamTable[kk][3]=u'NZL'
+    teamTable[kk][4]=2
+    teamTable[kk][5]=0
+    kk+=1 
     
     
     

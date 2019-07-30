@@ -23,6 +23,7 @@ def proTeamBasic(pywikibot,repo,item,siteIn,team_name,country_code, Year,Master,
         addValue(pywikibot,repo,item,1998,UCI,u'UCI code') 
     else:
         addValue(pywikibot,repo,item,31,26849121,u'Nature')
+    addMultipleValue(pywikibot,repo,item,31,53534649,u'Season',0)  
     addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
    
     addValue(pywikibot,repo,item,17,country_code,u'country')

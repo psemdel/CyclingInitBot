@@ -18,7 +18,10 @@ def ccChampionshipEnLigneBasic(pywikibot,repo,item,siteIn,Master,Year):
    Addc=1
     
    listOfNature=item.claims.get(u'P31')
-   itemToAdd=pywikibot.ItemPage(repo,u'Q22231118') #CC
+   if Master==934877 or Master==2630733:
+       itemToAdd=pywikibot.ItemPage(repo,u'Q23015458') #CDM
+   else:
+       itemToAdd=pywikibot.ItemPage(repo,u'Q22231118') #CC
    for ii in range(len(listOfNature)):
        if listOfNature[ii].getTarget()==itemToAdd: #Already there
             Addc=0
