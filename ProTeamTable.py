@@ -295,7 +295,7 @@ def ProTeamTable():
     teamTable[kk][3]=u'CZE'
     teamTable[kk][4]=u'TDP'
     teamTable[kk][5]=2
-    teamTable[kk][6]=0
+    teamTable[kk][6]=1
     kk+=1    
     
     teamTable[kk][1]=u"Thailand Women's Cycling Team"
@@ -303,7 +303,7 @@ def ProTeamTable():
     teamTable[kk][3]=u'THA'
     teamTable[kk][4]=u'TWC'
     teamTable[kk][5]=2
-    teamTable[kk][6]=1
+    teamTable[kk][6]=0
     kk+=1      
     
     teamTable[kk][1]=u"Tibco-Silicon Valley Bank"
@@ -614,7 +614,7 @@ def AmateurTeamTable():
     teamTable[kk][2]=29608675
     teamTable[kk][3]=u'GBR'
     teamTable[kk][4]=2
-    teamTable[kk][5]=1
+    teamTable[kk][5]=0
     kk+=1 
     
     teamTable[kk][1]=u"Torelli-Assure"
@@ -890,6 +890,13 @@ def AmateurTeamTable():
     teamTable[kk][3]=u'USA'
     teamTable[kk][4]=2
     teamTable[kk][5]=0
+    kk+=1 
+    
+    teamTable[kk][1]=u"DNA"
+    teamTable[kk][2]=24185125
+    teamTable[kk][3]=u'USA'
+    teamTable[kk][4]=2
+    teamTable[kk][5]=1
     kk+=1  
     
     #Pologne
@@ -907,7 +914,12 @@ def AmateurTeamTable():
     teamTable[kk][5]=0
     kk+=1 
     
-    
+    teamTable[kk][1]=u"TKK Pacific"
+    teamTable[kk][2]=56846135
+    teamTable[kk][3]=u'POL'
+    teamTable[kk][4]=2
+    teamTable[kk][5]=0
+    kk+=1     
     
     #Canada
     teamTable[kk][1]=u"Desjardins Ford"
@@ -956,7 +968,14 @@ def AmateurTeamTable():
     teamTable[kk][3]=u'ITA'
     teamTable[kk][4]=2
     teamTable[kk][5]=0
-    kk+=1   
+    kk+=1  
+    
+    teamTable[kk][1]=u"Born to Win"
+    teamTable[kk][2]=66386504
+    teamTable[kk][3]=u'ITA'
+    teamTable[kk][4]=2
+    teamTable[kk][5]=0
+    kk+=1  
     
     teamTable[kk][1]=u"Vallerbike"
     teamTable[kk][2]=41430368

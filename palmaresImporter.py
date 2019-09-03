@@ -25,11 +25,22 @@ from exception import *
 def palmaresImporter(pywikibot,site,repo,championshipID,test):
    #Q31271010
     inputstr="""
-| 2014 || [[Nour Dissem]] ||  [[Islam Yazidi]] ||  [[Sourour Merdassi ]]   
-|-
-| 2014 || [[Nour Dissem]] ||  [[Islam Yazidi]] ||  [[Sourour Merdassi]]
-|-
-| 2015 || [[Nour Dissem]] ||  [[Rihab Hajjaji]] ||  [[Aya Hafnaoui]]
+|- 
+| 2008 || [[María Bone]] || [[Mabel Hernández]]|| [[Danny Álvarez]]
+|- 
+| 2008 || [[María Bone]] || [[Mabel Hernández]]|| [[Danny Álvarez]]
+|- 
+| 2010 || [[María Parra]] || [[Nataly Arevalo]]|| [[Cindy Merizalde]]
+|- 
+| 2011 || [[Nataly Arevalo]] || [[Maria Bone]]|| [[María Parra]]
+|- 
+| 2014 || [[Jazmín Taborda]] || [[Cristina Iza]] ||  [[Cristina Iza]]
+|- 
+| 2015 || [[Miryan Nuñez]] || [[Nikole Narvaez]] || [[Nikole Narvaez]]
+|- 
+| 2018 || [[Samia Flores]] || [[Fernanda Endara]] || [[Lesley Ojeda]]
+|- 
+| 2019 || [[Miryan Nuñez]] || [[Esther Galarza]] || [[Lesley Ojeda]] 
  """
      
     #inputstr=input()

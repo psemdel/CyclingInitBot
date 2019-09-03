@@ -15,6 +15,10 @@ def ccTable():
     #Item 3= National championship master
     #item 4= Road race woman
     #item 5= Clm woman
+    #item 6= Road race man
+    #item 7= Clm man
+    #item 8= Road race woman U23
+    #item 9= Clm woman U23
     kk = 1
     teamTable[kk][1]=u'monde'
     teamTable[kk][2]=u"du "
@@ -28,6 +32,7 @@ def ccTable():
     teamTable[kk][3]=1771238
     teamTable[kk][4]=50064341
     teamTable[kk][5]=50063172
+    teamTable[kk][6]=23069702
     kk+=1
     
     teamTable[kk][1]=u'Asie'
@@ -49,6 +54,8 @@ def ccTable():
     teamTable[kk][3]=2954777
     teamTable[kk][4]=54315111
     teamTable[kk][5]=54314912
+    teamTable[kk][6]=23889469
+    
     kk+=1
     
     teamTable[kk][1]=u'Europe'
@@ -56,6 +63,11 @@ def ccTable():
     teamTable[kk][3]=2954514
     teamTable[kk][4]=30894544
     teamTable[kk][5]=30894543
+    teamTable[kk][6]=30894537
+    teamTable[kk][7]=33315723
+    teamTable[kk][8]=3653998
+    teamTable[kk][9]=3653993
+    
     kk+=1
     
     return [teamTable, kk]

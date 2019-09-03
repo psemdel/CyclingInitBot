@@ -54,6 +54,9 @@ def nationalTeamTable():
     teamTable[kk][6]=u'Algerian'
     teamTable[kk][7]=u'ALG'
     teamTable[kk][8]=2
+    teamTable[kk][9]=2954297
+    teamTable[kk][10]=66082905
+    teamTable[kk][11]=66082384
     kk+=1
         
     teamTable[kk][1]=u'Andorre'
@@ -84,6 +87,9 @@ def nationalTeamTable():
     teamTable[kk][6]=u'Antiguan'
     teamTable[kk][7]=u'ANT'
     teamTable[kk][8]=3
+    teamTable[kk][9]=16538040
+    teamTable[kk][10]=66380104
+    teamTable[kk][11]=66427071
     kk+=1
     
     teamTable[kk][1]=u'Argentine'
@@ -168,6 +174,19 @@ def nationalTeamTable():
     teamTable[kk][11]=43286663
     kk+=1
     
+    teamTable[kk][1]=u'Bahamas'
+    teamTable[kk][2]=u"des "
+    teamTable[kk][3]=778
+    teamTable[kk][4]=0
+    teamTable[kk][5]=u'Bahamas'
+    teamTable[kk][6]=u'Bahamas'
+    teamTable[kk][7]=u'BAH'
+    teamTable[kk][8]=1
+    teamTable[kk][9]=16538203
+    teamTable[kk][10]=66498425
+    teamTable[kk][11]=66498528
+    kk+=1   
+    
     teamTable[kk][1]=u'Belgique'
     teamTable[kk][2]=u"de "
     teamTable[kk][3]=31
@@ -216,9 +235,10 @@ def nationalTeamTable():
     teamTable[kk][6]=u'Bolivian'
     teamTable[kk][7]=u'BOL'
     teamTable[kk][8]=2
+    teamTable[kk][9]=2954793
+    teamTable[kk][10]=66565514
+    teamTable[kk][11]=66565582
     kk+=1
-    
-    
     
     teamTable[kk][1]=u'Brésil'
     teamTable[kk][2]=u"du "
@@ -304,8 +324,8 @@ def nationalTeamTable():
     teamTable[kk][7]=u'KOR'
     teamTable[kk][8]=1
     teamTable[kk][9]=16538109
-    teamTable[kk][10]=0
-    teamTable[kk][11]=0
+    teamTable[kk][10]=66370867
+    teamTable[kk][11]=66370873
     kk+=1
     
     

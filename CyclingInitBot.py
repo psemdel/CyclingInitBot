@@ -29,7 +29,7 @@ def main():
     [tempccTable, ccendkk]=ccTable()
     [proteamTable, proendkk]=ProTeamTable()
     [amateurteamTable, amateurendkk]=AmateurTeamTable()
-   # [teamTable, endkk]=nationalTeamTable()
+   # [teamTable, ndkk]=nationalTeamTable()
     selector=13
 
     if selector==0:
@@ -38,9 +38,9 @@ def main():
         ManOrWoman=u'woman'
         Option=u'clmon' #'clmoff'
         #CC=u'no'
-        startYear=2016
-        EndYear=2018
-        Country=u'RWA'  
+        startYear=2006
+        EndYear=2007
+        Country=u'CUB'  
         #if CC=="yes":
         #    tempTable=continentalTable
         #    endkk=endkk2
@@ -48,24 +48,24 @@ def main():
         #    tempTable=teamTable
         NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWoman,Option, startYear,EndYear,Country,u'no')    
     elif selector==2:
-        StageRaceName=u"Boels Ladies Tour"
-        StageRaceGenre=u"du "  
-        StageRaceMasterId=1572063
-        StageRaceMaster=57277611  #only for onlystages
+        StageRaceName=u"La Madrid Challenge by La Vuelta"
+        StageRaceGenre=u"de "  
+        StageRaceMasterId=21030967
+        StageRaceMaster=57277615 #only for onlystages
         Year=2019
         UCI=u"yes"
         Onlystages=u"yes"
         Createstage=u"yes"
-        StageRaceBegin=pywikibot.WbTime(site=site,year=Year, month=9, day=3, precision='day')
-        StageRaceEnd=pywikibot.WbTime(site=site,year=Year, month=9, day=8, precision='day')
-        FirstStage=0
-        LastStage=6
-        CountryCIO=u'NED'
+        StageRaceBegin=pywikibot.WbTime(site=site,year=Year, month=9, day=14, precision='day')
+        StageRaceEnd=pywikibot.WbTime(site=site,year=Year, month=9, day=15, precision='day')
+        FirstStage=1
+        LastStage=2
+        CountryCIO=u'ESP'
         Class=21
         StageRaceCreator(pywikibot,site,repo,time,teamTable,StageRaceName,StageRaceGenre,StageRaceMasterId,Year,UCI,StageRaceBegin,
                          StageRaceEnd,FirstStage,LastStage,CountryCIO,Createstage,Class,Onlystages,StageRaceMaster)
     elif selector==3:        
-        IdTeamPage=u'Q57277611'
+        IdTeamPage=u'Q57277615'
         TeamOrOther=u'Comp'
         nameSorter(pywikibot,site,repo,time, IdTeamPage, TeamOrOther)
     elif selector==4:
@@ -93,18 +93,18 @@ def main():
        Option=u'clmon' #'clmoff'
        ccChampionshipCreator(pywikibot,site,repo,time,tempccTable,ccendkk,ManOrWoman, Option)
     elif selector==10:
-         StageRaceName=u"Grand Prix d'Isbergues féminin"
-         StageRaceGenre=u"du "
-         StageRaceMasterId=56703296
+         StageRaceName=u"Clasica Esencial Costa Rica"
+         StageRaceGenre=u"de la "
+         StageRaceMasterId=66309379
          Year=2019
          UCI=u"yes"
-         StageRaceDate=pywikibot.WbTime(site=site,year=Year, month=9, day=22, precision='day')
-         CountryCIO=u'FRA'
+         StageRaceDate=pywikibot.WbTime(site=site,year=Year, month=8, day=6, precision='day')
+         CountryCIO=u'CRC'
          Class=12
          SingleDayRaceCreator(pywikibot,site,repo,time,teamTable,StageRaceName,StageRaceGenre,StageRaceMasterId,Year,UCI,StageRaceDate,CountryCIO,Class)
     elif selector==11:
-        RaceID='Q60964419'
-        StageOrGeneral=4# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
+        RaceID='Q65950052'
+        StageOrGeneral=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
         final=0
         separator=";"
@@ -112,25 +112,25 @@ def main():
         year=2019
         classificationImporter(pywikibot,site,repo,StageOrGeneral,RaceID,final,separator,maxkk,year)
     elif selector==12: 
-        year=u'2018'
+        year=u'2016'
         separator=";"
-        test=0
+        test=1
         UCIclassificationImporter(pywikibot,site,repo,year,separator,test)
     elif selector==13:
-        RaceID='Q60964419'
+        RaceID='Q57277611'
         prologueorfinal=0 #0=prologue, 1=final, 2=one day race
         separator=";"
         chrono="on"
         test=0
-        timeofrace=pywikibot.WbTime(site=site,year=2019, month=7, day=18, precision='day')    
+        timeofrace=pywikibot.WbTime(site=site,year=2019, month=9, day=3, precision='day')    
         listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separator,timeofrace,chrono,test,teamTable)    
     elif selector==14:
-        name="Janette Uwineza"
-        description='coureuse cycliste rwandaise' #française
-        CountryCIO=u'RWA'
+        name="Madelin Jorge Salgado"
+        description='coureuse cycliste cubaine' #française
+        CountryCIO=u'CUB'
         riderFastInit(pywikibot,site,repo,time,teamTableFemmes, name,description,CountryCIO)
     elif selector==15:
-        championshipID='Q65372007'
+        championshipID='Q30511620'
         test=0
         palmaresImporter(pywikibot,site,repo,championshipID,test)
     elif selector==16:

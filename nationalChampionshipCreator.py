@@ -21,7 +21,7 @@ def nationalChampionshipBasic(pywikibot,repo,item,siteIn,Master,Year,country_cod
     addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
     addValue(pywikibot,repo,item,17,country_code,u'country')   
     
-def nationalChampionshipEnLigneBasic(pywikibot,repo,item,siteIn,Master,country_code,Year):
+def nationalChampionshipEnLigneBasic(pywikibot,repo,item,siteIn,Master,country_code,Year,Idpresent,Ligne):
    addValue(pywikibot,repo,item,31,Master,u'Nature') 
    Addc=1
     
@@ -37,7 +37,21 @@ def nationalChampionshipEnLigneBasic(pywikibot,repo,item,siteIn,Master,country_c
        target = itemToAdd#pywikibot.ItemPage(repo, u'Q22231119')
        claim.setTarget(target)
        item.addClaim(claim, summary=u'Adding CN') 
-    
+  
+   if Ligne==1:
+       label=u'Course en ligne féminine aux championnats nationaux de cyclisme sur route '+str(Year)
+   else:
+       label=u'Contre-la-montre féminin aux championnats nationaux de cyclisme sur route '+str(Year)
+   Idchamp=searchItem(pywikibot,siteIn,label)
+   if (Idchamp==u'Q0')or(Idchamp==u'Q1'):  #no previous or several
+           a=1
+   else:
+        addValue(pywikibot,repo,item,361,noQ(Idchamp),u'part of') 
+        itemMaster= pywikibot.ItemPage(repo, Idchamp)
+        itemMaster.get()
+        addMultipleValue(pywikibot,repo,itemMaster,527,noQ(Idpresent),u'link year',0)
+   
+   addValue(pywikibot,repo,item,361,Master,u'part of')  
    addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
    addValue(pywikibot,repo,item,17,country_code,u'country')
 
@@ -206,6 +220,7 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWo
                    addValue(pywikibot,repo,itemNext,155,noQ(Idpresent),u'link previous')
                  
                 #Link the new item to the other    
+          
                 #link to master
                 itemMaster= pywikibot.ItemPage(repo, u'Q'+ str(teamTable[kk][9]))
                 itemMaster.get()
@@ -229,7 +244,7 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWo
                 itemEnLigne.get()
                 
                 if CC==u'no':
-                    nationalChampionshipEnLigneBasic(pywikibot,repo,itemEnLigne,site,teamTable[kk][IndexRoadRace],teamTable[kk][3],Year)
+                    nationalChampionshipEnLigneBasic(pywikibot,repo,itemEnLigne,site,teamTable[kk][IndexRoadRace],teamTable[kk][3],Year,IdEnLignepresent,1)
                 else:
                     continentalChampionshipEnLigneBasic(pywikibot,repo,item,siteIn,teamTable[kk][IndexRoadRace],Year)
                     
@@ -289,7 +304,7 @@ def NationalChampionshipCreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWo
                     itemClm.get()
                     #Same function as EnLigne
                     if CC==u'no':
-                        nationalChampionshipEnLigneBasic(pywikibot,repo,itemClm,site,teamTable[kk][IndexClmRace],teamTable[kk][3],Year)
+                        nationalChampionshipEnLigneBasic(pywikibot,repo,itemClm,site,teamTable[kk][IndexClmRace],teamTable[kk][3],Year,IdClmpresent,0)
                     else:
                         continentalChampionshipEnLigneBasic(pywikibot,repo,item,siteIn,teamTable[kk][IndexRoadRace],Year)
                     

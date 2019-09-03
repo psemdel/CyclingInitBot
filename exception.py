@@ -48,6 +48,16 @@ def listOfException():
     exceptionTable[kk][0]=u'Katharine Hall'
     exceptionTable[kk][1]=u'Q17306130' 
     kk+=1      
+    exceptionTable[kk][0]=u'Elizabeth Bennett'
+    exceptionTable[kk][1]=u'Q57956663' 
+    kk+=1 
+    exceptionTable[kk][0]=u'charlotte mitchell'
+    exceptionTable[kk][1]=u'Q66370894' 
+    kk+=1 
+    exceptionTable[kk][0]=u'Sandra Gómez'
+    exceptionTable[kk][1]=u'Q23785379' 
+    kk+=1   
+    
    
     
     return exceptionTable
