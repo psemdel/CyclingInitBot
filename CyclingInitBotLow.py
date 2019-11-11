@@ -40,6 +40,12 @@ def deleteValue(pywikibot,repo,item,propertyNummer,value,comment):
         allclaims=item.claims[u'P'+str(propertyNummer)] 
         claim=allclaims[itemposition]
         item.removeClaims(claim)
+        
+def deleteProperty(pywikibot,repo,itemID,propertyNummer):
+    item =pywikibot.ItemPage(repo, itemID)
+    item.get()
+    if(u'P'+str(propertyNummer) in item.claims): 
+        item.removeClaims(item.claims['P'+str(propertyNummer)])
    
     
 def addMultipleValue(pywikibot,repo,item,propertyNummer,value,comment,overpass): #Same as add value but for comprend

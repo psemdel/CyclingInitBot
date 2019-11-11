@@ -18,6 +18,7 @@ from calendarList import *
 from CyclingInitBotLow import *
 from calendarList import*
 from classificationImporter import*
+from uciclassification import*
 
 def ImportInit():
     print('Import packet')

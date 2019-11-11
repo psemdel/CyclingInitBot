@@ -81,119 +81,30 @@ def searchRider(pywikibot,site,repo,resulttable,kk,reversename):
 def searchTeam(pywikibot,site,repo,resulttable,kk,column):
     TeamExceptionTable=listOfTeamException()
     teamCode=resulttable[kk][column]
-    print(teamCode)
+    #print(teamCode)
     
     for ll in range(1,len(TeamExceptionTable)):
         if teamCode==TeamExceptionTable[ll][0]:
+            #print(u'Identified exception')
             return TeamExceptionTable[ll][1]
     
     TeamID=searchItem(pywikibot,site, teamCode )
     if TeamID=='Q0':
-        print(teamCode +'not found')
+        #print(teamCode +'not found')
         return '0'
     elif (TeamID==u'Q1'):
-        print(teamCode+' already present several times')
+        #print(teamCode+' already present several times')
         return '0'
     else:
         thisteam =pywikibot.ItemPage(repo, TeamID)
         thisteam.get()
-        print(get_label('fr', thisteam))
+        #print(get_label('fr', thisteam))
         return TeamID
 
-def UCIclassificationImporter(pywikibot,site,repo,year, separator,test): #
-    resulttable = [[0 for x in range(10)] for y in range(1000)] 
-    
-    kk=0
-    rankrow=-1
-    lastnamerow=-1
-    firstnamerow=-1
-    namerow=-1
-    resultrow=-1
-    pointsrow=-1
-    teamcoderow=-1
-    reversename=0
-    with open('UCIranking'+year+'.csv', newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=separator, quotechar='|')
-        for row in spamreader:
-            if kk==0:
-                for jj in range(len(row)):
-                    print(row[jj])
-                
-                    if row[jj]=='Rank':
-                        rankrow=jj
-                    elif row[jj]=='Last name':
-                        lastnamerow=jj
-                    elif row[jj]=='First name':
-                        firstnamerow=jj
-                    elif row[jj]=='Name':
-                        namerow=jj
-                    elif row[jj]=='Results' or row[jj]=='Result' :  
-                        resultrow=jj
-                    elif row[jj]=='Points':  
-                        pointsrow=jj
-                    elif row[jj]=='Team Code':  
-                        teamcoderow=jj 
-          
-                if firstnamerow==-1 and namerow!=-1:
-                    reversename=1
-                if rankrow==-1:
-                    print('no rank column')
-                    return 0
-            elif kk!=0:
-                resulttable[kk-1][0]=row[rankrow]
-                if namerow!=-1:
-                    resulttable[kk-1][1]=row[namerow]
-                if firstnamerow!=-1:
-                    resulttable[kk-1][2]=row[firstnamerow]
-                if lastnamerow!=-1:
-                    resulttable[kk-1][3]=row[lastnamerow]
-                if pointsrow!=-1:
-                    resulttable[kk-1][4]=row[pointsrow] #time
-                if teamcoderow!=-1:
-                    if row[teamcoderow]!=0 and row[teamcoderow]!="":
-                        resulttable[kk-1][5]=row[teamcoderow]+" "+year
-            kk=kk+1
-        
-        print('table read')
-        for nn in range(1000):
-            TeamID='0'
-            RiderID='0'
-            if resulttable[nn][5]!=0:
-                TeamID=searchTeam(pywikibot,site,repo,resulttable,nn,5)
-                if test==1:
-                    RiderID=searchRider(pywikibot,site,repo,resulttable,nn,reversename)
-            if RiderID!='0' and TeamID!='0' and test==0:
-               item =pywikibot.ItemPage(repo, TeamID)
-               item.get()
-               Addc=1
-               
-               if(u'P3494' in item.claims):  
-                   listOfcomprend=item.claims.get(u'P3494')
-                   itemToAdd=pywikibot.ItemPage(repo,RiderID)
-                   for ii in range(len(listOfcomprend)):
-                       if listOfcomprend[ii].getTarget()==itemToAdd: #Already there
-                            Addc=0
-                            print('Item already in the Master list')
-               
-               if Addc==1:
-                   claim=pywikibot.Claim(repo, u'P3494') 
-                   target = pywikibot.ItemPage(repo, RiderID)
-                   claim.setTarget(target)
-                   item.addClaim(claim, summary=u'Adding classification')
-                   qualifierRank=pywikibot.page.Claim(site, 'P1352', isQualifier=True)
-                   targetQualifier =  pywikibot.WbQuantity(amount=int(resulttable[nn][0]), site=repo)
-                   qualifierRank.setTarget(targetQualifier)
-                   claim.addQualifier(qualifierRank)
-                   qualifierPoints=pywikibot.page.Claim(site, 'P1358', isQualifier=True)
-                   targetQualifier = pywikibot.WbQuantity(amount=float(resulttable[nn][4].replace(",",".")), site=repo)
-                   qualifierPoints.setTarget(targetQualifier)
-                   claim.addQualifier(qualifierPoints)
-    
-
-def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, separator,maxkk,year):
+def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, separator,maxkk,year,startliston):
     filepath='C:\temp\Result\Results.csv'
     #For Europa
-    resulttable = [[0 for x in range(20)] for y in range(20)] 
+    resulttable = [[0 for x in range(20)] for y in range(2000)] 
     kk=0
     rankrow=-1
     lastnamerow=-1
@@ -229,7 +140,8 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
                 if rankrow==-1:
                     print('no rank column')
                     return 0
-            elif kk!=0 and kk<11:
+            else:
+            #elif kk!=0:#kk<11
                 resulttable[kk-1][0]=row[rankrow]
                 if namerow!=-1:
                     resulttable[kk-1][1]=row[namerow]
@@ -255,16 +167,18 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
                             temp=row[resultrow][1:]
                             resulttable[kk-1][5]=timeconverter(temp)
                         else:
-                            print(row[resultrow])
-                            resulttable[kk-1][4]=timeconverter(row[resultrow]) #time
-  
-                            if resulttable[kk-1][4]==0:
-                                resulttable[kk-1][5]=0
-                            else:
-                                resulttable[kk-1][5]=resulttable[kk-1][4]-resulttable[0][4]
+                            if row[resultrow]!='':
+                                resulttable[kk-1][4]=timeconverter(row[resultrow]) #time
+      
+                                if resulttable[kk-1][4]==0:
+                                    resulttable[kk-1][5]=0
+                                else:
+                                    resulttable[kk-1][5]=resulttable[kk-1][4]-resulttable[0][4]
+            
             kk=kk+1
     item =pywikibot.ItemPage(repo, RaceID)
     item.get()
+    print('resulttable created')
     
     if GeneralOrStage==1:
         propertyNummer='2417' #stage
@@ -282,6 +196,17 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
         propertyNummer='4322'#sprint    
     else: #0
         propertyNummer='2321'  #general
+    
+    thereisastartlist=0
+    if startliston=="yes":
+        if(u'P361' in item.claims):  
+            listOfcomprend=item.claims.get(u'P361')
+            parent=listOfcomprend[0].getTarget()
+            parent.get()
+            if(u'P361' in parent.claims): 
+                startlist=parent.claims.get(u'P'+str(710))
+                thereisastartlist=1
+                print('startlist found')
     
     test=0
     if test==0:
@@ -301,25 +226,37 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
                    target = pywikibot.ItemPage(repo, RiderID)
                    claim.setTarget(target)
                    item.addClaim(claim, summary=u'Adding classification')
-                   qualifierRank=pywikibot.page.Claim(site, 'P1352', isQualifier=True)
+                   qualifierRank=pywikibot.page.Claim(site, 'P1352', is_qualifier=True)
                    targetQualifier =  pywikibot.WbQuantity(amount=int(resulttable[kk][0]), site=repo)
                    qualifierRank.setTarget(targetQualifier)
                    claim.addQualifier(qualifierRank)
                    if GeneralOrStage==2 or GeneralOrStage==3 or GeneralOrStage==6 or GeneralOrStage==7:
-                       qualifierPoints=pywikibot.page.Claim(site, 'P1358', isQualifier=True)
+                       qualifierPoints=pywikibot.page.Claim(site, 'P1358', is_qualifier=True)
                        targetQualifier = pywikibot.WbQuantity(amount=int(resulttable[kk][4]), site=repo)
                        qualifierPoints.setTarget(targetQualifier)
                        claim.addQualifier(qualifierPoints)
                    elif resulttable[kk][0]=='1':
-                       qualifierTime=pywikibot.page.Claim(site, 'P2781', isQualifier=True)
+                       qualifierTime=pywikibot.page.Claim(site, 'P2781', is_qualifier=True)
                        targetQualifier = pywikibot.WbQuantity(amount=int(resulttable[kk][4]), site=repo)
                        qualifierTime.setTarget(targetQualifier)
                        claim.addQualifier(qualifierTime)
                    else:
-                       qualifierEcart=pywikibot.page.Claim(site, 'P2911', isQualifier=True)
+                       qualifierEcart=pywikibot.page.Claim(site, 'P2911', is_qualifier=True)
                        targetQualifier = pywikibot.WbQuantity(amount=int(resulttable[kk][5]), site=repo)
                        qualifierEcart.setTarget(targetQualifier)
                        claim.addQualifier(qualifierEcart)
+                   #look for team in startlist
+                   if thereisastartlist==1:
+                       Addc=-1
+                       for ii in range(len(startlist)):
+                           if startlist[ii].getTarget()==target: #Already there
+                               Addc=ii
+                       if Addc!=-1:
+                           for qual in startlist[Addc].qualifiers.get('P54', []):
+                               qualifierTeam=pywikibot.page.Claim(site, 'P54', is_qualifier=True)
+                               qualifierTeam.setTarget(qual.getTarget())
+                               claim.addQualifier(qualifierTeam)
+  
                    kk=kk+1
                    if GeneralOrStage==0 and final==1:
                        addWinner(pywikibot, site,repo,item,RiderID,int(resulttable[kk-1][0]),GeneralOrStage) 
@@ -327,7 +264,40 @@ def classificationImporter(pywikibot,site,repo,GeneralOrStage, RaceID,final, sep
                 else:
                    print(u'interrupted')
                    kk=1000
-                   
+        print('result inserted')
+            #fill startlist
+        if thereisastartlist==1 and GeneralOrStage==1:
+            qualifierDNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
+            qualifierStageNumber=pywikibot.page.Claim(site, 'P1545', is_qualifier=True)
+            stageNummer=-1
+            if(u'P1545' in item.claims):  
+                listOforder=item.claims.get(u'P1545')
+                stageNummer=str(listOforder[0].getTarget())
+            kk=0 
+            while kk<len(resulttable):
+                if resulttable[kk][0]=='': #dnf
+                    RiderID=searchRider(pywikibot,site,repo,resulttable,kk,reversename)
+                    if RiderID!='0':
+                        target = pywikibot.ItemPage(repo, RiderID)
+                        Addc=-1
+                        for ii in range(len(startlist)):
+                           if startlist[ii].getTarget()==target: #Already there
+                                Addc=ii
+                        if Addc!=-1:
+                             qualnotfound=1
+                             for qual in startlist[Addc].qualifiers.get('P1534', []):
+                                 qualnotfound=0
+                             if qualnotfound==1:
+                                 targetQualifier = pywikibot.ItemPage(repo, u'Q1210380')
+                                 qualifierDNF.setTarget(targetQualifier)
+                                 startlist[Addc].addQualifier(qualifierDNF)
+                             qualnotfound=1
+                             for qual in startlist[Addc].qualifiers.get('P1545', []):
+                                 qualnotfound=0   
+                             if qualnotfound==1 and stageNummer!=-1:   
+                                 qualifierStageNumber.setTarget(stageNummer)
+                                 startlist[Addc].addQualifier(qualifierStageNumber)
+                kk=kk+1
                    
 def riderTricot(pywikibot,site,repo,riderID,timeOfRace,claim,chrono):
     #look for the tricot of rider
@@ -358,8 +328,6 @@ def riderTricot(pywikibot,site,repo,riderID,timeOfRace,claim,chrono):
                     timeroad=pywikibot.WbTime(site=site,year=row[5], month=row[4], day=row[3], precision='day')    
                     #timeOfRace>timeofroad and timeOfRace<=timeofroad+1 year
                     if compareDates(timeOfRace,timeroad)==1 and timeOfRace.year<=(timeroad.year+1): #if race after championship
-                        print(timeroad.year)
-                        print(timeOfRace.year)
                         if u'Q934877'==row[2]:
                             worldroadchamp=row[2]
                         elif u'Q30894544'==row[2]:
@@ -375,23 +343,20 @@ def riderTricot(pywikibot,site,repo,riderID,timeOfRace,claim,chrono):
                                 isroadchamp=1
                 if row[13]==riderID:
                     timeclm=pywikibot.WbTime(site=site,year=row[12], month=row[11], day=row[10], precision='day')    
-                    if compareDates(timeOfRace,timeclm)==1:
-                        if timeclm.year>(timeOfRace.year):
-                            a=1
+                    if compareDates(timeOfRace,timeclm)==1 and timeOfRace.year<=(timeclm.year+1):
+                        if u'Q2630733'==row[9]:
+                            worldclmchamp=row[9]
+                        elif u'Q30894543'==row[9]:
+                            eurclmchamp=row[9] 
                         else:
-                            if u'Q2630733'==row[9]:
-                                worldclmchamp=row[9]
-                            elif u'Q30894543'==row[9]:
-                                eurclmchamp=row[9] 
-                            else:
-                                clmchamp=row[9]
-                            if timeclm.year==timeOfRace.year:
-                                 if u'Q2630733'==row[9]:
-                                     isworldclmchamp=1
-                                 elif u'Q30894543'==row[9]:     
-                                     iseurclmchamp=1
-                                 else:
-                                     isclmchamp=1
+                            clmchamp=row[9]
+                        if timeclm.year==timeOfRace.year:
+                             if u'Q2630733'==row[9]:
+                                 isworldclmchamp=1
+                             elif u'Q30894543'==row[9]:     
+                                 iseurclmchamp=1
+                             else:
+                                 isclmchamp=1
             kk=kk+1
         #print(savetable)
         #print(kk)
@@ -457,7 +422,7 @@ def riderTricot(pywikibot,site,repo,riderID,timeOfRace,claim,chrono):
            
         if quali!=0:  
            targetQualifier = pywikibot.ItemPage(repo, quali)
-           qualifierTricot=pywikibot.page.Claim(site, 'P2912', isQualifier=True)
+           qualifierTricot=pywikibot.page.Claim(site, 'P2912', is_qualifier=True)
            qualifierTricot.setTarget(targetQualifier)
            claim.addQualifier(qualifierTricot)    
            
@@ -476,7 +441,7 @@ def riderTricot(pywikibot,site,repo,riderID,timeOfRace,claim,chrono):
     
             if quali!=0:  
                targetQualifier = pywikibot.ItemPage(repo, quali)
-               qualifierTricot=pywikibot.page.Claim(site, 'P2912', isQualifier=True)
+               qualifierTricot=pywikibot.page.Claim(site, 'P2912', is_qualifier=True)
                qualifierTricot.setTarget(targetQualifier)
                claim.addQualifier(qualifierTricot)  
 
@@ -536,7 +501,7 @@ def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separa
             kk=kk+1
     item =pywikibot.ItemPage(repo, RaceID)
     item.get()    
-    
+
     #delete the zeros
     resulttable2 = [[0 for x in range(10)] for y in range(kk-1)] 
     for ii in range(0,kk-1):
@@ -586,7 +551,7 @@ def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separa
                     if proteam==u'reset':
                         proteam=team
                     else:
-                        if proteam!=team:
+                        if team!=0 and proteam!=team: 
                             allsameteam=allsameteam-1
             claim=pywikibot.Claim(repo, u'P'+str('710')) 
             if (u'P'+str('710') in item.claims):
@@ -594,6 +559,9 @@ def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separa
             listOfcomprend=item.claims.get(u'P'+str(710))
             if prologueorfinal==1:
                 listOfcomprendbool=[0 for x in range(len(listOfcomprend))] 
+            qualifierDNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
+            qualifierRank=pywikibot.page.Claim(site, 'P1352', is_qualifier=True)
+            qualifierDossard=pywikibot.page.Claim(site, 'P1618', is_qualifier=True)
             for kk in range(len(resulttable)):
                 RiderID=searchRider(pywikibot,site,repo,resulttable,kk,reversename)
                 if RiderID!='0':
@@ -606,59 +574,69 @@ def listofstartersimporter (pywikibot,site,repo, prologueorfinal, RaceID, separa
                                 Addc=ii
                                 if prologueorfinal==1:
                                     listOfcomprendbool[ii]=1
-                    if Addc==-1:
+                    if Addc==-1:  ##create the rider
                         claim=pywikibot.Claim(repo, u'P'+str('710'))  #reinit everytime
                         claim.setTarget(target)
                         item.addClaim(claim, summary=u'Adding starterlist')
-                        qualifierDossard=pywikibot.page.Claim(site, 'P1618', isQualifier=True)
+                        #qualifierDossard=pywikibot.page.Claim(site, 'P1618', is_qualifier=True)
                         targetQualifier =resulttable[kk][4]  #pywikibot.WbQuantity(amount=resulttable[kk][4], site=repo)
                         qualifierDossard.setTarget(targetQualifier)
                         claim.addQualifier(qualifierDossard)
-                        if resulttable[kk][5]!=0:
+                        if resulttable[kk][5]!=0: #national team
                             Idnationalteam=searchItem(pywikibot,site,resulttable[kk][5])
                             if Idnationalteam!=u'Q0' and Idnationalteam!=u'Q1':
-                               print(Idnationalteam)
-                               qualifierTeam=pywikibot.page.Claim(site, 'P54', isQualifier=True)
+                               #print(Idnationalteam)
+                               qualifierTeam=pywikibot.page.Claim(site, 'P54', is_qualifier=True)
                                targetQualifier = pywikibot.ItemPage(repo, Idnationalteam)
                                qualifierTeam.setTarget(targetQualifier)
                                claim.addQualifier(qualifierTeam)
                         if prologueorfinal==1 or prologueorfinal==2:
-                           if resulttable[kk][0]=='' and prologueorfinal==2:
+                           if resulttable[kk][0]=='': #no ranking
+                               qualifierDNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
+                               targetQualifier = pywikibot.ItemPage(repo, u'Q1210380')
+                               qualifierDNF.setTarget(targetQualifier)
+                               claim.addQualifier(qualifierDNF)
+                           else:
+                               qualifierRank=pywikibot.page.Claim(site, 'P1352', is_qualifier=True)
+                               targetQualifier =  pywikibot.WbQuantity(amount=int(resulttable[kk][0]), site=repo)
+                               qualifierRank.setTarget(targetQualifier)
+                               claim.addQualifier(qualifierRank)
+                        riderTricot(pywikibot,site,repo,RiderID,timeOfRace,claim,chrono)  
+                    else: ##rider already there
+                        if prologueorfinal==1 or prologueorfinal==2:
+                           if resulttable[kk][0]=='': #no ranking
                                qualnotfound=1
-                               #for qual in target.qualifiers.get('P1534', []):
-                               #    qualnotfound=0
+                               for qual in listOfcomprend[Addc].qualifiers.get('P1534', []):
+                                   qualnotfound=0
                                if qualnotfound==1:
-                                   qualifierDNF=pywikibot.page.Claim(site, 'P1534', isQualifier=True)
+                                   #qualifierDNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
                                    targetQualifier = pywikibot.ItemPage(repo, u'Q1210380')
                                    qualifierDNF.setTarget(targetQualifier)
-                                   claim.addQualifier(qualifierDNF)
+                                   listOfcomprend[Addc].setTarget(target) 
+                                   listOfcomprend[Addc].addQualifier(qualifierDNF)
                            else:
                                qualnotfound=1
-                               
-                               #for qual in target.qualifiers.get('P1352', []):
-                               #    qualnotfound=0
+                               for qual in listOfcomprend[Addc].qualifiers.get('P1352', []):
+                                   qualnotfound=0
                                if qualnotfound==1:
-                                   qualifierRank=pywikibot.page.Claim(site, 'P1352', isQualifier=True)
+                                   #qualifierRank=pywikibot.page.Claim(site, 'P1352', is_qualifier=True)
                                    targetQualifier =  pywikibot.WbQuantity(amount=int(resulttable[kk][0]), site=repo)
                                    qualifierRank.setTarget(targetQualifier)
-                                   claim.addQualifier(qualifierRank)
-                        riderTricot(pywikibot,site,repo,RiderID,timeOfRace,claim,chrono)  
-                    else:
-                        if prologueorfinal==1 or prologueorfinal==2:
-                           listOfcomprend[Addc].setTarget(target) 
-                           qualifierRank=pywikibot.page.Claim(site, 'P1352', isQualifier=True)
-                           targetQualifier =  pywikibot.WbQuantity(amount=int(resulttable[kk][0]), site=repo)
-                           qualifierRank.setTarget(targetQualifier)
-                           listOfcomprend[Addc].addQualifier(qualifierRank) #to check
+                                   listOfcomprend[Addc].setTarget(target) 
+                                   listOfcomprend[Addc].addQualifier(qualifierRank)
             #all riders are classified, assumption the other are DNF
             if prologueorfinal==1:
-                for kk in range(len(listOfcomprend)+1):
-                    if listOfcomprendbool[kk]==0:
+                for kk in range(len(listOfcomprend)):
+                    if listOfcomprendbool[kk]==0: ##rider not found in this result sheet
                          listOfcomprend[kk].setTarget(target) 
-                         qualifierDNF=pywikibot.page.Claim(site, 'P1534', isQualifier=True)
-                         targetQualifier = pywikibot.ItemPage(repo, u'Q1210380')
-                         qualifierDNF.setTarget(targetQualifier)
-                         listOfcomprend[kk].addQualifier(qualifierDNF)
+                         qualifierDNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
+                         qualnotfound=1
+                         for qual in listOfcomprend[kk].qualifiers.get('P1534', []):
+                             qualnotfound=0
+                         if qualnotfound==1:
+                             targetQualifier = pywikibot.ItemPage(repo, u'Q1210380')
+                             qualifierDNF.setTarget(targetQualifier)
+                             listOfcomprend[kk].addQualifier(qualifierDNF)
                          
                          
 def champlistcreator(pywikibot,site,repo,time):
@@ -849,19 +827,20 @@ def test():
     for kk in range(2):
        target=listOfcomprend[kk]
     #for target in claims.get(u'P710'):
-    #   if target.qualifiers and target.qualifiers:
+    #   if target.qualifiers and target.qualifiers:qualifierDossard
        for qual in target.qualifiers.get('P1534', []):
            print("qual found")
 
        if 1==0: #target.qualifiers['P1534'][0]
            print("qualifier found")
-           qualifierDNF=pywikibot.page.Claim(site, 'P1534', isQualifier=True)
+           qualifierDNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
            targetQualifier = pywikibot.ItemPage(repo, u'Q1210380')
            qualifierDNF.setTarget(targetQualifier)
-           claim.addQualifier(qualifierDNF)          
+           claim.addQualifier(qualifierDNF)   
+           
 if __name__ == '__main__': 
-    [pywikibot,site,repo,time]=wikiinit()          
-    #print(searchItem(pywikibot,site,'ESP 2019'))
-    test()
-
-   
+    [pywikibot,site,repo,time]=wikiinit()
+    year=u'2019'
+    separator=";"
+    test=0
+    UCIclassificationCleaner(pywikibot,site,repo,year,separator,test)

@@ -58,24 +58,35 @@ def nationalTeamIntro(item,teamTable,kk,Year):
        item.editAliases(aliases=myalias, summary=u'Setting Aliases') #Not working yet
        
        
-def nationalTeamLabel(teamTable,kk,Year):
+def nationalTeamLabel(teamTable,kk,Year,ManOrWoman):
     #input
     country_fr =teamTable[kk][1]
     genre_fr =teamTable[kk][2]
         
     countryadj_en =teamTable[kk][6]
     
+    if ManOrWoman==u'man':
+        adj=u''
+        adjen=u'men'
+    else:
+        adj=u'féminine '
+        adjen=u'women'
     #declaration
     mylabel={}
     
     #Teamlabel_fr
     label_part1_fr = u"équipe"
-    label_part2_fr = u"féminine de cyclisme sur route"
+    label_part2_fr = adj+u"de cyclisme sur route"
     mylabel[u'fr']=label_part1_fr + " " + genre_fr + country_fr + " " + label_part2_fr + " "+ str(Year)
      
     #Teamlabel_en
-    label_part2_en = u"women's national road cycling team"
+    label_part2_en = adjen+u"'s national road cycling team"
     mylabel[u'en']=countryadj_en + " "+ label_part2_en + " "+ str(Year)
+    
+    #Teamlabel_es
+    countryname_es =teamTable[kk][15]
+    if countryname_es!='':
+        mylabel[u'es']=u"Equipo nacional de " + countryname_es + " de ciclismo en ruta" + " "+ str(Year)
     
     return mylabel
 
@@ -96,8 +107,14 @@ def nationalTeamDescription(teamTable,kk,Year):
     return mydescription
  
 
-def Nationalteamcreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
+def Nationalteamcreator(pywikibot,site,repo,time,teamTableFemmes,endkk,ManOrWoman):
     kkinit=teamCIOsearch(teamTableFemmes, u'KOR')
+    
+    if ManOrWoman=='man':
+        IndexTeam=14
+    else:
+        IndexTeam=4    
+    
     #kk=kkinit
     #print(kkinit)
     #if kk==kkinit:
@@ -108,7 +125,7 @@ def Nationalteamcreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
                 Year=ii
                  
                 mylabel={}
-                mylabel=nationalTeamLabel(teamTableFemmes,kk,Year)
+                mylabel=nationalTeamLabel(teamTableFemmes,kk,Year,ManOrWoman)
                 Idpresent=searchItem(pywikibot,site,mylabel['fr'])
                 if (Idpresent==u'Q0'):
                     print(mylabel['fr']+' created')
@@ -124,7 +141,7 @@ def Nationalteamcreator(pywikibot,site,repo,time,teamTableFemmes,endkk):
                 item.get()
                 nationalTeamIntro(item,teamTableFemmes,kk,Year)
                 time.sleep(1.0)
-                nationalTeamBasic(pywikibot,repo,item,site,teamTableFemmes[kk][1],teamTableFemmes[kk][3],Year,teamTableFemmes[kk][4],teamTableFemmes[kk][7])
+                nationalTeamBasic(pywikibot,repo,item,site,teamTableFemmes[kk][1],teamTableFemmes[kk][3],Year,teamTableFemmes[kk][IndexTeam],teamTableFemmes[kk][7])
                 time.sleep(1.0)
                 #Link the other to the new item
                 

@@ -94,65 +94,65 @@ def proTeamDescription(teamTable,kk,Year):
 def proteamcreator(pywikibot,site,repo,time,teamTableFemmes,nationalTeamTable,endkk,proamateur,countrytocreate):
     Year=2019
     kkinit=1
-
+    for Year in range(2011,2020):
     #if kk==kkinit:
-    for kk in range(kkinit,endkk):  #endkk
-        if (proamateur==1 and teamTableFemmes[kk][6]==1) or (proamateur==0 and teamTableFemmes[kk][5]==1): #
-        #teamTableFemmes[kk][5]==0 or    
-            mylabel={}
-            mylabel=proTeamLabel(teamTableFemmes,kk,Year)
-            Idpresent=searchItem(pywikibot,site,mylabel['fr'])
-            if (Idpresent==u'Q0'):
-                print(mylabel['fr']+' created')
-                #Type code
-                Idpresent = create_item(pywikibot,site, mylabel)
+        for kk in range(kkinit,endkk):  #endkk
+            if (proamateur==1 and teamTableFemmes[kk][6]==1) or (proamateur==0 and teamTableFemmes[kk][5]==1): #
+            #teamTableFemmes[kk][5]==0 or    
+                mylabel={}
+                mylabel=proTeamLabel(teamTableFemmes,kk,Year)
+                Idpresent=searchItem(pywikibot,site,mylabel['fr'])
+                if (Idpresent==u'Q0'):
+                    print(mylabel['fr']+' created')
+                    #Type code
+                    Idpresent = create_item(pywikibot,site, mylabel)
+                    
+                elif (Idpresent==u'Q1'):
+                    print(mylabel['fr']+' already present several times')
+                else:    
+                    print(mylabel['fr']+' already present')
+            
+                item =pywikibot.ItemPage(repo, Idpresent)
+                item.get()
+                proTeamIntro(item,teamTableFemmes,kk,Year,proamateur)
+                time.sleep(1.0)
+                proTeamBasic(pywikibot,repo,item,site,teamTableFemmes[kk][1],CIOtoIDsearch(nationalTeamTable,teamTableFemmes[kk][3]),Year,teamTableFemmes[kk][2],teamTableFemmes[kk][4],proamateur)
+                time.sleep(1.0)
+                #Link the other to the new item
                 
-            elif (Idpresent==u'Q1'):
-                print(mylabel['fr']+' already present several times')
-            else:    
-                print(mylabel['fr']+' already present')
-        
-            item =pywikibot.ItemPage(repo, Idpresent)
-            item.get()
-            proTeamIntro(item,teamTableFemmes,kk,Year,proamateur)
-            time.sleep(1.0)
-            proTeamBasic(pywikibot,repo,item,site,teamTableFemmes[kk][1],CIOtoIDsearch(nationalTeamTable,teamTableFemmes[kk][3]),Year,teamTableFemmes[kk][2],teamTableFemmes[kk][4],proamateur)
-            time.sleep(1.0)
-            #Link the other to the new item
-            
-            #Search previous
-            Yearprevious= Year-1
-            mylabelprevious=proTeamLabel(teamTableFemmes,kk,Yearprevious)
-            Idprevious=searchItem(pywikibot,site,mylabelprevious['fr'])
-            if (Idprevious==u'Q0')or(Idprevious==u'Q1'):  #no previous or several
-               a=1
-            else:
-                addValue(pywikibot,repo,item,155,noQ(Idprevious),u'link previous') 
-                    #Link to the previous
-                itemPrevious=pywikibot.ItemPage(repo, Idprevious)
-                itemPrevious.get()
-                addValue(pywikibot,repo,itemPrevious,156,noQ(Idpresent),u'link next')
-                     
-            #Search next   
-            Yearnext= Year+1
-            mylabelnext=proTeamLabel(teamTableFemmes,kk,Yearnext)
-            Idnext=searchItem(pywikibot,site,mylabelnext['fr'])
-            
-            time.sleep(1.0)
-            if (Idnext==u'Q0')or(Idnext==u'Q1'):  #no next or 
-                a=1
-            else:
-               addValue(pywikibot,repo,item,156,noQ(Idnext),u'link next')  
-               #Link to the next
-               itemNext=pywikibot.ItemPage(repo, Idnext)
-               itemNext.get()
-               addValue(pywikibot,repo,itemNext,155,noQ(Idpresent),u'link previous')
-             
-            #Link the new item to the other    
-            #link to master
-            itemMaster= pywikibot.ItemPage(repo, u'Q'+ str(teamTableFemmes[kk][2]))
-            itemMaster.get()
-            addMultipleValue(pywikibot,repo,itemMaster,527,noQ(Idpresent),u'link year '+ str(Year),0) 
+                #Search previous
+                Yearprevious= Year-1
+                mylabelprevious=proTeamLabel(teamTableFemmes,kk,Yearprevious)
+                Idprevious=searchItem(pywikibot,site,mylabelprevious['fr'])
+                if (Idprevious==u'Q0')or(Idprevious==u'Q1'):  #no previous or several
+                   a=1
+                else:
+                    addValue(pywikibot,repo,item,155,noQ(Idprevious),u'link previous') 
+                        #Link to the previous
+                    itemPrevious=pywikibot.ItemPage(repo, Idprevious)
+                    itemPrevious.get()
+                    addValue(pywikibot,repo,itemPrevious,156,noQ(Idpresent),u'link next')
+                         
+                #Search next   
+                Yearnext= Year+1
+                mylabelnext=proTeamLabel(teamTableFemmes,kk,Yearnext)
+                Idnext=searchItem(pywikibot,site,mylabelnext['fr'])
+                
+                time.sleep(1.0)
+                if (Idnext==u'Q0')or(Idnext==u'Q1'):  #no next or 
+                    a=1
+                else:
+                   addValue(pywikibot,repo,item,156,noQ(Idnext),u'link next')  
+                   #Link to the next
+                   itemNext=pywikibot.ItemPage(repo, Idnext)
+                   itemNext.get()
+                   addValue(pywikibot,repo,itemNext,155,noQ(Idpresent),u'link previous')
+                 
+                #Link the new item to the other    
+                #link to master
+                itemMaster= pywikibot.ItemPage(repo, u'Q'+ str(teamTableFemmes[kk][2]))
+                itemMaster.get()
+                addMultipleValue(pywikibot,repo,itemMaster,527,noQ(Idpresent),u'link year '+ str(Year),0) 
 
 if __name__ == '__main__':
    from ProTeamTable import AmateurTeamTable

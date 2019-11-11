@@ -25,22 +25,34 @@ from exception import *
 def palmaresImporter(pywikibot,site,repo,championshipID,test):
    #Q31271010
     inputstr="""
-|- 
-| 2008 || [[María Bone]] || [[Mabel Hernández]]|| [[Danny Álvarez]]
-|- 
-| 2008 || [[María Bone]] || [[Mabel Hernández]]|| [[Danny Álvarez]]
-|- 
-| 2010 || [[María Parra]] || [[Nataly Arevalo]]|| [[Cindy Merizalde]]
-|- 
-| 2011 || [[Nataly Arevalo]] || [[Maria Bone]]|| [[María Parra]]
-|- 
-| 2014 || [[Jazmín Taborda]] || [[Cristina Iza]] ||  [[Cristina Iza]]
-|- 
-| 2015 || [[Miryan Nuñez]] || [[Nikole Narvaez]] || [[Nikole Narvaez]]
-|- 
-| 2018 || [[Samia Flores]] || [[Fernanda Endara]] || [[Lesley Ojeda]]
-|- 
-| 2019 || [[Miryan Nuñez]] || [[Esther Galarza]] || [[Lesley Ojeda]] 
+|-
+| 2006 || [[Evelyn García]] || [[Ana Gabriela Larios]] ||  [[Ana Gabriela Larios]]
+|-
+| 2007 || [[Evelyn García]] || [[Michelle Ortiz]] || [[Priscila Ramos]]
+|-
+| 2008 || [[Roxana Ortiz]] || [[Priscila Ramos]] ||  [[Priscila Ramos]] 
+|-
+| 2009 || [[Evelyn García]] || [[Michelle Ortiz]] || [[Xenia Estrada]]
+|-
+| 2010 || [[Evelyn García]] || [[Xenia Estrada]] || [[Nathaly Majano]]
+|-
+| 2011 || [[Evelyn García]] || [[Roxana Ortiz]] || [[Beatriz Quiroz]]
+|-
+| 2012 || [[Xenia Estrada]] || [[Ana Figueroa]] || [[Nathaly Majano]]
+|-
+| 2013 || [[Ana Figueroa]] || [[Xenia Estrada]] || [[Karen Cruz]]
+|-
+| 2014 || [[Xenia Estrada]] || [[Ana Figueroa]] ||[[Ana Figueroa]]
+|-
+| 2015 || [[Evelyn García]] || [[Aída Turcios]] || [[Ana Figueroa]]
+|-
+| 2016 || [[Ana Figueroa]] || [[Roxana Ortiz]] || [[Vanessa Serrano]]
+|-
+| 2017 || [[Evelyn García]] || [[Ana Figueroa]] || [[Xenia Estrada]]
+|-
+| 2018 || [[Roxana Ortiz]] || [[Brenda Aparicio]] || [[Alejandra Cardona]]
+|-
+| 2019 || [[Xenia Estrada]] || [[Vanessa Serrano]] || [[Sauking Shi]]
  """
      
     #inputstr=input()

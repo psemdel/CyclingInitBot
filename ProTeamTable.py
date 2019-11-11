@@ -159,7 +159,10 @@ def ProTeamTable():
     teamTable[kk][4]=u'FDJ'
     teamTable[kk][5]=0
     teamTable[kk][6]=0
-    kk+=1       
+    kk+=1      
+    
+    
+    
     
     teamTable[kk][1]=u"Hagens Berman-Supermint"
     teamTable[kk][2]=23022363
@@ -748,7 +751,14 @@ def AmateurTeamTable():
     teamTable[kk][5]=0 
     kk+=1 
     
+    teamTable[kk][1]=u"Crédit mutuel"
+    teamTable[kk][2]=67605086
+    teamTable[kk][3]=u'FRA'
+    teamTable[kk][4]=1
+    teamTable[kk][5]=0
+    kk+=1 
     
+
     #Espagne
     teamTable[kk][1]=u"Catema.cat"
     teamTable[kk][2]=47505687
@@ -788,11 +798,13 @@ def AmateurTeamTable():
     teamTable[kk][5]=0
     kk+=1 
     
-    teamTable[kk][1]=u"Centre mondial du cyclisme"
-    teamTable[kk][2]=2945868
+    
+    
+    teamTable[kk][1]=u"Centre mondial du cyclisme féminin"
+    teamTable[kk][2]=69900887
     teamTable[kk][3]=u'SUI'
     teamTable[kk][4]=1
-    teamTable[kk][5]=0
+    teamTable[kk][5]=1
     kk+=1
     
     
@@ -896,7 +908,7 @@ def AmateurTeamTable():
     teamTable[kk][2]=24185125
     teamTable[kk][3]=u'USA'
     teamTable[kk][4]=2
-    teamTable[kk][5]=1
+    teamTable[kk][5]=0
     kk+=1  
     
     #Pologne

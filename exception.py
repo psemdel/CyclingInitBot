@@ -95,8 +95,15 @@ def listOfTeamException():
     exceptionTable[kk][0]=u'LSL 2019'   
     exceptionTable[kk][1]=u'Q56760475'
     kk+=1   
-    
-    
+    exceptionTable[kk][0]=u'ILU 2019'   
+    exceptionTable[kk][1]=u'Q61510587'
+    kk+=1 
+    exceptionTable[kk][0]=u'LCW 2019'   
+    exceptionTable[kk][1]=u'Q61449735'
+    kk+=1 
+    exceptionTable[kk][0]=u'MCC 2019'   
+    exceptionTable[kk][1]=u'Q61451340'
+    kk+=1 
     
     return exceptionTable
 

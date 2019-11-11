@@ -21,6 +21,7 @@ from classificationImporter import*
 from SingleDayRaceCreator import*
 from exception import *
 from palmaresImporter import *
+from uciclassification import *
 
 if __name__ == '__main__':
    [teamTableFemmes, endkk]=nationalTeamTable()
