@@ -4,7 +4,7 @@ Created on Thu Jan  4 15:35:56 2018
 
 @author: maxime delzenne
 """
-from nationTeamTable import nationalTeamTable 
+from nationTeamTable import nationalTeamTable
 from ProTeamTable import *
 from ccTable import *
 from nameSorter import *
@@ -20,13 +20,14 @@ from calendarList import*
 from classificationImporter import*
 from uciclassification import*
 
+
 def ImportInit():
     print('Import packet')
 
 
 if __name__ == '__main__':
-   [teamTableFemmes, endkk]=nationalTeamTable()
-   #from ProTeamTable import AmateurTeamTable
-   #[teamTableFemmes, endkk]=ProTeamTable()
-   #[teamTableFemmes, endkk]=AmateurTeamTable()
-   print( teamTableFemmes[35][7]==u'GBR')
+    [teamTableFemmes, endkk] = nationalTeamTable()
+    #from ProTeamTable import AmateurTeamTable
+    #[teamTableFemmes, endkk]=ProTeamTable()
+    #[teamTableFemmes, endkk]=AmateurTeamTable()
+    print(teamTableFemmes[35][7] == u'GBR')

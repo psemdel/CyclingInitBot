@@ -24,10 +24,9 @@ from palmaresImporter import *
 from uciclassification import *
 
 if __name__ == '__main__':
-   [teamTableFemmes, endkk]=nationalTeamTable()
-   #from ProTeamTable import AmateurTeamTable
-   #[teamTableFemmes, endkk]=ProTeamTable()
-   #[teamTableFemmes, endkk]=AmateurTeamTable()
-   
+    [teamTableFemmes, endkk] = nationalTeamTable()
+    #from ProTeamTable import AmateurTeamTable
+    #[teamTableFemmes, endkk]=ProTeamTable()
+    #[teamTableFemmes, endkk]=AmateurTeamTable()
 
-   print( teamTableFemmes[35][7]==u'GBR')
+    print(teamTableFemmes[35][7] == u'GBR')

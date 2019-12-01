@@ -30,17 +30,17 @@ def main():
     [proteamTable, proendkk]=ProTeamTable()
     [amateurteamTable, amateurendkk]=AmateurTeamTable()
    # [teamTable, ndkk]=nationalTeamTable()
-    selector=12
+    selector=11
 
     if selector==0:
-        ManOrWoman=u'woman'
+        ManOrWoman=u'man'
         Nationalteamcreator(pywikibot,site,repo,time,teamTable,endkk,ManOrWoman)
     elif selector==1:
-        ManOrWoman=u'woman'
+        ManOrWoman=u'man'
         Option=u'clmon' #'clmoff'
         #CC=u'no'
-        startYear=2006
-        EndYear=2020
+        startYear=2020
+        EndYear=2021
         Country=u'ESA'  
         #if CC=="yes":
         #    tempTable=continentalTable
@@ -66,7 +66,7 @@ def main():
         StageRaceCreator(pywikibot,site,repo,time,teamTable,StageRaceName,StageRaceGenre,StageRaceMasterId,Year,UCI,StageRaceBegin,
                          StageRaceEnd,FirstStage,LastStage,CountryCIO,Createstage,Class,Onlystages,StageRaceMaster)
     elif selector==3:        
-        IdTeamPage=u'Q21856739'
+        IdTeamPage=u'Q21856738'
         TeamOrOther=u'Comp'
         nameSorter(pywikibot,site,repo,time, IdTeamPage, TeamOrOther)
     elif selector==4:
@@ -82,7 +82,7 @@ def main():
     elif selector==7:
         calendarSymmetrizerMass(pywikibot,site,repo,time)
     elif selector==8: 
-       proamateur=0 #1 is pro
+       proamateur=1 #1 is pro
        group=1 #group to create
        countrytocreate=u'SUI'
        if proamateur==1:
@@ -104,8 +104,8 @@ def main():
          Class=12
          SingleDayRaceCreator(pywikibot,site,repo,time,teamTable,StageRaceName,StageRaceGenre,StageRaceMasterId,Year,UCI,StageRaceDate,CountryCIO,Class)
     elif selector==11:
-        RaceID='Q57267790'
-        StageOrGeneral=6# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
+        RaceID='Q24298541'
+        StageOrGeneral=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
         final=0
         separator=";"
@@ -146,6 +146,13 @@ def main():
         itemID=u'Q57267790'
         propertyNummer=3496
         deleteProperty(pywikibot,repo,itemID,propertyNummer)
+    elif selector==19:
+        UCImasterID=u'Q57267790'
+        year=u'2019'
+        separator=";"
+        test=0
+        Mastername=u'UCIranking' #'UCIranking'
+        UCIclassificationImporterRider(pywikibot,site,repo,year, separator,test,UCImasterID, Mastername)
     else: 
         print('do nothing')
         

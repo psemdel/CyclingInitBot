@@ -12,14 +12,19 @@ def StageRaceBasic(pywikibot,repo,item,siteIn,country_code,Master,StartDate, End
 
     addValue(pywikibot,repo,item,31,Master,u'Nature')
     addValue(pywikibot,repo,item,641,3609,u'cyclisme sur route')
-    addValue(pywikibot,repo,item,17,country_code,u'country')
+    if country_code!=0:
+        addValue(pywikibot,repo,item,17,country_code,u'country')
 
     addDate(pywikibot,repo,item,580,StartDate,u'starting date')
     addDate(pywikibot,repo,item,582,EndDate,u'ending date')
 
-    if UCI==u"yes":
+   if UCI==u"yes":
         calendarID=calendaruciID(str(year))
         addValue(pywikibot,repo,item,361,noQ(calendarID),u'part of') #
+    elif WWT==u'yes':
+        calendarID=calendarWWTID(str(year))
+        addValue(pywikibot,repo,item,361,noQ(calendarID),u'part of') #
+
 
 def StageBasic(pywikibot,repo,item,site,Number,country_code,Master,inputDate):
 
@@ -135,14 +140,18 @@ def StageRaceCreator(pywikibot,site,repo,time,teamTableFemmes,StageRaceName,Stag
         
         StageRaceBasic(pywikibot,repo,item,site,CIOtoIDsearch(teamTableFemmes, CountryCIO),StageRaceMasterId,StageRaceBegin,StageRaceEnd, UCI, Year)
         
-        if Class==11:
+        if Class=="1.1":
             ClassId=22231110
-        elif Class==21:
+        elif Class=="2.1":
             ClassId=22231112
-        elif Class==12:
+        elif Class=="1.2":
             ClassId=22231111
-        elif Class==22:
+        elif Class=="2.2":
             ClassId=22231113
+        elif Class=="1.WWT":
+            ClassId=23005601
+        elif Class=="2.WWT":
+            ClassId=23005603
             
         if ClassId:
             addMultipleValue(pywikibot,repo,item,31,ClassId,u'Class',0)

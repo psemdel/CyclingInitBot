@@ -64,7 +64,19 @@ def calendaruciID(year):
 
     return calendarID
 
-         
+ def calendarWWTID(year): 
+    if  year == "2018":
+        calendarID="Q41787783"
+    elif year == "2017":
+        calendarID="Q27431192"	
+    elif year == "2016": 
+        calendarID="Q21034783"
+    else:
+        calendarID="Q0"
+
+    return calendarID
+
+        
                     
 	#UCI["WWT"] = {
 	#	['2018'] = 'Q41787783', ['2017'] = 'Q27431192', ['2016'] = 'Q21034783',
