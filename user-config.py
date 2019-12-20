@@ -6,7 +6,7 @@
 mylang = "wikidata"
 family = "wikidata"
 usernames['wikidata']['wikidata'] = 'CyclingInitBot'
-maxlag= 5
+maxlag = 5
 put_throttle = 1
-retry_wait=10
-max_retries=8
+retry_wait = 10
+max_retries = 8

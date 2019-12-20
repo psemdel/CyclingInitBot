@@ -5,9 +5,7 @@ Created on Thu Jan 31 23:10:26 2019
 
 @author: maxime
 """
-
-
-def listOfException():
+def list_of_rider_exception():
     exceptionTable = [[0 for x in range(2)] for y in range(200)]
     kk = 1
 
@@ -62,7 +60,7 @@ def listOfException():
     return exceptionTable
 
 
-def listofteam():
+def list_of_team_name_exception():
     teamList = [[0 for x in range(2)] for y in range(100)]
     kk = 1
 
@@ -80,7 +78,7 @@ def listofteam():
     kk += 1
 
 
-def listOfTeamException():
+def list_of_team_code_exception():
     exceptionTable = [[0 for x in range(2)] for y in range(100)]
     kk = 1
 
@@ -109,6 +107,3 @@ def listOfTeamException():
     return exceptionTable
 
 
-if __name__ == '__main__':
-    exceptionTable = listOfException()
-    print(exceptionTable[0][0])
