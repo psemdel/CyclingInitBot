@@ -9,8 +9,6 @@ import csv
 import numpy as np
 import os
 from exception import *
-from CyclingInitBotLow import *
-from classificationImporter import *
 
 
 def UCIclassificationImporterRider(

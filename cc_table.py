@@ -4,9 +4,7 @@ Created on Sun May 27 18:46:11 2018
 
 @author: maxime delzenne
 """
-
-
-def ccTable():
+def cc_table():
     i, j = 20, 100
     # For Europa
     teamTable = [[0 for x in range(i)] for y in range(j)]

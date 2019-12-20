@@ -6,7 +6,7 @@ Created on Thu Jan  4 13:23:59 2018
 """
 
 
-def nationalTeamTable():
+def nation_tab():
     i, j = 20, 100
     # For Europa
     teamTable = [[0 for x in range(i)] for y in range(j)]
@@ -1381,8 +1381,3 @@ def nationalTeamTable():
     kk += 1
 
     return [teamTable, kk]
-
-
-if __name__ == '__main__':
-    [teamTable, kk] = nationalTeamTable()
-    print(teamTable[32][12])
