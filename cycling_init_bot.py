@@ -7,16 +7,29 @@ Created on Wed Nov  1 14:12:10 2017
 
 ##Main function of the bot
 def cycling_init_bot():
-    [pywikibot,site,repo,time]=wikiinit()
+    [pywikibot,site,repo,time]=wiki_init()
     [nation_table, endkk]= nation_tab()
     [tempcc_table, ccendkk]=cc_table()
     
-    selector=4
+    selector=5
+    #0-4: init the year
+    #5-6: sorter
+    #7-8: create races
+    #9-10: complete the ranking and start list
+    #11-15: others
     
     if selector==0:
         man_or_woman=u'man'
         national_team_creator(pywikibot,site,repo,time,nation_table,endkk,man_or_woman)
     elif selector==1:
+        #cc
+        man_or_woman=u'woman'
+        option=u'clmon' #'clmoff'
+        national_championship_creator(pywikibot,site,repo,time,nation_table,endkk,
+                                    man_or_woman,option, start_year,end_year,country,True)      
+        
+    elif selector==2:#
+        #not cc
         man_or_woman=u'man'
         option=u'clmon' #'clmoff'
         start_year=2020
@@ -24,59 +37,53 @@ def cycling_init_bot():
         country=u'ESA'  
         national_championship_creator(pywikibot,site,repo,time,nation_table,endkk,
                                     man_or_woman,option, start_year,end_year,country,False)    
-    elif selector==2:
-        StageRaceName=u"Tour de Colombie féminin"
-        StageRaceGenre=u"du "  
-        StageRaceid_master=27684043
-        StageRaceMaster=57277615 #only for onlystages
-        Year=2019
-        UCI=u"yes"
-        Onlystages=False
-        Createstage=True
-        StageRaceBegin=pywikibot.WbTime(site=site,year=Year, month=12, day=3, precision='day')
-        StageRaceEnd=pywikibot.WbTime(site=site,year=Year, month=12, day=7, precision='day')
-        FirstStage=1
-        LastStage=5
-        CountryCIO=u'COL'
-        Class='2.2'
-        StageRaceCreator(pywikibot,site,repo,time,teamTable,StageRaceName,StageRaceGenre,StageRaceid_master,Year,UCI,StageRaceBegin,
-                         StageRaceEnd,FirstStage,LastStage,CountryCIO,Createstage,Class,Onlystages,StageRaceMaster)
-    elif selector==3:        
-        id_team=u'Q21856738'
+    elif selector==3: 
+        race_table, race_dic = race_list()
+        test=False
+        calendar_importer(pywikibot, site, repo,time, nation_table, ";", test, race_table, race_dic)
+    elif selector==4: 
+        #more details in the table with activate and group
+        pro_or_amateur=1 #1 is pro
+        if pro_or_amateur==1:
+            [team_table, endkk, team_dic]=pro_team_tab()
+            pro_team_creator(pywikibot,site,repo,time,team_table,nation_table,endkk,pro_or_amateur, team_dic)
+        else:
+            [team_table, endkk, team_dic]=amateur_team_tab()
+            pro_team_creator(pywikibot,site,repo,time,team_table,nation_table,endkk,pro_or_amateur, team_dic)
+    elif selector==5:        
+        id_team=u'Q16274704'
         team=False
         champ=False #else competition
         test=False
         name_sorter(pywikibot,site,repo,time, id_team, team, champ, test)
-    elif selector==4:
+    elif selector==6:
         id_team=u'Q70443700'
         victory=False #else competition
         test=False
         date_sorter(pywikibot,site,repo,time,id_team,victory,test )
-    elif selector==5:
-        id_calendar=u"Q57267790"
-        calendarSymmetrizer(pywikibot,site,repo,time, id_calendar)
-    elif selector==6:
-        id_master=u"Q27684043"
-        addUCIcalendar(pywikibot,site,repo,time, id_master)
     elif selector==7:
-        calendarSymmetrizerMass(pywikibot,site,repo,time)
-    elif selector==8: 
-       [pro_team_table, proendkk]=pro_team_tab()
-       [amateur_team_table, amateurendkk]=amateur_team_tab()
-       proamateur=1 #1 is pro
-       group=1 #group to create
-       countrytocreate=u'SUI'
-       if proamateur==1:
-           proteamcreator(pywikibot,site,repo,time,proteamTable,teamTable,proendkk,proamateur, countrytocreate)
-       else:
-           proteamcreator(pywikibot,site,repo,time,amateurteamTable,teamTable,amateurendkk,proamateur, countrytocreate)
-    elif selector==9:
-       man_or_woman=u'woman'
-       option=u'clmon' #'clmoff'
-       #ccChampionshipCreator(pywikibot,site,repo,time,tempccTable,ccendkk,man_or_woman, option)
-       national_championship_creator(pywikibot,site,repo,time,nation_table,endkk,
-                                    man_or_woman,option, start_year,end_year,country,True) 
-    elif selector==10:
+        race_name=u"Tour de Colombie féminin"
+        race_genre=u"du "  
+        id_race_master=27684043
+        stage_race_id=57277615 #only for onlystages
+        year=2019
+        UCI=True
+        WWT=False
+        only_stages=False
+        create_stages=True
+        race_begin=pywikibot.WbTime(site=site,year=Year, month=12, day=3, precision='day')
+        end_date=pywikibot.WbTime(site=site,year=Year, month=12, day=7, precision='day')
+        first_stage=1
+        last_stage=5
+        countryCIO=u'COL'
+        classe='2.2'
+        
+        race_creator(pywikibot,site,repo,time,nation_table,race_name,race_genre,
+                      id_race_master,year,UCI,WWT,race_begin,countryCIO,classe,
+                      stage_race_id=stage_race_id, end_date=end_date,
+                      only_stages=only_stages,create_stages=create_stages, first_stage=first_stage,
+                      last_stage=last_stage)
+    elif selector==8:
          race_name=u"Tour du Nanxijiang "
          race_genre=u"du "
          id_master=71731311 
@@ -88,63 +95,47 @@ def cycling_init_bot():
          classe=12
          race_creator(pywikibot,site,repo,time,nation_table,race_name,race_genre,
                  id_master,year,UCI,WWT,race_date,countryCIO,classe,True)
-    elif selector==11:
-        id_race='Q24299309'
+    elif selector==9:
+        id_race='Q17017069'
         stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
         final=False
-        separator=";"
         maxkk=10
-        year=2019
+        year=2016
         startliston=True
-        test=True
+        test=False
         classification_importer(pywikibot,site,repo,stage_or_general,id_race,final,
-                                separator,maxkk,year,startliston,test)
-    elif selector==12: 
+                               maxkk,year,startliston,test)
+    elif selector==10:
+        id_race='Q16274704'
+        prologue_or_final=2 #0=prologue, 1=final, 2=one day race
+        chrono=False
+        test=True
+        time_of_race=pywikibot.WbTime(site=site,year=2013, month=3, day=31, precision='day')    
+        startlist_importer(pywikibot,site,repo, prologue_or_final, id_race, 
+                                   time_of_race,chrono,test,nation_table)  
+    elif selector==11: 
         year=u'2019'
-        separator=";"
         test=False
-        UCI_classification_importer(pywikibot,site,repo,year,separator,test)
-    elif selector==13:
-        id_race='Q13548460'
-        prologueorfinal=1 #0=prologue, 1=final, 2=one day race
-        separator=";"
-        chrono=True
-        test=False
-        time_of_race=pywikibot.WbTime(site=site,year=2013, month=6, day=30, precision='day')    
-        list_of_starters_importer (pywikibot,site,repo, prologueorfinal, id_race, separator,
-                                   time_of_race,chrono,test,team_table)    
-    elif selector==14:
+        UCI_classification_importer(pywikibot,site,repo,year,test)
+    elif selector==12:
         name=u"Vanessa Serrano"
         description='coureuse cycliste du Salvador' #française
         countryCIO=u'ESA'
         rider_fast_init(pywikibot,site,repo,time,nation_table, name,description,countryCIO)
-    elif selector==15:
-        id_champion='Q43744788'
-        test=False
-        palmares_importer(pywikibot,site,repo,id_champion,test)
-    elif selector==16:
+    elif selector==13:
         champ_list_creator(pywikibot,site,repo,time)
-    elif selector==17:  
+    elif selector==14:  
+        id_master_UCI=u'Q57267790'
         year=u'2019'
-        separator=";"
+        filename=u'UCIranking' #'UCIranking'
         test=False
-        UCIclassificationCleaner(pywikibot,site,repo,year,separator,test)
-    elif selector==18:
+        cleaner=False #delete the UCI ranking
+        UCI_classification_importer(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test)
+    elif selector==15:
         id_item=u'Q57267790'
         property_nummer=3496
         deleteProperty(pywikibot,repo,id_item,property_nummer)
-    elif selector==19:
-        id_master_UCI=u'Q57267790'
-        year=u'2019'
-        separator=";"
-        test=False
-        filename=u'UCIranking' #'UCIranking'
-        UCI_classification_importer_rider(pywikibot,site,repo,year, separator,test,id_master_UCI, filename)
-    elif selector==20: 
-        race_table = race_list()
-        test=False
-        UCI_calendar_importer(pywikibot, site, repo,time, nation_table, ";", test, race_table)
     else: 
         print('do nothing')
         

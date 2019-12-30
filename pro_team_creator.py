@@ -12,16 +12,16 @@ def pro_team_creator(
         site,
         repo,
         time,
-        team_table_femmes,
-        national_team_table,
+        team_table,
+        nation_table,
         endkk,
-        proamateur,
-        countrytocreate):
+        pro_or_amateur,
+        team_dic):
     
-    def pro_team_alias(team_table, kk, year):
+    def pro_team_alias(team_table, kk, year, team_dic):
         # input
         alias = {}
-        alias['fr'] = [team_table[kk][4] + u" " + str(year)]  # UCI code + year
+        alias['fr'] = [team_table[kk][team_dic['UCIcode']] + u" " + str(year)]  # UCI code + year
         return alias
 
     def pro_team_basic(
@@ -35,10 +35,10 @@ def pro_team_creator(
             id_master,
             id_present,
             UCI_code,
-            proamateur):
+            pro_or_amateur):
         # No need for the table here
     
-        if proamateur == 1:
+        if pro_or_amateur == 1:
             addValue(pywikibot, repo, item, 31, 2466826, u'Nature')
             addValue(pywikibot, repo, item, 1998, UCI_code, u'UCI code')
         else:
@@ -80,16 +80,16 @@ def pro_team_creator(
             item.addClaim(claim, summary=u'Adding official name')
     
     
-    def pro_team_intro(item, team_table, kk, year, proamateur):
+    def pro_team_intro(item, team_table, kk, year, pro_or_amateur,team_dic):
         item.get()
         if get_description('fr', item) == '':
             mydescription = pro_team_description(team_table, kk, year)
             item.editDescriptions(mydescription,
                                   summary=u'Setting/updating descriptions.')
     
-        if proamateur == 1:
+        if pro_or_amateur == 1:
             if get_alias('fr', item) == '':
-                myalias = pro_team_alias(team_table, kk, year)
+                myalias = pro_team_alias(team_table, kk, year, team_dic)
                 item.editAliases(aliases=myalias, summary=u'Setting Aliases')
     
     def pro_team_label(team_table, kk, year):
@@ -115,35 +115,35 @@ def pro_team_creator(
     
     year = 2020
     kkinit = 1
+       
     # for year in range(2011,2020):
     # if kk==kkinit:
     if True:
         for kk in range(kkinit, endkk):  # endkk
-            if (proamateur == 1 and team_table_femmes[kk][6] == 1) or (
-                    proamateur == 0 and team_table_femmes[kk][5] == 1):
-                # team_table_femmes[kk][5]==0 or
+            if team_table[kk][team_dic['active']] == 1:
+
                 mylabel = {}
-                mylabel = pro_team_label(team_table_femmes, kk, year)
-                id_present, item=create_present(mylabel)
+                mylabel = pro_team_label(team_table, kk, year)
+                id_present, item=create_present(pywikibot, site,repo,time,mylabel)
                 
                 if id_present!=u'Q1':
-                    pro_team_intro(item, team_table_femmes, kk, year, proamateur)
+                    pro_team_intro(item, team_table, kk, year, pro_or_amateur,team_dic)
                     pro_team_basic(
                         pywikibot,
                         repo,
                         item,
                         site,
-                        team_table_femmes[kk][1],
+                        team_table[kk][team_dic['name']],
                         CIOtoIDsearch(
-                            national_team_table,
-                            team_table_femmes[kk][3]),
+                            nation_table,
+                            team_table[kk][team_dic['country']]),
                         year,
-                        team_table_femmes[kk][2],
+                        team_table[kk][team_dic['master']],
                         id_present,
-                        team_table_femmes[kk][4],
-                        proamateur)
+                        team_table[kk][team_dic['codeUCI']],
+                        pro_or_amateur)
                      # Link the other to the new item
-                    name_previous=proTeamLabel(team_table_femmes, kk, year-1)
-                    name_next=proTeamLabel(team_table_femmes, kk, year+1)
-                    link_year(pywikibot, site,id_present,name_previous,name_next)
+                    name_previous=pro_team_label(team_table, kk, year-1)
+                    name_next=pro_team_label(team_table, kk, year+1)
+                    link_year(pywikibot, site,repo, id_present,name_previous,name_next)
 

@@ -9,12 +9,12 @@ def national_team_creator(
         site,
         repo,
         time,
-        team_table_femmes,
+        team_table,
         endkk,
         man_or_woman):
-    
+   
     # ==Get==
-    def nationalTeamAlias(teamTable, kk, Year):
+    def national_team_alias(teamTable, kk, Year):
         # input
         alias = {}
         alias['fr'] = [teamTable[kk][7] + u" " + str(Year)]
@@ -22,7 +22,7 @@ def national_team_creator(
         alias['es'] = alias['fr']
         return alias
 
-    def nationalTeamBasic(
+    def national_team_basic(
             pywikibot,
             repo,
             item,
@@ -33,11 +33,11 @@ def national_team_creator(
             master,
             CIO):
         # No need for the table here
-        addValue(pywikibot, repo, item, 31, 23726798, u'Nature')
-        addValue(pywikibot, repo, item, 1998, CIO, u'CIO code')
-        addValue(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
-        addValue(pywikibot, repo, item, 17, country_code, u'country')
-        addValue(pywikibot, repo, item, 361, master, u'part of')
+        add_value(pywikibot, repo, item, 31, 23726798, u'Nature')
+        add_value(pywikibot, repo, item, 1998, CIO, u'CIO code')
+        add_value(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
+        add_value(pywikibot, repo, item, 17, country_code, u'country')
+        add_value(pywikibot, repo, item, 361, master, u'part of')
     
         if(u'P580' not in item.claims):
             claim = pywikibot.Claim(repo, u'P580')  # date de début
@@ -77,7 +77,7 @@ def national_team_creator(
                                   summary=u'Setting/updating descriptions.')
     
         if get_alias('fr', item) == '':
-            myalias = nationalTeamAlias(teamTable, kk, Year)
+            myalias = national_team_alias(teamTable, kk, Year)
             item.editAliases(
                 aliases=myalias,
                 summary=u'Setting Aliases')  # Not working yet
@@ -138,7 +138,7 @@ def national_team_creator(
         return mydescription
     
     ### begin main ###
-    kkinit = teamCIOsearch(team_table_femmes, u'GUA')
+    kkinit = teamCIOsearch(team_table, u'GUA')
 
     if man_or_woman == 'man':
         IndexTeam = 14
@@ -149,46 +149,46 @@ def national_team_creator(
     # print(kkinit)
     # if kk==kkinit:
     for kk in range(kkinit, endkk):  #
-        group = team_table_femmes[kk][8]
+        group = team_table[kk][8]
         if group == 1:
             for ii in range(2020, 2021):  # range(1990,2019)
                 Year = ii
-                if team_table_femmes[kk][IndexTeam] != 0:
+                if team_table[kk][IndexTeam] != 0:
                     mylabel = {}
                     mylabel = national_team_label(
-                        team_table_femmes, kk, Year, man_or_woman)
+                        team_table, kk, Year, man_or_woman)
                     
-                    id_present, item=create_present(mylabel)
+                    id_present, item=create_present(pywikibot, site,repo,time,mylabel)
         
                     if id_present!=u'Q1':
-                        national_team_intro(item, team_table_femmes, kk, Year)
+                        national_team_intro(item, team_table, kk, Year)
                         time.sleep(1.0)
-                        nationalTeamBasic(
+                        national_team_basic(
                             pywikibot,
                             repo,
                             item,
                             site,
-                            team_table_femmes[kk][1],
-                            team_table_femmes[kk][3],
+                            team_table[kk][1],
+                            team_table[kk][3],
                             Year,
-                            team_table_femmes[kk][IndexTeam],
-                            team_table_femmes[kk][7])
+                            team_table[kk][IndexTeam],
+                            team_table[kk][7])
                         time.sleep(1.0)
                     # Link the other to the new item
 
                         # Search previous
-                        mylabelprevious = national_team_label(
-                            team_table_femmes, kk, year-1, man_or_woman)
-                        mylabelnext = national_team_label(
-                            team_table_femmes, kk, year+1, man_or_woman)
+                        mylabel_previous = national_team_label(
+                            team_table, kk, year-1, man_or_woman)
+                        mylabel_next = national_team_label(
+                            team_table, kk, year+1, man_or_woman)
                         
-                        link_year(pywikibot, site,id_present, mylabelprevious,mylabelnext)
+                        link_year(pywikibot, site,repo, id_present, mylabel_previous,mylabel_next)
                     # link to master
-                    if team_table_femmes[kk][4] != 0:
+                    if team_table[kk][4] != 0:
                         item_master = pywikibot.ItemPage(
-                            repo, u'Q' + str(team_table_femmes[kk][4]))
+                            repo, u'Q' + str(team_table[kk][4]))
                         item_master.get()
-                        addMultipleValue(
+                        add_multiple_value(
                             pywikibot,
                             repo,
                             item_master,

@@ -8,7 +8,7 @@ Created on Wed Nov 27 20:54:17 2019
 from cycling_init_bot_low import *
 from race_creator import *
 # ==Initialisation==
-def UCI_calendar_importer(pywikibot, site, repo, time, team_table, separator, test, race_table):
+def calendar_importer(pywikibot, site, repo, time, team_table, separator, test, race_table, race_dic):
     #title in table, column in table, column in result_table
     result_dic={
             'date from':[-1, 0,''],
@@ -32,7 +32,7 @@ def UCI_calendar_importer(pywikibot, site, repo, time, team_table, separator, te
 
             #look in the list of race available which one it is
             id_master, master_genre =search_race(
-                result_table[kk][result_dic['name'][1]], race_table)
+                result_table[kk][result_dic['name'][1]], race_table, race_dic)
             
             if id_master != 0 and id_master != '0' and classe != 0:
                 item_master = pywikibot.ItemPage(repo, "Q" + str(id_master))

@@ -32,9 +32,10 @@ from calendar_importer import *
 from rider_fast_init import *
 from startlist_importer import *
 from get_rider_tricot import *
+from champ_list_creator import *
 
 #==Initialisation==   
-def wikiinit():
+def wiki_init():
     dirpath = os.path.dirname(__file__)
     upperdir= os.path.dirname(dirpath)
     sys.path.insert(0, upperdir)
@@ -49,5 +50,5 @@ def wikiinit():
 
     return [pywikibot,site,repo,time]
 
-if __name__ == '__main__':
-    wikiinit()
+#if __name__ == '__main__':
+#    wiki_init()

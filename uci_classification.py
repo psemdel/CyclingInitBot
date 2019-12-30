@@ -11,274 +11,110 @@ import os
 from exception import *
 
 
-def UCIclassificationImporterRider(
+def UCI_classification_importer(
         pywikibot,
         site,
         repo,
         year,
-        separator,
+        id_master_UCI,
+        filename,
+        cleaner,
         test,
-        UCImasterID,
-        Mastername):
-    resulttable = [[0 for x in range(10)] for y in range(2000)]
+        ):
+ 
+    result_dic={
+    'rank':[-1, 0, ''],
+    'last name':[-1, 1,''],
+    'first name':[-1, 2,''],
+    'name':[-1, 3,''],
+    'result':[-1, 4,'points'],
+    'points':[-1, 5, 'points'],
+    'team code':[-1, 7, ''],
+    'ecart':[1,6,'time'],  #always created
+    'bib':[-1,8,''] #dossard
+    }
+    
+    result_table, row_count, ecart=table_reader('input/' + filename + year + '.csv', result_dic,0)
+    
+    #post-processing
+    for ii in range(row_count):
+        if result_table[ii][result_dic['points'][1]]==0:
+            result_table[ii][result_dic['points'][1]]=result_table[ii][result_dic['result'][1]]
+    
+    print('result_table created')
+    list_of_cyclists=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic)
 
-    kk = 0
-    rankrow = -1
-    lastnamerow = -1
-    firstnamerow = -1
-    namerow = -1
-    resultrow = -1
-    pointsrow = -1
-    teamcoderow = -1
-    reversename = 0
-    with open(Mastername + year + '.csv', newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=separator, quotechar='|')
-        for row in spamreader:
-            if kk == 0:
-                print(row)
-                for jj in range(len(row)):
+    #fill the rider
+    if not test:
+        for ii in range(len(list_of_cyclists)):
+            this_rider=list_of_cyclists[ii]
+            
+            if this_rider!='Q0' and this_rider!='Q1':
+                if cleaner!=True:
+                    #action in the rider 
+                    Addc=True
+                    if(u'P1344' in this_rider.item.claims):
+                         list_of_comprend = this_rider.item.claims.get(u'P1344')
+                         item_to_add = pywikibot.ItemPage(repo, id_master_UCI)
+                         for in_comprend in list_of_comprend:
+                            if in_comprend.getTarget() == item_to_add:  # Already there
+                                Addc = False
+                                print('Item already in the Master list')
+                         if Addc:
+                            #add the calendar to P1344
+                            claim = pywikibot.Claim(repo, u'P1344')
+                            claim.setTarget(item_to_add)
+                            item.addClaim(claim, summary=u'Adding classification')
+                            
+                            qualifier_rank = pywikibot.page.Claim(site, 'P1352', is_qualifier=True)
+                            target_qualifier = pywikibot.WbQuantity(amount=this_rider.rank, site=repo)
+                            qualifier_rank.setTarget(target_qualifier)
+                            claim.addQualifier(qualifier_rank)
+                            
+                            qualifier_points = pywikibot.page.Claim(
+                                site, 'P1358', is_qualifier=True)
+                            target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['points'][1]],
+                                                                    site=repo)
+                            qualifier_points.setTarget(target_qualifier)
+                            claim.addQualifier(qualifier_points)
+    
+                #action in the team
+                if resulttable[ii][result_dic['team code'][1]] != 0:
+                    id_team=search_team_by_code(pywikibot, site, result_table[ii][result_dic['team code'][1]])
+                   
+                    if id_team!='Q0' and id_team!='Q1':
+                        item_team= pywikibot.ItemPage(repo, id_team)
+                        item_team.get()
+                        
+                        Addc=True
+                        if(u'P3494' in item_team.claims):
+                            if cleaner:
+                                this_rider.item.removeClaims(item.claims['P3494'])
+                            else: #not clear
+                                list_of_comprend = item.claims.get(u'P3494')
+                                item_to_add =this_rider.item
+                                for in_comprend in list_of_comprend:
+                                    if in_comprend.getTarget() == item_to_add:  # Already there
+                                        Addc = False
+                                        print('Item already in the Master list')
+            
+                                if Addc:
+                                   claim = pywikibot.Claim(repo, u'P3494')
+                                   claim.setTarget(item_to_add)
+                                   item.addClaim(claim, summary=u'Adding classification')
+                                   
+                                   qualifier_rank = pywikibot.page.Claim(
+                                           site, 'P1352', is_qualifier=True)
+                                   target_qualifier = pywikibot.WbQuantity(
+                                           amount=this_rider.rank, site=repo)
+                                   qualifier_rank.setTarget(target_qualifier)
+                                   claim.addQualifier(qualifier_rank)
+                                   
+                                   qualifier_points = pywikibot.page.Claim(
+                                           site, 'P1358', is_qualifier=True)
+                                   target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['points'][1]],
+                                                                           site=repo)
+                                   qualifier_points.setTarget(target_qualifier)
+                                   claim.addQualifier(qualifier_points)
 
-                    if row[jj] == 'Rank':
-                        rankrow = jj
-                    elif row[jj] == 'Last name':
-                        lastnamerow = jj
-                    elif row[jj] == 'First name':
-                        firstnamerow = jj
-                    elif row[jj] == 'Name':
-                        namerow = jj
-                    elif row[jj] == 'Results' or row[jj] == 'Result':
-                        resultrow = jj
-                    elif row[jj] == 'Points':
-                        pointsrow = jj
-                    elif row[jj] == 'Team Code':
-                        teamcoderow = jj
-
-                if firstnamerow == -1 and namerow != -1:
-                    reversename = 1
-                if rankrow == -1:
-                    print('no rank column')
-                    return 0
-            elif kk != 0:
-                resulttable[kk - 1][0] = row[rankrow]
-                if namerow != -1:
-                    resulttable[kk - 1][1] = row[namerow]
-                if firstnamerow != -1:
-                    resulttable[kk - 1][2] = row[firstnamerow]
-                if lastnamerow != -1:
-                    resulttable[kk - 1][3] = row[lastnamerow]
-                if pointsrow != -1:
-                    resulttable[kk - 1][4] = row[pointsrow]  # time
-                if teamcoderow != -1:
-                    if row[teamcoderow] != 0 and row[teamcoderow] != "":
-                        resulttable[kk - 1][5] = row[teamcoderow] + " " + year
-            kk = kk + 1
-
-        print('table read')
-        for nn in range(kk + 1):
-            RiderID = '0'
-            RiderID = searchRider(
-                pywikibot,
-                site,
-                repo,
-                resulttable,
-                nn,
-                reversename)
-            # if RiderID!='Q0' and  and test==0:
-            if RiderID != '0' and test == 0:
-                print(RiderID)
-                item = pywikibot.ItemPage(repo, RiderID)
-                item.get()
-                Addc = 1
-
-                if(u'P1344' in item.claims):
-                    listOfcomprend = item.claims.get(u'P1344')
-                    itemToAdd = pywikibot.ItemPage(repo, UCImasterID)
-                    for ii in range(len(listOfcomprend)):
-                        if listOfcomprend[ii].getTarget(
-                        ) == itemToAdd:  # Already there
-                            Addc = 0
-                            print('Item already in the Master list')
-                if Addc == 1:
-                    claim = pywikibot.Claim(repo, u'P1344')
-                    target = pywikibot.ItemPage(repo, UCImasterID)
-                    claim.setTarget(target)
-                    item.addClaim(claim, summary=u'Adding classification')
-                    qualifierRank = pywikibot.page.Claim(
-                        site, 'P1352', is_qualifier=True)
-                    targetQualifier = pywikibot.WbQuantity(
-                        amount=int(resulttable[nn][0]), site=repo)
-                    qualifierRank.setTarget(targetQualifier)
-                    claim.addQualifier(qualifierRank)
-                    qualifierPoints = pywikibot.page.Claim(
-                        site, 'P1358', is_qualifier=True)
-                    targetQualifier = pywikibot.WbQuantity(amount=float(
-                        resulttable[nn][4].replace(",", ".")), site=repo)
-                    qualifierPoints.setTarget(targetQualifier)
-                    claim.addQualifier(qualifierPoints)
-
-
-def UCIclassificationImporter(pywikibot, site, repo, year, separator, test):
-    resulttable = [[0 for x in range(10)] for y in range(2000)]
-
-    kk = 0
-    rankrow = -1
-    lastnamerow = -1
-    firstnamerow = -1
-    namerow = -1
-    resultrow = -1
-    pointsrow = -1
-    teamcoderow = -1
-    reversename = 0
-    with open('UCIranking' + year + '.csv', newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=separator, quotechar='|')
-        for row in spamreader:
-            if kk == 0:
-                print(row)
-                for jj in range(len(row)):
-
-                    if row[jj] == 'Rank':
-                        rankrow = jj
-                    elif row[jj] == 'Last name':
-                        lastnamerow = jj
-                    elif row[jj] == 'First name':
-                        firstnamerow = jj
-                    elif row[jj] == 'Name':
-                        namerow = jj
-                    elif row[jj] == 'Results' or row[jj] == 'Result':
-                        resultrow = jj
-                    elif row[jj] == 'Points':
-                        pointsrow = jj
-                    elif row[jj] == 'Team Code':
-                        teamcoderow = jj
-
-                if firstnamerow == -1 and namerow != -1:
-                    reversename = 1
-                if rankrow == -1:
-                    print('no rank column')
-                    return 0
-            elif kk != 0:
-                resulttable[kk - 1][0] = row[rankrow]
-                if namerow != -1:
-                    resulttable[kk - 1][1] = row[namerow]
-                if firstnamerow != -1:
-                    resulttable[kk - 1][2] = row[firstnamerow]
-                if lastnamerow != -1:
-                    resulttable[kk - 1][3] = row[lastnamerow]
-                if pointsrow != -1:
-                    resulttable[kk - 1][4] = row[pointsrow]  # time
-                if teamcoderow != -1:
-                    if row[teamcoderow] != 0 and row[teamcoderow] != "":
-                        resulttable[kk - 1][5] = row[teamcoderow] + " " + year
-            kk = kk + 1
-
-        print('table read')
-        for nn in range(kk + 1):
-            TeamID = '0'
-            RiderID = '0'
-            if resulttable[nn][5] != 0:
-                TeamID = searchTeam(pywikibot, site, repo, resulttable, nn, 5)
-                RiderID = searchRider(
-                    pywikibot, site, repo, resulttable, nn, reversename)
-            if RiderID != '0' and TeamID != '0' and test == 0:
-                item = pywikibot.ItemPage(repo, TeamID)
-                item.get()
-                Addc = 1
-
-                if(u'P3494' in item.claims):
-                    listOfcomprend = item.claims.get(u'P3494')
-                    itemToAdd = pywikibot.ItemPage(repo, RiderID)
-                    for ii in range(len(listOfcomprend)):
-                        if listOfcomprend[ii].getTarget(
-                        ) == itemToAdd:  # Already there
-                            Addc = 0
-                            print('Item already in the Master list')
-
-                if Addc == 1:
-                    claim = pywikibot.Claim(repo, u'P3494')
-                    target = pywikibot.ItemPage(repo, RiderID)
-                    claim.setTarget(target)
-                    item.addClaim(claim, summary=u'Adding classification')
-                    qualifierRank = pywikibot.page.Claim(
-                        site, 'P1352', is_qualifier=True)
-                    targetQualifier = pywikibot.WbQuantity(
-                        amount=int(resulttable[nn][0]), site=repo)
-                    qualifierRank.setTarget(targetQualifier)
-                    claim.addQualifier(qualifierRank)
-                    qualifierPoints = pywikibot.page.Claim(
-                        site, 'P1358', is_qualifier=True)
-                    targetQualifier = pywikibot.WbQuantity(amount=float(
-                        resulttable[nn][4].replace(",", ".")), site=repo)
-                    qualifierPoints.setTarget(targetQualifier)
-                    claim.addQualifier(qualifierPoints)
-
-
-def UCIclassificationCleaner(pywikibot, site, repo, year, separator, test):
-    resulttable = [[0 for x in range(10)] for y in range(2000)]
-
-    kk = 0
-    rankrow = -1
-    lastnamerow = -1
-    firstnamerow = -1
-    namerow = -1
-    resultrow = -1
-    pointsrow = -1
-    teamcoderow = -1
-    reversename = 0
-    with open('UCIranking' + year + '.csv', newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=separator, quotechar='|')
-        for row in spamreader:
-            if kk == 0:
-                print(row)
-                for jj in range(len(row)):
-
-                    if row[jj] == 'Rank':
-                        rankrow = jj
-                    elif row[jj] == 'Last name':
-                        lastnamerow = jj
-                    elif row[jj] == 'First name':
-                        firstnamerow = jj
-                    elif row[jj] == 'Name':
-                        namerow = jj
-                    elif row[jj] == 'Results' or row[jj] == 'Result':
-                        resultrow = jj
-                    elif row[jj] == 'Points':
-                        pointsrow = jj
-                    elif row[jj] == 'Team Code':
-                        teamcoderow = jj
-
-                if firstnamerow == -1 and namerow != -1:
-                    reversename = 1
-                if rankrow == -1:
-                    print('no rank column')
-                    return 0
-            elif kk != 0:
-                resulttable[kk - 1][0] = row[rankrow]
-                if namerow != -1:
-                    resulttable[kk - 1][1] = row[namerow]
-                if firstnamerow != -1:
-                    resulttable[kk - 1][2] = row[firstnamerow]
-                if lastnamerow != -1:
-                    resulttable[kk - 1][3] = row[lastnamerow]
-                if pointsrow != -1:
-                    resulttable[kk - 1][4] = row[pointsrow]  # time
-                if teamcoderow != -1:
-                    if row[teamcoderow] != 0 and row[teamcoderow] != "":
-                        resulttable[kk - 1][5] = row[teamcoderow] + " " + year
-            kk = kk + 1
-
-        print('table read')
-        for nn in range(1000):
-            TeamID = '0'
-            RiderID = '0'
-            if resulttable[nn][5] != 0:
-                TeamID = searchTeam(pywikibot, site, repo, resulttable, nn, 5)
-                RiderID = searchRider(
-                    pywikibot, site, repo, resulttable, nn, reversename)
-
-            if RiderID != '0' and TeamID != '0' and test == 0:
-                item = pywikibot.ItemPage(repo, TeamID)
-                item.get()
-                Addc = 1
-
-                if(u'P3494' in item.claims):
-                    item.removeClaims(item.claims['P3494'])
+        

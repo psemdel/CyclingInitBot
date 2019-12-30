@@ -7,8 +7,8 @@ Created on Sun Jul 22 16:21:08 2018
 
 from cycling_init_bot_low import * 
 
-def classificationImporter(pywikibot,site,repo,general_or_stage, id_race,
-                           final, separator,maxkk,year,startliston,test):
+def classification_importer(pywikibot,site,repo,general_or_stage, id_race,
+                           final, maxkk,year,startliston,test):
      
     general_or_stage_points=[2,3,6,7,8]
     general_or_stage_team=[5,6]
@@ -42,36 +42,37 @@ def classificationImporter(pywikibot,site,repo,general_or_stage, id_race,
         'result':[-1, 4,result],
         'points':[-1, 5, 'points'],
         'team code':[-1, 7, ''],
-        'ecart':[1,6,'time']  #always created
+        'ecart':[1,6,''],  #always created, not set on time otherwise makes strange things
+        'bib':[-1,8,''] #dossard
         }
-    
-    result_table, row_count, ecart=table_reader('input/Result.csv',separator,result_dic,0)
+
+    result_table, row_count, ecart=table_reader('input/Results.csv',result_dic,0,True)
     
     #post-processing
-    for ii in range(kk):
+    for ii in range(maxkk):
         if  result_table[ii][result_dic['team code'][1]]!=0:
             result_table[ii][result_dic['team code'][1]]=result_table[ii][result_dic['team code'][1]]+" "+str(year)  
         if result=='time':
             if ii==0:
-                resulttable[ii][result_dic['ecart'][1]]=0
+                result_table[ii][result_dic['ecart'][1]]=0
             else:
                 if ecart:
-                    resulttable[ii][result_dic['ecart'][1]]=resulttable[ii][result_dic['result'][1]]
+                    result_table[ii][result_dic['ecart'][1]]=result_table[ii][result_dic['result'][1]]
                 else:
-                    resulttable[ii][result_dic['ecart'][1]]=resulttable[ii][result_dic['result'][1]]-resulttable[0][result_dic['result'][1]]
+                    result_table[ii][result_dic['ecart'][1]]=result_table[ii][result_dic['result'][1]]-result_table[0][result_dic['result'][1]]
         else:
-            if resulttable[ii][result_dic['points'][1]]==0:
-                resulttable[ii][result_dic['points'][1]]=resulttable[ii][result_dic['result'][1]]
+            if result_table[ii][result_dic['points'][1]]==0:
+                result_table[ii][result_dic['points'][1]]=result_table[ii][result_dic['result'][1]]
     
     
-    print('resulttable created')
+    print('result_table created')
     if verbose:
-        print(resulttable)
+        print(result_table[0:maxkk])
     item =pywikibot.ItemPage(repo, id_race)
     item.get()
     
     there_is_a_startlist=False #only useful for stage race
-    if startliston:
+    if (general_or_stage not in general_or_stage_team) and  startliston:
         if(u'P361' in item.claims):  #part of
             list_of_comprend=item.claims.get(u'P361')
             parent=list_of_comprend[0].getTarget()
@@ -86,12 +87,12 @@ def classificationImporter(pywikibot,site,repo,general_or_stage, id_race,
             print(u'Classification already there')
         else: 
             claim=pywikibot.Claim(repo, u'P'+str(property_nummer))  
-            for ii in range(maxkk+1):
+            for ii in range(maxkk):
                 if general_or_stage in general_or_stage_team: #team
                     this_id=search_team_by_code(pywikibot, site, result_table[ii][result_dic['team code'][1]])
                 else:
                     this_id=search_rider(pywikibot, site, repo,result_table[ii][result_dic['name'][1]],
-                                        result_table[ii][result_dic['first_name'][1]],result_table[ii][result_dic['last_name'][1]] )
+                                        result_table[ii][result_dic['first name'][1]],result_table[ii][result_dic['last name'][1]] )
                 if this_id!=u'Q1' and this_id!=u'Q0':
                    claim=pywikibot.Claim(repo, u'P'+str(property_nummer))  
                    target = pywikibot.ItemPage(repo, this_id)
@@ -130,15 +131,15 @@ def classificationImporter(pywikibot,site,repo,general_or_stage, id_race,
                                claim.addQualifier(qualifier_team)
 
                    if (general_or_stage in general_or_stage_addwinner) and final:
-                       addWinner(pywikibot, site,repo,item,this_id,result_table[ii][result_dic['rank'][1]],general_or_stage) 
+                       add_winner(pywikibot, site,repo,item,this_id,result_table[ii][result_dic['rank'][1]],general_or_stage) 
                        
                 else:
-                   print(u'interrupted')
+                   print(u'interrupted at row' + str(ii))
                    return 0
         print('result inserted')
         #fill startlist with DNF, HD and so on
         if there_is_a_startlist and general_or_stage==1:
-            qualifierDNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
+            qualifier_DNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
             qualifier_stage_number=pywikibot.page.Claim(site, 'P1545', is_qualifier=True)
             stage_nummer=-1
             if(u'P1545' in item.claims):  
@@ -162,8 +163,8 @@ def classificationImporter(pywikibot,site,repo,general_or_stage, id_race,
                                  qualnotfound=False
                              if qualnotfound:
                                  target_qualifier = pywikibot.ItemPage(repo, u'Q1210380')
-                                 qualifierDNF.setTarget(target_qualifier)
-                                 this_starter.addQualifier(qualifierDNF)
+                                 qualifier_DNF.setTarget(target_qualifier)
+                                 this_starter.addQualifier(qualifier_DNF)
                              qualnotfound=True
                              for qual in this_starter.qualifiers.get('P1545', []):
                                  qualnotfound=False 

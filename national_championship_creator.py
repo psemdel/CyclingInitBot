@@ -31,8 +31,8 @@ def national_championship_creator(
         id_present,
         CC):
     
-        addValue(pywikibot, repo, item, 31, id_master, u'Nature')
-        addValue(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
+        add_value(pywikibot, repo, item, 31, id_master, u'Nature')
+        add_value(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
         add_to_master(pywikibot,site,repo,id_present,id_master)
         
         if CC==False:
@@ -45,9 +45,9 @@ def national_championship_creator(
                 print(u'Championnats nationaux de cyclisme sur route en ' +
                 str(year)+'not found')
             else:
-                addValue(pywikibot, repo, item, 361, noQ(id_allchamp), u'part of')
+                add_value(pywikibot, repo, item, 361, noQ(id_allchamp), u'part of')
                 add_to_master(pywikibot,site,repo,id_present,id_allchamp)
-            addValue(pywikibot, repo, item, 17, country_code, u'country')
+            add_value(pywikibot, repo, item, 17, country_code, u'country')
 
     def national_championship_race_basic(
             pywikibot,
@@ -62,8 +62,8 @@ def national_championship_creator(
             enligne, 
             CC):
         
-        addValue(pywikibot, repo, item, 31, id_master, u'Nature')
-        addValue(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
+        add_value(pywikibot, repo, item, 31, id_master, u'Nature')
+        add_value(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
         add_to_master(pywikibot,site,repo,id_race,id_master)
         add_to_master(pywikibot,site,repo,id_race,id_champ)
         
@@ -109,8 +109,8 @@ def national_championship_creator(
             else:
                 add_to_master(pywikibot,site,repo,id_race,id_allchamp)
         
-            addValue(pywikibot, repo, item, 361, id_champ, u'part of')
-            addValue(pywikibot, repo, item, 17, country_code, u'country')
+            add_value(pywikibot, repo, item, 361, id_champ, u'part of')
+            add_value(pywikibot, repo, item, 17, country_code, u'country')
     
     def national_championship_label(team_table, kk, year, english):
         # input

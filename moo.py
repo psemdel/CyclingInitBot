@@ -31,10 +31,13 @@ class ThisName:
         accents = {'a': ['à', 'ã', 'á', 'â', 'ä'],
                    'e': ['é', 'è', 'ê', 'ë'],
                    'i': ['î', 'ï'],
-                   'u': ['ù', 'ü', 'û'],
+                   'u': ['ù', 'ü', 'û','ů'],
                    'o': ['ô', 'ö'],
                    's': ['š'],
-                   'n': ['ñ']}
+                   'n': ['ñ'],
+                   'ss' : ['ß'],
+                   'c' : ['č'],
+                   'z' : ['ž']}
         for (char, accented_chars) in accents.items():
             for accented_char in accented_chars:
                 ligne = ligne.replace(accented_char, char)
@@ -45,7 +48,8 @@ class ThisName:
             if self.name_cor.find(word)!=-1:
                 self.sortkey=self.name_cor[len(word):]
                 break
-
+        return self.sortkey
+    
     def check_and_revert(self):
         names_table = self.name.split(" ")
         
@@ -68,21 +72,28 @@ class ThisName:
 
 #A cyclist
 class Cyclist(ThisName):
-    def __init__(self, id, name, id_item):
+    def __init__(self, id, name, id_item, **kwargs):
         ThisName.__init__(self,name)
         self.key = id
         self.id_item = id_item
         self.dossard = 0
-        self.sortkey = self.find_sortkey()
+        self.team=''
+        nosortkey=kwargs.get('nosortkey',False)
+        if nosortkey==False:
+            self.sortkey = self.find_sortkey()
+        else:
+            self.sortkey =''
+        self.item=None
+        self.nationality=''
+        self.rank=0
     
-    def find_start_sortkey(start_words,names_table,names_cor_table):
-        done=False
+    def find_start_sortkey(self,start_words,names_table,names_cor_table):
+        sortkey=''
         for ii in range(1,len(names_cor_table)):
            if names_cor_table[ii] in start_words:
-               done=True
                sortkey=concaten(names_table,ii)
         
-        return done, sortkey
+        return sortkey
     
     def find_sortkey(self):
         names_cor_table = self.name_cor.split(" ")
@@ -94,13 +105,13 @@ class Cyclist(ThisName):
             self.sortkey=names_table[1]
             done=True
         else:
-            done, sortkey=find_start_sortkey(family_name_start,names_table,names_cor_table)
-            if done:
+            sortkey=self.find_start_sortkey(family_name_start,names_table,names_cor_table)
+            if sortkey!='':
                  self.sortkey=sortkey
-        if done==False:
-             print(self.name)
-             ii = input('Index of the family name : ')
-             self.sortkey=concaten(names_table,ii)       
+            else:
+                 print(self.name)
+                 ii = input('Index of the family name : ')
+                 self.sortkey=concaten(names_table,int(ii))       
          
 class Race(ThisName):
     def __init__(self, id, name, id_item, date, **kwargs):
@@ -117,7 +128,7 @@ class Race(ThisName):
             
     def find_sortkey(self):
         team_name_start=[u"championnats d'",u"championnats des",u"championnats du",u"championnats de"]
-        ThisName.find_start_sortkey(self, team_name_start)
+        return ThisName.find_start_sortkey(self, team_name_start)
         
 class Team(ThisName):
     def __init__(self, id, name, id_item, date, **kwargs):
@@ -135,8 +146,7 @@ class Team(ThisName):
             
     def find_sortkey(self):
         team_name_start=[u"equipe d'",u"equipe des",u"equipe du",u"equipe de"]
-        
-        ThisName.find_start_sortkey(self,team_name_start)
+        return ThisName.find_start_sortkey(self,team_name_start)
 
 
     

@@ -107,7 +107,7 @@ def name_sorter(pywikibot, site, repo, time, team_id, team, champ, test):
     item = pywikibot.ItemPage(repo, team_id)
     item.get()
 
-    list_of_objects = {}
+    list_of_objects = []
     list_of_names = []
 
     if team or champ:
@@ -124,16 +124,17 @@ def name_sorter(pywikibot, site, repo, time, team_id, team, champ, test):
     for ii in range(len(list_of_comprend)):
         this_item = list_of_comprend[ii].getTarget()
         this_item.get()
-        
+        this_label=get_label('fr', this_item)
+ 
         if team:
-            this_object=Cyclist(ii, list_item.labels['fr'], this_item.getID())
+            this_object=Cyclist(ii, this_label, this_item.getID())
         else:
-            this_object=Race(ii, list_item.labels['fr'], this_item.getID(),'',site=site)
+            this_object=Race(ii, this_label, this_item.getID(),'',site=site, pywikibot=pywikibot)
             
         list_of_objects.append(this_object)
+
         list_of_names[ii][0]=ii #remember original place
         list_of_names[ii][1]=this_object.sortkey
-    
     
     sorted_names = sorted(list_of_names, key=lambda tup: tup[1])    
     print('sorted list :')
@@ -148,7 +149,7 @@ def name_sorter(pywikibot, site, repo, time, team_id, team, champ, test):
     saved_qualifiers={}
     # delete done later
     if not test:
-        for ii in range(len(sortedName)):
+        for ii in range(len(sorted_names)):
             if sorted_names[ii] != list_of_names[ii]: #change only from the moment it differs, afterwards everything must be ordered
                 order_ok=False
             if not order_ok:
@@ -163,14 +164,14 @@ def name_sorter(pywikibot, site, repo, time, team_id, team, champ, test):
                     if qual in claim.qualifiers:
                         saved_qualifiers[qual]=claim.qualifiers[list_of_qualifiers[kk]][0].getTarget()
                 
-                deleteValue(
+                delete_value(
                     pywikibot,
                     repo,
                     item,
                     property_number,
                     noQ(id_item),
                     'rider for sorting')
-                addMultipleValue(
+                add_multiple_value(
                     pywikibot,
                     repo,
                     item,

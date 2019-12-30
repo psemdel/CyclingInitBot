@@ -5,204 +5,158 @@ Created on Thu Dec 19 20:34:29 2019
 
 @author: maxime
 """
+from cycling_init_bot_low import * 
+from get_rider_tricot import *
 
-
-
-def startlist_importer (pywikibot,site,repo, prologueorfinal, id_race, separator,timeOfRace,chrono,test,teamTable):
-    #For Europa
-    resulttable = [[0 for x in range(10)] for y in range(200)] 
-    kk=0
-    rankrow=-1
-    lastnamerow=-1
-    firstnamerow=-1
-    namerow=-1
-    resultrow=-1
-    pointsrow=-1
-    teamcoderow=-1
-    reversename=0
-        
-    with open('Results.csv', newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=separator, quotechar='|')
-        for row in spamreader:
-            if kk==0:
-                print(row)
-                for jj in range(len(row)):
-                    if row[jj]=='Rank':
-                        rankrow=jj
-                    elif row[jj]=='Last name' or row[jj]=='Last Name':
-                        lastnamerow=jj
-                    elif row[jj]=='First name' or row[jj]=='First Name':
-                        firstnamerow=jj
-                    elif row[jj]=='Name':
-                        namerow=jj
-                    elif row[jj]=='Results' or row[jj]=='Result': 
-                        resultrow=jj
-                    elif row[jj]=='Points':  
-                        pointsrow=jj
-                    elif row[jj]=='Team Code':  
-                        teamcoderow=jj 
-                    elif row[jj]=='BIB':  
-                        dossardrow=jj     
-                    
-                if firstnamerow==-1 and namerow!=-1:
-                    reversename=1
-                if rankrow==-1:
-                    print('no rank column')
-                    return 0
-            elif kk!=0 and row[dossardrow]!='':
-                if rankrow!=-1:
-                    resulttable[kk-1][0]=row[rankrow]
-                if namerow!=-1:
-                    resulttable[kk-1][1]=row[namerow]
-                if firstnamerow!=-1:
-                    resulttable[kk-1][2]=row[firstnamerow]
-                if lastnamerow!=-1:
-                    resulttable[kk-1][3]=row[lastnamerow]
-                if dossardrow!=-1:
-                    resulttable[kk-1][4]=row[dossardrow]
-            kk=kk+1
-    item =pywikibot.ItemPage(repo, id_race)
-    item.get()    
-
-    #delete the zeros
-    resulttable2 = [[0 for x in range(10)] for y in range(kk-1)] 
-    for ii in range(0,kk-1):
-        resulttable2[ii]=resulttable[ii]
-
-    #Sort by dossard
-    resulttable2=sorted(resulttable2, key=lambda tup: int(tup[4]))
-    resulttable=resulttable2
+def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of_race,chrono,test,nation_table):
+     #0=prologue, 1=final, 2=one day race
+    verbose=False
     
+    result_dic={
+    'rank':[-1, 0, ''],
+    'last name':[-1, 1,''],
+    'first name':[-1, 2,''],
+    'name':[-1, 3,''],
+    'result':[-1, 4,'time'],  #startlist only with time
+    'points':[-1, 5, 'points'],
+    'team code':[-1, 7, ''],
+    'ecart':[1,6,'time'],  #always created
+    'bib':[-1,8,''] #dossard
+    }
+    
+    result_table, row_count, ecart=table_reader('input/Results.csv', result_dic,0,True)
+    #Sort by dossard
+    result_table=sorted(result_table, key=lambda tup: int(tup[8]))
     print('table read and sorted')
-    #check if all riders are already present
-    if test==1:
-        for kk in range(len(resulttable)):
-            RiderID=searchRider(pywikibot,site,repo,resulttable,kk,reversename)
-
-    alreadylist=0
-    Year=timeOfRace.year
-    if test==0:
-        if(u'P'+str('710') in item.claims) and prologueorfinal==0:  #already there do nothing
+    
+    list_of_cyclists=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, nosortkey=True)
+    row_count=len(list_of_cyclists)
+    
+    if not test:
+         item =pywikibot.ItemPage(repo, id_race)
+         item.get() 
+         already_list=False
+         year=time_of_race.year
+         if(u'P'+str('710') in item.claims) and prologue_or_final==0:  #already there do nothing
             print(u'List of starters already there')
-        else:   
+         else:   
             #check national team
-            nationalteamdetected=0
-            allsameteam=1
-            for kk in range(len(resulttable)):
-                if int(resulttable[kk][4])%10==1:
+            national_team_detected=False
+            all_same_team=True
+            for ii in range(row_count):
+                if result_table[ii][result_dic['bib'][1]]%10==1:
                     #insert last team
-                    if nationalteamdetected==1 and allsameteam<0:
-                        print(u'national team detected '+IDtoCIOsearch(teamTable, noQ(nationalteamnation)))
-                        for jj in range(nationalteambegin,kk):
-                            resulttable[jj][5]=IDtoCIOsearch(teamTable, noQ(nationalteamnation)) + " " + str(Year)
-                    nationalteamdetected=1
-                    nationalteambegin=kk
-                    nationalteamnation=u'reset'
+                    if national_team_detected and all_same_team<0:
+                        print(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
+                        #insert the team
+                        for jj in range(national_team_begin,ii):
+                            national_team_code=IDtoCIOsearch(nation_table, noQ(national_team_nation)) + " " + str(year)
+                            id_national_team=search_item(pywikibot,site,national_team_code)
+                            if id_national_team!=u'Q0' and id_national_team!=u'Q1':
+                                list_of_cyclists[jj].team=id_national_team
+                            #result_table[jj][result_dic['team code'][1]]
+                    #re-init the variable
+                    national_team_detected=False
+                    national_team_begin=ii
+                    national_team_nation=u'reset'
                     proteam=u'reset'
-                    allsameteam=1
-                if nationalteamdetected!=0 and prologueorfinal!=1:    
-                    RiderID=searchRider(pywikibot,site,repo,resulttable,kk,reversename)
-                    itemRider =pywikibot.ItemPage(repo, RiderID)
-                    itemRider.get()
-                    if (u'P27' in itemRider.claims):
-                        nationality=itemRider.claims.get(u'P27')
-                        if nationalteamnation==u'reset':
-                            nationalteamnation=nationality[0].getTarget().getID()
+                    all_same_team=1 #if all_same_team is 1 then it is probably not a national team
+                   
+                if national_team_detected and prologue_or_final!=1: 
+                    item_rider=list_of_cyclists[ii].item
+                    id_rider=list_of_cyclists[ii].id_item
+                    #get nationality
+                    if (u'P27' in item_rider.claims):
+                        nationality=item_rider.claims.get(u'P27')
+                        list_of_cyclists[ii].nationality=nationality
+                        if national_team_nation==u'reset':
+                            national_team_nation=nationality[0].getTarget().getID()
                         else:
-                            if nationalteamnation!=nationality[0].getTarget().getID():
-                                nationalteamdetected=0
-                    team=getPresentTeam(pywikibot,site,repo,RiderID,timeOfRace)
+                            if national_team_nation!=nationality[0].getTarget().getID(): 
+                                #not the same nation --> not a national team
+                                national_team_detected=False 
+                    team=get_present_team(pywikibot,site,repo,id_rider,time_of_race)
                     if proteam==u'reset':
                         proteam=team
                     else:
-                        if team!=0 and proteam!=team: 
-                            allsameteam=allsameteam-1
-            claim=pywikibot.Claim(repo, u'P'+str('710')) 
+                        if team!='Q1' and proteam!=team: 
+                            all_same_team=all_same_team-1
+                                                        
             if (u'P'+str('710') in item.claims):
-                alreadylist=1
-            list_of_comprend=item.claims.get(u'P'+str(710))
-            if prologueorfinal==1:
-                list_of_comprendbool=[0 for x in range(len(list_of_comprend))] 
-            qualifierDNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
+                already_list=True
+                list_of_comprend=item.claims.get(u'P'+str(710))
+            if prologue_or_final==1:
+                list_of_comprendbool=[False for x in range(len(list_of_comprend))] 
+                
+            qualifier_DNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
             qualifier_rank=pywikibot.page.Claim(site, 'P1352', is_qualifier=True)
-            qualifierDossard=pywikibot.page.Claim(site, 'P1618', is_qualifier=True)
-            for kk in range(len(resulttable)):
-                RiderID=searchRider(pywikibot,site,repo,resulttable,kk,reversename)
-                if RiderID!='0':
-                    target = pywikibot.ItemPage(repo, RiderID)
-                    print('target')
-                    print(target)
+            qualifier_dossard=pywikibot.page.Claim(site, 'P1618', is_qualifier=True)
+            qualifier_team=pywikibot.page.Claim(site, 'P54', is_qualifier=True)
+            target_DNFqual = pywikibot.ItemPage(repo, u'Q1210380')
+            
+            for ii in range(row_count):
+                if list_of_cyclists[ii].id_item!='Q0' and list_of_cyclists[ii].id_item!='Q1':
+                    this_rider=list_of_cyclists[ii]
+                    item_rider=this_rider.item 
                     #look for it
                     Addc=-1
-                    if alreadylist==1:
-                        for ii in range(len(list_of_comprend)):
-                           if list_of_comprend[ii].getTarget()==target: #Already there
-                                Addc=ii
-                                if prologueorfinal==1:
-                                    list_of_comprendbool[ii]=1
+                    if already_list:
+                        for jj in range(len(list_of_comprend)):
+                           if list_of_comprend[jj].getTarget()==item_rider: #Already there
+                                Addc=jj
+                                if prologue_or_final==1:
+                                    list_of_comprendbool[jj]=True
                     if Addc==-1:  ##create the rider
-                        if prologueorfinal==1:
-                            print('rider not found'+str(RiderID))
+                        if prologue_or_final==1:
+                            print('rider not found'+str(id_rider))
                         claim=pywikibot.Claim(repo, u'P'+str('710'))  #reinit everytime
-                        claim.setTarget(target)
+                        claim.setTarget(item_rider)
                         item.addClaim(claim, summary=u'Adding starterlist')
-                        #qualifierDossard=pywikibot.page.Claim(site, 'P1618', is_qualifier=True)
-                        target_qualifier =resulttable[kk][4]  #pywikibot.WbQuantity(amount=resulttable[kk][4], site=repo)
-                        qualifierDossard.setTarget(target_qualifier)
-                        claim.addQualifier(qualifierDossard)
-                        if resulttable[kk][5]!=0: #national team
-                            Idnationalteam=searchItem(pywikibot,site,resulttable[kk][5])
-                            if Idnationalteam!=u'Q0' and Idnationalteam!=u'Q1':
-                               #print(Idnationalteam)
-                               qualifierTeam=pywikibot.page.Claim(site, 'P54', is_qualifier=True)
-                               target_qualifier = pywikibot.ItemPage(repo, Idnationalteam)
-                               qualifierTeam.setTarget(target_qualifier)
-                               claim.addQualifier(qualifierTeam)
-                        if prologueorfinal==1 or prologueorfinal==2:
-                           if resulttable[kk][0]=='': #no ranking
-                               qualifierDNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
-                               target_qualifier = pywikibot.ItemPage(repo, u'Q1210380')
-                               qualifierDNF.setTarget(target_qualifier)
-                               claim.addQualifier(qualifierDNF)
+                  
+                        qualifier_dossard.setTarget(str(this_rider.dossard))
+                        claim.addQualifier(qualifier_dossard)
+                        if this_rider.team!='': #national team
+                            target_qualifier = pywikibot.ItemPage(repo, this_rider.team)
+                            qualifier_team.setTarget(target_qualifier)
+                            claim.addQualifier(qualifier_team)
+                        if prologue_or_final==1 or prologue_or_final==2:
+                           if this_rider.rank==0: #no ranking
+                               qualifier_DNF.setTarget(target_DNFqual)
+                               claim.addQualifier(qualifier_DNF)
                            else:
-                               qualifier_rank=pywikibot.page.Claim(site, 'P1352', is_qualifier=True)
-                               target_qualifier =  pywikibot.WbQuantity(amount=int(resulttable[kk][0]), site=repo)
+                               target_qualifier =  pywikibot.WbQuantity(amount=this_rider.rank, site=repo)
                                qualifier_rank.setTarget(target_qualifier)
                                claim.addQualifier(qualifier_rank)
-                        riderTricot(pywikibot,site,repo,RiderID,timeOfRace,claim,chrono)  
+                        claim=pywikibot.Claim(repo, u'P'+str('710'))
+                        get_rider_tricot(pywikibot,site,repo,this_rider.id_item,time_of_race,claim,chrono)
                     else: ##rider already there
-                        print(Addc)
-                        if prologueorfinal==1 or prologueorfinal==2:
-                           if resulttable[kk][0]=='': #no ranking
-                               qualnotfound=1
+                        if prologue_or_final==1 or prologue_or_final==2:
+                           if this_rider.rank==0: #no ranking
+                               qualnotfound=True
                                for qual in list_of_comprend[Addc].qualifiers.get('P1534', []):
-                                   qualnotfound=0
-                               if qualnotfound==1:
-                                   #qualifierDNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
-                                   target_qualifier = pywikibot.ItemPage(repo, u'Q1210380')
-                                   qualifierDNF.setTarget(target_qualifier)
-                                   list_of_comprend[Addc].setTarget(target) 
-                                   list_of_comprend[Addc].addQualifier(qualifierDNF)
+                                   qualnotfound=False
+                               if qualnotfound:
+                                   qualifier_DNF.setTarget(target_DNFqual)
+                                  # list_of_comprend[Addc].setTarget(item_rider) 
+                                   list_of_comprend[Addc].addQualifier(qualifier_DNF)
                            else:
-                               qualnotfound=1
+                               qualnotfound=True
                                for qual in list_of_comprend[Addc].qualifiers.get('P1352', []):
-                                   qualnotfound=0
-                               if qualnotfound==1:
-                                   #qualifier_rank=pywikibot.page.Claim(site, 'P1352', is_qualifier=True)
-                                   target_qualifier =  pywikibot.WbQuantity(amount=int(resulttable[kk][0]), site=repo)
+                                   qualnotfound=False
+                               if qualnotfound:
+                                   target_qualifier =   pywikibot.WbQuantity(amount=this_rider.rank, site=repo)
                                    qualifier_rank.setTarget(target_qualifier)
-                                   list_of_comprend[Addc].setTarget(target) 
+                                   #list_of_comprend[Addc].setTarget(target) 
                                    list_of_comprend[Addc].addQualifier(qualifier_rank)
             #all riders are classified, assumption the other are DNF
-            if prologueorfinal==1:
+            if prologue_or_final==1:
                 for kk in range(len(list_of_comprend)):
-                    if list_of_comprendbool[kk]==0: ##rider not found in this result sheet
+                    if list_of_comprendbool[kk]==False: ##rider not found in this result sheet
                          list_of_comprend[kk].setTarget(target) 
-                         qualifierDNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
-                         qualnotfound=1
+                         qualifier_DNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)#useful?
+                         qualnotfound=True
                          for qual in list_of_comprend[kk].qualifiers.get('P1534', []):
-                             qualnotfound=0
-                         if qualnotfound==1:
-                             target_qualifier = pywikibot.ItemPage(repo, u'Q1210380')
-                             qualifierDNF.setTarget(target_qualifier)
-                             list_of_comprend[kk].addQualifier(qualifierDNF)
+                             qualnotfound=False
+                         if qualnotfound:
+                             qualifier_DNF.setTarget(target_DNFqual)
+                             list_of_comprend[kk].addQualifier(qualifier_DNF)

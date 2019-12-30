@@ -43,7 +43,7 @@ def palmares_importer(pywikibot, site, repo, id_championship, test):
     def palmaresParsing(inputstr):
         # parsing of the raw input
         tableofRow = inputstr.split("|-")
-        ColumnOfwinner = 1
+        column_of_winner = 1
         table_of_winners = [[0 for x in range(4)] for y in range(len(tableofRow) - 1)]
     
         for ii in range(0, len(tableofRow) - 1):  # range(len(tableofRow))
@@ -53,10 +53,10 @@ def palmares_importer(pywikibot, site, repo, id_championship, test):
             tempforyear = tableofCell[0].split("|")
             table_of_winners[ii][0] = int(tempforyear[1])  # link[0]
             # get first winner
-            for jj in range(ColumnOfwinner, ColumnOfwinner + 3):
+            for jj in range(column_of_winner, column_of_winner + 3):
                 linksplit1 = tableofCell[jj].split("[[")
                 link = linksplit1[1].split("]]")
-                table_of_winners[ii][jj - ColumnOfwinner + 1] = link[0]
+                table_of_winners[ii][jj - column_of_winner + 1] = link[0]
     
         return table_of_winners
         # print(table_of_winners)
@@ -72,15 +72,15 @@ def palmares_importer(pywikibot, site, repo, id_championship, test):
             print(year)
             present_label = masterlabel + " " + str(year)
             # look for the race
-            present_id = searchItem(pywikibot, site, present_label)
+            present_id = search_item(pywikibot, site, present_label)
             if (present_id == u'Q0'):
-                print(presentlabel + ' not present')
+                print(present_label  + ' not present')
             elif (present_id == u'Q1'):
-                print(presentlabel + ' present several times')
+                print(present_label  + ' present several times')
             else:  # good
                 item_present = pywikibot.ItemPage(repo, present_id)
                 item_present.get()
-                addWinner(
+                add_winner(
                     pywikibot,
                     site,
                     repo,
@@ -88,7 +88,7 @@ def palmares_importer(pywikibot, site, repo, id_championship, test):
                     table_of_winners[ii][1],
                     1,
                     0)
-                addWinner(
+                add_winner(
                     pywikibot,
                     site,
                     repo,
@@ -96,7 +96,7 @@ def palmares_importer(pywikibot, site, repo, id_championship, test):
                     table_of_winners[ii][2],
                     2,
                     0)
-                addWinner(
+                add_winner(
                     pywikibot,
                     site,
                     repo,

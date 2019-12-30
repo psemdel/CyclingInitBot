@@ -5,12 +5,13 @@ Created on Sat Jan  6 15:38:42 2018
 @author: psemdel
 """
 from moo import *
+from exception import *
 import csv 
-
+import os
 ### Functions that are used from several other functions ###
 
 # ==Low level function ==
-def addValue(pywikibot, repo, item, property_nummer, value, comment):  # Add a value to a property
+def add_value(pywikibot, repo, item, property_nummer, value, comment):  # Add a value to a property
     if(u'P' + str(property_nummer) not in item.claims):  # already there do nothing
         claim = pywikibot.Claim(repo, u'P' + str(property_nummer))
         if isinstance(value, str):
@@ -21,14 +22,14 @@ def addValue(pywikibot, repo, item, property_nummer, value, comment):  # Add a v
         item.addClaim(claim, summary=u'Adding ' + comment)
 
 
-def addDate(pywikibot, repo, item, property_nummer, input_date, comment):
+def add_date(pywikibot, repo, item, property_nummer, input_date, comment):
     if(u'P' + str(property_nummer) not in item.claims):  # already there do nothing
         claim = pywikibot.Claim(repo, u'P' + str(property_nummer))
         claim.setTarget(input_date)
         item.addClaim(claim, summary=u'Adding ' + comment)
 
 
-def deleteValue(pywikibot, repo, item, property_nummer, value, comment):
+def delete_value(pywikibot, repo, item, property_nummer, value, comment):
     item_found = False
     item_position = 0
     if(u'P' + str(property_nummer) in item.claims):
@@ -44,14 +45,14 @@ def deleteValue(pywikibot, repo, item, property_nummer, value, comment):
         item.removeClaims(claim)
 
 
-def deleteProperty(pywikibot, repo, id_item, property_nummer):
+def delete_property(pywikibot, repo, id_item, property_nummer):
     item = pywikibot.ItemPage(repo, id_item)
     item.get()
     if(u'P' + str(property_nummer) in item.claims):
         item.removeClaims(item.claims['P' + str(property_nummer)])
 
 # Same as add value but for comprend
-def addMultipleValue(
+def add_multiple_value(
         pywikibot,
         repo,
         item,
@@ -82,7 +83,7 @@ def addMultipleValue(
 def add_to_master(pywikibot,site,repo,id_present,id_master):
     item_master = pywikibot.ItemPage(repo, id_master)
     item_master.get()
-    addMultipleValue(
+    add_multiple_value(
         pywikibot,
         repo,
         item_master,
@@ -91,7 +92,7 @@ def add_to_master(pywikibot,site,repo,id_present,id_master):
         u'link year',
         0)
 
-def addWinner(pywikibot, site, repo, item, value, order, general_or_stage):
+def add_winner(pywikibot, site, repo, item, value, order, general_or_stage):
     property_nummer = 1346
     dic_order1={0:'Q20882667',2:'Q20883007', 3:'Q20883212', 4:'Q20883139'}
     Addc = True
@@ -134,7 +135,7 @@ def noQ(id_item):
     return int(itemResult)
 
 # ==date==
-def compareDates(date1, date2):
+def compare_dates(date1, date2):
     # equal to 1 if date 1 is higher than 2, otherwise 2, and 0 if equal
     year1 = int(date1.year)
     year2 = int(date2.year)
@@ -196,10 +197,10 @@ def link_year(pywikibot, site,repo, id_present,arg1,arg2):
                 suffix1='next'
             item = pywikibot.ItemPage(repo, id_present)
             item.get()
-            addValue(pywikibot, repo, item, p1, noQ(id_other), u'link '+suffix1)
+            add_value(pywikibot, repo, item, p1, noQ(id_other), u'link '+suffix1)
             item_other = pywikibot.ItemPage(repo, id_other)
             item_other.get()
-            addValue(pywikibot, repo, item_other, p2, noQ(id_present), u'link '+suffix2)
+            add_value(pywikibot, repo, item_other, p2, noQ(id_present), u'link '+suffix2)
         kk=kk+2
 
 def create_present(pywikibot, site,repo,time, label):   
@@ -220,85 +221,144 @@ def create_present(pywikibot, site,repo,time, label):
    return id_present, item
 
 # ==Table reader ==
-   
 
 #convert the time in seconds
-def timeconverter(input):
+def time_converter(this_input):
     ecart=False
-    if input == 0 or input == '0' or input == '+0' or input == '+00':
+    if this_input == '' or this_input == 0 or this_input == '0' or this_input == '+0' or this_input == '+00':
         return 0, ecart
     else:
-        if input.find("+")==0:
-            input=input[1:]
+        if this_input.find("+")==0:
+            this_input=this_input[1:]
             ecart=True
       
-        timesplit = input.split(":")
+        timesplit = this_input.split(":")
+        
         if len(timesplit) == 3:
-            return int(timesplit[0]) * 3600 + \
-                int(timesplit[1]) * 60 + int(timesplit[2]), ecart
+            return int(timesplit[0]) * 3600 + int(timesplit[1]) * 60 + int(timesplit[2]), ecart
         if len(timesplit) == 2:
             return int(timesplit[0]) * 60 + int(timesplit[1]), ecart
-
         else:
             return int(timesplit[0]), ecart
         
-def table_reader(filepath,separator,result_dic, startline):
+def table_reader(filepath,result_dic, startline, verbose):
+    
+    default_separator=';'
+    with open(filepath, newline='') as csvfile:
+        file_object = csv.reader(csvfile, delimiter=default_separator, quotechar='|')
+        for row in file_object: 
+            if len(row)==1:  #wrong separator, try coma
+                separator=','
+            else:
+                separator=default_separator
+            break #always break
+
+    #count the number of rows not empty 
+    kk=0       
     with open(filepath, newline='') as csvfile:
         file_object = csv.reader(csvfile, delimiter=separator, quotechar='|')
-        row_count = sum(1 for row in file_object) 
+        for row in file_object:
+            is_empty=True
+            for ii in range(len(row)):
+                if row[ii]!='':
+                    is_empty=False
+            if is_empty:
+                break
+            else:
+                kk=kk+1
+                
+        row_count =kk
+    if verbose:
         print(str(row_count) + " lines in the file")
     
     result_table = [[0 for x in range(len(result_dic))] for y in range(row_count)]
-    
     kk = 0
     ecart_global=False
+    
     with open(filepath, newline='') as csvfile:
         file_object = csv.reader(csvfile, delimiter=separator, quotechar='|')
-     
+
         for row in file_object:
             if kk == startline:
-                print(row)  #allow to see if there is no problem with the separator
+                if verbose:
+                    print(row)  #allow to see if there is no problem with the separator
                 for jj in range(len(row)):
                     column=row[jj].lower()
                     if column in result_dic:
                         result_dic[column][0]=jj
-            elif kk>startline:
+            elif kk>startline and kk<row_count:
                 for dic_key in result_dic:
                     dic_content=result_dic[dic_key]
                     if dic_content[0]!=-1:
-                        if dic_content[2]=='time':
-                            result_table[kk - 1][dic_content[1]], ecart=timeconverter(row[dic_content[0]])
-                            if kk==startline+2:
-                                ecart_global=ecart
-                        elif  dic_content[2]=='points':
-                            result_table[kk - 1][dic_content[1]]=int(row[dic_content[0]].replace(",","."))
-                        elif dic_content[2]=='rank':
-                            result_table[kk - 1][dic_content[1]]=int(row[dic_content[0]])
+                        if dic_key=='rank' or dic_key=='bib':
+                            if row[dic_content[0]]=='':
+                                result_table[kk-1][dic_content[1]]=0
+                            else:
+                                result_table[kk-1][dic_content[1]]=int(row[dic_content[0]])
                         else:
-                            result_table[kk - 1][dic_content[1]]=row[dic_content[0]]
+                            if dic_content[2]=='time':
+                                result_table[kk-1][dic_content[1]], ecart=time_converter(row[dic_content[0]])
+                                if kk==startline+2:
+                                    ecart_global=ecart
+                            elif  dic_content[2]=='points':
+                                result_table[kk-1][dic_content[1]]=int(row[dic_content[0]].replace(",","."))
+    
+                            else:
+                                result_table[kk-1][dic_content[1]]=row[dic_content[0]]
             kk = kk + 1
-    print('table read')
+    if verbose:
+        print('table read')
     return result_table, row_count, ecart_global
 
+#create a list of cyclist objects from result_table
+def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwargs):
+    list_of_cyclists = []
+    
+    #check if all riders are already present
+    for ii in range(len(result_table)):
+        if (result_table[ii][result_dic['name'][1]]!=0 or result_table[ii][result_dic['first name'][1]]!=0):
+           id_rider=search_rider(pywikibot, site, repo,result_table[ii][result_dic['name'][1]],
+                                    result_table[ii][result_dic['first name'][1]],result_table[ii][result_dic['last name'][1]] )
+   
+           if id_rider!='Q0' and id_rider!='Q1':
+               item_rider = pywikibot.ItemPage(repo, id_rider)
+               item_rider.get()
+               
+               nosortkey=kwargs.get('nosortkey',False)
+
+               this_label=get_label('fr', item_rider)
+               this_rider=Cyclist(ii, this_label, id_rider, nosortkey=nosortkey)
+               this_rider.item=item_rider
+               this_rider.dossard=result_table[ii][result_dic['bib'][1]]
+               this_rider.rank=result_table[ii][result_dic['rank'][1]]
+           else:
+               print(str(result_table[ii][result_dic['name'][1]]) + " " + 
+                     str(result_table[ii][result_dic['last name'][1]]) + " " + 
+                     str(result_table[ii][result_dic['bib'][1]]) + " not found")
+               this_rider=Cyclist(ii, 'not found', id_rider)
+           list_of_cyclists.append(this_rider)
+
+    print('list of cyclists created')
+    return list_of_cyclists
 
 # ==Search ==
-def search_race(name, race_table):
+def search_race(name, race_table,race_dic):
     result = 0, 0
     
     thisname=ThisName(name)  #delete the accent and so on
     name=thisname.name_cor
     
     for ii in range(len(race_table)):
-        if race_table[ii][1] != 0 and race_table[ii][2] != 0:
-            thisname2=ThisName(race_table[ii][1])
+        if race_table[ii][race_dic['name1']] != 0 and race_table[ii][race_dic['name2']] != 0:
+            thisname2=ThisName(race_table[ii][race_dic['name1']])
             key1=thisname2.name_cor
             
-            thisname3=ThisName(race_table[ii][2])
+            thisname3=ThisName(race_table[ii][race_dic['name2']])
             key2=thisname3.name_cor  
             
             if name.find(key1) != -1:
                 if name.find(key2) != -1:
-                    return race_table[ii][3], race_table[ii][4]
+                    return race_table[ii][race_dic['master']], race_table[ii][race_dic['genre']]
 
     return result 
 
@@ -313,9 +373,9 @@ def is_it_a_cyclist(pywikibot, repo, id_item):
                 return True
     return False
 
-def searchItem(pywikibot, site, search_string):
+def search_item(pywikibot, site, search_string):
     from pywikibot.data import api
-    wikidataEntries = getItems(api, site, search_string)
+    wikidataEntries = get_items(api, site, search_string)
     if(u'search-continue' in wikidataEntries):
         # several results
         id_result = u'Q1'
@@ -328,7 +388,7 @@ def searchItem(pywikibot, site, search_string):
         id_result = wikidataSearchresult1['id']
     return id_result
 
-def searchItemv2(pywikibot, site, search_string, **kwargs): #For Team and rider
+def search_itemv2(pywikibot, site, search_string, **kwargs): #For Team and rider
     from pywikibot.data import api
     
     if search_string!=0:
@@ -344,14 +404,16 @@ def searchItemv2(pywikibot, site, search_string, **kwargs): #For Team and rider
     
     #exception management
     exception_table=kwargs.get('exception_table',[])
-    for ii in range(1,len(exception_table)):
+    for ii in range(len(exception_table)):
         this_exception=ThisName(exception_table[ii][0])          
         if this_name.name_cor==this_exception.name_cor:
                return exception_table[ii][1]
            
-    wikidata_entries = getItems(api, site, search_string)
+    wikidata_entries = get_items(api, site, this_name.name_cor)
+    
     if(u'search-continue' in wikidata_entries):
         # several results
+        
         id_result = u'Q1'
         disam=kwargs.get('disam',None) #disambiguation_function
         if disam!=None:
@@ -370,20 +432,21 @@ def searchItemv2(pywikibot, site, search_string, **kwargs): #For Team and rider
         wikidataSearchresult = wikidata_entries['search']
         wikidataSearchresult1 = wikidataSearchresult[0]
         id_result = wikidataSearchresult1['id']
-    return id_result, this_name
+        
+    return id_result
 
 def search_rider(pywikibot, site, repo,search_string, first_name, last_name):
     exception_table=list_of_rider_exception()
-    return searchItemv2(pywikibot, site, search_string, disam=is_it_a_cyclist, repo=repo, 
+    return search_itemv2(pywikibot, site, search_string, disam=is_it_a_cyclist, repo=repo, 
                         exception_table=exception_table, first_name=first_name, last_name=last_name)
 
 def search_team_by_name(pywikibot, site, search_string):
     exception_table=list_of_team_name_exception()
-    return searchItemv2(pywikibot, site, search_string, exception_table=exception_table)
+    return search_itemv2(pywikibot, site, search_string, exception_table=exception_table)
 
 def search_team_by_code(pywikibot, site, search_string):
     exception_table=listofteam_code_exception()
-    return searchItemv2(pywikibot, site, search_string, exception_table=exception_table)
+    return search_itemv2(pywikibot, site, search_string, exception_table=exception_table)
 
 ## other ##
 def get_class_id(classe):
@@ -403,7 +466,7 @@ def get_class_id(classe):
     else:
         return 0
 
-def getItems(api, site, itemtitle):
+def get_items(api, site, itemtitle):
     params = {
         'action': 'wbsearchentities',
         'format': 'json',
@@ -419,9 +482,9 @@ def getItems(api, site, itemtitle):
     else:
         return search_results
 
-def getPresentTeam(pywikibot, site, repo, RiderID, time_of_race):
-    result = 0
-    item = pywikibot.ItemPage(repo, RiderID)
+def get_present_team(pywikibot, site, repo, id_rider, time_of_race):
+    result = 'Q1'
+    item = pywikibot.ItemPage(repo, id_rider)
     item.get()
     if (u'P54' in item.claims):
         allteams = item.claims.get(u'P54')
@@ -487,8 +550,12 @@ def get_description(language, wikidataitem):
 def get_label(language, wikidataitem):
     if language in wikidataitem.labels:
         return wikidataitem.labels[language]
+    elif 'en'  in wikidataitem.labels:
+        return wikidataitem.labels['en']
     else:
-        return('')
+        for lang in wikidataitem.labels:
+               return  wikidataitem.labels[lang]
+        return ''
 
 def get_alias(language, wikidataitem):
     if language in wikidataitem.aliases:

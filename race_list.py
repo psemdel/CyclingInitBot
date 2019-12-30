@@ -13,6 +13,14 @@ def race_list():
     # 2: part 2 of the name
     # 3: master
     # 4: genre
+    
+    race_dic={
+        'name1':1,
+        'name2':2,
+        'master':3,
+        'genre':4,
+        }
+    
 
     kk = 1
     
@@ -855,4 +863,4 @@ def race_list():
     kk += 1     
    
 
-    return raceTable
+    return raceTable, race_dic

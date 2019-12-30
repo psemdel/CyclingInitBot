@@ -18,7 +18,7 @@ def get_rider_tricot(pywikibot,site,repo,id_rider,time_of_race,claim,chrono):
                     this_year=int(result_table[ii][result_dic[road_or_clm +' year'][1]])
                     this_date=pywikibot.WbTime(site=site,year=this_year, month=this_month, day=this_day, precision='day')    
                     if this_date.year==time_of_race.year:
-                        if compareDates(time_of_race,this_date)==1:   
+                        if compare_dates(time_of_race,this_date)==1:   
                             return -1
             #no other championship found, and he is champion of one year
             return 1
@@ -49,7 +49,7 @@ def get_rider_tricot(pywikibot,site,repo,id_rider,time_of_race,claim,chrono):
             this_date=pywikibot.WbTime(site=site,year=this_year, month=this_month, day=this_day, precision='day')    
             this_champ=result_table[ii][result_dic[road_or_clm +' champ'][1]]
 
-            if compareDates(time_of_race,this_date)==1 and time_of_race.year<=(this_date.year+1):
+            if compare_dates(time_of_race,this_date)==1 and time_of_race.year<=(this_date.year+1):
                     #time_of_race>timeofroad and time_of_race<=timeofroad+1 year
                     #if race after championship
                         if id_worldchamp==this_champ:
@@ -99,7 +99,7 @@ def get_rider_tricot(pywikibot,site,repo,id_rider,time_of_race,claim,chrono):
     id_worldclmchamp=u'Q2630733'
     id_eurclmchamp= u'Q30894543'
     
-    result_table, row_count=table_reader('input/Champ.csv',separator,result_dic,0)
+    result_table, row_count, ecart=table_reader('input/Champ.csv',result_dic,0,False)
     
     for ii in range(row_count):
         if id_rider==result_table[ii][result_dic['Road winner'][1]]:

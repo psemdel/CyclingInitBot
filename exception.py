@@ -6,8 +6,8 @@ Created on Thu Jan 31 23:10:26 2019
 @author: maxime
 """
 def list_of_rider_exception():
-    exceptionTable = [[0 for x in range(2)] for y in range(200)]
-    kk = 1
+    exceptionTable = [['' for x in range(2)] for y in range(200)]
+    kk = 0
 
     exceptionTable[kk][0] = u'Anne Palm'
     exceptionTable[kk][1] = u'Q62121769'
@@ -55,14 +55,16 @@ def list_of_rider_exception():
     kk += 1
     exceptionTable[kk][0] = u'Sandra Gómez'
     exceptionTable[kk][1] = u'Q23785379'
-    kk += 1
-
-    return exceptionTable
+    
+    final_table = [['' for x in range(2)] for y in range(kk)]
+    final_table=exceptionTable[:kk]
+            
+    return  final_table
 
 
 def list_of_team_name_exception():
-    teamList = [[0 for x in range(2)] for y in range(100)]
-    kk = 1
+    teamList = [['' for x in range(2)] for y in range(100)]
+    kk = 0
 
     teamList[kk][0] = u'CANYON // SRAM RACING'
     teamList[kk][1] = u'Q45536829'
@@ -75,12 +77,16 @@ def list_of_team_name_exception():
     kk += 1
     teamList[kk][0] = u'MITCHELTON SCOTT'
     teamList[kk][1] = u'Q43144477'
-    kk += 1
+    
+    final_table = [['' for x in range(2)] for y in range(kk)]
+    final_table=exceptionTable[:kk]
+            
+    return  final_table
 
 
 def list_of_team_code_exception():
-    exceptionTable = [[0 for x in range(2)] for y in range(100)]
-    kk = 1
+    exceptionTable = [['' for x in range(2)] for y in range(100)]
+    kk = 0
 
     exceptionTable[kk][0] = u'ORS 2017'
     exceptionTable[kk][1] = u'Q27865610'
@@ -102,8 +108,10 @@ def list_of_team_code_exception():
     kk += 1
     exceptionTable[kk][0] = u'MCC 2019'
     exceptionTable[kk][1] = u'Q61451340'
-    kk += 1
 
-    return exceptionTable
+    final_table = [['' for x in range(2)] for y in range(kk)]
+    final_table=exceptionTable[:kk]
+            
+    return  final_table
 
 
