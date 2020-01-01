@@ -39,15 +39,15 @@ def pro_team_creator(
         # No need for the table here
     
         if pro_or_amateur == 1:
-            addValue(pywikibot, repo, item, 31, 2466826, u'Nature')
-            addValue(pywikibot, repo, item, 1998, UCI_code, u'UCI code')
-        else:
-            addValue(pywikibot, repo, item, 31, 26849121, u'Nature')
-        addMultipleValue(pywikibot, repo, item, 31, 53534649, u'Season', 0)
-        addValue(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
+            #add_value(pywikibot, repo, item, 31, 2466826, u'Nature')
+            add_value(pywikibot, repo, item, 1998, UCI_code, u'UCI code')
+       # else:
+            #add_value(pywikibot, repo, item, 31, 26849121, u'Nature')
+        add_multiple_value(pywikibot, repo, item, 31, 53534649, u'Season', 0)
+        add_value(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
     
-        addValue(pywikibot, repo, item, 17, country_code, u'country')
-        addValue(pywikibot, repo, item, 361, id_master, u'part of')
+        add_value(pywikibot, repo, item, 17, country_code, u'country')
+        add_value(pywikibot, repo, item, 361, id_master, u'part of')
         add_to_master(pywikibot,site,repo,id_present,id_master)
     
         if(u'P580' not in item.claims):

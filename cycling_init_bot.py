@@ -11,7 +11,7 @@ def cycling_init_bot():
     [nation_table, endkk]= nation_tab()
     [tempcc_table, ccendkk]=cc_table()
     
-    selector=5
+    selector=7
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -62,24 +62,24 @@ def cycling_init_bot():
         test=False
         date_sorter(pywikibot,site,repo,time,id_team,victory,test )
     elif selector==7:
-        race_name=u"Tour de Colombie féminin"
+        race_name=u"Santos Women's Tour"
         race_genre=u"du "  
-        id_race_master=27684043
-        stage_race_id=57277615 #only for onlystages
-        year=2019
+        id_race_master=22661614
+        stage_race_id=78486081 #only for onlystages
+        year=2020
         UCI=True
         WWT=False
-        only_stages=False
+        only_stages=True
         create_stages=True
-        race_begin=pywikibot.WbTime(site=site,year=Year, month=12, day=3, precision='day')
-        end_date=pywikibot.WbTime(site=site,year=Year, month=12, day=7, precision='day')
+        race_begin=pywikibot.WbTime(site=site,year=year, month=1, day=16, precision='day')
+        end_date=pywikibot.WbTime(site=site,year=year, month=1, day=19, precision='day')
         first_stage=1
-        last_stage=5
-        countryCIO=u'COL'
-        classe='2.2'
+        last_stage=4
+        countryCIO=u'AUS'
+        classe='2.Pro'
         
         race_creator(pywikibot,site,repo,time,nation_table,race_name,race_genre,
-                      id_race_master,year,UCI,WWT,race_begin,countryCIO,classe,
+                      id_race_master,year,UCI,WWT,race_begin,countryCIO,classe,False,
                       stage_race_id=stage_race_id, end_date=end_date,
                       only_stages=only_stages,create_stages=create_stages, first_stage=first_stage,
                       last_stage=last_stage)
@@ -90,19 +90,19 @@ def cycling_init_bot():
          year=2019
          UCI=True
          WWT=False
-         race_date=pywikibot.WbTime(site=site,year=Year, month=10, day=17, precision='day')
+         race_date=pywikibot.WbTime(site=site,year=year, month=10, day=17, precision='day')
          countryCIO=u'CHN'
          classe=12
          race_creator(pywikibot,site,repo,time,nation_table,race_name,race_genre,
                  id_master,year,UCI,WWT,race_date,countryCIO,classe,True)
     elif selector==9:
-        id_race='Q17017069'
+        id_race='Q4618100'
         stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
         final=False
         maxkk=10
-        year=2016
-        startliston=True
+        year=2015
+        startliston=False
         test=False
         classification_importer(pywikibot,site,repo,stage_or_general,id_race,final,
                                maxkk,year,startliston,test)

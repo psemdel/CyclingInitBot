@@ -204,7 +204,7 @@ def link_year(pywikibot, site,repo, id_present,arg1,arg2):
         kk=kk+2
 
 def create_present(pywikibot, site,repo,time, label):   
-   id_present = searchItem(pywikibot, site, label['fr'])
+   id_present = search_item(pywikibot, site, label['fr'])
    
    if (id_present == u'Q0'):
        print(label['fr'] + ' created')
@@ -225,8 +225,10 @@ def create_present(pywikibot, site,repo,time, label):
 #convert the time in seconds
 def time_converter(this_input):
     ecart=False
-    if this_input == '' or this_input == 0 or this_input == '0' or this_input == '+0' or this_input == '+00':
+    if this_input == '' or this_input == 0 or this_input == '0':
         return 0, ecart
+    elif this_input == '+0' or this_input == '+00':
+        return 0, True
     else:
         if this_input.find("+")==0:
             this_input=this_input[1:]
