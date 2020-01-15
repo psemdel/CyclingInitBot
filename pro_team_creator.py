@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Thu Jan  4 15:28:39 2018
 
@@ -140,10 +139,10 @@ def pro_team_creator(
                         year,
                         team_table[kk][team_dic['master']],
                         id_present,
-                        team_table[kk][team_dic['codeUCI']],
+                        team_table[kk][team_dic['UCIcode']],
                         pro_or_amateur)
                      # Link the other to the new item
                     name_previous=pro_team_label(team_table, kk, year-1)
                     name_next=pro_team_label(team_table, kk, year+1)
-                    link_year(pywikibot, site,repo, id_present,name_previous,name_next)
+                    link_year(pywikibot, site,repo, id_present,name_previous[u'fr'],name_next[u'fr'])
 

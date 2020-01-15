@@ -20,7 +20,7 @@ def pro_team_tab():
             'name':1,
             'master':2,
             'country':3,
-            'codeUCI':4,
+            'UCIcode':4,
             'group':5,
             'active':6            
             }
@@ -40,7 +40,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ITA'
     team_table[kk][4] = u'ALE'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u'Aromitalia Vaiano'
@@ -48,7 +48,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ITA'
     team_table[kk][4] = u'VAI'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Astana Women's"
@@ -56,7 +56,7 @@ def pro_team_tab():
     team_table[kk][3] = u'KAZ'
     team_table[kk][4] = u'ASA'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"BePink"
@@ -64,7 +64,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ITA'
     team_table[kk][4] = u'BPK'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Bizkaia-Durango"
@@ -72,7 +72,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ESP'
     team_table[kk][4] = u'BDM'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Boels Dolmans"
@@ -80,7 +80,7 @@ def pro_team_tab():
     team_table[kk][3] = u'NED'
     team_table[kk][4] = u'DLT'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"BTC City Ljubljana"
@@ -96,7 +96,7 @@ def pro_team_tab():
     team_table[kk][3] = u'GER'
     team_table[kk][4] = u'CSR'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Bigla"
@@ -104,7 +104,7 @@ def pro_team_tab():
     team_table[kk][3] = u'DEN'
     team_table[kk][4] = u'CBT'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"China Liv Pro Cycling"
@@ -112,7 +112,7 @@ def pro_team_tab():
     team_table[kk][3] = u'CHN'
     team_table[kk][4] = u'GPC'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Cogeas"
@@ -120,7 +120,7 @@ def pro_team_tab():
     team_table[kk][3] = u'RUS'
     team_table[kk][4] = u'CGS'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Conceria Zabri-Fanini"
@@ -144,7 +144,7 @@ def pro_team_tab():
     team_table[kk][3] = u'BEL'
     team_table[kk][4] = u'DVE'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Eurotarget-Bianchi-Vitasana"
@@ -168,7 +168,7 @@ def pro_team_tab():
     team_table[kk][3] = u'FRA'
     team_table[kk][4] = u'FDJ'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Hitec Products"
@@ -176,7 +176,7 @@ def pro_team_tab():
     team_table[kk][3] = u'NOR'
     team_table[kk][4] = u'HPU'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Illuminate"
@@ -192,7 +192,7 @@ def pro_team_tab():
     team_table[kk][3] = u'BEL'
     team_table[kk][4] = u'LSL'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Minsk Cycling Club"
@@ -208,7 +208,7 @@ def pro_team_tab():
     team_table[kk][3] = u'AUS'
     team_table[kk][4] = u'MTS'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Movistar Women"
@@ -216,7 +216,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ESP'
     team_table[kk][4] = u'MOV'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Parkhotel Valkenburg-Destil"
@@ -224,7 +224,7 @@ def pro_team_tab():
     team_table[kk][3] = u'NED'
     team_table[kk][4] = u'PHV'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Rally"
@@ -232,7 +232,7 @@ def pro_team_tab():
     team_table[kk][3] = u'CAN'
     team_table[kk][4] = u'RLW'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"SC Michela Fanini"
@@ -240,7 +240,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ITA'
     team_table[kk][4] = u'MIC'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Servetto-Piumate-Beltrami TSA"
@@ -248,7 +248,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ITA'
     team_table[kk][4] = u'SER'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Sho-Air Twenty20"
@@ -256,7 +256,7 @@ def pro_team_tab():
     team_table[kk][3] = u'USA'
     team_table[kk][4] = u'T20'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Sopela"
@@ -264,7 +264,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ESP'
     team_table[kk][4] = u'SWT'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Sunweb Women"
@@ -272,7 +272,7 @@ def pro_team_tab():
     team_table[kk][3] = u'NED'
     team_table[kk][4] = u'SUN'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Swapit Agolico"
@@ -280,7 +280,7 @@ def pro_team_tab():
     team_table[kk][3] = u'MEX'
     team_table[kk][4] = u'SWA'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Team Dukla Praha Women"
@@ -288,7 +288,7 @@ def pro_team_tab():
     team_table[kk][3] = u'CZE'
     team_table[kk][4] = u'TDP'
     team_table[kk][5] = 2
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Thailand Women's Cycling Team"
@@ -304,7 +304,7 @@ def pro_team_tab():
     team_table[kk][3] = u'USA'
     team_table[kk][4] = u'TIB'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Top Girls Fassa Bortolo"
@@ -312,7 +312,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ITA'
     team_table[kk][4] = u'TOP'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Drops"
@@ -320,7 +320,7 @@ def pro_team_tab():
     team_table[kk][3] = u'GBR'
     team_table[kk][4] = u'DRP'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Valcar Cylance"
@@ -328,7 +328,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ITA'
     team_table[kk][4] = u'VAL'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"CCC-Liv"
@@ -336,7 +336,7 @@ def pro_team_tab():
     team_table[kk][3] = u'NED'
     team_table[kk][4] = u'CCC'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"WNT-Rotor Pro Cycling"
@@ -344,7 +344,7 @@ def pro_team_tab():
     team_table[kk][3] = u'GBR'
     team_table[kk][4] = u'WNT'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     # Dead
@@ -387,6 +387,16 @@ def pro_team_tab():
     team_table[kk][5] = 2
     team_table[kk][6] = 0
     kk += 1
+    
+    team_table[kk][1] = u"Trek-Segafredo Women"
+    team_table[kk][2] = 55478420
+    team_table[kk][3] = u'USA'
+    team_table[kk][4] = u'TFS'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 1
+    kk += 1  
+    
+    
 
     return [team_table, kk, pro_team_dic]
 

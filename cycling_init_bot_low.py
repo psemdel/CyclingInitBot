@@ -81,7 +81,7 @@ def add_multiple_value(
     return Addc
 
 def add_to_master(pywikibot,site,repo,id_present,id_master):
-    item_master = pywikibot.ItemPage(repo, id_master)
+    item_master = pywikibot.ItemPage(repo,  u'Q' + str(id_master))
     item_master.get()
     add_multiple_value(
         pywikibot,
@@ -183,7 +183,7 @@ def link_year(pywikibot, site,repo, id_present,arg1,arg2):
                 mylabel_other = nameprev
             else:
                 mylabel_other = namenext
-        id_other = searchItem(pywikibot, site, mylabel_other)
+        id_other = search_item(pywikibot, site, mylabel_other)
         if (id_other != u'Q0') and (id_other != u'Q1'):  # no previous or several
             if kk==-1:
                 p1=155

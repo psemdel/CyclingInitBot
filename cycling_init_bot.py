@@ -11,7 +11,7 @@ def cycling_init_bot():
     [nation_table, endkk]= nation_tab()
     [tempcc_table, ccendkk]=cc_table()
     
-    selector=7
+    selector=4
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -43,7 +43,7 @@ def cycling_init_bot():
         calendar_importer(pywikibot, site, repo,time, nation_table, ";", test, race_table, race_dic)
     elif selector==4: 
         #more details in the table with activate and group
-        pro_or_amateur=1 #1 is pro
+        pro_or_amateur=0 #1 is pro
         if pro_or_amateur==1:
             [team_table, endkk, team_dic]=pro_team_tab()
             pro_team_creator(pywikibot,site,repo,time,team_table,nation_table,endkk,pro_or_amateur, team_dic)
@@ -77,9 +77,10 @@ def cycling_init_bot():
         last_stage=4
         countryCIO=u'AUS'
         classe='2.Pro'
+        edition_nr=''
         
         race_creator(pywikibot,site,repo,time,nation_table,race_name,race_genre,
-                      id_race_master,year,UCI,WWT,race_begin,countryCIO,classe,False,
+                      id_race_master,year,UCI,WWT,race_begin,countryCIO,classe,False,edition_nr,
                       stage_race_id=stage_race_id, end_date=end_date,
                       only_stages=only_stages,create_stages=create_stages, first_stage=first_stage,
                       last_stage=last_stage)
@@ -93,15 +94,16 @@ def cycling_init_bot():
          race_date=pywikibot.WbTime(site=site,year=year, month=10, day=17, precision='day')
          countryCIO=u'CHN'
          classe=12
+         edition_nr=''
          race_creator(pywikibot,site,repo,time,nation_table,race_name,race_genre,
-                 id_master,year,UCI,WWT,race_date,countryCIO,classe,True)
+                 id_master,year,UCI,WWT,race_date,countryCIO,classe,True,edition_nr)
     elif selector==9:
-        id_race='Q4618100'
+        id_race='Q16154118'
         stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
         final=False
         maxkk=10
-        year=2015
+        year=2009
         startliston=False
         test=False
         classification_importer(pywikibot,site,repo,stage_or_general,id_race,final,

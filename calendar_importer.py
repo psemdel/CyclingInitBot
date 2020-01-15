@@ -37,6 +37,12 @@ def calendar_importer(pywikibot, site, repo, time, team_table, separator, test, 
             if id_master != 0 and id_master != '0' and classe != 0:
                 item_master = pywikibot.ItemPage(repo, "Q" + str(id_master))
                 item_master.get()
+                
+                id_country=''                
+                if(u'P17' in item_master.claims): #edition
+                    country_list = item_master.claims.get(u'P17')
+                    id_country=int(noQ(country_list[0]))
+                
                 master_name = item_master.labels["fr"]
 
                 if result_table[kk][result_dic['date from'][1]] != 0:
@@ -59,7 +65,17 @@ def calendar_importer(pywikibot, site, repo, time, team_table, separator, test, 
                     elif classe == "1.WWT" or classe == "2.WWT":
                         UCI = False
                         WWT = True
-                        
+                    
+                    id_previous = searchItem(pywikibot, site, master_name + " " +str(year-1))
+                    if id_previous!=u'Q0' and id_previous!=u'Q1':
+                        item_previous = pywikibot.ItemPage(repo,id_previous)
+                        item_previous .get()
+                        edition_nr=''
+                        if(u'P393' in item_previous.claims): #edition
+                            edition_list = item_previous.claims.get(u'P393')
+                            edition_nr=int(edition_list[0])+1
+                            
+                            
                     #note: country is a name which is not correct, make inherit the country
                     #note 2: get edition from last year
                     if single_race:
@@ -77,9 +93,10 @@ def calendar_importer(pywikibot, site, repo, time, team_table, separator, test, 
                                     UCI,
                                     WWT,
                                     race_begin,
-                                    result_table[kk][result_dic['country'][1]],
+                                    id_country,
                                     classe,
-                                    True
+                                    True,
+                                    edition_nr
                                     )
                     else: #stage race
                         if result_table[kk][result_dic['date to'][1]] != 0:
@@ -106,9 +123,10 @@ def calendar_importer(pywikibot, site, repo, time, team_table, separator, test, 
                                     UCI,
                                     WWT,
                                     race_begin,
-                                    result_table[kk][result_dic['country'][1]],
+                                    id_country,
                                     classe,
                                     False,
+                                    edition_nr,
                                     end_date=stage_race_end,
                                     only_stages= False,
                                     create_stages=False,

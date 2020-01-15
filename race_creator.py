@@ -9,7 +9,7 @@ from calendar_list import *
 
 def race_creator(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre,
                  id_race_master,year,UCI,WWT,race_begin,countryCIO,classe,
-                     single_race,**kwargs):
+                     single_race,edition_nr,**kwargs):
     #optional: end_date, only_stages, create_stages, first_stage,  last_stage, stage_race_id
     
     def race_basic(pywikibot,repo,item,site,country_code,master,start_date, UCI, WWT, year,
@@ -110,7 +110,11 @@ def race_creator(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre
             id_present=u'Q'+ str(stage_race_id)
             item =pywikibot.ItemPage(repo, id_present)
             item.get()  
-   
+    if isinstance(countryCIO, str):
+        id_country=CIOtoIDsearch(team_table_femmes, countryCIO)
+    else:
+        id_country=countryCIO
+    
     if create_main:
         mylabel={}
         mylabel[u'fr']=race_name + " " + str(year)
@@ -121,8 +125,10 @@ def race_creator(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre
                 mydescription[u'fr']=u'édition ' + str(year) +" "+ race_genre + race_name
                 item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
 
-            race_basic(pywikibot,repo,item,site,CIOtoIDsearch(team_table_femmes, countryCIO),
+            race_basic(pywikibot,repo,item,site,id_country,
                        id_race_master,race_begin, UCI, WWT, year,single_race,end_date=end_date)
+            if edition_nr!='':
+                 add_value(pywikibot,repo,item,382,int(edition_nr),u'edition nr')
         
             if UCI:
                  calendar_id=calendaruciID(str(year))
@@ -157,7 +163,7 @@ def race_creator(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre
                     mydescription[u'fr']=u'étape'+" " + race_genre + race_name + " "+ str(year)
                     item_stage.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
                 
-                stage_basic(pywikibot,repo,item_stage,site,ii,CIOtoIDsearch(team_table_femmes, countryCIO),noQ(id_present))
+                stage_basic(pywikibot,repo,item_stage,site,ii,id_country,noQ(id_present))
                 stage_date=date_finder(pywikibot,repo,site,ii,first_stage,last_stage, race_begin,end_date)
                 add_date(pywikibot,repo,item_stage,585,stage_date,u'date')
                 

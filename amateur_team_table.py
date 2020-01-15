@@ -13,7 +13,7 @@ def amateur_team_tab():
         'name':1,
         'master':2,
         'country':3,
-        'codeUCI':4,
+        'UCIcode':4,
         'group':5,
         'active':6            
         }
@@ -21,6 +21,14 @@ def amateur_team_tab():
     kk = 1
 
     team_table = [[0 for x in range(i)] for y in range(j)]
+
+    #Australie
+    team_table[kk][1] = u"Specialized Women's Racing"
+    team_table[kk][2] = 59195655
+    team_table[kk][3] = u'AUS'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
+    kk += 1
 
     # Allemagne
     team_table[kk][1] = u"d.velop cloud–cycle cafe ladies"
@@ -410,7 +418,7 @@ def amateur_team_tab():
     team_table[kk][2] = 69900887
     team_table[kk][3] = u'SUI'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     # Danemark
@@ -556,7 +564,7 @@ def amateur_team_tab():
     team_table[kk][2] = 30077864
     team_table[kk][3] = u'NZL'
     team_table[kk][5] = 2
-    team_table[kk][6] = 0
+    team_table[kk][6] = 1
     kk += 1
 
     # Mexique
@@ -590,21 +598,21 @@ def amateur_team_tab():
     team_table[kk][6] = 0
     kk += 1
 
-    teamTable[kk][1] = u"Vallerbike"
-    teamTable[kk][2] = 41430368
-    teamTable[kk][3] = u'ITA'
-    teamTable[kk][5] = 2
-    teamTable[kk][6] = 0
+    team_table[kk][1] = u"Vallerbike"
+    team_table[kk][2] = 41430368
+    team_table[kk][3] = u'ITA'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
     kk += 1
 
-    teamTable[kk][1] = u"Andy Schleck Cycles-Immo Losch"
-    teamTable[kk][2] = 61967168
-    teamTable[kk][3] = u'LUX'
-    teamTable[kk][5] = 2
-    teamTable[kk][6] = 0
+    team_table[kk][1] = u"Andy Schleck Cycles-Immo Losch"
+    team_table[kk][2] = 61967168
+    team_table[kk][3] = u'LUX'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
     kk += 1
 
-    teamTable[kk][1] = u"Mike Greer Homes"
+    team_table[kk][1] = u"Mike Greer Homes"
     team_table[kk][2] = 61125738
     team_table[kk][3] = u'NZL'
     team_table[kk][5] = 2
