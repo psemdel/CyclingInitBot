@@ -74,11 +74,15 @@ def classification_importer(pywikibot,site,repo,general_or_stage, id_race,
     there_is_a_startlist=False #only useful for stage race
     if (general_or_stage not in general_or_stage_team) and  startliston:
         if(u'P361' in item.claims):  #part of
-            list_of_comprend=item.claims.get(u'P361')
-            parent=list_of_comprend[0].getTarget()
-            parent.get()
-            if(u'P361' in parent.claims): 
-                startlist=parent.claims.get(u'P'+str(710))
+            if general_or_stage==1:
+                list_of_comprend=item.claims.get(u'P361')
+                parent=list_of_comprend[0].getTarget()
+                parent.get()
+                item_with_startlist=parent
+            else:
+                item_with_startlist=item
+            if(u'P710' in item_with_startlist.claims): 
+                startlist=item_with_startlist.claims.get(u'P'+str(710))
                 there_is_a_startlist=True
                 print('startlist found')
     
@@ -149,7 +153,7 @@ def classification_importer(pywikibot,site,repo,general_or_stage, id_race,
             for ii in range(row_count):
                 if result_table[ii][result_dic['rank'][1]]==0: #dnf
                     this_id=search_rider(pywikibot, site, repo,result_table[ii][result_dic['name'][1]],
-                                        result_table[ii][result_dic['first_name'][1]],result_table[ii][result_dic['last_name'][1]] )
+                                        result_table[ii][result_dic['first name'][1]],result_table[ii][result_dic['last name'][1]] )
                     if this_id!=u'Q1' and this_id!=u'Q0':
                         target = pywikibot.ItemPage(repo, this_id)
                         this_starter=None

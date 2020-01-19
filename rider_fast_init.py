@@ -13,34 +13,44 @@ def rider_fast_init(
         site,
         repo,
         time,
-        teamTableFemmes,
+        team_table,
         name,
-        description,
         CountryCIO):
-    mydescription = {}
-    label = {}
+    
+    def create_fr_description(CountryCIO,team_table):
+        mydescription = {}
+        adj=u''
+        for ii in range(len(team_table)):
+            if team_table[ii][7] == CountryCIO:
+                adj = team_table[ii][16]
+                break
+        mydescription['fr'] = 'coureuse cycliste ' + adj
+        return mydescription
 
-    mydescription['fr'] = description
+    
+    mydescription=create_fr_description(CountryCIO,team_table)
+    label = {}
     label['fr'] = name
 
-    ## kkinit=teamCIOsearch(teamTableFemmes, u'NAM')
-    kk = teamCIOsearch(teamTableFemmes, CountryCIO)
-    id_rider = searchItem(pywikibot, site, name)
+    ## kkinit=teamCIOsearch(team_table, u'NAM')
+    kk = teamCIOsearch(team_table, CountryCIO)
+    id_rider = search_rider(pywikibot, site, repo,name,'','')
 
     if (id_rider == u'Q0'):  # no rider with this name
         id_rider = create_item(pywikibot, site, label)
+        print(id_rider)
         item = pywikibot.ItemPage(repo, id_rider)
         item.get()
         
         item.editDescriptions(mydescription,
                               summary=u'Setting/updating descriptions.')
-        addValue(pywikibot, repo, item, 31, 5, u'nature')
-        addValue(pywikibot, repo, item, 21, 6581072, u'genre')
-        addValue(
+        add_value(pywikibot, repo, item, 31, 5, u'nature')
+        add_value(pywikibot, repo, item, 21, 6581072, u'genre')
+        add_value(
             pywikibot,
             repo,
             item,
             27,
-            teamTableFemmes[kk][3],
+            team_table[kk][3],
             u'nationality')
-        addValue(pywikibot, repo, item, 106, 2309784, u'cyclist')
+        add_value(pywikibot, repo, item, 106, 2309784, u'cyclist')

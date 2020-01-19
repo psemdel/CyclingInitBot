@@ -152,7 +152,7 @@ def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of
             if prologue_or_final==1:
                 for kk in range(len(list_of_comprend)):
                     if list_of_comprendbool[kk]==False: ##rider not found in this result sheet
-                         list_of_comprend[kk].setTarget(target) 
+                         #list_of_comprend[kk].setTarget(item_rider) 
                          qualifier_DNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)#useful?
                          qualnotfound=True
                          for qual in list_of_comprend[kk].qualifiers.get('P1534', []):

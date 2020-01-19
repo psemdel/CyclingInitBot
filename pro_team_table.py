@@ -312,7 +312,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ITA'
     team_table[kk][4] = u'TOP'
     team_table[kk][5] = 1
-    team_table[kk][6] = 0
+    team_table[kk][6] = 1
     kk += 1
 
     team_table[kk][1] = u"Drops"
@@ -393,12 +393,14 @@ def pro_team_tab():
     team_table[kk][3] = u'USA'
     team_table[kk][4] = u'TFS'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1  
     
     
+    final_table = [['' for x in range(7)] for y in range(kk)]
+    final_table=team_table[:kk]
 
-    return [team_table, kk, pro_team_dic]
+    return [final_table, kk, pro_team_dic]
 
 
 

@@ -12,14 +12,15 @@ import os
 
 # ==Low level function ==
 def add_value(pywikibot, repo, item, property_nummer, value, comment):  # Add a value to a property
-    if(u'P' + str(property_nummer) not in item.claims):  # already there do nothing
-        claim = pywikibot.Claim(repo, u'P' + str(property_nummer))
-        if isinstance(value, str):
-            target = value
-        else:
-            target = pywikibot.ItemPage(repo, u'Q' + str(value))
-        claim.setTarget(target)
-        item.addClaim(claim, summary=u'Adding ' + comment)
+    if value!=0:
+        if(u'P' + str(property_nummer) not in item.claims):  # already there do nothing
+            claim = pywikibot.Claim(repo, u'P' + str(property_nummer))
+            if isinstance(value, str):
+                target = value
+            else:
+                target = pywikibot.ItemPage(repo, u'Q' + str(value))
+            claim.setTarget(target)
+            item.addClaim(claim, summary=u'Adding ' + comment)
 
 
 def add_date(pywikibot, repo, item, property_nummer, input_date, comment):
@@ -60,25 +61,26 @@ def add_multiple_value(
         value,
         comment,
         overpass):
-    # check if the value is not already present
-    if overpass:  # To add a value and then delete it for sorting purpose
-        Addc = True
-    else:
-        Addc = True
-        if(u'P' + str(property_nummer) in item.claims):  # already there do nothing
-            list_of_comprend = item.claims.get(u'P' + str(property_nummer))
-            item_to_add = pywikibot.ItemPage(repo, u'Q' + str(value))
-            for comprend in list_of_comprend :
-                if comprend.getTarget() == item_to_add:  # Already there
-                    Addc = False
-                    print('Item already in the Master list')
-    # add the value
-    if Addc:
-        claim = pywikibot.Claim(repo, u'P' + str(property_nummer))
-        target = pywikibot.ItemPage(repo, u'Q' + str(value))
-        claim.setTarget(target)
-        item.addClaim(claim, summary=u'Adding ' + comment)
-    return Addc
+    if value!=0:
+        # check if the value is not already present
+        if overpass:  # To add a value and then delete it for sorting purpose
+            Addc = True
+        else:
+            Addc = True
+            if(u'P' + str(property_nummer) in item.claims):  # already there do nothing
+                list_of_comprend = item.claims.get(u'P' + str(property_nummer))
+                item_to_add = pywikibot.ItemPage(repo, u'Q' + str(value))
+                for comprend in list_of_comprend :
+                    if comprend.getTarget() == item_to_add:  # Already there
+                        Addc = False
+                        print('Item already in the Master list')
+        # add the value
+        if Addc:
+            claim = pywikibot.Claim(repo, u'P' + str(property_nummer))
+            target = pywikibot.ItemPage(repo, u'Q' + str(value))
+            claim.setTarget(target)
+            item.addClaim(claim, summary=u'Adding ' + comment)
+        return Addc
 
 def add_to_master(pywikibot,site,repo,id_present,id_master):
     item_master = pywikibot.ItemPage(repo,  u'Q' + str(id_master))
@@ -269,7 +271,7 @@ def table_reader(filepath,result_dic, startline, verbose):
             else:
                 kk=kk+1
                 
-        row_count =kk
+        row_count =kk-1
     if verbose:
         print(str(row_count) + " lines in the file")
     
@@ -288,7 +290,7 @@ def table_reader(filepath,result_dic, startline, verbose):
                     column=row[jj].lower()
                     if column in result_dic:
                         result_dic[column][0]=jj
-            elif kk>startline and kk<row_count:
+            elif kk>startline and kk<=row_count:
                 for dic_key in result_dic:
                     dic_content=result_dic[dic_key]
                     if dic_content[0]!=-1:

@@ -15,7 +15,8 @@ def pro_team_creator(
         nation_table,
         endkk,
         pro_or_amateur,
-        team_dic):
+        team_dic,
+        year):
     
     def pro_team_alias(team_table, kk, year, team_dic):
         # input
@@ -112,7 +113,6 @@ def pro_team_creator(
             str(year) + " " + description_part2_fr + " " + team_table[kk][1]
         return mydescription
     
-    year = 2020
     kkinit = 1
        
     # for year in range(2011,2020):
@@ -126,6 +126,7 @@ def pro_team_creator(
                 id_present, item=create_present(pywikibot, site,repo,time,mylabel)
                 
                 if id_present!=u'Q1':
+                    print(id_present)
                     pro_team_intro(item, team_table, kk, year, pro_or_amateur,team_dic)
                     pro_team_basic(
                         pywikibot,

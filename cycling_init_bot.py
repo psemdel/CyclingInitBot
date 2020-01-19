@@ -11,7 +11,7 @@ def cycling_init_bot():
     [nation_table, endkk]= nation_tab()
     [tempcc_table, ccendkk]=cc_table()
     
-    selector=4
+    selector=5
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -43,15 +43,28 @@ def cycling_init_bot():
         calendar_importer(pywikibot, site, repo,time, nation_table, ";", test, race_table, race_dic)
     elif selector==4: 
         #more details in the table with activate and group
-        pro_or_amateur=0 #1 is pro
-        if pro_or_amateur==1:
-            [team_table, endkk, team_dic]=pro_team_tab()
-            pro_team_creator(pywikibot,site,repo,time,team_table,nation_table,endkk,pro_or_amateur, team_dic)
+        pro_or_amateur=1 #1 is pro, for prov ignore
+        year=2005
+        prov=True
+        
+        if prov:
+            team_table = [[0 for x in range(10)] for y in range(2)]
+            team_table[1][1] = u"Bianchi Aliverti "
+            team_table[1][2] = 60087600 #optional, then put 0
+            team_table[1][3] = u'ITA' #country
+            team_table[1][4] = u'ALI'
+            team_table[1][5] = 2 #don't modify
+            team_table[1][6] = 1 #don't modify
+            endkk=2
+            [_, _, team_dic]=pro_team_tab()
         else:
-            [team_table, endkk, team_dic]=amateur_team_tab()
-            pro_team_creator(pywikibot,site,repo,time,team_table,nation_table,endkk,pro_or_amateur, team_dic)
+            if pro_or_amateur==1:
+                [team_table, endkk, team_dic]=pro_team_tab()
+            else:
+                [team_table, endkk, team_dic]=amateur_team_tab()
+        pro_team_creator(pywikibot,site,repo,time,team_table,nation_table,endkk,pro_or_amateur, team_dic,year)
     elif selector==5:        
-        id_team=u'Q16274704'
+        id_team=u'Q21856737'
         team=False
         champ=False #else competition
         test=False
@@ -98,22 +111,22 @@ def cycling_init_bot():
          race_creator(pywikibot,site,repo,time,nation_table,race_name,race_genre,
                  id_master,year,UCI,WWT,race_date,countryCIO,classe,True,edition_nr)
     elif selector==9:
-        id_race='Q16154118'
-        stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
+        id_race='Q78486081'
+        stage_or_general=4# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
         final=False
         maxkk=10
-        year=2009
-        startliston=False
+        year=2020
+        startliston=True
         test=False
         classification_importer(pywikibot,site,repo,stage_or_general,id_race,final,
                                maxkk,year,startliston,test)
     elif selector==10:
-        id_race='Q16274704'
-        prologue_or_final=2 #0=prologue, 1=final, 2=one day race
+        id_race='Q78486081'
+        prologue_or_final=1 #0=prologue, 1=final, 2=one day race
         chrono=False
-        test=True
-        time_of_race=pywikibot.WbTime(site=site,year=2013, month=3, day=31, precision='day')    
+        test=False
+        time_of_race=pywikibot.WbTime(site=site,year=2020, month=1, day=1, precision='day')    
         startlist_importer(pywikibot,site,repo, prologue_or_final, id_race, 
                                    time_of_race,chrono,test,nation_table)  
     elif selector==11: 
@@ -121,10 +134,9 @@ def cycling_init_bot():
         test=False
         UCI_classification_importer(pywikibot,site,repo,year,test)
     elif selector==12:
-        name=u"Vanessa Serrano"
-        description='coureuse cycliste du Salvador' #française
-        countryCIO=u'ESA'
-        rider_fast_init(pywikibot,site,repo,time,nation_table, name,description,countryCIO)
+        name=u"Kelly Van Eyken"
+        countryCIO=u'BEL'
+        rider_fast_init(pywikibot,site,repo,time,nation_table, name,countryCIO)
     elif selector==13:
         champ_list_creator(pywikibot,site,repo,time)
     elif selector==14:  
