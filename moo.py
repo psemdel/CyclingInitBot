@@ -68,7 +68,7 @@ class ThisName:
             for ii in range(end_last_name+1,len(names_table)):
                 first_name=first_name + " " + names_table[ii]
             
-            self.name=first_name + " " + last_name
+            self.name_cor=first_name + " " + last_name
 
 #A cyclist
 class Cyclist(ThisName):
@@ -80,33 +80,32 @@ class Cyclist(ThisName):
         self.team=''
         nosortkey=kwargs.get('nosortkey',False)
         if nosortkey==False:
-            self.sortkey = self.find_sortkey()
+            self.find_sortkey()
         else:
             self.sortkey =''
         self.item=None
         self.nationality=''
         self.rank=0
     
-    def find_start_sortkey(self,start_words,names_table,names_cor_table):
+    def find_start_sortkey(self,start_words,names_cor_table):
         sortkey=''
         for ii in range(1,len(names_cor_table)):
            if names_cor_table[ii] in start_words:
-               sortkey=concaten(names_table,ii)
+               sortkey=concaten(names_cor_table,ii)
         
         return sortkey
     
     def find_sortkey(self):
         names_cor_table = self.name_cor.split(" ")
-        names_table = self.name.split(" ")
         done=False
 
         family_name_start=[u'van',u'de']
-        if len(names_table)==2:
-            self.sortkey=names_table[1]
+        if len(names_cor_table)==2:
+            self.sortkey=names_cor_table[1]
             done=True
         else:
-            sortkey=self.find_start_sortkey(family_name_start,names_table,names_cor_table)
-            if sortkey!='':
+            sortkey=self.find_start_sortkey(family_name_start,names_cor_table) 
+            if sortkey!='': 
                  self.sortkey=sortkey
             else:
                  print(self.name)

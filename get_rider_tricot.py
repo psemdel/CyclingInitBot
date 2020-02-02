@@ -99,9 +99,11 @@ def get_rider_tricot(pywikibot,site,repo,id_rider,time_of_race,claim,chrono):
     id_worldclmchamp=u'Q2630733'
     id_eurclmchamp= u'Q30894543'
     
-    result_table, row_count, ecart=table_reader('input/Champ.csv',result_dic,0,False)
-    
+    result_table, row_count, ecart=table_reader('champ',result_dic,0,False)
+    print(id_rider)
+
     for ii in range(row_count):
+        print(result_table[ii][result_dic['Road winner'][1]])
         if id_rider==result_table[ii][result_dic['Road winner'][1]]:
             sub_function(result_table,result_dic,'Road',id_worldroadchamp,id_eurroadchamp, time_of_race,repo,claim)
        

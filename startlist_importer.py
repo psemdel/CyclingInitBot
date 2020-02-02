@@ -24,7 +24,7 @@ def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of
     'bib':[-1,8,''] #dossard
     }
     
-    result_table, row_count, ecart=table_reader('input/Results.csv', result_dic,0,True)
+    result_table, row_count, ecart=table_reader('Results', result_dic,0,True)
     #Sort by dossard
     result_table=sorted(result_table, key=lambda tup: int(tup[8]))
     print('table read and sorted')

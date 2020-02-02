@@ -106,6 +106,31 @@ def pro_team_tab():
     team_table[kk][5] = 1
     team_table[kk][6] = 0
     kk += 1
+    
+    team_table[kk][1] = u"Biehler Krush"
+    team_table[kk][2] = 28869582
+    team_table[kk][3] = u'NED'
+    team_table[kk][4] = u'BKP'  
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1
+    
+    team_table[kk][1] = u"Casa Dorada"
+    team_table[kk][2] = 81936382
+    team_table[kk][3] = u'ESP'
+    team_table[kk][4] = u'not available'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
+    kk += 1   
+
+    team_table[kk][1] = u"Charente-Maritime Women Cycling"
+    team_table[kk][2] = 41483457
+    team_table[kk][3] = u'FRA'
+    team_table[kk][4] = u'CMW'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1
+
 
     team_table[kk][1] = u"China Liv Pro Cycling"
     team_table[kk][2] = 16921675
@@ -130,6 +155,14 @@ def pro_team_tab():
     team_table[kk][5] = 2
     team_table[kk][6] = 0
     kk += 1
+    
+    team_table[kk][1] = u"Ciclotel"
+    team_table[kk][2] = 81933532
+    team_table[kk][3] = u'BEL'
+    team_table[kk][4] = u'CTL'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
+    kk += 1   
 
     team_table[kk][1] = u"Cylance"
     team_table[kk][2] = 21450809
@@ -147,7 +180,7 @@ def pro_team_tab():
     team_table[kk][6] = 0
     kk += 1
 
-    team_table[kk][1] = u"Eurotarget-Bianchi-Vitasana"
+    team_table[kk][1] = u"Eurotarget-Bianchi-Vittoria"
     team_table[kk][2] = 30330282
     team_table[kk][3] = u'ITA'
     team_table[kk][4] = u'SBT'
@@ -217,6 +250,22 @@ def pro_team_tab():
     team_table[kk][4] = u'MOV'
     team_table[kk][5] = 1
     team_table[kk][6] = 0
+    kk += 1
+    
+    team_table[kk][1] = u"Multum Accountants-LSK"
+    team_table[kk][2] = 28829541
+    team_table[kk][3] = u'BEL'
+    team_table[kk][4] = u'MUL'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1
+    
+    team_table[kk][1] = u"NXTG Racing"
+    team_table[kk][2] = 84086763
+    team_table[kk][3] = u'NED'
+    team_table[kk][4] = u'NXG'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 1
     kk += 1
 
     team_table[kk][1] = u"Parkhotel Valkenburg-Destil"
@@ -312,7 +361,7 @@ def pro_team_tab():
     team_table[kk][3] = u'ITA'
     team_table[kk][4] = u'TOP'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Drops"

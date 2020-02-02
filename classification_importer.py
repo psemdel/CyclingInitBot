@@ -46,9 +46,10 @@ def classification_importer(pywikibot,site,repo,general_or_stage, id_race,
         'bib':[-1,8,''] #dossard
         }
 
-    result_table, row_count, ecart=table_reader('input/Results.csv',result_dic,0,True)
+    result_table, row_count, ecart=table_reader('Results',result_dic,0,True) #'input/Results.csv'
     
     #post-processing
+    maxkk=min(row_count,maxkk)
     for ii in range(maxkk):
         if  result_table[ii][result_dic['team code'][1]]!=0:
             result_table[ii][result_dic['team code'][1]]=result_table[ii][result_dic['team code'][1]]+" "+str(year)  
@@ -138,7 +139,8 @@ def classification_importer(pywikibot,site,repo,general_or_stage, id_race,
                        add_winner(pywikibot, site,repo,item,this_id,result_table[ii][result_dic['rank'][1]],general_or_stage) 
                        
                 else:
-                   print(u'interrupted at row' + str(ii))
+                   print(str(result_table[ii][result_dic['name'][1]]) + ', ' +str(result_table[ii][result_dic['last name'][1]]))
+                   print(u'interrupted at row ' + str(ii))
                    return 0
         print('result inserted')
         #fill startlist with DNF, HD and so on

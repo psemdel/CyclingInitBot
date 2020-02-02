@@ -77,7 +77,8 @@ def champ_list_creator(pywikibot,site,repo,time):
     
     ##Begin main function ##
     #Championnats nationaux de cyclisme sur route 
-    dic ={2019 : 'Q60015262', 2018 : 'Q43920899', 2017 : 'Q28005879', 2016 : 'Q22021840',
+    dic ={2020 : 'Q70655305',
+        2019 : 'Q60015262', 2018 : 'Q43920899', 2017 : 'Q28005879', 2016 : 'Q22021840',
 		2015 : 'Q19296998', 2014 : 'Q15621925', 2013: 'Q3339162',
 		2012 : 'Q1333003', 2011 : 'Q1143844', 2010 : 'Q1568490',
 		2009 : 'Q263224', 2008 : 'Q826505', 2007 : 'Q43286248',
@@ -86,8 +87,8 @@ def champ_list_creator(pywikibot,site,repo,time):
 	}
     
     #World champ, continental champs
-    dic_road_race =['Q934877','Q30894544','Q50064341','Q54315111','Q50061750','Q31271454']
-    dic_clm=['Q2630733','Q30894543','Q50063172','Q50062728','Q54314912','Q31271381']
+    dic_road_race =['Q934877','Q30894544','Q25400085','Q54315111','Q50061750','Q31271454']
+    dic_clm=['Q2630733','Q30894543','Q25400088','Q50062728','Q54314912','Q31271381']
     
     result_dic={
     'Road champ':0,
@@ -105,7 +106,7 @@ def champ_list_creator(pywikibot,site,repo,time):
     verbose=False
            
     startYear=2017
-    EndYear=2020
+    EndYear=2021
     champ_table = [[0 for x in range(10)] for y in range(1000)] 
     
     #header
@@ -148,5 +149,5 @@ def champ_list_creator(pywikibot,site,repo,time):
     if verbose:     
         print(champ_table)  
     with open('input/champ2.csv', 'w', newline='') as csvFile:
-        writer = csv.writer(csvFile)
+        writer = csv.writer(csvFile, delimiter=';')
         writer.writerows(final_table)

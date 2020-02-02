@@ -7,7 +7,8 @@ Created on Sat Jan  6 15:38:42 2018
 from moo import *
 from exception import *
 import csv 
-import os
+import xlrd
+import os.path
 ### Functions that are used from several other functions ###
 
 # ==Low level function ==
@@ -244,10 +245,31 @@ def time_converter(this_input):
             return int(timesplit[0]) * 60 + int(timesplit[1]), ecart
         else:
             return int(timesplit[0]), ecart
+
+
+def excel_to_csv(filepath, destination):
+    wb = xlrd.open_workbook(filepath)
+    sh = wb.sheet_by_name('Results')
+    destination_file = open(destination, 'w')
+    wr = csv.writer(destination_file, quoting=csv.QUOTE_ALL)
+
+    for rownum in range(sh.nrows):
+        wr.writerow(sh.row_values(rownum))
+
+    destination_file.close()
         
-def table_reader(filepath,result_dic, startline, verbose):
+def table_reader(filename,result_dic, startline, verbose):
     
     default_separator=';'
+    filepathcsv='input/'+filename+'.csv'
+    filepathxlsx='input/'+filename+'.xlsx'
+    if os.path.isfile(filepathcsv):
+        filepath=filepathcsv
+    elif os.path.isfile(filepathxlsx):
+        filepath=excel_to_csv(filepathxlsx)
+    else:
+        return 0
+    
     with open(filepath, newline='') as csvfile:
         file_object = csv.reader(csvfile, delimiter=default_separator, quotechar='|')
         for row in file_object: 
@@ -392,28 +414,34 @@ def search_item(pywikibot, site, search_string):
         id_result = wikidataSearchresult1['id']
     return id_result
 
-def search_itemv2(pywikibot, site, search_string, **kwargs): #For Team and rider
+def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Team and rider
     from pywikibot.data import api
     
     if search_string!=0:
         this_name=ThisName(search_string)
+        if rider_bool:
+            ref_name=this_name.name_cor
+        else:
+            ref_name=this_name.name #no need to revert
     else:
         first_name=kwargs.get('first_name','')
         last_name=kwargs.get('last_name','')
         name=first_name + " " + last_name
         if name!=" ":
            this_name=ThisName(name)
+           ref_name=this_name.name
         else:
            return u'Q1', ''
     
+
     #exception management
     exception_table=kwargs.get('exception_table',[])
     for ii in range(len(exception_table)):
         this_exception=ThisName(exception_table[ii][0])          
-        if this_name.name_cor==this_exception.name_cor:
+        if ref_name==this_exception.name_cor:
                return exception_table[ii][1]
-           
-    wikidata_entries = get_items(api, site, this_name.name_cor)
+      
+    wikidata_entries = get_items(api, site, ref_name)
     
     if(u'search-continue' in wikidata_entries):
         # several results
@@ -441,16 +469,16 @@ def search_itemv2(pywikibot, site, search_string, **kwargs): #For Team and rider
 
 def search_rider(pywikibot, site, repo,search_string, first_name, last_name):
     exception_table=list_of_rider_exception()
-    return search_itemv2(pywikibot, site, search_string, disam=is_it_a_cyclist, repo=repo, 
+    return search_itemv2(pywikibot, site, search_string, True, disam=is_it_a_cyclist, repo=repo, 
                         exception_table=exception_table, first_name=first_name, last_name=last_name)
 
 def search_team_by_name(pywikibot, site, search_string):
-    exception_table=list_of_team_name_exception()
-    return search_itemv2(pywikibot, site, search_string, exception_table=exception_table)
+    exception_table=list_of_team_code_exception()
+    return search_itemv2(pywikibot, site, search_string, False, exception_table=exception_table)
 
 def search_team_by_code(pywikibot, site, search_string):
-    exception_table=listofteam_code_exception()
-    return search_itemv2(pywikibot, site, search_string, exception_table=exception_table)
+    exception_table=list_of_team_name_exception()
+    return search_itemv2(pywikibot, site, search_string, False, exception_table=exception_table)
 
 ## other ##
 def get_class_id(classe):
