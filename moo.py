@@ -29,20 +29,21 @@ class ThisName:
         """ supprime les accents du texte source """
         ligne = self.name_cor
         accents = {'a': ['à', 'ã', 'á', 'â', 'ä'],
-                   'e': ['é', 'è', 'ê', 'ë'],
+                   'e': ['é', 'è', 'ê', 'ë','ė'],
                    'i': ['î', 'ï'],
                    'u': ['ù', 'ü', 'û','ů'],
                    'o': ['ô', 'ö'],
                    's': ['š'],
                    'n': ['ñ'],
                    'ss' : ['ß'],
-                   'c' : ['č'],
+                   'c' : ['č','ć'],
                    'z' : ['ž']}
         for (char, accented_chars) in accents.items():
             for accented_char in accented_chars:
                 ligne = ligne.replace(accented_char, char)
         self.name_cor=ligne 
 
+#cut beginning of the name
     def find_start_sortkey(self, start_words):
         for word in start_words:
             if self.name_cor.find(word)!=-1:
@@ -110,7 +111,7 @@ class Cyclist(ThisName):
             else:
                  print(self.name)
                  ii = input('Index of the family name : ')
-                 self.sortkey=concaten(names_table,int(ii))       
+                 self.sortkey=concaten(names_cor_table ,int(ii))       
          
 class Race(ThisName):
     def __init__(self, id, name, id_item, date, **kwargs):
@@ -126,8 +127,9 @@ class Race(ThisName):
             self.date = date
             
     def find_sortkey(self):
-        team_name_start=[u"championnats d'",u"championnats des",u"championnats du",u"championnats de"]
-        return ThisName.find_start_sortkey(self, team_name_start)
+        team_name_start=[u"championnats d'",u"championnats des ",u"championnats du ",u"championnats de "]
+        ThisName.find_start_sortkey(self, team_name_start)
+        return self.sortkey
         
 class Team(ThisName):
     def __init__(self, id, name, id_item, date, **kwargs):
@@ -144,8 +146,8 @@ class Team(ThisName):
             self.date = date
             
     def find_sortkey(self):
-        team_name_start=[u"equipe d'",u"equipe des",u"equipe du",u"equipe de"]
-        return ThisName.find_start_sortkey(self,team_name_start)
-
+        team_name_start=[u"equipe d'",u"equipe des ",u"equipe du ",u"equipe de "]
+        ThisName.find_start_sortkey(self,team_name_start)
+        return self.sortkey
 
     
