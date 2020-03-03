@@ -115,13 +115,24 @@ def pro_team_tab():
     team_table[kk][6] = 0
     kk += 1
     
+    
+    team_table[kk][1] = u"Cams Tifosi"
+    team_table[kk][2] = 51574577
+    team_table[kk][3] = u'GBR'
+    team_table[kk][4] = u'CAT'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
+    kk += 1
+    
     team_table[kk][1] = u"Casa Dorada"
     team_table[kk][2] = 81936382
     team_table[kk][3] = u'ESP'
     team_table[kk][4] = u'not available'
     team_table[kk][5] = 2
     team_table[kk][6] = 0
-    kk += 1   
+    kk += 1  
+    
+    
 
     team_table[kk][1] = u"Charente-Maritime Women Cycling"
     team_table[kk][2] = 41483457
@@ -171,6 +182,14 @@ def pro_team_tab():
     team_table[kk][5] = 2
     team_table[kk][6] = 0
     kk += 1
+    
+    team_table[kk][1] = u"DNA"
+    team_table[kk][2] = 24185125
+    team_table[kk][3] = u'USA'
+    team_table[kk][4] = u'DNA'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
+    kk += 1
 
     team_table[kk][1] = u"Doltcini-Van Eyck Sport"
     team_table[kk][2] = 21823219
@@ -179,6 +198,14 @@ def pro_team_tab():
     team_table[kk][5] = 1
     team_table[kk][6] = 0
     kk += 1
+    
+    team_table[kk][1] = u"Eneicat-RBH"
+    team_table[kk][2] = 60817976
+    team_table[kk][3] = u'ESP'
+    team_table[kk][4] = u'EIC'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1    
 
     team_table[kk][1] = u"Eurotarget-Bianchi-Vittoria"
     team_table[kk][2] = 30330282
@@ -219,6 +246,14 @@ def pro_team_tab():
     team_table[kk][5] = 2
     team_table[kk][6] = 0
     kk += 1
+    
+    team_table[kk][1] = u"Instafund La Prima"
+    team_table[kk][2] = 85337551
+    team_table[kk][3] = u'CAN'
+    team_table[kk][4] = u'ILP'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1
 
     team_table[kk][1] = u"Lotto Soudal Ladies"
     team_table[kk][2] = 1686506
@@ -227,6 +262,30 @@ def pro_team_tab():
     team_table[kk][5] = 1
     team_table[kk][6] = 0
     kk += 1
+    
+    team_table[kk][1] = u"Lviv Women"
+    team_table[kk][2] = 61449725
+    team_table[kk][3] = u'UKR'
+    team_table[kk][4] = u'LCW'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1   
+    
+    team_table[kk][1] = u"Macogep Tornatech Girondins de Bordeaux"
+    team_table[kk][2] = 54210079
+    team_table[kk][3] = u'CAN'
+    team_table[kk][4] = u'MTG'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
+    kk += 1
+    
+    team_table[kk][1] = u"Massi Tactic"
+    team_table[kk][2] = 47505687
+    team_table[kk][3] = u'ESP'
+    team_table[kk][4] = u'MAT'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1  
 
     team_table[kk][1] = u"Minsk Cycling Club"
     team_table[kk][2] = 28503589
@@ -265,7 +324,7 @@ def pro_team_tab():
     team_table[kk][3] = u'NED'
     team_table[kk][4] = u'NXG'
     team_table[kk][5] = 1
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
 
     team_table[kk][1] = u"Parkhotel Valkenburg-Destil"
@@ -307,6 +366,15 @@ def pro_team_tab():
     team_table[kk][5] = 1
     team_table[kk][6] = 0
     kk += 1
+    
+    team_table[kk][1] = u"Sestroretsk"
+    team_table[kk][2] = 86099803
+    team_table[kk][3] = u'RUS'
+    team_table[kk][4] = u'SSR'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1
+   
 
     team_table[kk][1] = u"Sopela"
     team_table[kk][2] = 5978395
@@ -345,7 +413,7 @@ def pro_team_tab():
     team_table[kk][3] = u'THA'
     team_table[kk][4] = u'TWC'
     team_table[kk][5] = 2
-    team_table[kk][6] = 0
+    team_table[kk][6] = 1
     kk += 1
 
     team_table[kk][1] = u"Tibco-Silicon Valley Bank"
@@ -444,6 +512,15 @@ def pro_team_tab():
     team_table[kk][5] = 1
     team_table[kk][6] = 0
     kk += 1  
+    
+    team_table[kk][1] = u"Vib natural greatness"
+    team_table[kk][2] = 84708639
+    team_table[kk][3] = u'ESP'
+    team_table[kk][4] = u'VIB'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1     
+    
     
     
     final_table = [['' for x in range(7)] for y in range(kk)]

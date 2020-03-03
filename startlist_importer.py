@@ -46,6 +46,10 @@ def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of
             for ii in range(row_count):
                 if result_table[ii][result_dic['bib'][1]]%10==1:
                     #insert last team
+                    print('national_team_detected')
+                    print(national_team_detected)
+                    print(all_same_team)
+                    
                     if national_team_detected and all_same_team<0:
                         print(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
                         #insert the team
@@ -56,7 +60,7 @@ def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of
                                 list_of_cyclists[jj].team=id_national_team
                             #result_table[jj][result_dic['team code'][1]]
                     #re-init the variable
-                    national_team_detected=False
+                    national_team_detected=True
                     national_team_begin=ii
                     national_team_nation=u'reset'
                     proteam=u'reset'
@@ -74,6 +78,7 @@ def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of
                         else:
                             if national_team_nation!=nationality[0].getTarget().getID(): 
                                 #not the same nation --> not a national team
+                                print('different nation')
                                 national_team_detected=False 
                     team=get_present_team(pywikibot,site,repo,id_rider,time_of_race)
                     if proteam==u'reset':
@@ -81,7 +86,18 @@ def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of
                     else:
                         if team!='Q1' and proteam!=team: 
                             all_same_team=all_same_team-1
-                                                        
+                            print('all_same_team')
+                            print(all_same_team)
+            
+            #last team
+            if national_team_detected and all_same_team<0:
+                 print(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
+                        #insert the team
+                 for jj in range(national_team_begin,row_count):
+                    national_team_code=IDtoCIOsearch(nation_table, noQ(national_team_nation)) + " " + str(year)
+                    id_national_team=search_item(pywikibot,site,national_team_code)
+                    if id_national_team!=u'Q0' and id_national_team!=u'Q1':
+                        list_of_cyclists[jj].team=id_national_team                        
             if (u'P'+str('710') in item.claims):
                 already_list=True
                 list_of_comprend=item.claims.get(u'P'+str(710))
@@ -127,7 +143,6 @@ def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of
                                target_qualifier =  pywikibot.WbQuantity(amount=this_rider.rank, site=repo)
                                qualifier_rank.setTarget(target_qualifier)
                                claim.addQualifier(qualifier_rank)
-                        claim=pywikibot.Claim(repo, u'P'+str('710'))
                         get_rider_tricot(pywikibot,site,repo,this_rider.id_item,time_of_race,claim,chrono)
                     else: ##rider already there
                         if prologue_or_final==1 or prologue_or_final==2:

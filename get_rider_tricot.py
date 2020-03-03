@@ -7,7 +7,7 @@ Created on Thu Dec 19 20:38:20 2019
 """
 from cycling_init_bot_low import * 
 
-def get_rider_tricot(pywikibot,site,repo,id_rider,time_of_race,claim,chrono):
+def get_rider_tricot(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, **kwargs):
     #look for the tricot of rider
     def disambiguation(this_champ, ischamp, result_table,result_dic, row_count, road_or_clm, time_of_race):
         if this_champ!=0 and ischamp==0:
@@ -29,13 +29,14 @@ def get_rider_tricot(pywikibot,site,repo,id_rider,time_of_race,claim,chrono):
         return 0 #nothing           
     
     def insert_quali(site,repo,quali,claim):
+        print(claim)
         if quali!=0:  
            target_qualifier = pywikibot.ItemPage(repo, quali)
            qualifier_tricot=pywikibot.page.Claim(site, 'P2912', is_qualifier=True)
            qualifier_tricot.setTarget(target_qualifier)
            claim.addQualifier(qualifier_tricot)  
   
-    def sub_function(result_table,result_dic,road_or_clm,id_worldchamp,id_eurchamp, time_of_race,repo,claim):
+    def sub_function(result_table,result_dic,road_or_clm,id_worldchamp,id_eurchamp, time_of_race,repo,claim,test):
             worldchamp=0 #0 is we don't know, 1 is yes, -1 is no
             eurchamp=0
             champ=0
@@ -52,23 +53,23 @@ def get_rider_tricot(pywikibot,site,repo,id_rider,time_of_race,claim,chrono):
             if compare_dates(time_of_race,this_date)==1 and time_of_race.year<=(this_date.year+1):
                     #time_of_race>timeofroad and time_of_race<=timeofroad+1 year
                     #if race after championship
-                        if id_worldchamp==this_champ:
-                            worldchamp=this_champ
-                        elif id_eurchamp==this_champ:
-                            eurchamp=this_champ
+                    if id_worldchamp==this_champ:
+                        worldchamp=this_champ
+                    elif id_eurchamp==this_champ:
+                        eurchamp=this_champ
+                    else:
+                        champ=this_champ
+                    if this_date.year==time_of_race.year:  #then it is clear
+                        if worldchamp!=0:
+                            isworldchamp=1
+                        elif eurchamp!=0:
+                            iseurchamp=1
                         else:
-                            champ=this_champ
-                        if this_date.year==time_of_race.year:  #then it is clear
-                            if worldchamp!=0:
-                                isworldchamp=1
-                            elif eurchamp!=0:
-                                iseurchamp=1
-                            else:
-                                ischamp=1
+                            ischamp=1
 
-            ischamp=disambiguation(champ, ischamp, result_table, row_count, road_or_clm, time_of_race)
-            isworldchamp=disambiguation(worldchamp, isworldchamp, result_table, row_count, road_or_clm, time_of_race)
-            iseurchamp=disambiguation(eurchamp, iseurchamp, result_table, row_count, road_or_clm, time_of_race)
+            ischamp=disambiguation(champ, ischamp, result_table, result_dic, row_count, road_or_clm, time_of_race)
+            isworldchamp=disambiguation(worldchamp, isworldchamp, result_table, result_dic, row_count, road_or_clm, time_of_race)
+            iseurchamp=disambiguation(eurchamp, iseurchamp, result_table, result_dic, row_count, road_or_clm, time_of_race)
 
             if isworldchamp==1:
                 print('this is the world ' + road_or_clm + ' champ')
@@ -79,19 +80,23 @@ def get_rider_tricot(pywikibot,site,repo,id_rider,time_of_race,claim,chrono):
             elif ischamp==1:
                print('this is the ' + road_or_clm + ' champ')
                quali=champ
-            insert_quali(site,repo,quali,claim)
-         
+            else:
+                return 0
+            if not test:
+                insert_quali(site,repo,quali,claim)
+            return quali
+            
     result_dic={
-    'Road champ':[-1, 0,''],
-    'Road day':[-1, 1,''],
-    'Road month':[-1, 2,''],
-    'Road year':[-1, 3,''],
-    'Road winner':[-1, 4,''],
-    'Clm champ':[-1, 5,''],
-    'Clm day':[-1, 6,''],
-    'Clm month':[-1, 7,''],
-    'Clm year':[-1, 8,''],
-    'Clm winner':[-1, 9,''],
+    'road champ':[-1, 0,''],
+    'road day':[-1, 1,''],
+    'road month':[-1, 2,''],
+    'road year':[-1, 3,''],
+    'road winner':[-1, 4,''],
+    'clm champ':[-1, 5,''],
+    'clm day':[-1, 6,''],
+    'clm month':[-1, 7,''],
+    'clm year':[-1, 8,''],
+    'clm winner':[-1, 9,''],
     }
 
     id_worldroadchamp=u'Q2630733'
@@ -99,15 +104,18 @@ def get_rider_tricot(pywikibot,site,repo,id_rider,time_of_race,claim,chrono):
     id_worldclmchamp=u'Q2630733'
     id_eurclmchamp= u'Q30894543'
     
+    test=kwargs.get('test',False)
     result_table, row_count, ecart=table_reader('champ',result_dic,0,False)
-    print(id_rider)
 
     for ii in range(row_count):
-        print(result_table[ii][result_dic['Road winner'][1]])
-        if id_rider==result_table[ii][result_dic['Road winner'][1]]:
-            sub_function(result_table,result_dic,'Road',id_worldroadchamp,id_eurroadchamp, time_of_race,repo,claim)
-       
+        if id_rider==result_table[ii][result_dic['road winner'][1]]:
+            result=sub_function(result_table,result_dic,'road',id_worldroadchamp,id_eurroadchamp, time_of_race,repo,claim,test)
+            if test and result!=0:
+                return result
         if chrono:   
-            if id_rider==result_table[ii][result_dic['Clm winner'][1]]:
-                sub_function(result_table,result_dic,'Clm',id_worldclmchamp,id_eurclmchamp, time_of_race,repo,claim)
- 
+            if id_rider==result_table[ii][result_dic['clm winner'][1]]:
+                result=sub_function(result_table,result_dic,'clm',id_worldclmchamp,id_eurclmchamp, time_of_race,repo,claim,test)
+                if test and result!=0:
+                    return result
+    if test:
+        return 0

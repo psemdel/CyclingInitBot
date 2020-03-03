@@ -240,11 +240,16 @@ def time_converter(this_input):
         timesplit = this_input.split(":")
         
         if len(timesplit) == 3:
-            return int(timesplit[0]) * 3600 + int(timesplit[1]) * 60 + int(timesplit[2]), ecart
-        if len(timesplit) == 2:
-            return int(timesplit[0]) * 60 + int(timesplit[1]), ecart
+            thistime= int(timesplit[0]) * 3600 + int(timesplit[1]) * 60 + int(timesplit[2])
+            print(thistime)
+        elif len(timesplit) == 2:
+            thistime= int(timesplit[0]) * 60 + int(timesplit[1])
         else:
-            return int(timesplit[0]), ecart
+            thistime= int(timesplit[0])
+
+        if thistime < 120: #suspicious
+            ecart=True
+        return thistime, ecart
 
 
 def excel_to_csv(filepath, destination):
@@ -278,7 +283,8 @@ def table_reader(filename,result_dic, startline, verbose):
             else:
                 separator=default_separator
             break #always break
-
+    if verbose: 
+        print(u'separator :' + separator)
     #count the number of rows not empty 
     kk=0       
     with open(filepath, newline='') as csvfile:
@@ -429,7 +435,7 @@ def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Te
         name=first_name + " " + last_name
         if name!=" ":
            this_name=ThisName(name)
-           ref_name=this_name.name
+           ref_name=this_name.name_cor
         else:
            return u'Q1', ''
     
@@ -531,7 +537,7 @@ def get_present_team(pywikibot, site, repo, id_rider, time_of_race):
             else:
                 end_time = pywikibot.WbTime(
                     site=site, year=2100, month=1, day=1, precision='day')
-            if (compareDates(begin_time,time_of_race) == 2 or compareDates(begin_time,time_of_race) == 0) and (compareDates(end_time,time_of_race) == 1 or compareDates(begin_time,time_of_race) == 0):
+            if (compare_dates(begin_time,time_of_race) == 2 or compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or compare_dates(begin_time,time_of_race) == 0):
                 result = this_team.getTarget().getID()
                 break
     return result

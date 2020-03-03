@@ -27,8 +27,36 @@ def amateur_team_tab():
     team_table[kk][2] = 59195655
     team_table[kk][3] = u'AUS'
     team_table[kk][5] = 2
-    team_table[kk][6] = 1
+    team_table[kk][6] = 0
     kk += 1
+    
+    team_table[kk][1] = u"Sydney Uni-Staminade "
+    team_table[kk][2] = 59196203
+    team_table[kk][3] = u'AUS'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
+    kk += 1        
+
+    team_table[kk][1] = u"Ara Pro Racing Sunshine Coast Women"
+    team_table[kk][2] = 84725423
+    team_table[kk][3] = u'AUS'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
+    kk += 1  
+    
+    team_table[kk][1] = u"Veris Racing Women's Team"
+    team_table[kk][2] = 84321671
+    team_table[kk][3] = u'AUS'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
+    kk += 1   
+    
+    team_table[kk][1] = u"Velo Project Women's Cycling Team"
+    team_table[kk][2] = 84321674
+    team_table[kk][3] = u'AUS'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
+    kk += 1   
 
     # Allemagne
     team_table[kk][1] = u"d.velop cloud–cycle cafe ladies"
@@ -67,7 +95,7 @@ def amateur_team_tab():
     team_table[kk][6] = 0
     kk += 1
 
-    team_table[kk][1] = u"Equano"
+    team_table[kk][1] = u"Waasland Security Wase Zon CT"
     team_table[kk][2] = 28869598
     team_table[kk][3] = u'BEL'
     team_table[kk][5] = 1
@@ -112,7 +140,7 @@ def amateur_team_tab():
     team_table[kk][2] = 28830001
     team_table[kk][3] = u'BEL'
     team_table[kk][5] = 1
-    team_table[kk][6] = 0
+    team_table[kk][6] = 1
     kk += 1
 
     team_table[kk][1] = u"Illi-Bikes Women"
@@ -241,22 +269,15 @@ def amateur_team_tab():
     team_table[kk][6] = 0
     kk += 1
 
-    team_table[kk][1] = u"Torelli-Assure"
+    team_table[kk][1] = u"Weston Homes-Torelli-Assure"
     team_table[kk][2] = 29551008
     team_table[kk][3] = u'GBR'
     team_table[kk][5] = 1
-    team_table[kk][6] = 0
+    team_table[kk][6] = 1
     kk += 1
 
     team_table[kk][1] = u"NJC-Biemme-Echelon"
     team_table[kk][2] = 51484408
-    team_table[kk][3] = u'GBR'
-    team_table[kk][5] = 2
-    team_table[kk][6] = 0
-    kk += 1
-
-    team_table[kk][1] = u" Brother UK-Tifosi-OnForm"
-    team_table[kk][2] = 51574577
     team_table[kk][3] = u'GBR'
     team_table[kk][5] = 2
     team_table[kk][6] = 0
@@ -293,6 +314,13 @@ def amateur_team_tab():
     # Brother UK - Fusion RT
 
     # France
+    team_table[kk][1] = u"St Michel-Auber 93"
+    team_table[kk][2] = 87003533
+    team_table[kk][3] = u'FRA'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 1
+    kk += 1  
+    
     team_table[kk][1] = u"Breizh Ladies"
     team_table[kk][2] = 30050984
     team_table[kk][3] = u'FRA'
@@ -384,6 +412,14 @@ def amateur_team_tab():
     team_table[kk][5] = 2
     team_table[kk][6] = 0
     kk += 1
+    
+    
+    team_table[kk][1] = u"Catema.cat"
+    team_table[kk][2] = 47505687
+    team_table[kk][3] = u'ESP'
+    team_table[kk][5] = 2
+    team_table[kk][6] = 0
+    kk += 1
 
     team_table[kk][1] = u"Nafarroa-Ermitagana-Navarra"
     team_table[kk][2] = 53573816
@@ -402,6 +438,29 @@ def amateur_team_tab():
     team_table[kk][1] = u"Delikia Ginestar"
     team_table[kk][2] = 61819593
     team_table[kk][3] = u'ESP'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1
+    
+    team_table[kk][1] = u"Belori"
+    team_table[kk][2] = 84716135
+    team_table[kk][3] = u'ESP'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1
+    
+    #Colombie
+    team_table[kk][1] = u"Colnago CM"
+    team_table[kk][2] = 84715006
+    team_table[kk][3] = u'COL'
+    team_table[kk][5] = 1
+    team_table[kk][6] = 0
+    kk += 1
+    
+    #Portugal
+    team_table[kk][1] = u"Farto-Ahguas do Paraño"
+    team_table[kk][2] = 84715809
+    team_table[kk][3] = u'POR'
     team_table[kk][5] = 1
     team_table[kk][6] = 0
     kk += 1
@@ -514,13 +573,6 @@ def amateur_team_tab():
     team_table[kk][6] = 0
     kk += 1
 
-    team_table[kk][1] = u"DNA"
-    team_table[kk][2] = 24185125
-    team_table[kk][3] = u'USA'
-    team_table[kk][5] = 2
-    team_table[kk][6] = 0
-    kk += 1
-
     # Pologne
     team_table[kk][1] = u"Bcm Nowatex Ziemia Darlo"
     team_table[kk][2] = 50945907
@@ -551,12 +603,7 @@ def amateur_team_tab():
     team_table[kk][6] = 0
     kk += 1
 
-    team_table[kk][1] = u"Macogep"
-    team_table[kk][2] = 54210079
-    team_table[kk][3] = u'CAN'
-    team_table[kk][5] = 2
-    team_table[kk][6] = 0
-    kk += 1
+
 
     # New-Zealand
 
