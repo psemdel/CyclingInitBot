@@ -69,7 +69,12 @@ def national_championship_creator(
         
         if(u'P585' not in item.claims):
             claim = pywikibot.Claim(repo, u'P585')  # date
-            date = pywikibot.WbTime(site=site, year=year, precision='year')
+            date = pywikibot.WbTime(
+                site=site,
+                year=year,
+                month=1,
+                day=1,
+                precision='day')
             claim.setTarget(date)
             item.addClaim(claim, summary=u'Adding date')
         

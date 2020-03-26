@@ -61,9 +61,12 @@ def race_creator(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre
              month_begin=race_begin.month
              year_begin=race_begin.year
     
+             print(race_begin.day)
+             print(number)
+             print(first_stage)
              day_temp=day_begin+(number-first_stage)
              print(day_temp)
-             print(days_in_month[month_begin])
+
              if day_temp>days_in_month[month_begin]:
                  day_temp=day_temp-days_in_month[month_begin]
                  month_temp=month_begin+1
@@ -153,6 +156,7 @@ def race_creator(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre
     if create_stages or only_stages:   
         print("stage creation")
         stage_label_present={}  
+        
         for ii in range(first_stage,last_stage+1):
             stage_label_present=stage_label(ii, race_genre, race_name, year)
             id_stage_present, item_stage=create_present(pywikibot, site,repo,time, stage_label_present)
@@ -164,6 +168,7 @@ def race_creator(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre
                     item_stage.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
                 
                 stage_basic(pywikibot,repo,item_stage,site,ii,id_country,noQ(id_present))
+                print(race_begin)
                 stage_date=date_finder(pywikibot,repo,site,ii,first_stage,last_stage, race_begin,end_date)
                 add_date(pywikibot,repo,item_stage,585,stage_date,u'date')
                 
@@ -171,25 +176,26 @@ def race_creator(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre
                 add_multiple_value(pywikibot,repo,item,527,noQ(id_stage_present),u'link stage '+str(ii),0) 
                 #Link to previous
                 if ii==0:
-                    lookforprevious=0
+                    lookforprevious=False
                 else:   
                     if ii==1:
                         if first_stage==0:
-                            lookforprevious=1
+                            lookforprevious=True
                         else:
-                            lookforprevious=0
+                            lookforprevious=False
                     else:
-                        lookforprevious=1
+                        lookforprevious=True
             
-                    if lookforprevious==1:
-                        stage_label_previous=stage_label(ii-1, race_genre, race_name, year)
-                        id_stage_previous=search_item(pywikibot,site,stage_label_previous['fr'])
-                        if (id_stage_previous!=u'Q0')and(id_stage_previous!=u'Q1'):  #no previous or several
-                            add_value(pywikibot,repo,item_stage,155,noQ(id_stage_previous),u'link previous') 
-                                #Link to the previous
-                            item_stage_previous=pywikibot.ItemPage(repo, id_stage_previous)
-                            item_stage_previous.get()
-                            add_value(pywikibot,repo,item_stage_previous,156,noQ(id_stage_present),u'link next')
+                    if lookforprevious:
+                       # stage_label_previous=stage_label(ii-1, race_genre, race_name, year)
+                       # id_stage_previous=search_item(pywikibot,site,stage_label_previous['fr'])
+                       # if (id_stage_previous!=u'Q0')and(id_stage_previous!=u'Q1'):  #no previous or several
+                        add_value(pywikibot,repo,item_stage,155,noQ(id_stage_previous),u'link previous') 
+                            #Link to the previous
+                        item_stage_previous=pywikibot.ItemPage(repo, id_stage_previous)
+                        item_stage_previous.get()
+                        add_value(pywikibot,repo,item_stage_previous,156,noQ(id_stage_present),u'link next')
+                    id_stage_previous=id_stage_present     
                     
             #Link to next
             #Not required 

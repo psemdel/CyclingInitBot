@@ -18,6 +18,10 @@ def list_of_rider_exception():
     exception_table[kk][0] = u'margarita victo garcia cañellas'
     exception_table[kk][1] = u'Q23907253'
     kk += 1
+    
+    exception_table[kk][0] = u'margarita victo garcia cañellas'
+    exception_table[kk][1] = u'Q23907253'
+    kk += 1
 
     exception_table[kk][0] = u'Jessica Allen'
     exception_table[kk][1] = u'Q27306413'

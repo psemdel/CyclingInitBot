@@ -222,6 +222,21 @@ def nation_tab():
     team_table[kk][15] = u'Bahamas'
     team_table[kk][16] =u'bahamienne'
     kk += 1
+ 
+    team_table[kk][1] = u'Bahreïn'
+    team_table[kk][2] = u"du "
+    team_table[kk][3] = 398
+    team_table[kk][4] = 0
+    team_table[kk][5] = u'Bahrain'
+    team_table[kk][6] = u'Bahrain'
+    team_table[kk][7] = u'BRN'
+    team_table[kk][8] = 3
+    team_table[kk][9] = 21028787
+    team_table[kk][10] = 0
+    team_table[kk][11] = 0
+    team_table[kk][15] = u'Baréin'
+    team_table[kk][16] =u'bahreïnienne'
+    kk += 1   
 
     team_table[kk][1] = u'Belgique'
     team_table[kk][2] = u"de "
