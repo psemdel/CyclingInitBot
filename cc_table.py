@@ -4,10 +4,9 @@ Created on Sun May 27 18:46:11 2018
 
 @author: maxime delzenne
 """
-def cc_table():
-    i, j = 20, 100
+def load():
     # For Europa
-    teamTable = [[0 for x in range(i)] for y in range(j)]
+    teamTable = [[0 for x in range(10)] for y in range(100)]
 
     # Item 1 = Continent name
     # Item 2 = genre
@@ -18,7 +17,7 @@ def cc_table():
     # item 7= Clm man
     # item 8= Road race woman U23
     # item 9= Clm woman U23
-    kk = 1
+    kk = 0
     teamTable[kk][1] = u'monde'
     teamTable[kk][2] = u"du "
     teamTable[kk][3] = 506424
@@ -69,4 +68,7 @@ def cc_table():
 
     kk += 1
 
-    return [teamTable, kk]
+    final_table = [['' for x in range(10)] for y in range(kk)]
+    final_table=teamTable[:kk]
+            
+    return  final_table

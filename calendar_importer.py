@@ -6,9 +6,9 @@ Created on Wed Nov 27 20:54:17 2019
 @author: maxime
 """
 from cycling_init_bot_low import *
-from race_creator import *
+import race_creator
 # ==Initialisation==
-def calendar_importer(pywikibot, site, repo, time, team_table, separator, test, race_table, race_dic):
+def f(pywikibot, site, repo, time, team_table, separator, test, race_table, race_dic):
     #title in table, column in table, column in result_table
     result_dic={
             'date from':[-1, 0,''],
@@ -80,7 +80,7 @@ def calendar_importer(pywikibot, site, repo, time, team_table, separator, test, 
                     #note 2: get edition from last year
                     if single_race:
                         if not test:
-                            race_creator(
+                            race_creator.f(
                                     pywikibot,
                                     site,
                                     repo,
@@ -110,7 +110,7 @@ def calendar_importer(pywikibot, site, repo, time, team_table, separator, test, 
                                 precision='day')
 
                             if not test:
-                                race_creator(
+                                race_creator.f(
                                     pywikibot,
                                     site,
                                     repo,

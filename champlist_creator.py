@@ -6,7 +6,7 @@ Created on Thu Dec 19 20:35:53 2019
 @author: maxime
 """
 
-def champlist_creator(pywikibot,site,repo,time):
+def f(pywikibot,site,repo,time):
     dic ={'2019': 'Q60015262', '2018' : 'Q43920899', '2017' : 'Q28005879', '2016' : 'Q22021840',
 		'2015' : 'Q19296998', '2014' : 'Q15621925', '2013': 'Q3339162',
 		'2012' : 'Q1333003', '2011' : 'Q1143844', '2010' : 'Q1568490',

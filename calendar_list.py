@@ -5,7 +5,7 @@ Created on Tue Feb 20 22:13:13 2018
 @author: maxime delzenne
 """
 
-def calendar_list():
+def load():
     list_of_calendars=['Q42317185','Q21857932','Q20970765','Q18192726','Q14979277,'
         'Q849059', 'Q1031504','Q849092',
         'Q44497477','Q27915850','Q21029681','Q18342122','Q15041668', 'Q1280387',
