@@ -6,10 +6,9 @@ Created on Thu Jan  4 13:23:59 2018
 """
 
 
-def nation_tab():
-    i, j = 20, 100
+def load():
     # For Europa
-    team_table = [[0 for x in range(i)] for y in range(j)]
+    team_table = [[0 for x in range(20)] for y in range(100)]
 
     # Item 1 = Country name fr
     # Item 2 = genre
@@ -28,7 +27,7 @@ def nation_tab():
     # item 15= Country name es
     # item 16= fr adjective for women
 
-    kk = 1
+    kk = 0
 
     team_table[kk][1] = u'Afghanistan'
     team_table[kk][2] = u"d'"
@@ -1483,4 +1482,4 @@ def nation_tab():
     final_table = [['' for x in range(20)] for y in range(kk)]
     final_table=team_table[:kk]
 
-    return [final_table, kk]
+    return final_table

@@ -6,8 +6,8 @@ Created on Fri Dec  6 13:15:59 2019
 @author: maxime
 """
 
-def race_list():
-    raceTable = [[0 for x in range(20)] for y in range(1000)]
+def load():
+    raceTable = [[0 for x in range(5)] for y in range(1000)]
 
     # 1: part 1 of the name
     # 2: part 2 of the name
@@ -862,5 +862,7 @@ def race_list():
     raceTable[kk][4] = u"du "
     kk += 1     
    
-
-    return raceTable, race_dic
+    final_table = [['' for x in range(5)] for y in range(kk)]
+    final_table=raceTable[:kk]
+    
+    return final_table, race_dic

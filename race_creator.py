@@ -7,7 +7,7 @@ Created on Thu Jan  4 15:29:49 2018
 from cycling_init_bot_low import * 
 from calendar_list import *
 
-def race_creator(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre,
+def f(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre,
                  id_race_master,year,UCI,WWT,race_begin,countryCIO,classe,
                      single_race,edition_nr,**kwargs):
     #optional: end_date, only_stages, create_stages, first_stage,  last_stage, stage_race_id

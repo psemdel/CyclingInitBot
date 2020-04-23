@@ -4,14 +4,17 @@ Created on Thu Jan  4 15:28:39 2018
 
 @author: maxime delzenne
 """
-def national_team_creator(
+from cycling_init_bot_low import *
+
+def f(
         pywikibot,
         site,
         repo,
         time,
         team_table,
-        endkk,
-        man_or_woman):
+        man_or_woman,
+        **kwargs
+        ):
    
     # ==Get==
     def national_team_alias(teamTable, kk, Year):
@@ -22,22 +25,23 @@ def national_team_creator(
         alias['es'] = alias['fr']
         return alias
 
+
     def national_team_basic(
-            pywikibot,
-            repo,
-            item,
-            siteIn,
-            country_name,
-            country_code,
-            year,
-            master,
-            CIO):
-        # No need for the table here
-        add_value(pywikibot, repo, item, 31, 23726798, u'Nature')
-        add_value(pywikibot, repo, item, 1998, CIO, u'CIO code')
-        add_value(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
-        add_value(pywikibot, repo, item, 17, country_code, u'country')
-        add_value(pywikibot, repo, item, 361, master, u'part of')
+                pywikibot,
+                repo,
+                item,
+                siteIn,
+                country_name,
+                country_code,
+                year,
+                master,
+                CIO):
+            # No need for the table here
+            add_value(pywikibot, repo, item, 31, 23726798, u'Nature')
+            add_value(pywikibot, repo, item, 1998, CIO, u'CIO code')
+            add_value(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
+            add_value(pywikibot, repo, item, 17, country_code, u'country')
+            add_value(pywikibot, repo, item, 361, master, u'part of')
     
         if(u'P580' not in item.claims):
             claim = pywikibot.Claim(repo, u'P580')  # date de début
@@ -138,16 +142,19 @@ def national_team_creator(
         return mydescription
     
     ### begin main ###
-    kkinit = teamCIOsearch(team_table, u'GUA')
-
+    country=kwargs.get('country',False)
+    if country:
+        kkinit = teamCIOsearch(team_table, country)
+        endkk = kkinit+1
+    else:
+        kkinit =1
+        endkk = len(team_table)
+        
     if man_or_woman == 'man':
         IndexTeam = 14
     else:
         IndexTeam = 4
 
-    # kk=kkinit
-    # print(kkinit)
-    # if kk==kkinit:
     for kk in range(kkinit, endkk):  #
         group = team_table[kk][8]
         if group == 1:

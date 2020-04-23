@@ -1,12 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Dec 17 19:57:03 2019
-
-@author: maxime
-"""
-#operations on names
-
 def concaten(names_table,ii):
     start=names_table[ii]
     for kk in range(ii+1,len(names_table)):
@@ -149,5 +140,3 @@ class Team(ThisName):
         team_name_start=[u"equipe d'",u"equipe des ",u"equipe du ",u"equipe de "]
         ThisName.find_start_sortkey(self,team_name_start)
         return self.sortkey
-
-    

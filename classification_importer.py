@@ -7,7 +7,7 @@ Created on Sun Jul 22 16:21:08 2018
 
 from cycling_init_bot_low import * 
 
-def classification_importer(pywikibot,site,repo,general_or_stage, id_race,
+def f(pywikibot,site,repo,general_or_stage, id_race,
                            final, maxkk,year,startliston,test):
      
     general_or_stage_points=[2,3,6,7,8]

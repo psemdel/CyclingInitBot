@@ -7,7 +7,7 @@ Created on Thu Dec 19 20:38:20 2019
 """
 from cycling_init_bot_low import * 
 
-def get_rider_tricot(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, **kwargs):
+def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, **kwargs):
     #look for the tricot of rider
     def disambiguation(this_champ, ischamp, result_table,result_dic, row_count, road_or_clm, time_of_race):
         if this_champ!=0 and ischamp==0:

@@ -6,19 +6,18 @@ Created on Thu Jan  4 15:30:20 2018
 """
 from cycling_init_bot_low import *
 
-def national_championship_creator(
+def f(
         pywikibot,
         site,
         repo,
         time,
         team_table,
-        endkk,
         man_or_woman,
         option,
         start_year,
         end_year,
-        country,
-        CC):
+        CC, 
+        **kwargs):
     
     def national_championship_basic(
         pywikibot,
@@ -160,15 +159,24 @@ def national_championship_creator(
         mylabel[u'fr'] = label_part1_fr + " " + genre_fr + \
             country_fr + " " + label_part2_fr + " " + str(year)
         return mylabel
-  
-    # kkinit=teamCIOsearch(team_table,Country)
-    kkinit = 1
+    
+    if CC:
+        kkinit =1
+    else:
+        country=kwargs.get('country',False)
+        if country:
+            kkinit = teamCIOsearch(team_table, country)
+            endkk = kkinit+1
+        else:
+            kkinit =1
+            endkk= len(team_table)
+        
     if option == 'clmoff':
         clm = False
     else:
         clm = True
             
-    for kk in range(kkinit, endkk):  # endkk
+    for kk in range(kkinit, endkk):  
         # kk=kkinit
         # if 1==1:
         group = team_table[kk][8]

@@ -4,16 +4,14 @@ Created on Thu Jan  4 15:28:39 2018
 @author: psemdel
 """
 from cycling_init_bot_low import *
-from exception import *
 
-def pro_team_creator(
+def f(
         pywikibot,
         site,
         repo,
         time,
         team_table,
         nation_table,
-        endkk,
         pro_or_amateur,
         team_dic,
         year):
@@ -114,11 +112,10 @@ def pro_team_creator(
         return mydescription
     
     kkinit = 1
-       
-    # for year in range(2011,2020):
-    # if kk==kkinit:
+    endkk=len(team_table)
+    
     if True:
-        for kk in range(kkinit, endkk):  # endkk
+        for kk in range(kkinit, endkk): 
             if team_table[kk][team_dic['active']] == 1:
 
                 mylabel = {}

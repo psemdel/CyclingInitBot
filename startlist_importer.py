@@ -6,9 +6,9 @@ Created on Thu Dec 19 20:34:29 2019
 @author: maxime
 """
 from cycling_init_bot_low import * 
-from get_rider_tricot import *
+import get_rider_tricot 
 
-def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of_race,chrono,test,nation_table):
+def f(pywikibot,site,repo, prologue_or_final, id_race, time_of_race,chrono,test,nation_table):
      #0=prologue, 1=final, 2=one day race
     verbose=False
     
@@ -46,10 +46,7 @@ def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of
             for ii in range(row_count):
                 if result_table[ii][result_dic['bib'][1]]%10==1:
                     #insert last team
-                    print('national_team_detected')
-                    print(national_team_detected)
-                    print(all_same_team)
-                    
+  
                     if national_team_detected and all_same_team<0:
                         print(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
                         #insert the team
@@ -81,6 +78,7 @@ def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of
                                 print('different nation')
                                 national_team_detected=False 
                     team=get_present_team(pywikibot,site,repo,id_rider,time_of_race)
+                    print(team)
                     if proteam==u'reset':
                         proteam=team
                     else:
@@ -143,7 +141,7 @@ def startlist_importer (pywikibot,site,repo, prologue_or_final, id_race, time_of
                                target_qualifier =  pywikibot.WbQuantity(amount=this_rider.rank, site=repo)
                                qualifier_rank.setTarget(target_qualifier)
                                claim.addQualifier(qualifier_rank)
-                        get_rider_tricot(pywikibot,site,repo,this_rider.id_item,time_of_race,claim,chrono)
+                        get_rider_tricot.f(pywikibot,site,repo,this_rider.id_item,time_of_race,claim,chrono)
                     else: ##rider already there
                         if prologue_or_final==1 or prologue_or_final==2:
                            if this_rider.rank==0: #no ranking

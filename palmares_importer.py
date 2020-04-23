@@ -5,9 +5,9 @@ Created on Sun Feb 18 10:35:54 2018
 @author: maxime delzenne
 """
 from cycling_init_bot_low import *
-from exception import *
+import exception 
 
-def palmares_importer(pywikibot, site, repo, id_championship, test):
+def f(pywikibot, site, repo, id_championship, test):
    # Q31271010
     inputstr = """
 |-
@@ -110,7 +110,7 @@ def palmares_importer(pywikibot, site, repo, id_championship, test):
         counter = 0
         counterrepeat = 0
         tableOfwinnerOut = table_of_winners
-        exception_table = listOfException()
+        exception_table = exception.listOfException()
     
         for ii in range(len(table_of_winners)):
             for jj in range(1, 4):

@@ -5,7 +5,7 @@ Created on Sat Jan  6 15:38:42 2018
 @author: psemdel
 """
 from moo import *
-from exception import *
+import exception 
 import csv 
 import xlrd
 import os.path
@@ -241,7 +241,6 @@ def time_converter(this_input):
         
         if len(timesplit) == 3:
             thistime= int(timesplit[0]) * 3600 + int(timesplit[1]) * 60 + int(timesplit[2])
-            print(thistime)
         elif len(timesplit) == 2:
             thistime= int(timesplit[0]) * 60 + int(timesplit[1])
         else:
@@ -474,16 +473,16 @@ def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Te
     return id_result
 
 def search_rider(pywikibot, site, repo,search_string, first_name, last_name):
-    exception_table=list_of_rider_exception()
+    exception_table=exception.list_of_rider_exception()
     return search_itemv2(pywikibot, site, search_string, True, disam=is_it_a_cyclist, repo=repo, 
                         exception_table=exception_table, first_name=first_name, last_name=last_name)
 
 def search_team_by_name(pywikibot, site, search_string):
-    exception_table=list_of_team_code_exception()
+    exception_table=exception.list_of_team_code_exception()
     return search_itemv2(pywikibot, site, search_string, False, exception_table=exception_table)
 
 def search_team_by_code(pywikibot, site, search_string):
-    exception_table=list_of_team_name_exception()
+    exception_table=exception.list_of_team_name_exception()
     return search_itemv2(pywikibot, site, search_string, False, exception_table=exception_table)
 
 ## other ##

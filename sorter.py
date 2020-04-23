@@ -125,7 +125,6 @@ def name_sorter(pywikibot, site, repo, time, team_id, team, champ, test):
         this_item = list_of_comprend[ii].getTarget()
         this_item.get()
         this_label=get_label('fr', this_item)
- 
         if team:
             this_object=Cyclist(ii, this_label, this_item.getID())
         else:

@@ -6,9 +6,7 @@ Created on Wed Dec 18 12:26:08 2019
 @author: maxime
 """
 
-def amateur_team_tab():
-    i, j = 20, 100
-   
+def load():
     pro_team_dic={
         'name':1,
         'master':2,
@@ -17,11 +15,9 @@ def amateur_team_tab():
         'group':5,
         'active':6            
         }
-    
-    kk = 1
 
-    team_table = [[0 for x in range(i)] for y in range(j)]
-
+    team_table = [[0 for x in range(7)] for y in range(100)]
+    kk = 0
     #Australie
     team_table[kk][1] = u"Specialized Women's Racing"
     team_table[kk][2] = 59195655
@@ -622,13 +618,7 @@ def amateur_team_tab():
     team_table[kk][6] = 0
     kk += 1
 
-    # Brésil
-    team_table[kk][1] = u"Memorial Santos-Fupes"
-    team_table[kk][2] = 52107994
-    team_table[kk][3] = u'BRA'
-    team_table[kk][5] = 2
-    team_table[kk][6] = 0
-    kk += 1
+
 
     # Italie
     team_table[kk][1] = u"ACS Cycling Chirio"
@@ -669,4 +659,4 @@ def amateur_team_tab():
     final_table = [['' for x in range(7)] for y in range(kk)]
     final_table=team_table[:kk]
 
-    return [final_table, kk, pro_team_dic]
+    return [final_table, pro_team_dic]
