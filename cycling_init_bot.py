@@ -140,7 +140,7 @@ def cycling_init_bot():
         startliston=False
         test=False
         classification_importer.f(pywikibot,site,repo,stage_or_general,id_race,final,
-                               maxkk,year,startliston,test)
+                               maxkk,test,year=year,startliston=startliston)
     elif selector==10:
         import startlist_importer
         id_race='Q48994098'

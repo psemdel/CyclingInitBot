@@ -8,7 +8,7 @@ Created on Sun Jul 22 16:21:08 2018
 from cycling_init_bot_low import * 
 
 def f(pywikibot,site,repo,general_or_stage, id_race,
-                           final, maxkk,year,startliston,test):
+                           final, maxkk,test,**kwargs):
      
     general_or_stage_points=[2,3,6,7,8]
     general_or_stage_team=[5,6]
@@ -27,6 +27,15 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
     
     verbose=False
    
+    year=kwargs.get('year',0)
+    if year==0:
+        year=get_year(pywikibot, repo, id_race)
+    if year==0:
+        print(u'no year found')
+        return
+    
+    startliston=kwargs.get('startliston',True)
+    
     if general_or_stage in general_or_stage_prop:
         property_nummer=general_or_stage_prop[general_or_stage]
     if general_or_stage in general_or_stage_points:

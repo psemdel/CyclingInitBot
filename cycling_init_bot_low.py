@@ -4,8 +4,14 @@ Created on Sat Jan  6 15:38:42 2018
 
 @author: psemdel
 """
-from moo import *
-import exception 
+ 
+#from moo import *
+#import exception
+
+
+from .moo import *
+from . import exception 
+
 import csv 
 import xlrd
 import os.path
@@ -222,6 +228,18 @@ def create_present(pywikibot, site,repo,time, label):
        item = pywikibot.ItemPage(repo, id_present)
        item.get()
    return id_present, item
+
+def get_year(pywikibot, repo, id_present):
+    item = pywikibot.ItemPage(repo, id_present)
+    item.get()
+    if (u'P585' in item.claims):
+        this_date = item.claims.get(u'P585')
+    elif (u'P580' in item.claims):
+        this_date = item.claims.get(u'P580')
+    else:
+        return 0
+    
+    return int(this_date.year)
 
 # ==Table reader ==
 
