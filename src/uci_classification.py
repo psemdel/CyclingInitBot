@@ -8,7 +8,7 @@ Created on Thu Nov  7 21:44:28 2019
 import csv
 import numpy as np
 import os
-from exception import *
+from .cycling_init_bot_low import (cyclists_table_reader, table_reader, search_team_by_code)
 
 
 def UCI_classification_importer(
@@ -64,7 +64,7 @@ def UCI_classification_importer(
                             #add the calendar to P1344
                             claim = pywikibot.Claim(repo, u'P1344')
                             claim.setTarget(item_to_add)
-                            item.addClaim(claim, summary=u'Adding classification')
+                            this_rider.item.addClaim(claim, summary=u'Adding classification')
                             
                             qualifier_rank = pywikibot.page.Claim(site, 'P1352', is_qualifier=True)
                             target_qualifier = pywikibot.WbQuantity(amount=this_rider.rank, site=repo)
@@ -79,7 +79,7 @@ def UCI_classification_importer(
                             claim.addQualifier(qualifier_points)
     
                 #action in the team
-                if resulttable[ii][result_dic['team code'][1]] != 0:
+                if result_table[ii][result_dic['team code'][1]] != 0:
                     id_team=search_team_by_code(pywikibot, site, result_table[ii][result_dic['team code'][1]])
                    
                     if id_team!='Q0' and id_team!='Q1':
@@ -89,9 +89,9 @@ def UCI_classification_importer(
                         Addc=True
                         if(u'P3494' in item_team.claims):
                             if cleaner:
-                                this_rider.item.removeClaims(item.claims['P3494'])
+                                item_team.removeClaims(this_rider.item.claims['P3494'])
                             else: #not clear
-                                list_of_comprend = item.claims.get(u'P3494')
+                                list_of_comprend = this_rider.item.claims.get(u'P3494')
                                 item_to_add =this_rider.item
                                 for in_comprend in list_of_comprend:
                                     if in_comprend.getTarget() == item_to_add:  # Already there
@@ -101,7 +101,7 @@ def UCI_classification_importer(
                                 if Addc:
                                    claim = pywikibot.Claim(repo, u'P3494')
                                    claim.setTarget(item_to_add)
-                                   item.addClaim(claim, summary=u'Adding classification')
+                                   item_team.item.addClaim(claim, summary=u'Adding classification')
                                    
                                    qualifier_rank = pywikibot.page.Claim(
                                            site, 'P1352', is_qualifier=True)

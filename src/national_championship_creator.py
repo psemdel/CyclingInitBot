@@ -4,7 +4,7 @@ Created on Thu Jan  4 15:30:20 2018
 
 @author: maxime delzenne
 """
-from cycling_init_bot_low import (add_value, add_Qvalue, add_to_master, 
+from .cycling_init_bot_low import (add_value, add_Qvalue, add_to_master, 
 search_item, teamCIOsearch, create_present, link_year)
 
 def f(

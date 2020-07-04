@@ -4,11 +4,9 @@ Created on Sat Jan  6 11:48:04 2018
 
 @author: psemdel
 """
-from cycling_init_bot_low import (delete_value, add_multiple_value, compare_dates,
-get_label                                  
-                                  
-                                  )
-from moo import Race, Cyclist
+from .cycling_init_bot_low import (delete_value, add_multiple_value, compare_dates,
+get_label)
+from .moo import Race, Cyclist
 
 
 #sort the victories by date

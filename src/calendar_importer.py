@@ -5,7 +5,7 @@ Created on Wed Nov 27 20:54:17 2019
 
 @author: maxime
 """
-from cycling_init_bot_low import noQ, table_reader, search_race, search_item
+from .cycling_init_bot_low import noQ, table_reader, search_race, search_item
 import race_creator
 
 # ==Initialisation==

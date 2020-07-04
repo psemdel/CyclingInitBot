@@ -5,10 +5,10 @@ Created on Thu Dec 19 20:35:53 2019
 
 @author: maxime
 """
-from cycling_init_bot_low import * 
+from .cycling_init_bot_low import get_label
 import csv
 
-def champ_list_creator(pywikibot,site,repo,time):
+def f(pywikibot,site,repo,time):
     
     def sub_findwinner(item_this_year,id_race,champ_table, result_dic, road_or_clm,ll):
           date_found=False

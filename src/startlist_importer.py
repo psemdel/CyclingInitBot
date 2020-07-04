@@ -5,9 +5,9 @@ Created on Thu Dec 19 20:34:29 2019
 
 @author: maxime
 """
-from cycling_init_bot_low import (table_reader, cyclists_table_reader, 
+from .cycling_init_bot_low import (table_reader, cyclists_table_reader, 
 IDtoCIOsearch, search_item, get_present_team, noQ)                               
-import get_rider_tricot 
+from . import get_rider_tricot 
 
 def f(pywikibot,site,repo, prologue_or_final, id_race, time_of_race,chrono,test,nation_table):
      #0=prologue, 1=final, 2=one day race

@@ -4,7 +4,7 @@ Created on Sun Feb 18 10:35:54 2018
 
 @author: maxime delzenne
 """
-from cycling_init_bot_low import search_item, get_label, add_winner
+from .cycling_init_bot_low import search_item, get_label, add_winner
                                   
 import exception 
 
