@@ -26,7 +26,10 @@ def cycling_init_bot():
         import national_team_creator
         
         man_or_woman=u'man'
-        national_team_creator.f(pywikibot,site,repo,time,nation_table,man_or_woman)
+        start_year=2020
+        end_year=2021
+        national_team_creator.f(pywikibot,site,repo,time,nation_table,
+                                man_or_woman,start_year,end_year)
     elif selector==1:
         import national_championship_creator
         import cc_table
@@ -59,6 +62,8 @@ def cycling_init_bot():
     elif selector==4: 
         #more details in the table with activate and group
         import pro_team_creator
+        import pro_team_table
+        import amateur_team_table
         pro_or_amateur=1 #1 is pro
         year=2020
         prov=False
@@ -71,12 +76,12 @@ def cycling_init_bot():
             team_table[1][4] = u''
             team_table[1][5] = 2 #don't modify
             team_table[1][6] = 1 #don't modify
-            [_, team_dic]=pro_team_tab()
+            [_, team_dic]=pro_team_table.load()
         else:
             if pro_or_amateur==1:
-                [team_table, team_dic]=pro_team_tab.load()
+                [team_table, team_dic]=pro_team_table.load()
             else:
-                [team_table, team_dic]=amateur_team_tab.load()
+                [team_table, team_dic]=amateur_team_table.load()
         pro_team_creator.f(pywikibot,site,repo,time,team_table,nation_table,pro_or_amateur, team_dic,year)
     elif selector==5:   
         import sorter
@@ -169,7 +174,7 @@ def cycling_init_bot():
     elif selector==15:
         from cycling_init_bot_low import delete_property
         id_item=u'Q57267790'
-        property_nummer=3496
+        property_nummer="P3496"
         delete_property(pywikibot,repo,id_item,property_nummer)
     else: 
         print('do nothing')

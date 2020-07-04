@@ -6,6 +6,9 @@ Created on Thu Dec 19 20:35:53 2019
 @author: maxime
 """
 
+from cycling_init_bot_low import get_label
+import csv
+
 def f(pywikibot,site,repo,time):
     dic ={'2019': 'Q60015262', '2018' : 'Q43920899', '2017' : 'Q28005879', '2016' : 'Q22021840',
 		'2015' : 'Q19296998', '2014' : 'Q15621925', '2013': 'Q3339162',
@@ -28,6 +31,7 @@ def f(pywikibot,site,repo,time):
         masterID=Idroadrace
         itemroadrace =pywikibot.ItemPage(repo, Idroadrace)
         itemroadrace.get()
+        
         if(u'P527' in itemroadrace.claims):
              list_of_comprend=itemroadrace.claims.get(u'P527')
              for jj in range(len(list_of_comprend)):  
@@ -59,7 +63,7 @@ def f(pywikibot,site,repo,time):
                              champtable[ll][5]=racedate.year  
                              champtable[ll][6]=tempwinner
                          elif invalidprecision==1 and thereisawinner==1:
-                             print(thislabel)
+                             print(itemroadrace.get_label)
                              print('unsufficient precision')
     ll=-1                          
                
@@ -99,7 +103,7 @@ def f(pywikibot,site,repo,time):
                              champtable[ll][12]=racedate.year  
                              champtable[ll][13]=tempwinner
                          elif invalidprecision==1 and thereisawinner==1:
-                             print(thislabel)
+                             print(itemroadrace.get_label)
                              print('unsufficient precision')   
                              
                              

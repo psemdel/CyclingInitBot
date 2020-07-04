@@ -9,55 +9,84 @@ Created on Sat Jan  6 15:38:42 2018
 #import exception
 
 
-from .moo import *
+from .moo import ThisName, Cyclist
 from . import exception 
 
 import csv 
 import xlrd
 import os.path
+
 ### Functions that are used from several other functions ###
 
 # ==Low level function ==
+def checkprop(property_nummer):
+    if property_nummer[0]=="P":
+        prop=property_nummer
+    else:
+        prop=u'P' + str(property_nummer)
+    return prop
+
+def checkid(this_id): #avoid need for noQ and such parasit things
+    if this_id[0]==u'Q':
+        result_id=this_id
+    else:
+        result_id=u'Q' + str(this_id)
+    return result_id
+
 def add_value(pywikibot, repo, item, property_nummer, value, comment):  # Add a value to a property
+    prop=checkprop(property_nummer)
+        
     if value!=0:
-        if(u'P' + str(property_nummer) not in item.claims):  # already there do nothing
-            claim = pywikibot.Claim(repo, u'P' + str(property_nummer))
+        if prop not in item.claims:  # already there do nothing
+            claim = pywikibot.Claim(repo, prop)
             if isinstance(value, str):
                 target = value
             else:
-                target = pywikibot.ItemPage(repo, u'Q' + str(value))
+                target = pywikibot.ItemPage(repo, checkid(value))
             claim.setTarget(target)
             item.addClaim(claim, summary=u'Adding ' + comment)
 
+def add_Qvalue(pywikibot, repo, item, prop, value, comment):
+ 
+    if value!=0:
+        if prop not in item.claims:  # already there do nothing
+            claim = pywikibot.Claim(repo, prop)
+            target = pywikibot.ItemPage(repo, checkid(value))
+            claim.setTarget(target)
+            item.addClaim(claim, summary=u'Adding ' + comment)  
 
 def add_date(pywikibot, repo, item, property_nummer, input_date, comment):
-    if(u'P' + str(property_nummer) not in item.claims):  # already there do nothing
-        claim = pywikibot.Claim(repo, u'P' + str(property_nummer))
+    prop=checkprop(property_nummer)
+    
+    if prop not in item.claims:  # already there do nothing
+        claim = pywikibot.Claim(repo, prop)
         claim.setTarget(input_date)
         item.addClaim(claim, summary=u'Adding ' + comment)
 
-
 def delete_value(pywikibot, repo, item, property_nummer, value, comment):
+    prop=checkprop(property_nummer)
+    
     item_found = False
     item_position = 0
-    if(u'P' + str(property_nummer) in item.claims):
-        list_of_comprend = item.claims.get(u'P' + str(property_nummer))
-        item_to_delete = pywikibot.ItemPage(repo, u'Q' + str(value))
+    if prop in item.claims:
+        list_of_comprend = item.claims.get(prop)
+        item_to_delete = pywikibot.ItemPage(repo, checkid(value))
         for ii in range(len(list_of_comprend )):
             if list_of_comprend [ii].getTarget() == item_to_delete:  # Already there
                 item_found = True
                 item_position = ii
     if item_found:
-        allclaims = item.claims[u'P' + str(property_nummer)]
+        allclaims = item.claims[prop]
         claim = allclaims[item_position]
         item.removeClaims(claim)
 
-
-def delete_property(pywikibot, repo, id_item, property_nummer):
-    item = pywikibot.ItemPage(repo, id_item)
+def delete_property(pywikibot, repo, item_id, property_nummer):
+    prop=checkprop(property_nummer)
+    
+    item = pywikibot.ItemPage(repo, item_id)
     item.get()
-    if(u'P' + str(property_nummer) in item.claims):
-        item.removeClaims(item.claims['P' + str(property_nummer)])
+    if prop in item.claims :
+        item.removeClaims(item.claims[prop])
 
 # Same as add value but for comprend
 def add_multiple_value(
@@ -68,41 +97,44 @@ def add_multiple_value(
         value,
         comment,
         overpass):
+    
+    prop=checkprop(property_nummer)
+    
     if value!=0:
         # check if the value is not already present
         if overpass:  # To add a value and then delete it for sorting purpose
             Addc = True
         else:
             Addc = True
-            if(u'P' + str(property_nummer) in item.claims):  # already there do nothing
-                list_of_comprend = item.claims.get(u'P' + str(property_nummer))
-                item_to_add = pywikibot.ItemPage(repo, u'Q' + str(value))
+            if prop in item.claims:  # already there do nothing
+                list_of_comprend = item.claims.get(prop)
+                item_to_add = pywikibot.ItemPage(repo, checkid(value))
                 for comprend in list_of_comprend :
                     if comprend.getTarget() == item_to_add:  # Already there
                         Addc = False
                         print('Item already in the Master list')
         # add the value
         if Addc:
-            claim = pywikibot.Claim(repo, u'P' + str(property_nummer))
-            target = pywikibot.ItemPage(repo, u'Q' + str(value))
+            claim = pywikibot.Claim(repo, prop)
+            target = pywikibot.ItemPage(repo, checkid(value))
             claim.setTarget(target)
             item.addClaim(claim, summary=u'Adding ' + comment)
         return Addc
 
-def add_to_master(pywikibot,site,repo,id_present,id_master):
-    item_master = pywikibot.ItemPage(repo,  u'Q' + str(id_master))
+def add_to_master(pywikibot,site,repo,present_id,id_master):
+    item_master = pywikibot.ItemPage(repo,  checkid(id_master))
     item_master.get()
     add_multiple_value(
         pywikibot,
         repo,
         item_master,
-        527,
-        noQ(id_present),
+        "P527",
+        present_id,
         u'link year',
         0)
 
 def add_winner(pywikibot, site, repo, item, value, order, general_or_stage):
-    property_nummer = 1346
+    prop = "P1346"
     dic_order1={0:'Q20882667',2:'Q20883007', 3:'Q20883212', 4:'Q20883139'}
     Addc = True
 
@@ -119,8 +151,8 @@ def add_winner(pywikibot, site, repo, item, value, order, general_or_stage):
         Addc = False
 
     if Addc:
-        if(u'P' + str(property_nummer) in item.claims):
-            list_of_winners = item.claims.get(u'P' + str(property_nummer))
+        if prop in item.claims:
+            list_of_winners = item.claims.get(prop)
             item_to_add = pywikibot.ItemPage(repo, value)
             # look if already there as a rider can't be first, second and third
             # at the same time
@@ -130,7 +162,7 @@ def add_winner(pywikibot, site, repo, item, value, order, general_or_stage):
                     print('winner already in the list')
 
         if Addc:
-            claim = pywikibot.Claim(repo, u'P' + str(property_nummer))
+            claim = pywikibot.Claim(repo, prop)
             target = pywikibot.ItemPage(repo, value)
             claim.setTarget(target)
             item.addClaim(claim, summary=u'Adding winner')
@@ -139,8 +171,8 @@ def add_winner(pywikibot, site, repo, item, value, order, general_or_stage):
             qualifierDe.setTarget(targetQualifier)
             claim.addQualifier(qualifierDe)
 
-def noQ(id_item):
-    itemResult = id_item[1:len(id_item)]
+def noQ(item_id):
+    itemResult = item_id[1:]
     return int(itemResult)
 
 # ==date==
@@ -170,7 +202,7 @@ def compare_dates(date1, date2):
                 output = 0  # equal date
     return output
 
-def link_year(pywikibot, site,repo, id_present,arg1,arg2):
+def link_year(pywikibot, site,repo, present_id,arg1,arg2):
     #arg1 = year or nameprev
     #arg2 = name or namenext
     if isinstance(arg1, str):
@@ -195,42 +227,42 @@ def link_year(pywikibot, site,repo, id_present,arg1,arg2):
         id_other = search_item(pywikibot, site, mylabel_other)
         if (id_other != u'Q0') and (id_other != u'Q1'):  # no previous or several
             if kk==-1:
-                p1=155
+                p1="P155"
                 suffix1='previous'
-                p2=156
+                p2="P156"
                 suffix2='next'
             else:
-                p2=155
+                p2="P155"
                 suffix2='previous'
-                p1=156
+                p1="P156"
                 suffix1='next'
-            item = pywikibot.ItemPage(repo, id_present)
+            item = pywikibot.ItemPage(repo, present_id)
             item.get()
-            add_value(pywikibot, repo, item, p1, noQ(id_other), u'link '+suffix1)
+            add_value(pywikibot, repo, item, p1, id_other, u'link '+suffix1)
             item_other = pywikibot.ItemPage(repo, id_other)
             item_other.get()
-            add_value(pywikibot, repo, item_other, p2, noQ(id_present), u'link '+suffix2)
+            add_value(pywikibot, repo, item_other, p2, present_id, u'link '+suffix2)
         kk=kk+2
 
 def create_present(pywikibot, site,repo,time, label):   
-   id_present = search_item(pywikibot, site, label['fr'])
+   present_id = search_item(pywikibot, site, label['fr'])
    
-   if (id_present == u'Q0'):
+   if (present_id == u'Q0'):
        print(label['fr'] + ' created')
        # Type code
-       id_present = create_item(pywikibot, site, label)
+       present_id = create_item(pywikibot, site, label)
        time.sleep(1.0)
-   elif (id_present == u'Q1'):
+   elif (present_id == u'Q1'):
        print(label['fr'] + ' already present several times')
    else:
        print(label['fr'] + ' already present')
-   if id_present!=u'Q1':
-       item = pywikibot.ItemPage(repo, id_present)
+   if present_id!=u'Q1':
+       item = pywikibot.ItemPage(repo, present_id)
        item.get()
-   return id_present, item
+   return present_id, item
 
-def get_year(pywikibot, repo, id_present):
-    item = pywikibot.ItemPage(repo, id_present)
+def get_year(pywikibot, repo, present_id):
+    item = pywikibot.ItemPage(repo, present_id)
     item.get()
     if (u'P585' in item.claims):
         this_date = item.claims.get(u'P585')
@@ -283,9 +315,19 @@ def excel_to_csv(filepath, destination):
 def table_reader(filename,result_dic, startline, verbose):
     
     default_separator=';'
-    filepathcsv='input/'+filename+'.csv'
-    filepathxlsx='input/'+filename+'.xlsx'
-    if os.path.isfile(filepathcsv):
+    
+    #differentiate local from remote
+    if filename[(len(filename)-3):]=='csv' or filename[(len(filename)-4):]=='xlsx':
+        if filename[(len(filename)-3):]=='csv':
+            filepathcsv='uploads/'+filename
+        else:
+            filepathcsv=None
+            filepathxlsx='uploads/'+filename
+    else:
+        filepathcsv='input/'+filename+'.csv'
+        filepathxlsx='input/'+filename+'.xlsx'
+        
+    if (filepathcsv is not None) and os.path.isfile(filepathcsv):
         filepath=filepathcsv
     elif os.path.isfile(filepathxlsx):
         filepath=excel_to_csv(filepathxlsx)
@@ -411,8 +453,8 @@ def search_race(name, race_table,race_dic):
 
     return result 
 
-def is_it_a_cyclist(pywikibot, repo, id_item):
-    item = pywikibot.ItemPage(repo, id_item)
+def is_it_a_cyclist(pywikibot, repo, item_id):
+    item = pywikibot.ItemPage(repo, item_id)
     item.get()
     if(u'P106' in item.claims):  # already there do nothing
         list_of_occupation = item.claims.get(u'P106')
@@ -427,15 +469,15 @@ def search_item(pywikibot, site, search_string):
     wikidataEntries = get_items(api, site, search_string)
     if(u'search-continue' in wikidataEntries):
         # several results
-        id_result = u'Q1'
+        result_id = u'Q1'
     elif(wikidataEntries['search'] == []):
         # no result
-        id_result = u'Q0'
+        result_id = u'Q0'
     else:
         wikidataSearchresult = wikidataEntries['search']
         wikidataSearchresult1 = wikidataSearchresult[0]
-        id_result = wikidataSearchresult1['id']
-    return id_result
+        result_id = wikidataSearchresult1['id']
+    return result_id
 
 def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Team and rider
     from pywikibot.data import api
@@ -469,26 +511,26 @@ def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Te
     if(u'search-continue' in wikidata_entries):
         # several results
         
-        id_result = u'Q1'
+        result_id = u'Q1'
         disam=kwargs.get('disam',None) #disambiguation_function
         if disam!=None:
             repo=kwargs.get('repo',None)
             if repo!=None:
                 all_results = wikidata_entries['search']
                 for result in all_results:
-                    id_temp=result['id']
-                    if disam(pywikibot, repo, id_temp):
-                        id_result=id_temp
+                    temp_id=result['id']
+                    if disam(pywikibot, repo, temp_id):
+                        result_id=temp_id
                         break
     elif(wikidata_entries['search'] == []):
         # no result
-        id_result = u'Q0'
+        result_id = u'Q0'
     else:
         wikidataSearchresult = wikidata_entries['search']
         wikidataSearchresult1 = wikidataSearchresult[0]
-        id_result = wikidataSearchresult1['id']
+        result_id = wikidataSearchresult1['id']
         
-    return id_result
+    return result_id
 
 def search_rider(pywikibot, site, repo,search_string, first_name, last_name):
     exception_table=exception.list_of_rider_exception()
@@ -504,22 +546,107 @@ def search_team_by_code(pywikibot, site, search_string):
     return search_itemv2(pywikibot, site, search_string, False, exception_table=exception_table)
 
 ## other ##
-def get_class_id(classe):
+def get_class_id(classe_text):
     dic_class={
-      "1.1":22231110,
-      "2.1":22231112,
-      "1.2":22231111,
-      "2.2":22231113,
-      "1.WWT":23005601,
-      "2.WWT":23005603,
-      "1.Pro":74275170,
-      "2.Pro":74275176
+      "1.1":"Q22231110",
+      "2.1":"Q22231112",
+      "1.2":"Q22231111",
+      "2.2":"Q22231113",
+      "1.WWT":"Q23005601",
+      "2.WWT":"Q23005603",
+      "1.Pro":"Q74275170",
+      "2.Pro":"Q74275176"
               } 
     
-    if classe in dic_class:
-        return dic_class[classe]
+    if classe_text in dic_class:
+        return dic_class[classe_text]
     else:
         return 0
+    
+def get_class_WWT(classe):    
+    UCI=True
+    
+    dic_WWT={
+      "1.1":False,
+      "2.1":False,
+      "1.2":False,
+      "2.2":False,
+      "1.WWT":True,
+      "2.WWT":True,
+      "1.Pro":False,
+      "2.Pro":False
+              } 
+    
+    if classe in dic_WWT:
+        return UCI, dic_WWT[classe]
+    else:
+        return UCI, 0    
+
+def get_country(pywikibot, repo, item_id):
+    item = pywikibot.ItemPage(repo, item_id)
+    item.get()
+    if (u'P17' in item.claims):
+         P17=item.claims.get(u'P17')
+         return P17[0].getTarget()
+    else:
+        return "Q0"
+    
+def get_class(pywikibot, repo, item_id):
+    item = pywikibot.ItemPage(repo, item_id)
+    item.get()
+    
+    class_list=[
+    "Q22231110",
+    "Q22231112",
+    "Q22231111",
+    "Q22231113",
+    "Q23005601",
+    "Q23005603",
+     "Q74275170",
+     "Q74275176"]
+    
+    if (u'P31' in item.claims):
+        P31=item.claims.get(u'P31')
+        for p31 in P31:
+            tempQ=p31.getTarget()
+            if tempQ in class_list:
+                return tempQ
+    else:
+        return ""
+ 
+def define_article(name):
+    this_name=ThisName(name)
+    
+    correspondance={
+		"trois":"des ",
+		"quatre":"des ",
+		"boucles":"des ",
+		"triptyque":"du ",
+		"tour":"du ",
+		"grand prix":"du ",
+		"circuit":"du ",
+		"memorial":"du ",
+		"trophee":"du ",
+		"ronde":"de la ",
+		"semaine":"de la ",
+		"classica":"de la ",
+		"fleche":"de la ",
+		"course":"de la ",
+		"classique":"de la ",
+		"race":"de la ",
+		"etoile":"de l'",
+		"la":"de "
+		}
+    
+    vocal=['a','e','i','o','u']
+    
+    for key in correspondance:
+        if this_name.name_cor.find(key):
+            return correspondance[key]
+    if this_name.name_cor[0] in vocal:
+        return "de l'"
+
+    return "du "
 
 def get_items(api, site, itemtitle):
     params = {
@@ -561,7 +688,6 @@ def get_present_team(pywikibot, site, repo, id_rider, time_of_race):
 
 def teamCIOsearch(team_table, CIOcode):
     result = 0
-    print(team_table[35][7] == CIOcode)
 
     for ii in range(len(team_table)):
         if team_table[ii][7] == CIOcode:

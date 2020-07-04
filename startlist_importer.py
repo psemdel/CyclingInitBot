@@ -5,7 +5,8 @@ Created on Thu Dec 19 20:34:29 2019
 
 @author: maxime
 """
-from cycling_init_bot_low import * 
+from cycling_init_bot_low import (table_reader, cyclists_table_reader, 
+IDtoCIOsearch, search_item, get_present_team, noQ)                               
 import get_rider_tricot 
 
 def f(pywikibot,site,repo, prologue_or_final, id_race, time_of_race,chrono,test,nation_table):
@@ -43,6 +44,9 @@ def f(pywikibot,site,repo, prologue_or_final, id_race, time_of_race,chrono,test,
             #check national team
             national_team_detected=False
             all_same_team=True
+            national_team_nation=u'reset'
+            national_team_begin=0
+            
             for ii in range(row_count):
                 if result_table[ii][result_dic['bib'][1]]%10==1:
                     #insert last team

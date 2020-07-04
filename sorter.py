@@ -4,12 +4,15 @@ Created on Sat Jan  6 11:48:04 2018
 
 @author: psemdel
 """
-from cycling_init_bot_low import *
-from moo import *
+from cycling_init_bot_low import (delete_value, add_multiple_value, compare_dates,
+get_label                                  
+                                  
+                                  )
+from moo import Race, Cyclist
 
 
 #sort the victories by date
-def date_sorter(pywikibot, site, repo, time, team_id, victory,test):
+def date_sorter(pywikibot, site, repo, time, team_id, property_number,test):
  
     #return the victories sorted by date
     def date_sort(list_of_victories, new_order):
@@ -22,7 +25,7 @@ def date_sorter(pywikibot, site, repo, time, team_id, victory,test):
                 victoire2 = list_of_victories[new_order[jj + 1]]
                 date1 = victoire1.date
                 date2 = victoire2.date
-                comparisonTemp = compareDates(date1, date2)
+                comparisonTemp = compare_dates(date1, date2)
                 if comparisonTemp == 1:  # bad order
                     temp = new_order[jj]
                     new_order[jj] = new_order[jj + 1]
@@ -38,10 +41,10 @@ def date_sorter(pywikibot, site, repo, time, team_id, victory,test):
     
     list_of_races = []
 
-    if victory:
-        property_number = 2522  # victoire
-    else:
-        property_number = 527  # comprend
+   # if victory:
+  #      property_number = 2522  # victoire
+   # else:
+  #      property_number = 527  # comprend
 
     if(u'P' + str(property_number) in item.claims):
         list_of_comprend = item.claims.get(u'P' + str(property_number))
@@ -86,34 +89,43 @@ def date_sorter(pywikibot, site, repo, time, team_id, victory,test):
                 key = new_order[ii]
                 id_item =  list_of_races[key].id_item
         
-                deleteValue(
+                delete_value(
                     pywikibot,
                     repo,
                     item,
                     property_number,
-                    noQ(id_item),
+                    id_item,
                     'race for sorting')
-                addMultipleValue(
+                add_multiple_value(
                     pywikibot,
                     repo,
                     item,
                     property_number,
-                    noQ(id_item),
+                    id_item,
                     'race for sorting',
                     1)
 
 #sort the family name of cyclists
-def name_sorter(pywikibot, site, repo, time, team_id, team, champ, test):
+def name_sorter(pywikibot, site, repo, time, team_id, property_number, test):
     item = pywikibot.ItemPage(repo, team_id)
     item.get()
 
     list_of_objects = []
     list_of_names = []
 
-    if team or champ:
-        property_number = 527  # comprend
-    else:
-        property_number = 1923  # liste des équipes participantes
+    list_of_team_cat = [
+        "Q6154783", "Q20638319", "Q382927", "Q1756006", 
+        "Q23726798", "Q20738667", "Q28492441", "Q20639848", 
+        "Q20639847", "Q20652655", "Q20653563", "Q20653564",
+        "Q20653566", "Q2466826", "Q26849121", "Q78464255", 
+        "Q80425135", "Q53534649"
+        ]
+    
+    team=False
+    if u'P31' in item.claims:
+        list_of_comprend = item.claims.get(u'P31')
+        if list_of_comprend[0].getTarget() in list_of_team_cat:
+            team=True
 
     # Read the list of racers and correct their name
     if(u'P' + str(property_number) in item.claims):
@@ -140,10 +152,10 @@ def name_sorter(pywikibot, site, repo, time, team_id, team, champ, test):
     print(sorted_names)
     order_ok=True
     
-    if team:
-        list_of_qualifiers=['P580','P582']
-    else:
-        list_of_qualifiers=[]
+    #if team:
+    list_of_qualifiers=['P580','P582']
+    #else:
+    #    list_of_qualifiers=[]
         
     saved_qualifiers={}
     # delete done later
@@ -161,21 +173,21 @@ def name_sorter(pywikibot, site, repo, time, team_id, team, champ, test):
                 # Save the qualifiers
                 for qual in list_of_qualifiers:
                     if qual in claim.qualifiers:
-                        saved_qualifiers[qual]=claim.qualifiers[list_of_qualifiers[kk]][0].getTarget()
+                        saved_qualifiers[qual]=claim.qualifiers[qual][0].getTarget()
                 
                 delete_value(
                     pywikibot,
                     repo,
                     item,
                     property_number,
-                    noQ(id_item),
+                    id_item,
                     'rider for sorting')
                 add_multiple_value(
                     pywikibot,
                     repo,
                     item,
                     property_number,
-                    noQ(id_item),
+                    id_item,
                     'rider for sorting',
                     1)
         

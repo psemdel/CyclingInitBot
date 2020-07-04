@@ -4,7 +4,8 @@ Created on Thu Jan  4 15:28:39 2018
 
 @author: maxime delzenne
 """
-from cycling_init_bot_low import *
+from cycling_init_bot_low import (add_Qvalue, add_value, get_description, get_alias,
+teamCIOsearch, create_present, link_year, add_multiple_value)
 
 def f(
         pywikibot,
@@ -13,6 +14,8 @@ def f(
         time,
         team_table,
         man_or_woman,
+        start_year,
+        end_year,
         **kwargs
         ):
    
@@ -37,13 +40,13 @@ def f(
                 master,
                 CIO):
             # No need for the table here
-            add_value(pywikibot, repo, item, 31, 23726798, u'Nature')
-            add_value(pywikibot, repo, item, 1998, CIO, u'CIO code')
-            add_value(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
-            add_value(pywikibot, repo, item, 17, country_code, u'country')
-            add_value(pywikibot, repo, item, 361, master, u'part of')
+        add_Qvalue(pywikibot, repo, item, "P31", "Q23726798", u'Nature')
+        add_value(pywikibot, repo, item, "P1998", CIO, u'CIO code')
+        add_Qvalue(pywikibot, repo, item, "P641","Q3609", u'cyclisme sur route')
+        add_Qvalue(pywikibot, repo, item, "P17", country_code, u'country')
+        add_Qvalue(pywikibot, repo, item, "P361", master, u'part of')
     
-        if(u'P580' not in item.claims):
+        if (u'P580' not in item.claims):
             claim = pywikibot.Claim(repo, u'P580')  # date de début
             start_date = pywikibot.WbTime(
                 site=siteIn,
@@ -158,17 +161,18 @@ def f(
     for kk in range(kkinit, endkk):  #
         group = team_table[kk][8]
         if group == 1:
-            for ii in range(2020, 2021):  # range(1990,2019)
-                Year = ii
+            for ii in range(start_year, end_year+1):
+        
+                year = ii
                 if team_table[kk][IndexTeam] != 0:
                     mylabel = {}
                     mylabel = national_team_label(
-                        team_table, kk, Year, man_or_woman)
+                        team_table, kk, year, man_or_woman)
                     
                     id_present, item=create_present(pywikibot, site,repo,time,mylabel)
         
                     if id_present!=u'Q1':
-                        national_team_intro(item, team_table, kk, Year)
+                        national_team_intro(item, team_table, kk, year)
                         time.sleep(1.0)
                         national_team_basic(
                             pywikibot,
@@ -177,7 +181,7 @@ def f(
                             site,
                             team_table[kk][1],
                             team_table[kk][3],
-                            Year,
+                            year,
                             team_table[kk][IndexTeam],
                             team_table[kk][7])
                         time.sleep(1.0)
@@ -199,8 +203,8 @@ def f(
                             pywikibot,
                             repo,
                             item_master,
-                            527,
-                            noQ(id_present),
+                            "P527",
+                            id_present,
                             u'link year ' +
                             str(year),
                             0)

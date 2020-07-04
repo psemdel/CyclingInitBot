@@ -4,7 +4,8 @@ Created on Thu Jan  4 15:30:20 2018
 
 @author: maxime delzenne
 """
-from cycling_init_bot_low import *
+from cycling_init_bot_low import (add_value, add_Qvalue, add_to_master, 
+search_item, teamCIOsearch, create_present, link_year)
 
 def f(
         pywikibot,
@@ -30,12 +31,12 @@ def f(
         id_present,
         CC):
     
-        add_value(pywikibot, repo, item, 31, id_master, u'Nature')
-        add_value(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
+        add_Qvalue(pywikibot, repo, item, "P31", id_master, u'Nature')
+        add_value(pywikibot, repo, item, "P641", "Q3609", u'cyclisme sur route')
         add_to_master(pywikibot,site,repo,id_present,id_master)
         
         if CC==False:
-            id_allchamp = searchItem(
+            id_allchamp = search_item(
                 pywikibot,
                 site,
                 u'Championnats nationaux de cyclisme sur route en ' +
@@ -44,9 +45,9 @@ def f(
                 print(u'Championnats nationaux de cyclisme sur route en ' +
                 str(year)+'not found')
             else:
-                add_value(pywikibot, repo, item, 361, noQ(id_allchamp), u'part of')
+                add_Qvalue(pywikibot, repo, item, "P361", id_allchamp, u'part of')
                 add_to_master(pywikibot,site,repo,id_present,id_allchamp)
-            add_value(pywikibot, repo, item, 17, country_code, u'country')
+            add_Qvalue(pywikibot, repo, item, "P17", country_code, u'country')
 
     def national_championship_race_basic(
             pywikibot,
@@ -61,8 +62,8 @@ def f(
             enligne, 
             CC):
         
-        add_value(pywikibot, repo, item, 31, id_master, u'Nature')
-        add_value(pywikibot, repo, item, 641, 3609, u'cyclisme sur route')
+        add_Qvalue(pywikibot, repo, item, "P31", id_master, u'Nature')
+        add_Qvalue(pywikibot, repo, item, "P641", "Q3609", u'cyclisme sur route')
         add_to_master(pywikibot,site,repo,id_race,id_master)
         add_to_master(pywikibot,site,repo,id_race,id_champ)
         
@@ -107,14 +108,14 @@ def f(
             else:
                 label = u'Contre-la-montre féminin aux championnats nationaux de cyclisme sur route ' + \
                     str(year)
-            id_allchamp = searchItem(pywikibot, site, label)
+            id_allchamp = search_item(pywikibot, site, label)
             if (id_allchamp == u'Q0')or(id_allchamp == u'Q1'):
                 print(label+'not found')
             else:
                 add_to_master(pywikibot,site,repo,id_race,id_allchamp)
         
-            add_value(pywikibot, repo, item, 361, id_champ, u'part of')
-            add_value(pywikibot, repo, item, 17, country_code, u'country')
+            add_Qvalue(pywikibot, repo, item, "P361", id_champ, u'part of')
+            add_Qvalue(pywikibot, repo, item, "P17", country_code, u'country')
     
     def national_championship_label(team_table, kk, year, english):
         # input
@@ -252,7 +253,7 @@ def f(
                                       name_enligne_previous,name_enligne_next)
                     
                     # Create the Clm
-                    if clm and team_table[kk][IndexClmRace] != 0:
+                    if clm and team_table[kk][index_clm_race] != 0:
                         mylabel_clm =  national_championship_race_label(
                                 team_table, kk, year, man_or_woman,False)
                         id_clm_present, item_clm=create_present(mylabel_clm)

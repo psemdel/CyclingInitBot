@@ -4,7 +4,8 @@ Created on Sun Feb 18 10:35:54 2018
 
 @author: maxime delzenne
 """
-from cycling_init_bot_low import *
+from cycling_init_bot_low import search_item, get_label, add_winner
+                                  
 import exception 
 
 def f(pywikibot, site, repo, id_championship, test):
@@ -109,13 +110,13 @@ def f(pywikibot, site, repo, id_championship, test):
         # look for riders not created
         counter = 0
         counterrepeat = 0
-        tableOfwinnerOut = table_of_winners
+        table_of_winnersOut = table_of_winners
         exception_table = exception.listOfException()
     
         for ii in range(len(table_of_winners)):
             for jj in range(1, 4):
-                Idtemp = searchItemRider(
-                    pywikibot, site, repo, table_of_winners[ii][jj])
+                Idtemp = search_item(
+                    pywikibot, site, table_of_winners[ii][jj])
                 if (Idtemp == u'Q0'):  # no previous or several
                     print(table_of_winners[ii][jj] + ' not found')
                     counter = counter + 1

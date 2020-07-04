@@ -5,7 +5,7 @@ Created on Thu Dec 19 20:38:20 2019
 
 @author: maxime
 """
-from cycling_init_bot_low import * 
+from cycling_init_bot_low import compare_dates, table_reader
 
 def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, **kwargs):
     #look for the tricot of rider

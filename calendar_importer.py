@@ -5,8 +5,9 @@ Created on Wed Nov 27 20:54:17 2019
 
 @author: maxime
 """
-from cycling_init_bot_low import *
+from cycling_init_bot_low import noQ, table_reader, search_race, search_item
 import race_creator
+
 # ==Initialisation==
 def f(pywikibot, site, repo, time, team_table, separator, test, race_table, race_dic):
     #title in table, column in table, column in result_table
@@ -66,7 +67,7 @@ def f(pywikibot, site, repo, time, team_table, separator, test, race_table, race
                         UCI = False
                         WWT = True
                     
-                    id_previous = searchItem(pywikibot, site, master_name + " " +str(year-1))
+                    id_previous = search_item(pywikibot, site, master_name + " " +str(year-1))
                     if id_previous!=u'Q0' and id_previous!=u'Q1':
                         item_previous = pywikibot.ItemPage(repo,id_previous)
                         item_previous .get()

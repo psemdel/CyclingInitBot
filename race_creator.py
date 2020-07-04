@@ -4,48 +4,52 @@ Created on Thu Jan  4 15:29:49 2018
 
 @author: maxime delzenne
 """
-from cycling_init_bot_low import * 
-from calendar_list import *
+from .cycling_init_bot_low import (add_Qvalue, add_date, add_value, CIOtoIDsearch,
+ get_country, get_class_WWT, define_article, create_present, link_year, 
+ add_multiple_value, get_description, get_class_id
+ )
+                                   
+from .calendar_list import calendaruciID, calendarWWTID
 
-def f(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre,
-                 id_race_master,year,UCI,WWT,race_begin,countryCIO,classe,
+def f(pywikibot,site,repo,time,team_table_femmes,race_name,
+                 id_race_master,year,race_begin,countryCIO,classe,
                      single_race,edition_nr,**kwargs):
     #optional: end_date, only_stages, create_stages, first_stage,  last_stage, stage_race_id
     
     def race_basic(pywikibot,repo,item,site,country_code,master,start_date, UCI, WWT, year,
                single_race, **kwargs):
     #No need for the table here
-        add_value(pywikibot,repo,item,31,master,u'Nature')
-        add_value(pywikibot,repo,item,641,3609,u'cyclisme sur route')
+        add_Qvalue(pywikibot,repo,item,"P31",master,u'Nature')
+        add_Qvalue(pywikibot,repo,item,"P641","Q3609",u'cyclisme sur route')
         if country_code!=0:
-            add_value(pywikibot,repo,item,17,country_code,u'country')
+            add_Qvalue(pywikibot,repo,item,"P17",country_code,u'country')
     
         if single_race:
-            add_date(pywikibot, repo, item, 585, start_date, u' date')
+            add_date(pywikibot, repo, item, "P585", start_date, u' date')
         else:
-            add_date(pywikibot,repo,item,580,start_date,u'starting date')
+            add_date(pywikibot,repo,item,"P580",start_date,u'starting date')
             end_date=kwargs.get('end_date')
             print(end_date)
-            add_date(pywikibot,repo,item,582,end_date,u'ending date')
+            add_date(pywikibot,repo,item,"P582",end_date,u'ending date')
     
         if UCI:
             calendar_id=calendaruciID(str(year))
         elif WWT:
             calendar_id=calendarWWTID(str(year))
         if UCI or WWT:
-            add_value(pywikibot,repo,item,361,noQ(calendar_id),u'part of') #
+            add_Qvalue(pywikibot,repo,item,"P361",calendar_id,u'part of') #
     
     def stage_basic(pywikibot,repo,item,site,number,country_code,master):
     
         if number==0:
-            add_value(pywikibot,repo,item,31,485321,u'Nature')  #prologue
+            add_Qvalue(pywikibot,repo,item,"P31","Q485321",u'Nature')  #prologue
         else:
-            add_value(pywikibot,repo,item,31,18131152,u'Nature')  #étape
+            add_Qvalue(pywikibot,repo,item,"P31","Q18131152",u'Nature')  #étape
     
-        add_value(pywikibot,repo,item,361,master,u'part of')
-        add_value(pywikibot,repo,item,641,3609,u'cyclisme sur route')
-        add_value(pywikibot,repo,item,17,country_code,u'country')
-        add_value(pywikibot,repo,item,1545,str(number),u'order')
+        add_Qvalue(pywikibot,repo,item,"P361",master,u'part of')
+        add_Qvalue(pywikibot,repo,item,"P641","Q3609",u'cyclisme sur route')
+        add_Qvalue(pywikibot,repo,item,"P17",country_code,u'country')
+        add_value(pywikibot,repo,item,"P1545",str(number),u'order')
         #race_begin later
     
     def date_finder(pywikibot,repo,site,number,first_stage,last_stage, race_begin,
@@ -79,7 +83,6 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre,
     
         return output_date
     
-    
     def stage_label(number, genre,race_name, year):
         mylabel={}
     
@@ -110,25 +113,31 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre,
         if only_stages:
             stage_race_id=kwargs.get('stage_race_id')
             create_main=False
-            id_present=u'Q'+ str(stage_race_id)
-            item =pywikibot.ItemPage(repo, id_present)
-            item.get()  
+            present_id=stage_race_id
+            item =pywikibot.ItemPage(repo, present_id)
+            item.get() 
+            if countryCIO is None:
+                countryCIO=get_country(pywikibot, repo, present_id)
+            
     if isinstance(countryCIO, str):
-        id_country=CIOtoIDsearch(team_table_femmes, countryCIO)
+        country_id=CIOtoIDsearch(team_table_femmes, countryCIO)
     else:
-        id_country=countryCIO
+        country_id=countryCIO
+    
+    race_genre=define_article(race_name)
+    UCI, WWT=get_class_WWT(classe)
     
     if create_main:
         mylabel={}
         mylabel[u'fr']=race_name + " " + str(year)
-        id_present, item=create_present(pywikibot, site,repo,time,mylabel)
+        present_id, item=create_present(pywikibot, site,repo,time,mylabel)
         
-        if id_present!=u'Q1':
+        if present_id!=u'Q1':
             if get_description('fr',item)=='':
                 mydescription[u'fr']=u'édition ' + str(year) +" "+ race_genre + race_name
                 item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
 
-            race_basic(pywikibot,repo,item,site,id_country,
+            race_basic(pywikibot,repo,item,site,country_id,
                        id_race_master,race_begin, UCI, WWT, year,single_race,end_date=end_date)
             if edition_nr!='':
                  add_value(pywikibot,repo,item,382,int(edition_nr),u'edition nr')
@@ -140,17 +149,17 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre,
             if UCI or WWT:
                 item_calendar =pywikibot.ItemPage(repo, calendar_id)
                 item_calendar.get()
-                add_multiple_value(pywikibot,repo,item_calendar,527,noQ(id_present),u'in',0)
+                add_multiple_value(pywikibot,repo,item_calendar,"P527",present_id,u'in',0)
             
             class_id=get_class_id(classe)
             if class_id:
-                add_multiple_value(pywikibot,repo,item,31, class_id,u'Class',0)
+                add_multiple_value(pywikibot,repo,item,"P31", class_id,u'Class',0)
             #link previous and next
-            link_year(pywikibot, site,repo,id_present,year,race_name)
+            link_year(pywikibot, site,repo,present_id,year,race_name)
             #link to master
-            item_master= pywikibot.ItemPage(repo, u'Q'+ str(id_race_master))
+            item_master= pywikibot.ItemPage(repo, id_race_master)
             item_master.get()
-            add_multiple_value(pywikibot,repo,item_master,527,noQ(id_present),u'link year '+ str(year),0) 
+            add_multiple_value(pywikibot,repo,item_master,"P527",present_id,u'link year '+ str(year),0) 
     
     #Create the stages
     if create_stages or only_stages:   
@@ -167,14 +176,16 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre,
                     mydescription[u'fr']=u'étape'+" " + race_genre + race_name + " "+ str(year)
                     item_stage.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
                 
-                stage_basic(pywikibot,repo,item_stage,site,ii,id_country,noQ(id_present))
+                stage_basic(pywikibot,repo,item_stage,site,ii,country_id,present_id)
                 print(race_begin)
                 stage_date=date_finder(pywikibot,repo,site,ii,first_stage,last_stage, race_begin,end_date)
-                add_date(pywikibot,repo,item_stage,585,stage_date,u'date')
+                add_date(pywikibot,repo,item_stage,"P585",stage_date,u'date')
                 
                 #Link to the master for this year, so item
-                add_multiple_value(pywikibot,repo,item,527,noQ(id_stage_present),u'link stage '+str(ii),0) 
+                add_multiple_value(pywikibot,repo,item,"P527",id_stage_present,u'link stage '+str(ii),0) 
                 #Link to previous
+                id_stage_previous="Q0"
+                
                 if ii==0:
                     lookforprevious=False
                 else:   
@@ -187,15 +198,15 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,race_genre,
                         lookforprevious=True
             
                     if lookforprevious:
-                       # stage_label_previous=stage_label(ii-1, race_genre, race_name, year)
-                       # id_stage_previous=search_item(pywikibot,site,stage_label_previous['fr'])
-                       # if (id_stage_previous!=u'Q0')and(id_stage_previous!=u'Q1'):  #no previous or several
-                        add_value(pywikibot,repo,item_stage,155,noQ(id_stage_previous),u'link previous') 
+                        #stage_label_previous=stage_label(ii-1, race_genre, race_name, year)
+                        #id_stage_previous=search_item(pywikibot,site,stage_label_previous['fr'])
+                        #if (id_stage_previous!=u'Q0')and(id_stage_previous!=u'Q1'):  #no previous or several
+                        add_Qvalue(pywikibot,repo,item_stage,"P155",id_stage_previous,u'link previous') 
                             #Link to the previous
                         item_stage_previous=pywikibot.ItemPage(repo, id_stage_previous)
                         item_stage_previous.get()
-                        add_value(pywikibot,repo,item_stage_previous,156,noQ(id_stage_present),u'link next')
-                    id_stage_previous=id_stage_present     
+                        add_Qvalue(pywikibot,repo,item_stage_previous,"P156",id_stage_present,u'link next')
+                        id_stage_previous=id_stage_present     
                     
             #Link to next
             #Not required 

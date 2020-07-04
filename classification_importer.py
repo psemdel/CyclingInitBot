@@ -5,7 +5,8 @@ Created on Sun Jul 22 16:21:08 2018
 @author: maxime delzenne
 """
 
-from cycling_init_bot_low import * 
+from .cycling_init_bot_low import (get_year, table_reader, search_team_by_code, 
+search_rider, add_winner)
 
 def f(pywikibot,site,repo,general_or_stage, id_race,
                            final, maxkk,test,**kwargs):
@@ -35,6 +36,7 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
         return
     
     startliston=kwargs.get('startliston',True)
+    file=kwargs.get('file','Results')
     
     if general_or_stage in general_or_stage_prop:
         property_nummer=general_or_stage_prop[general_or_stage]
@@ -55,7 +57,7 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
         'bib':[-1,8,''] #dossard
         }
 
-    result_table, row_count, ecart=table_reader('Results',result_dic,0,True) #'input/Results.csv'
+    result_table, row_count, ecart=table_reader(file,result_dic,0,True) #'input/Results.csv'
     
     #post-processing
     maxkk=min(row_count,maxkk)
