@@ -265,12 +265,14 @@ def get_year(pywikibot, repo, present_id):
     item = pywikibot.ItemPage(repo, present_id)
     item.get()
     if (u'P585' in item.claims):
-        this_date = item.claims.get(u'P585')
+         this_claim = item.claims.get(u'P585')
+         this_date = this_claim[0].getTarget()
     elif (u'P580' in item.claims):
-        this_date = item.claims.get(u'P580')
+        this_claim  = item.claims.get(u'P580')
+        this_date = this_claim[0].getTarget()
     else:
         return 0
-    
+
     return int(this_date.year)
 
 # ==Table reader ==
@@ -313,26 +315,29 @@ def excel_to_csv(filepath, destination):
     destination_file.close()
         
 def table_reader(filename,result_dic, startline, verbose):
-    
     default_separator=';'
-    
+        
     #differentiate local from remote
-    if filename[(len(filename)-3):]=='csv' or filename[(len(filename)-4):]=='xlsx':
-        if filename[(len(filename)-3):]=='csv':
-            filepathcsv='uploads/'+filename
-        else:
-            filepathcsv=None
-            filepathxlsx='uploads/'+filename
-    else:
-        filepathcsv='input/'+filename+'.csv'
-        filepathxlsx='input/'+filename+'.xlsx'
+    #if filename[(len(filename)-3):]=='csv' or filename[(len(filename)-4):]=='xlsx':
+   #     if filename[(len(filename)-3):]=='csv':
+   #         filepathcsv='uploads/'+filename
+   #     else:
+   #         filepathcsv=None
+    #        filepathxlsx='uploads/'+filename
+   # else:
+    filepathcsv='src/input/'+filename+'.csv'
+    filepathxlsx='src/input/'+filename+'.xlsx'
         
     if (filepathcsv is not None) and os.path.isfile(filepathcsv):
         filepath=filepathcsv
     elif os.path.isfile(filepathxlsx):
         filepath=excel_to_csv(filepathxlsx)
     else:
+        print('no file found')
         return 0
+    
+    if verbose:
+        print(filepath)
     
     with open(filepath, newline='') as csvfile:
         file_object = csv.reader(csvfile, delimiter=default_separator, quotechar='|')
@@ -574,48 +579,101 @@ def get_class_WWT(classe):
       "1.WWT":True,
       "2.WWT":True,
       "1.Pro":False,
-      "2.Pro":False
-              } 
+      "2.Pro":False,
+      "1.UWT":False,
+      "2.UWT":False,
+         } 
+    
+    dic_UWT={
+      "1.1":False,
+      "2.1":False,
+      "1.2":False,
+      "2.2":False,
+      "1.WWT":False,
+      "2.WWT":False,
+      "1.Pro":False,
+      "2.Pro":False,
+      "1.UWT":True,
+      "2.UWT":True,
+         }  
     
     if classe in dic_WWT:
-        return UCI, dic_WWT[classe]
+        return UCI, dic_WWT[classe], dic_UWT[classe]
     else:
-        return UCI, 0    
+        return UCI, 0, 0    
 
 def get_country(pywikibot, repo, item_id):
     item = pywikibot.ItemPage(repo, item_id)
     item.get()
     if (u'P17' in item.claims):
          P17=item.claims.get(u'P17')
-         return P17[0].getTarget()
+         return P17[0].getTarget().getID()
     else:
         return "Q0"
+ 
+def get_race_begin(pywikibot, repo, item_id):
+    item = pywikibot.ItemPage(repo, item_id)
+    item.get()
+    if (u'P580' in item.claims):
+        this_date = item.claims.get(u'P580')
+    else:
+        return 0
+    
+    return this_date
+
+def get_end_date(pywikibot, repo, item_id):
+    item = pywikibot.ItemPage(repo, item_id)
+    item.get()
+    if (u'P582' in item.claims):
+        this_date = item.claims.get(u'P582')
+    else:
+        return 0
+    return this_date    
+
     
 def get_class(pywikibot, repo, item_id):
     item = pywikibot.ItemPage(repo, item_id)
     item.get()
     
     class_list=[
-    "Q22231110",
-    "Q22231112",
-    "Q22231111",
-    "Q22231113",
-    "Q23005601",
-    "Q23005603",
-     "Q74275170",
-     "Q74275176"]
+        "Q22231106",
+        "Q22231107",
+        "Q22231108",
+        "Q22231109",
+        "Q22231110",
+        "Q22231111",
+        "Q22231112",
+        "Q2231113",
+        "Q22231114",
+        "Q22231115",
+        "Q22231116",
+        "Q22231117",
+        "Q22231118",
+        "Q22231119",
+        "Q23015458",
+        "Q23005601",
+        "Q23005603",
+        "Q74275170",
+        "Q74275176" 
+     ]
     
     if (u'P31' in item.claims):
         P31=item.claims.get(u'P31')
         for p31 in P31:
-            tempQ=p31.getTarget()
+            tempQ=p31.getTarget().getID()
             if tempQ in class_list:
                 return tempQ
-    else:
-        return ""
+    return ""
  
 def define_article(name):
     this_name=ThisName(name)
+    race_name=name
+    
+    correspondance_start={
+        "le " : "du ",
+        "la " : "de la ",
+        "les " : "des "        
+        }
     
     correspondance={
 		"trois":"des ",
@@ -635,18 +693,29 @@ def define_article(name):
 		"classique":"de la ",
 		"race":"de la ",
 		"etoile":"de l'",
-		"la":"de "
+        "championnats": "des ",
+        "championnat": "du ",
+        "chrono": "du ",
+        "contre-la-montre": "du ",
+        "criterium": "du ",
 		}
     
     vocal=['a','e','i','o','u']
     
-    for key in correspondance:
-        if this_name.name_cor.find(key):
-            return correspondance[key]
+    for key in correspondance_start:
+        if this_name.name_cor.find(key)==0:
+            race_name=name[len(key):]
+            
+            return correspondance_start[key], race_name
+   
     if this_name.name_cor[0] in vocal:
-        return "de l'"
+        return "de l'" , race_name
+    
+    for key in correspondance:
+        if this_name.name_cor.find(key)!=-1:
+            return correspondance[key], race_name
 
-    return "du "
+    return "du ", race_name #default
 
 def get_items(api, site, itemtitle):
     params = {
@@ -681,7 +750,11 @@ def get_present_team(pywikibot, site, repo, id_rider, time_of_race):
             else:
                 end_time = pywikibot.WbTime(
                     site=site, year=2100, month=1, day=1, precision='day')
-            if (compare_dates(begin_time,time_of_race) == 2 or compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or compare_dates(begin_time,time_of_race) == 0):
+            
+            #if begin <= time <= end
+            if (compare_dates(begin_time,time_of_race) == 2 or 
+                compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or
+                compare_dates(end_time,time_of_race) == 0):
                 result = this_team.getTarget().getID()
                 break
     return result

@@ -6,7 +6,12 @@ Created on Sun Feb 16 20:10:48 2020
 @author: maxime
 """
 
+import pywikibot
 import unittest
+from src.moo import (concaten, ThisName, Cyclist, Race, Team)
+
+site = pywikibot.Site("wikidata", "wikidata")
+repo = site.data_repository()
 
 class TestMoo(unittest.TestCase):
     def test_contagen(self):

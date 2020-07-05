@@ -6,14 +6,14 @@ Created on Thu Jan  4 15:29:49 2018
 """
 from .cycling_init_bot_low import (add_Qvalue, add_date, add_value, CIOtoIDsearch,
  get_country, get_class_WWT, define_article, create_present, link_year, 
- add_multiple_value, get_description, get_class_id
+ add_multiple_value, get_description, get_class_id, get_race_begin, get_end_date,
+ get_class, get_year
  )
                                    
 from .calendar_list import calendaruciID, calendarWWTID
 
 def f(pywikibot,site,repo,time,team_table_femmes,race_name,
-                 id_race_master,year,race_begin,countryCIO,classe,
-                     single_race,edition_nr,**kwargs):
+                 year,single_race,**kwargs):
     #optional: end_date, only_stages, create_stages, first_stage,  last_stage, stage_race_id
     
     def race_basic(pywikibot,repo,item,site,country_code,master,start_date, UCI, WWT, year,
@@ -98,33 +98,51 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
  
     ##main starts here##
     mydescription={}
-    create_main=True
-    
+    race_begin=kwargs.get('race_begin')
+    end_date=kwargs.get('end_date')
+    classe=kwargs.get('classe')
+    countryCIO=kwargs.get('countryCIO')
+    id_race_master=kwargs.get('id_race_master')
+    edition_nr=kwargs.get('edition_nr')
+    year=kwargs.get('year')
+
     if single_race:
         only_stages=False
         create_stages=False
         end_date=None
     else:
         only_stages=kwargs.get('only_stages')
-        end_date=kwargs.get('end_date')
-        create_stages=kwargs.get('create_stages')
         first_stage=kwargs.get('first_stage')
         last_stage=kwargs.get('last_stage')
         if only_stages:
             stage_race_id=kwargs.get('stage_race_id')
+            create_stages=True
             create_main=False
             present_id=stage_race_id
             item =pywikibot.ItemPage(repo, present_id)
             item.get() 
             if countryCIO is None:
                 countryCIO=get_country(pywikibot, repo, present_id)
+            if race_begin is None:
+                race_begin=get_race_begin(pywikibot, repo, present_id)
+            if end_date is None:
+                end_date=get_end_date(pywikibot, repo, present_id)
+            if classe is None:
+                classe=get_class(pywikibot, repo, present_id)
+            if year is None:
+                year=get_year(pywikibot, repo, present_id)
+        else:
+            create_stages=kwargs.get('create_stages')
+            create_main=True
+            if year is None and race_begin is not None: 
+                year=race_begin.year
             
     if isinstance(countryCIO, str):
         country_id=CIOtoIDsearch(team_table_femmes, countryCIO)
     else:
         country_id=countryCIO
     
-    race_genre=define_article(race_name)
+    race_genre, race_name=define_article(race_name)
     UCI, WWT=get_class_WWT(classe)
     
     if create_main:
@@ -162,7 +180,7 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
             add_multiple_value(pywikibot,repo,item_master,"P527",present_id,u'link year '+ str(year),0) 
     
     #Create the stages
-    if create_stages or only_stages:   
+    if create_stages:   
         print("stage creation")
         stage_label_present={}  
         
