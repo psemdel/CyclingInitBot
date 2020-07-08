@@ -39,7 +39,7 @@ def cycling_init_bot():
         option=u'clmon' #'clmoff'
         start_year=2020
         end_year=2021
-        national_championship_creator.f(pywikibot,site,repo,time,nation_table,
+        national_championship_creator.f(pywikibot,site,repo,time,cc_table,
                                     man_or_woman,option,start_year,end_year,True)      
         
     elif selector==2:#
@@ -174,7 +174,8 @@ def cycling_init_bot():
         from src import rider_fast_init
         name=u"Victoria Kondel"
         countryCIO=u'RUS'
-        rider_fast_init.f(pywikibot,site,repo,time,nation_table, name,countryCIO)
+        man_or_woman=u'woman'
+        rider_fast_init.f(pywikibot,site,repo,time,nation_table, name,countryCIO,man_or_woman)
     elif selector==13:
         from src import champ_list_creator
         champ_list_creator.f(pywikibot,site,repo,time)

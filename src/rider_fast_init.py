@@ -18,21 +18,28 @@ def f(
         time,
         team_table,
         name,
-        CountryCIO):
+        CountryCIO,
+        man_or_woman):
     
-    def create_fr_description(CountryCIO,team_table):
+    def create_fr_description(CountryCIO,team_table,man_or_woman):
         mydescription = {}
         adj=u''
         for ii in range(len(team_table)):
             if team_table[ii][7] == CountryCIO:
-                adj = team_table[ii][16]
+                if man_or_woman==u'man':
+                    adj = team_table[ii][17]
+                else:
+                    adj = team_table[ii][16]
                 break
-        mydescription['fr'] = 'coureuse cycliste ' + adj
+        if man_or_woman==u'man':
+            mydescription['fr'] = 'coureur cycliste ' + adj
+        else:   
+            mydescription['fr'] = 'coureuse cycliste ' + adj
         return mydescription
     
     try:
         print("rider_fast_init")
-        mydescription=create_fr_description(CountryCIO,team_table)
+        mydescription=create_fr_description(CountryCIO,team_table,man_or_woman)
         label = {}
         label['fr'] = name
     
@@ -50,7 +57,10 @@ def f(
             item.editDescriptions(mydescription,
                                   summary=u'Setting/updating descriptions.')
             add_Qvalue(pywikibot, repo, item, "P31", "Q5", u'nature')
-            add_Qvalue(pywikibot, repo, item, "P21", "Q6581072", u'genre')
+            if man_or_woman==u'man':
+                add_Qvalue(pywikibot, repo, item, "P21", "Q6581097", u'genre')
+            else:
+                add_Qvalue(pywikibot, repo, item, "P21", "Q6581072", u'genre')
             add_Qvalue(
                 pywikibot,
                 repo,
@@ -76,8 +86,9 @@ if __name__ == '__main__' :
     nation_table= nation_team_table.load()
     name="Marianne Vos"
     countryCIO="NED" 
+    man_or_woman=u"woman"
     
     try:
-        f(pywikibot, site, repo, time, nation_table, name, countryCIO)
+        f(pywikibot, site, repo, time, nation_table, name, countryCIO,man_or_woman)
     except Exception as msg:
         print(msg)
