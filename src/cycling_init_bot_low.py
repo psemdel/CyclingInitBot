@@ -27,7 +27,7 @@ def checkprop(property_nummer):
     return prop
 
 def checkid(this_id): #avoid need for noQ and such parasit things
-    if this_id[0]==u'Q':
+    if type(this_id)==str and this_id[0]==u'Q':
         result_id=this_id
     else:
         result_id=u'Q' + str(this_id)
