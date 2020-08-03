@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 """
 Created on Sat Jan  6 15:38:42 2018
-
 @author: psemdel
 """
  
@@ -20,7 +18,7 @@ import os.path
 
 # ==Low level function ==
 def checkprop(property_nummer):
-    if property_nummer[0]=="P":
+    if type(property_nummer)==str and property_nummer[0]=="P":
         prop=property_nummer
     else:
         prop=u'P' + str(property_nummer)
@@ -316,17 +314,19 @@ def excel_to_csv(filepath, destination):
         
 def table_reader(filename,result_dic, startline, verbose):
     default_separator=';'
-        
+
     #differentiate local from remote
-    #if filename[(len(filename)-3):]=='csv' or filename[(len(filename)-4):]=='xlsx':
-   #     if filename[(len(filename)-3):]=='csv':
-   #         filepathcsv='uploads/'+filename
-   #     else:
-   #         filepathcsv=None
-    #        filepathxlsx='uploads/'+filename
-   # else:
-    filepathcsv='src/input/'+filename+'.csv'
-    filepathxlsx='src/input/'+filename+'.xlsx'
+    if filename[(len(filename)-3):]=='csv' or filename[(len(filename)-4):]=='xlsx':
+        if filename[(len(filename)-3):]=='csv':
+            filepathcsv='uploads/'+filename
+        else:
+            filepathcsv=None
+            filepathxlsx='uploads/'+filename
+    elif filename=="champ":
+        filepathcsv="src/input/champ.csv"
+    else:
+        filepathcsv='src/input/'+filename+'.csv'
+        filepathxlsx='src/input/'+filename+'.xlsx'
         
     if (filepathcsv is not None) and os.path.isfile(filepathcsv):
         filepath=filepathcsv
@@ -409,6 +409,7 @@ def table_reader(filename,result_dic, startline, verbose):
 #create a list of cyclist objects from result_table
 def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwargs):
     list_of_cyclists = []
+    all_riders_found=True
     
     #check if all riders are already present
     for ii in range(len(result_table)):
@@ -428,6 +429,7 @@ def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwar
                this_rider.dossard=result_table[ii][result_dic['bib'][1]]
                this_rider.rank=result_table[ii][result_dic['rank'][1]]
            else:
+               all_riders_found=False
                print(str(result_table[ii][result_dic['name'][1]]) + " " + 
                      str(result_table[ii][result_dic['last name'][1]]) + " " + 
                      str(result_table[ii][result_dic['bib'][1]]) + " not found")
@@ -435,7 +437,7 @@ def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwar
            list_of_cyclists.append(this_rider)
 
     print('list of cyclists created')
-    return list_of_cyclists
+    return list_of_cyclists, all_riders_found
 
 # ==Search ==
 def search_race(name, race_table,race_dic):
@@ -751,12 +753,10 @@ def get_present_team(pywikibot, site, repo, id_rider, time_of_race):
                 end_time = pywikibot.WbTime(
                     site=site, year=2100, month=1, day=1, precision='day')
             
-            #if begin <= time <= end
-            if (compare_dates(begin_time,time_of_race) == 2 or 
-                compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or
-                compare_dates(end_time,time_of_race) == 0):
+            if (compare_dates(begin_time,time_of_race) == 2 or compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or compare_dates(end_time,time_of_race) == 0):
                 result = this_team.getTarget().getID()
                 break
+
     return result
 
 def teamCIOsearch(team_table, CIOcode):
@@ -816,5 +816,3 @@ def get_alias(language, wikidataitem):
         return wikidataitem.aliases[language]
     else:
         return('')
-
-

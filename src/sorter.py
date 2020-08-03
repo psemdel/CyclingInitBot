@@ -5,8 +5,8 @@ Created on Sat Jan  6 11:48:04 2018
 @author: psemdel
 """
 from .cycling_init_bot_low import (delete_value, add_multiple_value, compare_dates,
-get_label)
-from .moo import Race, Cyclist
+get_label, checkprop)
+from .moo import Race, Cyclist, Team
 
 
 #sort the victories by date
@@ -39,13 +39,9 @@ def date_sorter(pywikibot, site, repo, time, team_id, property_number,test):
     
     list_of_races = []
 
-   # if victory:
-  #      property_number = 2522  # victoire
-   # else:
-  #      property_number = 527  # comprend
-
-    if(u'P' + str(property_number) in item.claims):
-        list_of_comprend = item.claims.get(u'P' + str(property_number))
+    prop=checkprop(property_number)
+    if(prop in item.claims):
+        list_of_comprend = item.claims.get(prop)
     
     list_of_qualifiers=['P580','P585','P582']
     
@@ -120,14 +116,18 @@ def name_sorter(pywikibot, site, repo, time, team_id, property_number, test):
         ]
     
     team=False
+    raceteam=False
     if u'P31' in item.claims:
         list_of_comprend = item.claims.get(u'P31')
         if list_of_comprend[0].getTarget() in list_of_team_cat:
             team=True
 
     # Read the list of racers and correct their name
-    if(u'P' + str(property_number) in item.claims):
-        list_of_comprend = item.claims.get(u'P' + str(property_number))
+    prop=checkprop(property_number)
+    if(prop in item.claims):
+        list_of_comprend = item.claims.get(prop)
+    if prop ==u"P1923":
+        raceteam=True
     
     list_of_names = [[u'' for x in range(2)] for y in range(len(list_of_comprend))]
     
@@ -135,7 +135,10 @@ def name_sorter(pywikibot, site, repo, time, team_id, property_number, test):
         this_item = list_of_comprend[ii].getTarget()
         this_item.get()
         this_label=get_label('fr', this_item)
-        if team:
+        if raceteam:
+            teamdate=''
+            this_object=Team(ii, this_label, this_item.getID(),teamdate,site=site, pywikibot=pywikibot)
+        elif team:
             this_object=Cyclist(ii, this_label, this_item.getID())
         else:
             this_object=Race(ii, this_label, this_item.getID(),'',site=site, pywikibot=pywikibot)
@@ -150,10 +153,7 @@ def name_sorter(pywikibot, site, repo, time, team_id, property_number, test):
     print(sorted_names)
     order_ok=True
     
-    #if team:
     list_of_qualifiers=['P580','P582']
-    #else:
-    #    list_of_qualifiers=[]
         
     saved_qualifiers={}
     # delete done later
@@ -165,7 +165,7 @@ def name_sorter(pywikibot, site, repo, time, team_id, property_number, test):
                 key = sorted_names[ii][0]
                 id_item =list_of_objects[key].id_item
                 # delete the old one
-                allclaims = item.claims[u'P' + str(property_number)]
+                allclaims = item.claims[prop]
                 claim = allclaims[0]
         
                 # Save the qualifiers
