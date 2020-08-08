@@ -40,9 +40,11 @@ def f(pywikibot,site,repo, prologue_or_final, id_race, time_of_race,chrono,test,
          item.get() 
          already_list=False
          year=time_of_race.year
-         if(u'P'+str('710') in item.claims) and prologue_or_final==0:  #already there do nothing
-            print(u'List of starters already there')
-         else:   
+         if((u'P'+str('710') in item.claims) 
+            and (prologue_or_final==0 or prologue_or_final==2)):  #already there do nothing
+             print(u'warning')
+             print(u'List of starters already there')
+         if True:   
             #check national team
             national_team_detected=False
             all_same_team=True
@@ -88,12 +90,15 @@ def f(pywikibot,site,repo, prologue_or_final, id_race, time_of_race,chrono,test,
                     print(u'team')
                     print(team)
                     if proteam==u'reset':
-                        proteam=team
+                        if team!="Q1":
+                            proteam=team
                     else:
                         if team!='Q1' and proteam!=team: 
                             all_same_team=all_same_team-1
-                            print('all_same_team')
+                            print('not all_same_team')
                             print(all_same_team)
+                        elif team=='Q1':
+                            all_same_team=all_same_team-1
             
             #last team
             if national_team_detected and all_same_team<0:
