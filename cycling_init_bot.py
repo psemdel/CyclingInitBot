@@ -15,7 +15,7 @@ repo = site.data_repository()
 def cycling_init_bot():
     nation_table= nation_team_table.load()
 
-    selector=6
+    selector=17
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -85,9 +85,9 @@ def cycling_init_bot():
         pro_team_creator.f(pywikibot,site,repo,time,team_table,nation_table,pro_or_amateur, team_dic,year)
     elif selector==5:   
         from src import sorter
-        id_team=u'Q48994098'
+        id_team=u'Q78661075'
         # 'has part (P527)', 'participating team (P1923)'
-        prop="P527"
+        prop="P1923"
         test=False
         
         sorter.name_sorter( pywikibot,site,repo,time,id_team, prop , test)
@@ -151,29 +151,29 @@ def cycling_init_bot():
          
     elif selector==9:
         from src import classification_importer
-        id_race='Q17010500'
-        stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
+        id_race='Q78661075'
+        stage_or_general=7# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
         final=False
         maxkk=10
-        year=2013 #for team
+        year=2020 #for team
         startliston=False
         test=False
         classification_importer.f(pywikibot,site,repo,stage_or_general,id_race,final,
                                maxkk,test,year=year,startliston=startliston)
     elif selector==10:
         from src import startlist_importer
-        id_race='Q48994098'
+        id_race='Q48994616'
         prologue_or_final=2 #0=prologue, 1=final, 2=one day race
         chrono=False
         test=False
-        time_of_race=pywikibot.WbTime(site=site,year=2012, month=2, day=20, precision='day')    
+        time_of_race=pywikibot.WbTime(site=site,year=2011, month=4, day=16, precision='day')    
         startlist_importer.f(pywikibot,site,repo, prologue_or_final, id_race, 
                                    time_of_race,chrono,test,nation_table)  
     elif selector==12:
         from src import rider_fast_init
-        name=u"Victoria Kondel"
-        countryCIO=u'RUS'
+        name=u"Natalija Bakula"
+        countryCIO=u'CRO'
         man_or_woman=u'woman'
         rider_fast_init.f(pywikibot,site,repo,time,nation_table, name,countryCIO,man_or_woman)
     elif selector==13:
@@ -210,7 +210,13 @@ def cycling_init_bot():
                       only_stages=True,
                       first_stage=first_stage,
                       last_stage=last_stage)
-
+    elif selector==17:
+        from src import get_rider_tricot
+        id_race='Q48994616'
+        chrono=False
+        test=False
+        time_of_race=pywikibot.WbTime(site=site,year=2011, month=4, day=16, precision='day')    
+        get_rider_tricot.scan(pywikibot,site,repo, id_race, time_of_race,chrono, test)
     else: 
         print('do nothing')
         

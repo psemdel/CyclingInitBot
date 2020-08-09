@@ -5,8 +5,9 @@ Created on Thu Dec 19 20:38:20 2019
 
 @author: maxime
 """
-from .cycling_init_bot_low import compare_dates, table_reader
-
+from .cycling_init_bot_low import (compare_dates, table_reader, cyclists_table_reader,
+                                   get_label)
+                                   
 def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, **kwargs):
     #look for the tricot of rider
     def disambiguation(this_champ, ischamp, result_table,result_dic, row_count, road_or_clm, time_of_race):
@@ -29,14 +30,14 @@ def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, **kwargs):
         return 0 #nothing           
     
     def insert_quali(site,repo,quali,claim):
-        print(claim)
         if quali!=0:  
            target_qualifier = pywikibot.ItemPage(repo, quali)
            qualifier_tricot=pywikibot.page.Claim(site, 'P2912', is_qualifier=True)
            qualifier_tricot.setTarget(target_qualifier)
            claim.addQualifier(qualifier_tricot)  
   
-    def sub_function(result_table,result_dic,road_or_clm,id_worldchamp,id_eurchamp, time_of_race,repo,claim,test):
+    def sub_function(result_table,result_dic,road_or_clm,id_worldchamp,id_eurchamp,
+                     time_of_race,repo,claim,test,id_rider):
             worldchamp=0 #0 is we don't know, 1 is yes, -1 is no
             eurchamp=0
             champ=0
@@ -71,14 +72,18 @@ def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, **kwargs):
             isworldchamp=disambiguation(worldchamp, isworldchamp, result_table, result_dic, row_count, road_or_clm, time_of_race)
             iseurchamp=disambiguation(eurchamp, iseurchamp, result_table, result_dic, row_count, road_or_clm, time_of_race)
 
+            if isworldchamp==1 or iseurchamp==1 or ischamp==1:
+                item_rider =pywikibot.ItemPage(repo, id_rider)
+                item_rider.get() 
+                rider_label=get_label('fr', item_rider)
             if isworldchamp==1:
-                print('this is the world ' + road_or_clm + ' champ')
+                print(rider_label+' is the world ' + road_or_clm + ' champ')
                 quali=worldchamp
             elif iseurchamp==1:
-               print('this is the european ' + road_or_clm + ' champ')  
+               print(rider_label+' is the european ' + road_or_clm + ' champ')  
                quali=eurchamp
             elif ischamp==1:
-               print('this is the ' + road_or_clm + ' champ')
+               print(rider_label+' is the ' + road_or_clm + ' champ')
                quali=champ
             else:
                 return 0
@@ -109,13 +114,46 @@ def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, **kwargs):
 
     for ii in range(row_count):
         if id_rider==result_table[ii][result_dic['road winner'][1]]:
-            result=sub_function(result_table,result_dic,'road',id_worldroadchamp,id_eurroadchamp, time_of_race,repo,claim,test)
+            result=sub_function(result_table,result_dic,'road',id_worldroadchamp,id_eurroadchamp, 
+                                time_of_race,repo,claim,test,id_rider)
             if test and result!=0:
                 return result
         if chrono:   
             if id_rider==result_table[ii][result_dic['clm winner'][1]]:
-                result=sub_function(result_table,result_dic,'clm',id_worldclmchamp,id_eurclmchamp, time_of_race,repo,claim,test)
+                result=sub_function(result_table,result_dic,'clm',id_worldclmchamp,id_eurclmchamp,
+                                    time_of_race,repo,claim,test,id_rider)
                 if test and result!=0:
                     return result
     if test:
         return 0
+
+def scan(pywikibot,site,repo, id_race, time_of_race,chrono, test):
+    
+    result_dic={
+    'rank':[-1, 0, ''],
+    'last name':[-1, 1,''],
+    'first name':[-1, 2,''],
+    'name':[-1, 3,''],
+    'result':[-1, 4,'time'],  #startlist only with time
+    'points':[-1, 5, 'points'],
+    'team code':[-1, 7, ''],
+    'ecart':[1,6,'time'],  #always created
+    'bib':[-1,8,''] #dossard
+    }
+    
+    result_table, row_count, ecart=table_reader('Results', result_dic,0,True)
+    #Sort by dossard
+    result_table=sorted(result_table, key=lambda tup: int(tup[8]))
+    print('table read and sorted')
+    list_of_cyclists, all_riders_found=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, nosortkey=True)
+    
+    if not test:
+         item =pywikibot.ItemPage(repo, id_race)
+         item.get() 
+
+         for ii in range(row_count):
+            if list_of_cyclists[ii].id_item!='Q0' and list_of_cyclists[ii].id_item!='Q1':
+                this_rider=list_of_cyclists[ii]
+                claim=pywikibot.Claim(repo, u'P710')  #reinit everytime
+                f(pywikibot,site,repo,this_rider.id_item,time_of_race,claim,chrono)
+             
