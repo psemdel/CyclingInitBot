@@ -7,8 +7,9 @@ Created on Thu Dec 19 20:38:20 2019
 """
 from .cycling_init_bot_low import (compare_dates, table_reader, cyclists_table_reader,
                                    get_label)
+from .bot_log import Log
                                    
-def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, **kwargs):
+def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, man_or_woman, **kwargs):
     #look for the tricot of rider
     def disambiguation(this_champ, ischamp, result_table,result_dic, row_count, road_or_clm, time_of_race):
         if this_champ!=0 and ischamp==0:
@@ -110,8 +111,11 @@ def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, **kwargs):
     id_eurclmchamp= u'Q30894543'
     
     test=kwargs.get('test',False)
-    result_table, row_count, ecart=table_reader('champ',result_dic,0,False)
-
+    if man_or_woman==u'woman':
+        result_table, row_count, ecart=table_reader('champ',result_dic,0,False)
+    else:
+        result_table, row_count, ecart=table_reader('champ_man',result_dic,0,False)
+        
     for ii in range(row_count):
         if id_rider==result_table[ii][result_dic['road winner'][1]]:
             result=sub_function(result_table,result_dic,'road',id_worldroadchamp,id_eurroadchamp, 
@@ -141,10 +145,11 @@ def scan(pywikibot,site,repo, id_race, time_of_race,chrono, test):
     'bib':[-1,8,''] #dossard
     }
     
+    log=Log()
     result_table, row_count, ecart=table_reader('Results', result_dic,0,True)
     #Sort by dossard
     result_table=sorted(result_table, key=lambda tup: int(tup[8]))
-    print('table read and sorted')
+    log.concat('table read and sorted')
     list_of_cyclists, all_riders_found=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, nosortkey=True)
     
     if not test:

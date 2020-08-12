@@ -7,6 +7,7 @@ Created on Thu Dec 19 20:35:53 2019
 """
 from .cycling_init_bot_low import get_label
 import csv
+from .bot_log import Log
 
 def f(pywikibot,site,repo,time):
     
@@ -104,7 +105,8 @@ def f(pywikibot,site,repo,time):
     }
     
     verbose=False
-           
+    log=Log()
+       
     startYear=2017
     EndYear=2021
     champ_table = [[0 for x in range(10)] for y in range(1000)] 
@@ -115,16 +117,16 @@ def f(pywikibot,site,repo,time):
 
     #fill world champs...
     champ_table, ll_road=sub_champlist(champ_table, result_dic,dic_road_race, 'Road',1)
-    print("Road world and continental championships completed")
+    log.concat("Road world and continental championships completed")
     champ_table, ll_clm=sub_champlist(champ_table, result_dic,dic_clm, 'Clm',1)
-    print("Clm world and continental championships completed")
+    log.concat("Clm world and continental championships completed")
     
     if verbose:     
-        print(champ_table)  
+        log.concat(champ_table)  
 
     #Look in the national championships
     for ii in range( startYear,EndYear):
-        print("start year " + str(ii))
+        log.concat("start year " + str(ii))
         id_all_national=dic[ii]
         item_all_national =pywikibot.ItemPage(repo, id_all_national)
         item_all_national.get()
@@ -147,7 +149,7 @@ def f(pywikibot,site,repo,time):
     final_table=champ_table[:ll_max]
 
     if verbose:     
-        print(champ_table)  
+        log.concat(champ_table)  
     with open('input/champ2.csv', 'w', newline='') as csvFile:
         writer = csv.writer(csvFile, delimiter=';')
         writer.writerows(final_table)

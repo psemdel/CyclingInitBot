@@ -7,6 +7,7 @@ Created on Sun Jul 22 16:21:08 2018
 
 from .cycling_init_bot_low import (get_year, table_reader, search_team_by_code, 
 search_rider, add_winner)
+from .bot_log import Log
 
 def f(pywikibot,site,repo,general_or_stage, id_race,
                            final, maxkk,test,**kwargs):
@@ -27,7 +28,7 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
             }
     
     verbose=False
-   
+    log=Log()
     year=kwargs.get('year',0)
     if year==0:
         year=get_year(pywikibot, repo, id_race)
@@ -77,7 +78,7 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
                 result_table[ii][result_dic['points'][1]]=result_table[ii][result_dic['result'][1]]
     
     
-    print('result_table created')
+    log.concat('result_table created')
     if verbose:
         print(result_table[0:maxkk])
     item =pywikibot.ItemPage(repo, id_race)
@@ -96,11 +97,11 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
             if(u'P710' in item_with_startlist.claims): 
                 startlist=item_with_startlist.claims.get(u'P'+str(710))
                 there_is_a_startlist=True
-                print('startlist found')
+                log.concat('startlist found')
     
     if not test:
         if(u'P'+str(property_nummer) in item.claims):  #already there do nothing
-            print(u'Classification already there')
+            log.concat(u'Classification already there')
         else: 
             claim=pywikibot.Claim(repo, u'P'+str(property_nummer))  
             for ii in range(maxkk):
@@ -150,10 +151,10 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
                        add_winner(pywikibot, site,repo,item,this_id,result_table[ii][result_dic['rank'][1]],general_or_stage) 
                        
                 else:
-                   print(str(result_table[ii][result_dic['name'][1]]) + ', ' +str(result_table[ii][result_dic['last name'][1]]))
-                   print(u'interrupted at row ' + str(ii))
+                   log.concat(str(result_table[ii][result_dic['name'][1]]) + ', ' +str(result_table[ii][result_dic['last name'][1]]))
+                   log.concat(u'interrupted at row ' + str(ii))
                    return 0
-        print('result inserted')
+        log.concat('result inserted')
         #fill startlist with DNF, HD and so on
         if there_is_a_startlist and general_or_stage==1:
             qualifier_DNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)

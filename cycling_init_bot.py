@@ -58,7 +58,9 @@ def cycling_init_bot():
         from src import race_list
         race_table, race_dic = race_list.load()
         test=False
-        calendar_importer.f(pywikibot, site, repo,time, nation_table, ";", test, race_table, race_dic)
+        man_or_woman=u'woman'
+        
+        calendar_importer.f(pywikibot, site, repo,time, nation_table, ";", test, race_table, race_dic, man_or_woman)
     elif selector==4: 
         #more details in the table with activate and group
         from src import pro_team_creator
@@ -113,11 +115,13 @@ def cycling_init_bot():
         classe='2.2'
         edition_nr=''
         single_race=False
+        man_or_woman=u'woman'
         
         race_creator.f(pywikibot,site,repo,time,
                       nation_table,
                       race_name,
                       single_race,
+                      man_or_woman,
                       id_race_master=id_race_master,
                       countryCIO=countryCIO,
                       classe=classe,
@@ -138,11 +142,13 @@ def cycling_init_bot():
          classe='1.2'
          edition_nr=''
          single_race=True
+         man_or_woman=u'woman'
          
          race_creator.f(pywikibot,site,repo,time,
                 nation_table,
                 race_name,
                 single_race,
+                man_or_woman,
                 race_begin=race_date,
                 edition_nr=edition_nr,
                 id_race_master=id_race_master,
@@ -167,9 +173,10 @@ def cycling_init_bot():
         prologue_or_final=2 #0=prologue, 1=final, 2=one day race
         chrono=False
         test=False
+        man_or_woman=u'woman'
         time_of_race=pywikibot.WbTime(site=site,year=2011, month=4, day=16, precision='day')    
         startlist_importer.f(pywikibot,site,repo, prologue_or_final, id_race, 
-                                   time_of_race,chrono,test,nation_table)  
+                                   time_of_race,chrono,test,nation_table,man_or_woman)  
     elif selector==12:
         from src import rider_fast_init
         name=u"Natalija Bakula"

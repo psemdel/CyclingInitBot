@@ -10,6 +10,7 @@ Created on Tue Dec 17 23:05:33 2019
 from .cycling_init_bot_low import (search_rider,  teamCIOsearch, create_item, 
                                    add_Qvalue)
 
+from .bot_log import Log
                                    
 def f(
         pywikibot,
@@ -39,6 +40,7 @@ def f(
     
     try:
         print("rider_fast_init")
+        log=Log()
         mydescription=create_fr_description(CountryCIO,team_table,man_or_woman)
         label = {}
         label['fr'] = name
@@ -46,11 +48,12 @@ def f(
         ## kkinit=teamCIOsearch(team_table, u'NAM')
         kk = teamCIOsearch(team_table, CountryCIO)
         id_rider = search_rider(pywikibot, site, repo,name,'','')
-        print("id_rider")
-        print(id_rider)
+
         if (id_rider == u'Q0'):  # no rider with this name
             id_rider = create_item(pywikibot, site, label)
-            print(id_rider)
+            
+            log.concat("new id rider")
+            log.concat(id_rider)
             item = pywikibot.ItemPage(repo, id_rider)
             item.get()
             
@@ -70,10 +73,12 @@ def f(
                 u'nationality')
             add_Qvalue(pywikibot, repo, item, "P106", "Q2309784", u'cyclist')
         else:
-            raise Exception("AlreadyThere")
-
+            log.concat("AlreadyThere with id " +id_rider)
+            return 1, log
+        return 0, log
     except:
-        raise Exception("General Error in rider_fast_init")
+        log.concat("General Error in rider_fast_init")
+        return 10, log
         
 if __name__ == '__main__' :
     from . import pywikibot

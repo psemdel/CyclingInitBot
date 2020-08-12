@@ -6,6 +6,7 @@ Created on Thu Jan  4 15:28:39 2018
 from .cycling_init_bot_low import (add_multiple_value, add_value, add_Qvalue,
 add_to_master,
 get_description, get_alias, create_present, CIOtoIDsearch, link_year)                                  
+from .bot_log import Log
 
 def f(
         pywikibot,
@@ -114,6 +115,7 @@ def f(
     
     kkinit = 1
     endkk=len(team_table)
+    log=Log()
     
     if True:
         for kk in range(kkinit, endkk): 
@@ -124,7 +126,7 @@ def f(
                 id_present, item=create_present(pywikibot, site,repo,time,mylabel)
                 
                 if id_present!=u'Q1':
-                    print(id_present)
+                    log.concat("team id: " + id_present)
                     team_intro(item, team_table, kk, year, team_dic)
                     team_basic(
                         pywikibot,
@@ -144,4 +146,4 @@ def f(
                     name_previous=team_label(team_table, kk, year-1)
                     name_next=team_label(team_table, kk, year+1)
                     link_year(pywikibot, site,repo, id_present,name_previous[u'fr'],name_next[u'fr'])
-
+    return 0, log

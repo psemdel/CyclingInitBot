@@ -10,7 +10,8 @@ import pywikibot
 import unittest
 from src.cycling_init_bot_low import (search_race, is_it_a_cyclist, search_item,
 search_rider, define_article, get_class, get_present_team, CIOtoIDsearch,
-get_class_WWT, get_country, table_reader, compare_dates, get_year)
+get_class_WWT, get_country, table_reader, compare_dates, get_year, checkid,
+checkprop, get_single_or_stage)
 from src import race_list
 from src import nation_team_table
 
@@ -76,7 +77,21 @@ class TestSearch(unittest.TestCase):
     def test_get_present_team(self):
         this_date1=pywikibot.WbTime(site=site,year=2009, month=12, day=31, precision='day')    
         self.assertEqual(get_present_team(pywikibot, site, repo, "Q563737", this_date1), "Q604919")
- 
+        this_date1=pywikibot.WbTime(site=site,year=2009, month=1, day=1, precision='day')    
+        self.assertEqual(get_present_team(pywikibot, site, repo, "Q563737", this_date1), "Q604919")
+        this_date1=pywikibot.WbTime(site=site,year=2010, month=12, day=31, precision='day')    
+        self.assertEqual(get_present_team(pywikibot, site, repo, "Q563737", this_date1), "Q1")
+        this_date1=pywikibot.WbTime(site=site,year=2012, month=1, day=1, precision='day')    
+        self.assertEqual(get_present_team(pywikibot, site, repo, "Q563737", this_date1), "Q17011604")
+        this_date1=pywikibot.WbTime(site=site,year=2015, month=1, day=1, precision='day')    
+        self.assertEqual(get_present_team(pywikibot, site, repo, "Q563737", this_date1), "Q1886678")
+        this_date1=pywikibot.WbTime(site=site,year=2017, month=1, day=1, precision='day')    
+        self.assertEqual(get_present_team(pywikibot, site, repo, "Q563737", this_date1), "Q2651858")
+        this_date1=pywikibot.WbTime(site=site,year=2018, month=1, day=1, precision='day')    
+        self.assertEqual(get_present_team(pywikibot, site, repo, "Q563737", this_date1), "Q2651858")
+        this_date1=pywikibot.WbTime(site=site,year=2019, month=1, day=1, precision='day')    
+        self.assertEqual(get_present_team(pywikibot, site, repo, "Q563737", this_date1), "Q2651858")
+        
     def test_CIOtoIDsearch(self):
         team_table=nation_team_table.load()
         self.assertEqual(CIOtoIDsearch(team_table, "FRA") , 142)
@@ -113,6 +128,23 @@ class TestSearch(unittest.TestCase):
    
         result_table, row_count, ecart= table_reader('champ',result_dic, 0, False)
         self.assertTrue(row_count>0)
-          
+
+    def test_checkprop(self):
+        self.assertEqual(checkprop("P5"),"P5")
+        self.assertEqual(checkprop("5"),"P5")
+        self.assertEqual(checkprop(5),"P5")
+
+    def test_checkid(self):
+        self.assertEqual(checkid("Q5"),"Q5")
+        self.assertEqual(checkid("5"),"Q5")
+        self.assertEqual(checkid(5),"Q5")
+
+    def test_get_single_or_stage(self):
+        self.assertEqual(get_single_or_stage("1.1"),True)
+        self.assertEqual(get_single_or_stage("2.1"),False)
+        self.assertEqual(get_single_or_stage(21),True) 
+        self.assertEqual(get_single_or_stage("abc"),True)
+        
+        
 if __name__ == '__main__':
     unittest.main()

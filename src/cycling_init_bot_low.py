@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
 Created on Sat Jan  6 15:38:42 2018
+
 @author: psemdel
 """
  
@@ -314,7 +316,7 @@ def excel_to_csv(filepath, destination):
         
 def table_reader(filename,result_dic, startline, verbose):
     default_separator=';'
-
+        
     #differentiate local from remote
     if filename[(len(filename)-3):]=='csv' or filename[(len(filename)-4):]=='xlsx':
         if filename[(len(filename)-3):]=='csv':
@@ -326,7 +328,7 @@ def table_reader(filename,result_dic, startline, verbose):
         filepathcsv="src/input/champ.csv"
     else:
         filepathcsv='src/input/'+filename+'.csv'
-        filepathxlsx='src/input/'+filename+'.xlsx'
+        filepathxlsx='src/input/'+filename+'.xlsx'    
         
     if (filepathcsv is not None) and os.path.isfile(filepathcsv):
         filepath=filepathcsv
@@ -604,6 +606,13 @@ def get_class_WWT(classe):
     else:
         return UCI, 0, 0    
 
+def get_single_or_stage(classe):    
+    #single=true
+    if type(classe)==str:
+        if classe[0]=="2":
+            return False
+    return True
+
 def get_country(pywikibot, repo, item_id):
     item = pywikibot.ItemPage(repo, item_id)
     item.get()
@@ -756,7 +765,6 @@ def get_present_team(pywikibot, site, repo, id_rider, time_of_race):
             if (compare_dates(begin_time,time_of_race) == 2 or compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or compare_dates(end_time,time_of_race) == 0):
                 result = this_team.getTarget().getID()
                 break
-
     return result
 
 def teamCIOsearch(team_table, CIOcode):
@@ -816,3 +824,6 @@ def get_alias(language, wikidataitem):
         return wikidataitem.aliases[language]
     else:
         return('')
+
+
+

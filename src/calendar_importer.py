@@ -5,11 +5,14 @@ Created on Wed Nov 27 20:54:17 2019
 
 @author: maxime
 """
-from .cycling_init_bot_low import noQ, table_reader, search_race, search_item
+from .cycling_init_bot_low import (noQ, table_reader, search_race, search_item,
+                                   get_single_or_stage)
 import race_creator
+from .bot_log import Log
 
 # ==Initialisation==
-def f(pywikibot, site, repo, time, team_table, separator, test, race_table, race_dic):
+def f(pywikibot, site, repo, time, team_table, separator, test, 
+      race_table, race_dic, man_or_woman):
     #title in table, column in table, column in result_table
     result_dic={
             'date from':[-1, 0,''],
@@ -19,10 +22,11 @@ def f(pywikibot, site, repo, time, team_table, separator, test, race_table, race
             'class':[-1,4,'']
             }
     verbose=False
+    log=Log()
    
     result_table, row_count, ecart_global=table_reader('input/Calendar.csv',separator,result_dic,1)
     if verbose:
-        print(result_table)
+        log.concat(result_table)
         
     for kk in range(row_count):
         id_master = '0'
@@ -56,16 +60,7 @@ def f(pywikibot, site, repo, time, team_table, separator, test, race_table, race
                         month=int(table_date[1]),
                         day=int(table_date[0]),
                         precision='day')
-                    if classe == "1.1" or classe == "1.2" or classe == "1.WWT" or classe =="1.Pro":
-                        single_race=True
-                    elif classe == "2.1" or classe == "2.2" or classe == "2.WWT" or classe =="2.Pro":
-                        single_race=False
-                    if classe == "1.1" or classe == "1.2" or classe == "2.1" or classe == "2.2" or classe =="1.Pro" or classe =="2.Pro":
-                        UCI = True
-                        WWT = False
-                    elif classe == "1.WWT" or classe == "2.WWT":
-                        UCI = False
-                        WWT = True
+                    single_race=get_single_or_stage(classe) 
                     
                     id_previous = search_item(pywikibot, site, master_name + " " +str(year-1))
                     if id_previous!=u'Q0' and id_previous!=u'Q1':
@@ -75,30 +70,22 @@ def f(pywikibot, site, repo, time, team_table, separator, test, race_table, race
                         if(u'P393' in item_previous.claims): #edition
                             edition_list = item_previous.claims.get(u'P393')
                             edition_nr=int(edition_list[0])+1
-                            
-                            
+    
                     #note: country is a name which is not correct, make inherit the country
                     #note 2: get edition from last year
                     if single_race:
                         if not test:
-                            race_creator.f(
-                                    pywikibot,
-                                    site,
-                                    repo,
-                                    time,
-                                    team_table,
-                                    master_name,
-                                    master_genre,
-                                    id_master,
-                                    year,
-                                    UCI,
-                                    WWT,
-                                    race_begin,
-                                    id_country,
-                                    classe,
-                                    True,
-                                    edition_nr
-                                    )
+                             status, log=race_creator.f(pywikibot,site,repo,time,
+                                  team_table,
+                                  master_name,
+                                  single_race,
+                                  man_or_woman,
+                                  race_begin=race_begin,
+                                  edition_nr=edition_nr,
+                                  id_race_master=id_master,
+                                  countryCIO=id_country,
+                                  classe=classe,
+                                  )
                     else: #stage race
                         if result_table[kk][result_dic['date to'][1]] != 0:
                             end_date = result_table[kk][result_dic['date to'][1]]
@@ -111,29 +98,22 @@ def f(pywikibot, site, repo, time, team_table, separator, test, race_table, race
                                 precision='day')
 
                             if not test:
-                                race_creator.f(
-                                    pywikibot,
-                                    site,
-                                    repo,
-                                    time,
-                                    team_table,
-                                    master_name,
-                                    master_genre,
-                                    id_master,
-                                    year,
-                                    UCI,
-                                    WWT,
-                                    race_begin,
-                                    id_country,
-                                    classe,
-                                    False,
-                                    edition_nr,
-                                    end_date=stage_race_end,
-                                    only_stages= False,
-                                    create_stages=False,
-                                    )
+                                race_creator.f(pywikibot,site,repo,time,
+                                      team_table,
+                                      master_name,
+                                      single_race,
+                                      man_or_woman,
+                                      race_begin=race_begin,
+                                      edition_nr=edition_nr,
+                                      id_race_master=id_master,
+                                      countryCIO=id_country,
+                                      classe=classe,
+                                      end_date=stage_race_end,
+                                      only_stages=False,
+                                      create_stages=False, 
+                                      )
 
             elif classe != "CN" and classe != "CC" and classe !="CRT":
-                print(result_table[kk][2])
-                print("race not found")
-
+                log.concat(result_table[kk][2])
+                log.concat("race not found")
+    return 0, log   

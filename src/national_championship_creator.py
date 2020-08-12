@@ -6,6 +6,7 @@ Created on Thu Jan  4 15:30:20 2018
 """
 from .cycling_init_bot_low import (add_value, add_Qvalue, add_to_master, 
 search_item, teamCIOsearch, create_present, link_year)
+from .bot_log import Log
 
 def f(
         pywikibot,
@@ -60,7 +61,8 @@ def f(
             year,
             id_race,
             enligne, 
-            CC):
+            CC,
+            man_or_woman):
         
         add_Qvalue(pywikibot, repo, item, "P31", id_master, u'Nature')
         add_Qvalue(pywikibot, repo, item, "P641", "Q3609", u'cyclisme sur route')
@@ -102,12 +104,20 @@ def f(
     
     
         if CC==False:
-            if enligne:
-                label = u'Course en ligne féminine aux championnats nationaux de cyclisme sur route ' + \
-                    str(year)
+            if man_or_woman==u"woman":
+                if enligne:
+                    label = u'Course en ligne féminine aux championnats nationaux de cyclisme sur route ' + \
+                        str(year)
+                else:
+                    label = u'Contre-la-montre féminin aux championnats nationaux de cyclisme sur route ' + \
+                        str(year)
             else:
-                label = u'Contre-la-montre féminin aux championnats nationaux de cyclisme sur route ' + \
-                    str(year)
+                if enligne:
+                    label = u'Course en ligne masculine aux championnats nationaux de cyclisme sur route ' + \
+                        str(year)
+                else:
+                    label = u'Contre-la-montre masculin aux championnats nationaux de cyclisme sur route ' + \
+                        str(year)
             id_allchamp = search_item(pywikibot, site, label)
             if (id_allchamp == u'Q0')or(id_allchamp == u'Q1'):
                 print(label+'not found')
@@ -176,7 +186,8 @@ def f(
         clm = False
     else:
         clm = True
-            
+     
+    log=Log()    
     for kk in range(kkinit, endkk):  
         # kk=kkinit
         # if 1==1:
@@ -244,7 +255,8 @@ def f(
                                 year,
                                 id_enligne_present,
                                 True, 
-                                CC)
+                                CC,
+                                man_or_woman)
                             name_enligne_previous=national_championship_race_label(
                                 team_table, kk, year-1, man_or_woman,True)
                             name_enligne_next=national_championship_race_label(
@@ -270,12 +282,13 @@ def f(
                                 year,
                                 id_clm_present,
                                 False, 
-                                CC)
+                                CC,
+                                man_or_woman)
                             name_clm_previous=national_championship_race_label(
                                 team_table, kk, year-1, man_or_woman,False)
                             name_clm_next=national_championship_race_label(
                                 team_table, kk, year+1, man_or_woman,False)
                             link_year(pywikibot, site,id_enligne_present,
                                       name_clm_previous,name_clm_next)
-
+    return 0, log
 

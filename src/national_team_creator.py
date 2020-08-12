@@ -6,6 +6,7 @@ Created on Thu Jan  4 15:28:39 2018
 """
 from .cycling_init_bot_low import (add_Qvalue, add_value, get_description, get_alias,
 teamCIOsearch, create_present, link_year, add_multiple_value)
+from .bot_log import Log
 
 def f(
         pywikibot,
@@ -146,6 +147,7 @@ def f(
     
     ### begin main ###
     country=kwargs.get('country',False)
+    log=Log()
     if country:
         kkinit = teamCIOsearch(team_table, country)
         endkk = kkinit+1
@@ -208,3 +210,4 @@ def f(
                             u'link year ' +
                             str(year),
                             0)
+    return 0, log                    

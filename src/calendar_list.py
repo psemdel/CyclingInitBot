@@ -27,7 +27,8 @@ def load():
           'Q42205000', 'Q41787783' , 'Q47005682']            
    
     return list_of_calendars_2018
-    
+ 
+#women
 def calendaruciID(year):
     calendar_dic={
             "2020":"Q74127378",
@@ -52,6 +53,7 @@ def calendaruciID(year):
     else:
         return "Q0"
 
+#women
 def calendarWWTID(year): 
     calendar_dic={
         "2020":"Q70443700",
@@ -66,3 +68,22 @@ def calendarWWTID(year):
     else:
         return "Q0"
 
+#men
+def calendarUWTID(year): 
+    calendar_dic={
+        "2011":"Q849092",
+        "2012":"Q849059",
+        "2013":"Q1031504",
+        "2014":"Q14979277",
+        "2015":"Q18192726",
+        "2016":"Q20970765",
+        "2017":"Q21857932",
+        "2018":"Q42317185",
+        "2019":"Q56966729",
+        "2020":"Q66739340"
+        }
+    
+    if year in calendar_dic:
+        return calendar_dic[year]
+    else:
+        return "Q0"
