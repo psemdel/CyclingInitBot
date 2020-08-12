@@ -185,7 +185,8 @@ def cycling_init_bot():
         rider_fast_init.f(pywikibot,site,repo,time,nation_table, name,countryCIO,man_or_woman)
     elif selector==13:
         from src import champ_list_creator
-        champ_list_creator.f(pywikibot,site,repo,time)
+        man_or_woman=u'woman'
+        champ_list_creator.f(pywikibot,site,repo,time,man_or_woman)
     elif selector==14:  
         from src import uci_classification
         id_master_UCI=u'Q57267790'

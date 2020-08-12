@@ -9,7 +9,7 @@ from .cycling_init_bot_low import get_label
 import csv
 from .bot_log import Log
 
-def f(pywikibot,site,repo,time):
+def f(pywikibot,site,repo,time,man_or_woman):
     
     def sub_findwinner(item_this_year,id_race,champ_table, result_dic, road_or_clm,ll):
           date_found=False
@@ -88,8 +88,10 @@ def f(pywikibot,site,repo,time):
 	}
     
     #World champ, continental champs
-    dic_road_race =['Q934877','Q30894544','Q25400085','Q54315111','Q50061750','Q31271454']
-    dic_clm=['Q2630733','Q30894543','Q25400088','Q50062728','Q54314912','Q31271381']
+    dic_road_race_women =['Q934877','Q30894544','Q25400085','Q54315111','Q50061750','Q31271454']
+    dic_clm_women=['Q2630733','Q30894543','Q25400088','Q50062728','Q54314912','Q31271381']
+    dic_road_race_men =['Q13603535','Q30894537','Q23069702','Q23889479','Q22980916','Q85519571']
+    dic_clm_men=['Q2557477','Q30894535','Q23069708','Q22980937','Q23889469','Q85519577']
     
     result_dic={
     'Road champ':0,
@@ -116,11 +118,17 @@ def f(pywikibot,site,repo,time):
         champ_table[0][result_dic[dic_content]]=dic_content
 
     #fill world champs...
-    champ_table, ll_road=sub_champlist(champ_table, result_dic,dic_road_race, 'Road',1)
-    log.concat("Road world and continental championships completed")
-    champ_table, ll_clm=sub_champlist(champ_table, result_dic,dic_clm, 'Clm',1)
-    log.concat("Clm world and continental championships completed")
-    
+    if man_or_woman=="woman":
+        champ_table, ll_road=sub_champlist(champ_table, result_dic,dic_road_race_women, 'Road',1)
+        log.concat("Road world and continental championships women completed")
+        champ_table, ll_clm=sub_champlist(champ_table, result_dic,dic_clm_women, 'Clm',1)
+        log.concat("Clm world and continental championships women completed")
+    else:
+        champ_table, ll_road=sub_champlist(champ_table, result_dic,dic_road_race_men, 'Road',1)
+        log.concat("Road world and continental championships men completed")
+        champ_table, ll_clm=sub_champlist(champ_table, result_dic,dic_clm_men, 'Clm',1)
+        log.concat("Clm world and continental championships men completed")   
+   
     if verbose:     
         log.concat(champ_table)  
 
@@ -150,6 +158,11 @@ def f(pywikibot,site,repo,time):
 
     if verbose:     
         log.concat(champ_table)  
-    with open('input/champ2.csv', 'w', newline='') as csvFile:
-        writer = csv.writer(csvFile, delimiter=';')
-        writer.writerows(final_table)
+    if man_or_woman=="woman":    
+        with open('input/champ2.csv', 'w', newline='') as csvFile:
+            writer = csv.writer(csvFile, delimiter=';')
+            writer.writerows(final_table)
+    else:
+        with open('input/champ_man2.csv', 'w', newline='') as csvFile:
+            writer = csv.writer(csvFile, delimiter=';')
+            writer.writerows(final_table)
