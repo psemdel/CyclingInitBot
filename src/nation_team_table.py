@@ -27,6 +27,14 @@ def load():
     # item 15= Country name es
     # item 16= fr adjective for women
     # item 17= fr adjective for men
+    # item 18= Road race woman U23
+    # item 19= Clm woman U23
+    # item 20= Road race woman junior
+    # item 21= Clm woman junior
+    # item 22 = Road race man U23
+    # item 23 = Clm man U23
+    # item 24 = Road race man junior
+    # item 25 = Clm man junior
     kk = 0
 
     team_table[kk][1] = u'Afghanistan'

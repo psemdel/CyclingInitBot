@@ -154,14 +154,31 @@ def f(
             firstword=u"Course en ligne "
             if man_or_woman == u'man':
                 adj = u'masculine'
-            else:
+            elif man_or_woman == u'woman':
                 adj = u'féminine'
+            elif man_or_woman == u'manU':
+                adj = u'masculine espoirs'
+            elif man_or_woman == u'womanU':
+                adj = u'féminine espoirs'    
+            elif man_or_woman == u'manJ':
+                adj = u'masculine juniors'
+            elif man_or_woman == u'womanJ':
+                adj = u'féminine juniors'    
         else:
             firstword= u"Contre-la-montre "
             if man_or_woman == u'man':
                 adj = u'masculin'
-            else:
+            elif man_or_woman == u'woman':
                 adj = u'féminin'
+            elif man_or_woman == u'manU':
+                adj = u'masculin espoirs'
+            elif man_or_woman == u'womanU':
+                adj = u'féminin espoirs'    
+            elif man_or_woman == u'manJ':
+                adj = u'masculin juniors'
+            elif man_or_woman == u'womanJ':
+                adj = u'féminin juniors'        
+                
         # declaration
         mylabel = {}
         
@@ -173,6 +190,7 @@ def f(
     
     if CC:
         kkinit =1
+        endkk= len(team_table)
     else:
         country=kwargs.get('country',False)
         if country:
@@ -187,41 +205,58 @@ def f(
     else:
         clm = True
     
-    if man_or_woman == u"all":   
+    gender_dic=["woman","man","womanU","manU","womanJ","manJ"] 
+    
+    if man_or_woman in gender_dic:
+        gender_dic=[man_or_woman]
+    elif man_or_woman == u"both":   
         gender_dic=["woman","man"]    
-    elif man_or_woman==u"woman":
-        gender_dic=["woman"]    
+    elif man_or_woman == u"all": 
+        gender_dic=["woman","man","womanU","manU","womanJ","manJ"]    
     else:
-        gender_dic=["man"]    
+        gender_dic=["woman"]
         
     log=Log()    
     for m_or_w in gender_dic:
+        log.concat( "championships creation for gender: " + m_or_w)
         for kk in range(kkinit, endkk):  
-            # kk=kkinit
-            # if 1==1:
-            group = team_table[kk][8]
-            if group == 1:
+            #group = team_table[kk][8]
+            if True:
                 if CC:
                     id_master=team_table[kk][3]
                     country_code=0
-                    if m_or_w == 'man':
+                    if m_or_w == u"man":
                         index_road_race= 6
                         index_clm_race= 7
-                    else:
+                    elif m_or_w==u"woman":
                         index_road_race= 4
                         index_clm_race= 5
                 else:
                     id_master=team_table[kk][9]
                     country_code= team_table[kk][3]
-                    if m_or_w == 'man':
+                    if m_or_w == u"man":
                         index_road_race= 12
                         index_clm_race= 13
-                    else:
+                    elif m_or_w==u"woman":
                         index_road_race= 10
                         index_clm_race= 11
+                    elif m_or_w==u"womanU":
+                        index_road_race= 18
+                        index_clm_race= 19
+                    elif m_or_w==u"womanJ":    
+                        index_road_race= 20
+                        index_clm_race= 21
+                    elif m_or_w==u"manU":
+                        index_road_race= 22
+                        index_clm_race= 23
+                    elif m_or_w==u"manJ":
+                        index_road_race= 24
+                        index_clm_race= 25
+                
+                log.concat( "championships creation for country: Q" + str(country_code))
                 
                 for year in range(start_year, end_year):
-                    group = 1
+                    log.concat( "championships creation for year: " + str(year))    
                     # Create the championship
                     mylabel = {}
                     mylabel = national_championship_label(team_table, kk, year,True)
