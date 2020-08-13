@@ -8,7 +8,7 @@ Created on Thu Jan  4 13:23:59 2018
 
 def load():
     # For Europa
-    team_table = [[0 for x in range(20)] for y in range(100)]
+    team_table = [[0 for x in range(30)] for y in range(100)]
 
     # Item 1 = Country name fr
     # Item 2 = genre
@@ -1573,7 +1573,7 @@ def load():
     team_table[kk][17] =u'vénézuelien'
     kk += 1
 
-    final_table = [['' for x in range(20)] for y in range(kk)]
+    final_table = [['' for x in range(30)] for y in range(kk)]
     final_table=team_table[:kk]
 
     return final_table

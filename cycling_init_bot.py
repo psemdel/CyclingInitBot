@@ -15,7 +15,7 @@ repo = site.data_repository()
 def cycling_init_bot():
     nation_table= nation_team_table.load()
 
-    selector=17
+    selector=4
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -63,18 +63,18 @@ def cycling_init_bot():
         calendar_importer.f(pywikibot, site, repo,time, nation_table, ";", test, race_table, race_dic, man_or_woman)
     elif selector==4: 
         #more details in the table with activate and group
-        from src import pro_team_creator
+        from src import team_creator
         from src import pro_team_table
         from src import amateur_team_table
         pro_or_amateur=1 #1 is pro
-        year=2020
-        prov=False
+        year=2010
+        prov=True
         
         if prov:
             team_table = [[0 for x in range(7)] for y in range(2)]
-            team_table[1][1] = u"Stepfwd it Suzuki"
-            team_table[1][2] = 59195419 #optional, then put 0
-            team_table[1][3] = u'AUS' #country
+            team_table[1][1] = u"Tibco-To the Top"
+            team_table[1][2] = 537946 #optional, then put 0
+            team_table[1][3] = u'USA' #country
             team_table[1][4] = u''
             team_table[1][5] = 2 #don't modify
             team_table[1][6] = 1 #don't modify
@@ -84,7 +84,7 @@ def cycling_init_bot():
                 [team_table, team_dic]=pro_team_table.load()
             else:
                 [team_table, team_dic]=amateur_team_table.load()
-        pro_team_creator.f(pywikibot,site,repo,time,team_table,nation_table,pro_or_amateur, team_dic,year)
+        team_creator.f(pywikibot,site,repo,time,team_table,nation_table, team_dic,year)
     elif selector==5:   
         from src import sorter
         id_team=u'Q78661075'

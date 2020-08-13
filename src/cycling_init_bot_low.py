@@ -238,10 +238,10 @@ def link_year(pywikibot, site,repo, present_id,arg1,arg2):
                 suffix1='next'
             item = pywikibot.ItemPage(repo, present_id)
             item.get()
-            add_value(pywikibot, repo, item, p1, id_other, u'link '+suffix1)
+            add_Qvalue(pywikibot, repo, item, p1, id_other, u'link '+suffix1)
             item_other = pywikibot.ItemPage(repo, id_other)
             item_other.get()
-            add_value(pywikibot, repo, item_other, p2, present_id, u'link '+suffix2)
+            add_Qvalue(pywikibot, repo, item_other, p2, present_id, u'link '+suffix2)
         kk=kk+2
 
 def create_present(pywikibot, site,repo,time, label):   
