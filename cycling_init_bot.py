@@ -15,7 +15,7 @@ repo = site.data_repository()
 def cycling_init_bot():
     nation_table= nation_team_table.load()
 
-    selector=17
+    selector=10
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -157,8 +157,8 @@ def cycling_init_bot():
          
     elif selector==9:
         from src import classification_importer
-        id_race='Q78661075'
-        stage_or_general=7# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
+        id_race='Q98608863'
+        stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
         final=False
         maxkk=10
@@ -169,12 +169,13 @@ def cycling_init_bot():
                                maxkk,test,year=year,startliston=startliston)
     elif selector==10:
         from src import startlist_importer
-        id_race='Q48994616'
+        id_race='Q98608863'
         prologue_or_final=2 #0=prologue, 1=final, 2=one day race
         chrono=False
         test=False
         man_or_woman=u'woman'
-        time_of_race=pywikibot.WbTime(site=site,year=2011, month=4, day=16, precision='day')    
+        force_nation_team=False
+        time_of_race=pywikibot.WbTime(site=site,year=2020, month=8, day=27, precision='day')    
         startlist_importer.f(pywikibot,site,repo, prologue_or_final, id_race, 
                                    time_of_race,chrono,test,nation_table,man_or_woman)  
     elif selector==12:
@@ -220,11 +221,11 @@ def cycling_init_bot():
                       last_stage=last_stage)
     elif selector==17:
         from src import get_rider_tricot
-        id_race='Q50143442'
+        id_race='Q4005965'
         chrono=False
         test=False
         man_or_woman=u'woman'
-        time_of_race=pywikibot.WbTime(site=site,year=2010, month=4, day=10, precision='day')    
+        time_of_race=pywikibot.WbTime(site=site,year=2009, month=4, day=13, precision='day')    
         get_rider_tricot.scan(pywikibot,site,repo, id_race, time_of_race,chrono, test,man_or_woman)
     else: 
         print('do nothing')

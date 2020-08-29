@@ -396,14 +396,12 @@ def table_reader(filename,result_dic, startline, verbose):
             destination='src/input/'+filename+'.csv'
         else:
             destination='uploads/'+filename+'.csv'
-        print(destination)
         filepath=excel_to_csv(filepathxlsx,destination)
         clean_txt_bool=True
     else:
         print('no file found')
         return 0
     
-    verbose=True
     if verbose:
         print("corrected file path: " + filepath)
     
@@ -443,7 +441,6 @@ def table_reader(filename,result_dic, startline, verbose):
         file_object = csv.reader(csvfile, delimiter=separator, quotechar='|')
 
         for row in file_object:
-            print(row)
             if kk == startline:
                 if verbose:
                     print(row)  #allow to see if there is no problem with the separator
@@ -549,17 +546,19 @@ def is_it_a_cyclist(pywikibot, repo, item_id):
 
 def search_item(pywikibot, site, search_string):
     from pywikibot.data import api
-    wikidataEntries = get_items(api, site, search_string)
-    if(u'search-continue' in wikidataEntries):
-        # several results
-        result_id = u'Q1'
-    elif(wikidataEntries['search'] == []):
+    wikidata_entries = get_items(api, site, search_string)
+        
+    if(wikidata_entries['search'] == []):
         # no result
         result_id = u'Q0'
-    else:
-        wikidataSearchresult = wikidataEntries['search']
+    elif len(wikidata_entries['search'])==1:
+        wikidataSearchresult = wikidata_entries['search']
         wikidataSearchresult1 = wikidataSearchresult[0]
         result_id = wikidataSearchresult1['id']
+    else:
+        # several results
+        result_id = u'Q1'
+
     return result_id
 
 def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Team and rider
@@ -581,7 +580,6 @@ def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Te
         else:
            return u'Q1', ''
     
-
     #exception management
     exception_table=kwargs.get('exception_table',[])
     for ii in range(len(exception_table)):
@@ -591,9 +589,14 @@ def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Te
       
     wikidata_entries = get_items(api, site, ref_name)
     
-    if(u'search-continue' in wikidata_entries):
-        # several results
-        
+    if(wikidata_entries['search'] == []):
+        # no result
+        result_id = u'Q0'
+    elif len(wikidata_entries['search'])==1:
+        wikidataSearchresult = wikidata_entries['search']
+        wikidataSearchresult1 = wikidataSearchresult[0]
+        result_id = wikidataSearchresult1['id']    
+    else:
         result_id = u'Q1'
         disam=kwargs.get('disam',None) #disambiguation_function
         if disam!=None:
@@ -605,13 +608,6 @@ def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Te
                     if disam(pywikibot, repo, temp_id):
                         result_id=temp_id
                         break
-    elif(wikidata_entries['search'] == []):
-        # no result
-        result_id = u'Q0'
-    else:
-        wikidataSearchresult = wikidata_entries['search']
-        wikidataSearchresult1 = wikidataSearchresult[0]
-        result_id = wikidataSearchresult1['id']
         
     return result_id
 
@@ -809,7 +805,7 @@ def get_items(api, site, itemtitle):
         'language': 'fr',
         'type': 'item',
         'search': itemtitle,
-        'limit': 2}
+        'limit': 10}
     #params.update({'continue': 1})
     request = api.Request(site=site, parameters=params)
     search_results = request.submit()
