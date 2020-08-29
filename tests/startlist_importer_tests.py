@@ -127,24 +127,20 @@ class NationalTeam(unittest.TestCase):
         self.assertEqual(res_list_of_cyclists[11].national_team,True)
         
         force_nation_team=True
+        result_table, row_count, ecart=table_reader('National_team_tests_orig', result_dic,0,False)
+        result_table=sorted(result_table, key=lambda tup: int(tup[8]))
+        list_of_cyclists, all_riders_found=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, nosortkey=True)
+        
         res_list_of_cyclists, log=find_national_team(pywikibot,site,repo,list_of_cyclists, 
                  result_table, result_dic, row_count, nation_table, 
                  force_nation_team, year, log, man_or_woman,
                  time_of_race)
        
-        self.assertEqual(res_list_of_cyclists[0].national_team,True)
-        self.assertEqual(res_list_of_cyclists[1].national_team,True)
-        self.assertEqual(res_list_of_cyclists[2].national_team,True)
-        self.assertEqual(res_list_of_cyclists[3].national_team,True)
-        self.assertEqual(res_list_of_cyclists[4].national_team,True)
-        self.assertEqual(res_list_of_cyclists[5].national_team,True)
-        self.assertEqual(res_list_of_cyclists[6].national_team,True)
-        self.assertEqual(res_list_of_cyclists[7].national_team,True)
-        self.assertEqual(res_list_of_cyclists[8].national_team,True)
-        self.assertEqual(res_list_of_cyclists[9].national_team,True)
-        self.assertEqual(res_list_of_cyclists[10].national_team,True)
-        self.assertEqual(res_list_of_cyclists[11].national_team,True)
-         
+        self.assertEqual(res_list_of_cyclists[0].team,'Q74847203')
+        self.assertEqual(res_list_of_cyclists[7].team,'Q74847203')
+        self.assertEqual(res_list_of_cyclists[8].team,'Q74749584')
+        self.assertEqual(res_list_of_cyclists[9].team,'Q74749584')
+        
         force_nation_team=False
         result_table, row_count, ecart=table_reader('National_team_tests_neg', result_dic,0,False)
         result_table=sorted(result_table, key=lambda tup: int(tup[8]))

@@ -13,7 +13,7 @@ import csv
 from src.cycling_init_bot_low import (search_race, is_it_a_cyclist, search_item,
 search_rider, define_article, get_class, get_present_team, CIOtoIDsearch,
 get_class_WWT, get_country, table_reader, compare_dates, get_year, checkid,
-checkprop, get_single_or_stage,excel_to_csv,bot_or_site)
+checkprop, get_single_or_stage,excel_to_csv,bot_or_site, date_finder, search_team_by_code)
 from src import race_list
 from src import nation_team_table
 
@@ -32,6 +32,11 @@ class TestSearch(unittest.TestCase):
         result1, result2 = search_race('Sintos Women Tour', race_table,race_dic)
         self.assertEqual(result1, 0 )
         self.assertEqual(result2 , 0)   
+        
+    def test_search_team_by_code(self):
+        self.assertEqual(search_team_by_code(pywikibot, site, "MTS 2020"),'Q74725715')
+        self.assertEqual(search_team_by_code(pywikibot, site, "ASA 2020"),'Q74725122')
+        self.assertEqual(search_team_by_code(pywikibot, site, "TFS 2020"),'Q82315001')
         
     def test_other(self):
         self.assertFalse(is_it_a_cyclist(pywikibot, repo, 'Q38222'))
@@ -267,6 +272,7 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(res,exp)
         res=date_finder(pywikibot,4,first_stage,last_stage, race_begin,race_end)
         self.assertEqual(res,race_end)      
+
 
               
 if __name__ == '__main__':

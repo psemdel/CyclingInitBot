@@ -561,7 +561,7 @@ def search_item(pywikibot, site, search_string):
 
     return result_id
 
-def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Team and rider
+def search_itemv2(pywikibot, site, search_string, rider_bool,code_bool, **kwargs): #For Team and rider
     from pywikibot.data import api
     
     if search_string!=0:
@@ -583,8 +583,13 @@ def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Te
     #exception management
     exception_table=kwargs.get('exception_table',[])
     for ii in range(len(exception_table)):
-        this_exception=ThisName(exception_table[ii][0])          
-        if ref_name==this_exception.name_cor:
+        this_exception=ThisName(exception_table[ii][0])  
+        if code_bool:
+            exp=this_exception.name
+        else:
+            exp=this_exception.name_cor
+       
+        if ref_name==exp:
                return exception_table[ii][1]
       
     wikidata_entries = get_items(api, site, ref_name)
@@ -613,16 +618,20 @@ def search_itemv2(pywikibot, site, search_string, rider_bool, **kwargs): #For Te
 
 def search_rider(pywikibot, site, repo,search_string, first_name, last_name):
     exception_table=exception.list_of_rider_exception()
-    return search_itemv2(pywikibot, site, search_string, True, disam=is_it_a_cyclist, repo=repo, 
+    return search_itemv2(pywikibot, site, search_string, True, False, disam=is_it_a_cyclist, repo=repo, 
                         exception_table=exception_table, first_name=first_name, last_name=last_name)
 
 def search_team_by_name(pywikibot, site, search_string):
-    exception_table=exception.list_of_team_code_exception()
-    return search_itemv2(pywikibot, site, search_string, False, exception_table=exception_table)
+    exception_table=exception.list_of_team_name_exception()
+    return search_itemv2(pywikibot, site, search_string, False, False, exception_table=exception_table)
 
 def search_team_by_code(pywikibot, site, search_string):
-    exception_table=exception.list_of_team_name_exception()
-    return search_itemv2(pywikibot, site, search_string, False, exception_table=exception_table)
+    exception_table=exception.list_of_team_code_exception()
+    return search_itemv2(pywikibot, site, search_string, False, True, exception_table=exception_table)
+
+def search_team_by_code_men(pywikibot, site, search_string):
+    exception_table=exception.ist_of_team_code_exception_men()
+    return search_itemv2(pywikibot, site, search_string, False, True, exception_table=exception_table)
 
 ## other ##
 def get_class_id(classe_text):

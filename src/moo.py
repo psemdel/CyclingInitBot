@@ -78,6 +78,7 @@ class Cyclist(ThisName):
         self.item=None
         self.nationality=''
         self.rank=0
+        self.national_team=False
     
     def find_start_sortkey(self,start_words,names_cor_table):
         sortkey=''

@@ -77,62 +77,74 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
     national_team_begin=0
     for ii in range(row_count):
         #check national team
-        if result_table[ii][result_dic['bib'][1]]%10==1:
-                    #insert last team
-  
-            if (force_nation_team or (national_team_detected and all_same_team<0)) and national_team_nation!=u'reset':
-                log.concat(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
-                #insert the team
-                for jj in range(national_team_begin,ii):
+        if not force_nation_team:
+            if result_table[ii][result_dic['bib'][1]]%10==1:
+                        #insert last team
+      
+                if (national_team_detected and all_same_team<0):
+                    log.concat(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
+                    #insert the team
+                    for jj in range(national_team_begin,ii):
+                        id_national_team=get_national_team_id(pywikibot,site, repo,nation_table, national_team_nation, year, man_or_woman) 
+                        if id_national_team!=u'Q0':
+                            list_of_cyclists[jj].team=id_national_team
+                            list_of_cyclists[jj].national_team=True #for testing
+                #re-init the variable
+                national_team_detected=True
+                national_team_begin=ii
+                national_team_nation=u'reset'
+                proteam=u'reset'
+                all_same_team=1 #if all_same_team is 1 then it is probably not a national team
+               
+            if national_team_detected: 
+                item_rider=list_of_cyclists[ii].item
+                id_rider=list_of_cyclists[ii].id_item
+                if verbose:
+                    print(list_of_cyclists[ii].dossard)
+                #get nationality
+                if (u'P27' in item_rider.claims):
+                    nationality=item_rider.claims.get(u'P27')
+                    list_of_cyclists[ii].nationality=nationality
+                    if verbose:
+                        print("nationality: "+ nationality[0].getTarget().getID())
+                    if national_team_nation==u'reset':
+                        national_team_nation=nationality[0].getTarget().getID()
+                    else:
+                        if national_team_nation!=nationality[0].getTarget().getID(): 
+                            #not the same nation --> not a national team
+                            if verbose:
+                                print("different nation")
+                            national_team_detected=False 
+                team=get_present_team(pywikibot,site,repo,id_rider,time_of_race)
+                if verbose:
+                    print("team: "+ team)
+                if proteam==u'reset':
+                    if team!="Q1":
+                        proteam=team
+                else:
+                    if team!='Q1' and proteam!=team: 
+                        all_same_team=all_same_team-1
+                    elif team=='Q1':
+                        all_same_team=all_same_team-1
+            #last team
+            if national_team_detected and all_same_team<0:
+                 log.concat(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
+                        #insert the team
+                 for jj in range(national_team_begin,row_count):
                     id_national_team=get_national_team_id(pywikibot,site, repo,nation_table, national_team_nation, year, man_or_woman) 
                     if id_national_team!=u'Q0':
-                        list_of_cyclists[jj].team=id_national_team
+                        list_of_cyclists[jj].team=id_national_team   
                         list_of_cyclists[jj].national_team=True #for testing
-            #re-init the variable
-            national_team_detected=True
-            national_team_begin=ii
-            national_team_nation=u'reset'
-            proteam=u'reset'
-            all_same_team=1 #if all_same_team is 1 then it is probably not a national team
-           
-        if national_team_detected: 
+        else: #force_nation_team, then only look at nation value
             item_rider=list_of_cyclists[ii].item
             id_rider=list_of_cyclists[ii].id_item
-            if verbose:
-                print(list_of_cyclists[ii].dossard)
-            #get nationality
-            if (u'P27' in item_rider.claims):
-                nationality=item_rider.claims.get(u'P27')
-                list_of_cyclists[ii].nationality=nationality
-                if verbose:
-                    print("nationality: "+ nationality[0].getTarget().getID())
-                if national_team_nation==u'reset':
-                    national_team_nation=nationality[0].getTarget().getID()
-                else:
-                    if national_team_nation!=nationality[0].getTarget().getID(): 
-                        #not the same nation --> not a national team
-                        print("different nation")
-                        national_team_detected=False 
-            team=get_present_team(pywikibot,site,repo,id_rider,time_of_race)
-            if verbose:
-                print("team: "+ team)
-            if proteam==u'reset':
-                if team!="Q1":
-                    proteam=team
-            else:
-                if team!='Q1' and proteam!=team: 
-                    all_same_team=all_same_team-1
-                elif team=='Q1':
-                    all_same_team=all_same_team-1
-    #last team
-    if force_nation_team or (national_team_detected and all_same_team<0):
-         log.concat(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
-                #insert the team
-         for jj in range(national_team_begin,row_count):
+            nationality=item_rider.claims.get(u'P27')
+            national_team_nation=nationality[0].getTarget().getID()
             id_national_team=get_national_team_id(pywikibot,site, repo,nation_table, national_team_nation, year, man_or_woman) 
             if id_national_team!=u'Q0':
-                list_of_cyclists[jj].team=id_national_team   
-                list_of_cyclists[jj].national_team=True #for testing
+                list_of_cyclists[ii].team=id_national_team
+                list_of_cyclists[ii].national_team=True #for testing
+
     return list_of_cyclists, log          
                        
 def f(pywikibot,site,repo, prologue_or_final, id_race, 

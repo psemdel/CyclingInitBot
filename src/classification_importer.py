@@ -6,7 +6,7 @@ Created on Sun Jul 22 16:21:08 2018
 """
 
 from .cycling_init_bot_low import (get_year, table_reader, search_team_by_code, 
-search_rider, add_winner)
+search_team_by_code_men, search_rider, add_winner)
 from .bot_log import Log
 
 def f(pywikibot,site,repo,general_or_stage, id_race,
@@ -35,6 +35,8 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
     if year==0:
         print(u'no year found')
         return
+    
+    man_or_woman=kwargs.get('man_or_woman',u'woman')
     
     startliston=kwargs.get('startliston',True)
     file=kwargs.get('file','Results')
@@ -106,7 +108,10 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
             claim=pywikibot.Claim(repo, u'P'+str(property_nummer))  
             for ii in range(maxkk):
                 if general_or_stage in general_or_stage_team: #team
-                    this_id=search_team_by_code(pywikibot, site, result_table[ii][result_dic['team code'][1]])
+                    if man_or_woman=="woman":
+                        this_id=search_team_by_code(pywikibot, site, result_table[ii][result_dic['team code'][1]])
+                    else:
+                        this_id=search_team_by_code_men(pywikibot, site, result_table[ii][result_dic['team code'][1]])
                 else:
                     this_id=search_rider(pywikibot, site, repo,result_table[ii][result_dic['name'][1]],
                                         result_table[ii][result_dic['first name'][1]],result_table[ii][result_dic['last name'][1]] )
