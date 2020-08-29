@@ -79,21 +79,4 @@ def f(
     except:
         log.concat("General Error in rider_fast_init")
         return 10, log
-        
-if __name__ == '__main__' :
-    from . import pywikibot
-    from . import nation_team_table
-    import time
 
-    site = pywikibot.Site("wikidata", "wikidata")
-    repo = site.data_repository()
-    
-    nation_table= nation_team_table.load()
-    name="Marianne Vos"
-    countryCIO="NED" 
-    man_or_woman=u"woman"
-    
-    try:
-        f(pywikibot, site, repo, time, nation_table, name, countryCIO,man_or_woman)
-    except Exception as msg:
-        print(msg)

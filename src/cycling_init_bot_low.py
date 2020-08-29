@@ -313,12 +313,9 @@ def date_finder(pywikibot, number,first_stage,last_stage, race_begin,
 def float_to_int(a):
     a=a.replace(",",".")
     a=a.replace(".0","")
-  #  a=a.replace("'","")
-   # a=a.replace('"',"")
     return int(a)
 
 def clean_txt(a):
-  #  a=a.replace('"',"")
     return a
 
 #convert the time in seconds
@@ -355,7 +352,18 @@ def bot_or_site():
 
 def excel_to_csv(filepath, destination):
     wb = xlrd.open_workbook(filepath)
-    sh = wb.sheet_by_name('Results')
+    list_of_sheets=wb.sheet_names()
+    sheet_nm=['Results','Invidual','Team']
+    if list_of_sheets is None:
+        print("empty excel file")
+        return None
+
+    sh=wb.sheet_by_name(list_of_sheets[0])
+    for sheet in list_of_sheets:
+        if sheet in sheet_nm:
+            sh = wb.sheet_by_name(sheet)
+            break
+        
     destination_file = open(destination, 'w')
     wr = csv.writer(destination_file, delimiter=";", quoting=csv.QUOTE_NONE)
 
