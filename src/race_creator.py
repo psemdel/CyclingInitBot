@@ -238,4 +238,4 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                     
             #Link to next
             #Not required 
-    return 0, log   
+    return 0, log, present_id   

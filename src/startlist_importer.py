@@ -11,10 +11,13 @@ from . import get_rider_tricot
 from .bot_log import Log
 
 def f(pywikibot,site,repo, prologue_or_final, id_race, 
-      time_of_race,chrono,test,nation_table,man_or_woman):
+      time_of_race,chrono,test,nation_table,man_or_woman,**kwargs):
      #0=prologue, 1=final, 2=one day race
     verbose=False
     log=Log()
+    
+    file=kwargs.get('file','Results')
+    log.concat(file)
     
     result_dic={
     'rank':[-1, 0, ''],
@@ -28,7 +31,8 @@ def f(pywikibot,site,repo, prologue_or_final, id_race,
     'bib':[-1,8,''] #dossard
     }
     
-    result_table, row_count, ecart=table_reader('Results', result_dic,0,True)
+    
+    result_table, row_count, ecart=table_reader(file, result_dic,0,True)
     #Sort by dossard
     result_table=sorted(result_table, key=lambda tup: int(tup[8]))
     log.concat('table read and sorted')
@@ -123,6 +127,7 @@ def f(pywikibot,site,repo, prologue_or_final, id_race,
             
             log.concat(u'inserting start list')
             for ii in range(row_count):
+                print(ii)
                 if list_of_cyclists[ii].id_item!='Q0' and list_of_cyclists[ii].id_item!='Q1':
                     this_rider=list_of_cyclists[ii]
                     item_rider=this_rider.item 

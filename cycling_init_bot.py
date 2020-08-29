@@ -15,7 +15,7 @@ repo = site.data_repository()
 def cycling_init_bot():
     nation_table= nation_team_table.load()
 
-    selector=4
+    selector=17
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -220,11 +220,12 @@ def cycling_init_bot():
                       last_stage=last_stage)
     elif selector==17:
         from src import get_rider_tricot
-        id_race='Q48994616'
+        id_race='Q50143442'
         chrono=False
         test=False
-        time_of_race=pywikibot.WbTime(site=site,year=2011, month=4, day=16, precision='day')    
-        get_rider_tricot.scan(pywikibot,site,repo, id_race, time_of_race,chrono, test)
+        man_or_woman=u'woman'
+        time_of_race=pywikibot.WbTime(site=site,year=2010, month=4, day=10, precision='day')    
+        get_rider_tricot.scan(pywikibot,site,repo, id_race, time_of_race,chrono, test,man_or_woman)
     else: 
         print('do nothing')
         

@@ -8,10 +8,12 @@ Created on Sun Feb 16 21:16:31 2020
 
 import pywikibot
 import unittest
+import os
+import csv
 from src.cycling_init_bot_low import (search_race, is_it_a_cyclist, search_item,
 search_rider, define_article, get_class, get_present_team, CIOtoIDsearch,
 get_class_WWT, get_country, table_reader, compare_dates, get_year, checkid,
-checkprop, get_single_or_stage)
+checkprop, get_single_or_stage,excel_to_csv,bot_or_site)
 from src import race_list
 from src import nation_team_table
 
@@ -29,7 +31,7 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(result2 , "du ")    
         result1, result2 = search_race('Sintos Women Tour', race_table,race_dic)
         self.assertEqual(result1, 0 )
-        self.assertEqual(result2 , 0)     
+        self.assertEqual(result2 , 0)   
         
     def test_other(self):
         self.assertFalse(is_it_a_cyclist(pywikibot, repo, 'Q38222'))
@@ -144,7 +146,128 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(get_single_or_stage("2.1"),False)
         self.assertEqual(get_single_or_stage(21),True) 
         self.assertEqual(get_single_or_stage("abc"),True)
+ 
+    def test_excel_to_csv(self):
+        filepath="tests/Conversion_test.xlsx"
+        destination="tests/Conversion_test.csv"
+        res=excel_to_csv(filepath, destination)
+        self.assertEqual(res,destination)
         
+        filepath=res
+        default_separator=";"
+        kk=1
         
+        with open(filepath, newline='') as csvfile:
+            file_object = csv.reader(csvfile, delimiter=default_separator, quotechar='|')
+            for row in file_object: 
+                if kk==1:
+                    self.assertEqual(row[0],'Rank')
+                    self.assertEqual(row[1],'BIB')
+                    self.assertEqual(row[2],'Last Name')
+                elif kk==2:
+                    self.assertEqual(row[0],'1.0')
+                    self.assertEqual(row[1],'21.0')
+                    self.assertEqual(row[2],'GUNNEWIJK')
+                kk=kk+1
+
+    def test_bot_or_site(self):
+        self.assertEqual(bot_or_site(),True)  
+        
+    def test_date_finder(self):
+        #easy case
+        first_stage=1
+        last_stage=4
+        race_begin=pywikibot.WbTime(site=site,year=2015, month=1, day=1, precision='day')    
+        race_end=pywikibot.WbTime(site=site,year=2015, month=1, day=4, precision='day')    
+       
+        number=1
+        res=date_finder(pywikibot,number,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,race_begin)
+        res=date_finder(pywikibot,2,first_stage,last_stage, race_begin,race_end)
+        exp=pywikibot.WbTime(site=site,year=2015, month=1, day=2, precision='day')    
+        self.assertEqual(res,exp)
+        res=date_finder(pywikibot,3,first_stage,last_stage, race_begin,race_end)
+        exp=pywikibot.WbTime(site=site,year=2015, month=1, day=3, precision='day')    
+        self.assertEqual(res,exp)
+        #check that the function does not change the value of race_begin
+        exp=pywikibot.WbTime(site=site,year=2015, month=1, day=1, precision='day')    
+        res=date_finder(pywikibot,1,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,exp)
+        
+        res=date_finder(pywikibot,4,first_stage,last_stage, race_begin,race_end)
+        exp=pywikibot.WbTime(site=site,year=2015, month=1, day=4, precision='day')    
+        self.assertEqual(res,exp)  
+        self.assertEqual(res,race_end)  
+        race_end=pywikibot.WbTime(site=site,year=2015, month=1, day=6, precision='day') 
+        res=date_finder(pywikibot,4,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,race_end)  
+
+        #not possible
+        number=0
+        res=date_finder(pywikibot,number,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,race_begin)
+        
+        #prologue
+        first_stage=0
+        number=0
+        res=date_finder(pywikibot,number,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,race_begin)
+        number=1
+        res=date_finder(pywikibot,number,first_stage,last_stage, race_begin,race_end)
+        exp=pywikibot.WbTime(site=site,year=2015, month=1, day=2, precision='day')    
+        self.assertEqual(res,exp)
+        
+        #month limit, january
+        first_stage=1
+        last_stage=4
+        race_begin=pywikibot.WbTime(site=site,year=2015, month=1, day=30, precision='day')    
+        race_end=pywikibot.WbTime(site=site,year=2015, month=2, day=2, precision='day')    
+        number=1
+        res=date_finder(pywikibot,number,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,race_begin)
+        res=date_finder(pywikibot,2,first_stage,last_stage, race_begin,race_end)
+        exp=pywikibot.WbTime(site=site,year=2015, month=1, day=31, precision='day')    
+        self.assertEqual(res,exp)
+        res=date_finder(pywikibot,3,first_stage,last_stage, race_begin,race_end)
+        exp=pywikibot.WbTime(site=site,year=2015, month=2, day=1, precision='day')    
+        self.assertEqual(res,exp)
+        res=date_finder(pywikibot,4,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,race_end)  
+        
+        #month limit, april
+        first_stage=1
+        last_stage=4
+        race_begin=pywikibot.WbTime(site=site,year=2015, month=4, day=30, precision='day')    
+        race_end=pywikibot.WbTime(site=site,year=2015, month=5, day=3, precision='day')    
+        number=1
+        res=date_finder(pywikibot,number,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,race_begin)
+        res=date_finder(pywikibot,2,first_stage,last_stage, race_begin,race_end)
+        exp=pywikibot.WbTime(site=site,year=2015, month=5, day=1, precision='day')    
+        self.assertEqual(res,exp)
+        res=date_finder(pywikibot,3,first_stage,last_stage, race_begin,race_end)
+        exp=pywikibot.WbTime(site=site,year=2015, month=5, day=2, precision='day')    
+        self.assertEqual(res,exp)
+        res=date_finder(pywikibot,4,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,race_end)       
+        
+        #year limit
+        first_stage=1
+        last_stage=4
+        race_begin=pywikibot.WbTime(site=site,year=2014, month=12, day=30, precision='day')    
+        race_end=pywikibot.WbTime(site=site,year=2015, month=1, day=2, precision='day')    
+        number=1
+        res=date_finder(pywikibot,number,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,race_begin)
+        res=date_finder(pywikibot,2,first_stage,last_stage, race_begin,race_end)
+        exp=pywikibot.WbTime(site=site,year=2014, month=12, day=31, precision='day')    
+        self.assertEqual(res,exp)
+        res=date_finder(pywikibot,3,first_stage,last_stage, race_begin,race_end)
+        exp=pywikibot.WbTime(site=site,year=2015, month=1, day=1, precision='day')    
+        self.assertEqual(res,exp)
+        res=date_finder(pywikibot,4,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,race_end)      
+
+              
 if __name__ == '__main__':
     unittest.main()

@@ -75,7 +75,7 @@ def f(
         else:
             log.concat("AlreadyThere with id " +id_rider)
             return 1, log
-        return 0, log
+        return 0, log, id_rider
     except:
         log.concat("General Error in rider_fast_init")
         return 10, log

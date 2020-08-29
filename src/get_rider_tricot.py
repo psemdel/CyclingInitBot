@@ -105,7 +105,7 @@ def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, man_or_woman, **kw
     'clm winner':[-1, 9,''],
     }
 
-    id_worldroadchamp=u'Q2630733'
+    id_worldroadchamp=u'Q934877'
     id_eurroadchamp=u'Q30894544'
     id_worldclmchamp=u'Q2630733'
     id_eurclmchamp= u'Q30894543'
@@ -115,7 +115,7 @@ def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, man_or_woman, **kw
         result_table, row_count, ecart=table_reader('champ',result_dic,0,False)
     else:
         result_table, row_count, ecart=table_reader('champ_man',result_dic,0,False)
-        
+      
     for ii in range(row_count):
         if id_rider==result_table[ii][result_dic['road winner'][1]]:
             result=sub_function(result_table,result_dic,'road',id_worldroadchamp,id_eurroadchamp, 
@@ -131,7 +131,7 @@ def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, man_or_woman, **kw
     if test:
         return 0
 
-def scan(pywikibot,site,repo, id_race, time_of_race,chrono, test):
+def scan(pywikibot,site,repo,id_race, time_of_race,chrono, test,man_or_woman):
     
     result_dic={
     'rank':[-1, 0, ''],
@@ -160,5 +160,5 @@ def scan(pywikibot,site,repo, id_race, time_of_race,chrono, test):
             if list_of_cyclists[ii].id_item!='Q0' and list_of_cyclists[ii].id_item!='Q1':
                 this_rider=list_of_cyclists[ii]
                 claim=pywikibot.Claim(repo, u'P710')  #reinit everytime
-                f(pywikibot,site,repo,this_rider.id_item,time_of_race,claim,chrono)
+                f(pywikibot,site,repo,this_rider.id_item,time_of_race,claim,chrono,man_or_woman)
              

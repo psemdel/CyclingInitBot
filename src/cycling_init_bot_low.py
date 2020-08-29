@@ -275,7 +275,51 @@ def get_year(pywikibot, repo, present_id):
 
     return int(this_date.year)
 
+def date_duplicate(pywikibot, date_input):
+    return pywikibot.WbTime.fromTimestr(date_input.toTimestr(),precision="day")
+    
+#function for race
+#determine the date of a stage
+def date_finder(pywikibot, number,first_stage,last_stage, race_begin,
+                race_end):
+    
+    days_in_month = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    
+    if number==last_stage:
+         return date_duplicate(pywikibot,race_end)
+    elif number<=first_stage:
+         return date_duplicate(pywikibot, race_begin)
+    elif number!=first_stage:
+         output_date=date_duplicate(pywikibot, race_begin)
+         day_begin=race_begin.day
+         month_begin=race_begin.month
+         year_begin=race_begin.year
+
+         day_temp=day_begin+(number-first_stage)
+
+         if day_temp>days_in_month[month_begin]:
+             day_temp=day_temp-days_in_month[month_begin]
+             month_temp=month_begin+1
+             if month_temp>12:
+                 output_date.year=year_begin+1
+                 output_date.month=month_temp-12
+             else:
+                 output_date.month=month_temp
+         output_date.day=day_temp
+         return output_date
+
 # ==Table reader ==
+
+def float_to_int(a):
+    a=a.replace(",",".")
+    a=a.replace(".0","")
+  #  a=a.replace("'","")
+   # a=a.replace('"',"")
+    return int(a)
+
+def clean_txt(a):
+  #  a=a.replace('"',"")
+    return a
 
 #convert the time in seconds
 def time_converter(this_input):
@@ -292,31 +336,41 @@ def time_converter(this_input):
         timesplit = this_input.split(":")
         
         if len(timesplit) == 3:
-            thistime= int(timesplit[0]) * 3600 + int(timesplit[1]) * 60 + int(timesplit[2])
+            thistime= float_to_int(timesplit[0]) * 3600 + float_to_int(timesplit[1]) * 60 + float_to_int(timesplit[2])
         elif len(timesplit) == 2:
-            thistime= int(timesplit[0]) * 60 + int(timesplit[1])
+            thistime= float_to_int(timesplit[0]) * 60 + float_to_int(timesplit[1])
         else:
-            thistime= int(timesplit[0])
+            thistime= float_to_int(timesplit[0])
 
         if thistime < 120: #suspicious
             ecart=True
         return thistime, ecart
 
 
+def bot_or_site():
+    if 'bot_requests' in os.listdir():
+        return False #site
+    else:
+        return True #bot
+
 def excel_to_csv(filepath, destination):
     wb = xlrd.open_workbook(filepath)
     sh = wb.sheet_by_name('Results')
     destination_file = open(destination, 'w')
-    wr = csv.writer(destination_file, quoting=csv.QUOTE_ALL)
+    wr = csv.writer(destination_file, delimiter=";", quoting=csv.QUOTE_NONE)
 
     for rownum in range(sh.nrows):
         wr.writerow(sh.row_values(rownum))
 
     destination_file.close()
+    return destination
         
 def table_reader(filename,result_dic, startline, verbose):
     default_separator=';'
-        
+     
+    bot=bot_or_site() 
+    
+    clean_txt_bool=False
     #differentiate local from remote
     if filename[(len(filename)-3):]=='csv' or filename[(len(filename)-4):]=='xlsx':
         if filename[(len(filename)-3):]=='csv':
@@ -324,22 +378,34 @@ def table_reader(filename,result_dic, startline, verbose):
         else:
             filepathcsv=None
             filepathxlsx='uploads/'+filename
+ 
     elif filename=="champ":
-        filepathcsv="src/input/champ.csv"
-    else:
+        if bot:
+            filepathcsv="src/input/champ.csv"
+        else:
+            filepathcsv="bot_requests/src/input/champ.csv"
+    elif bot: #by site not allowed other type
         filepathcsv='src/input/'+filename+'.csv'
         filepathxlsx='src/input/'+filename+'.xlsx'    
-        
+    
     if (filepathcsv is not None) and os.path.isfile(filepathcsv):
         filepath=filepathcsv
     elif os.path.isfile(filepathxlsx):
-        filepath=excel_to_csv(filepathxlsx)
+        filename=filename[:(len(filename)-5)] #excel
+        if bot:
+            destination='src/input/'+filename+'.csv'
+        else:
+            destination='uploads/'+filename+'.csv'
+        print(destination)
+        filepath=excel_to_csv(filepathxlsx,destination)
+        clean_txt_bool=True
     else:
         print('no file found')
         return 0
     
+    verbose=True
     if verbose:
-        print(filepath)
+        print("corrected file path: " + filepath)
     
     with open(filepath, newline='') as csvfile:
         file_object = csv.reader(csvfile, delimiter=default_separator, quotechar='|')
@@ -377,10 +443,13 @@ def table_reader(filename,result_dic, startline, verbose):
         file_object = csv.reader(csvfile, delimiter=separator, quotechar='|')
 
         for row in file_object:
+            print(row)
             if kk == startline:
                 if verbose:
                     print(row)  #allow to see if there is no problem with the separator
                 for jj in range(len(row)):
+                    if clean_txt_bool:
+                        row[jj]=clean_txt(row[jj])
                     column=row[jj].lower()
                     if column in result_dic:
                         result_dic[column][0]=jj
@@ -392,17 +461,19 @@ def table_reader(filename,result_dic, startline, verbose):
                             if row[dic_content[0]]=='':
                                 result_table[kk-1][dic_content[1]]=0
                             else:
-                                result_table[kk-1][dic_content[1]]=int(row[dic_content[0]])
+                                result_table[kk-1][dic_content[1]]=float_to_int(row[dic_content[0]])
                         else:
                             if dic_content[2]=='time':
                                 result_table[kk-1][dic_content[1]], ecart=time_converter(row[dic_content[0]])
                                 if kk==startline+2:
                                     ecart_global=ecart
                             elif  dic_content[2]=='points':
-                                result_table[kk-1][dic_content[1]]=int(row[dic_content[0]].replace(",","."))
-    
+                                result_table[kk-1][dic_content[1]]=float_to_int(row[dic_content[0]])
                             else:
-                                result_table[kk-1][dic_content[1]]=row[dic_content[0]]
+                                if clean_txt_bool:
+                                    result_table[kk-1][dic_content[1]]=clean_txt(row[dic_content[0]])
+                                else:
+                                    result_table[kk-1][dic_content[1]]=row[dic_content[0]]
             kk = kk + 1
     if verbose:
         print('table read')
@@ -412,7 +483,7 @@ def table_reader(filename,result_dic, startline, verbose):
 def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwargs):
     list_of_cyclists = []
     all_riders_found=True
-    
+
     #check if all riders are already present
     for ii in range(len(result_table)):
         if (result_table[ii][result_dic['name'][1]]!=0 or result_table[ii][result_dic['first name'][1]]!=0):
@@ -438,7 +509,10 @@ def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwar
                this_rider=Cyclist(ii, 'not found', id_rider)
            list_of_cyclists.append(this_rider)
 
-    print('list of cyclists created')
+    if all_riders_found: 
+        print('list of cyclists created')
+    else:
+        print('reading of list of cyclists: failure not all riders found')
     return list_of_cyclists, all_riders_found
 
 # ==Search ==

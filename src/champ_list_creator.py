@@ -159,10 +159,10 @@ def f(pywikibot,site,repo,time,man_or_woman):
     if verbose:     
         log.concat(champ_table)  
     if man_or_woman=="woman":    
-        with open('input/champ2.csv', 'w', newline='') as csvFile:
+        with open('src/input/champ2.csv', 'w', newline='') as csvFile:
             writer = csv.writer(csvFile, delimiter=';')
             writer.writerows(final_table)
     else:
-        with open('input/champ_man2.csv', 'w', newline='') as csvFile:
+        with open('src/input/champ_man2.csv', 'w', newline='') as csvFile:
             writer = csv.writer(csvFile, delimiter=';')
             writer.writerows(final_table)
