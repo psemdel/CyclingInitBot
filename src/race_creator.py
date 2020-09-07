@@ -13,21 +13,35 @@ from .cycling_init_bot_low import (add_Qvalue, add_date, add_value, CIOtoIDsearc
 from .calendar_list import calendaruciID, calendarWWTID, calendarUWTID
 from .bot_log import Log
 
+def stage_label(number, genre,race_name, year):
+    mylabel={}
+
+    if number==0:
+        label_part1_fr = u"Prologue"
+    elif number==1:
+        label_part1_fr = u"1re étape"
+    else:
+        label_part1_fr = str(number)+u"e étape"
+
+    mylabel[u'fr']= label_part1_fr+" " + genre + race_name + " "+ str(year)
+    return mylabel
+
+def UCI_to_calendar_id(UCI, WWT, UWT, year, man_or_woman):
+         
+    if WWT:
+         calendar_id=calendarWWTID(str(year))
+    elif UWT:
+         calendar_id=calendarUWTID(str(year))
+    elif UCI and man_or_woman==u"woman":  
+         calendar_id=calendaruciID(str(year))
+    else:
+         calendar_id=None
+    return calendar_id
+
 def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                  year,single_race,man_or_woman,**kwargs):
     #optional: end_date, only_stages, create_stages, first_stage,  last_stage, stage_race_id
-    
-    def UCI_to_calendar_id(UCI, WWT, UWT, man_or_woman):
-        if UCI and man_or_woman==u"woman":
-             calendar_id=calendaruciID(str(year))
-        elif WWT:
-             calendar_id=calendarWWTID(str(year))
-        elif UWT:
-             calendar_id=calendarUWTID(str(year))
-        else:
-            calendar_id=None
-        return calendar_id
-    
+
     def race_basic(pywikibot,repo,item,site,country_code,master,start_date, UCI, WWT, year,
                single_race, man_or_woman, **kwargs):
     #No need for the table here
@@ -61,19 +75,6 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
         add_Qvalue(pywikibot,repo,item,"P17",country_code,u'country')
         add_value(pywikibot,repo,item,"P1545",str(number),u'order')
         #race_begin later
-   
-    def stage_label(number, genre,race_name, year):
-        mylabel={}
-    
-        if number==0:
-            label_part1_fr = u"Prologue"
-        elif number==1:
-            label_part1_fr = u"1re étape"
-        else:
-            label_part1_fr = str(number)+u"e étape"
-    
-        mylabel[u'fr']= label_part1_fr+" " + genre + race_name + " "+ str(year)
-        return mylabel
  
     ##main starts here##
     try:
@@ -142,7 +143,7 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                      add_value(pywikibot,repo,item,382,int(edition_nr),u'edition nr')
                 
                 #insert the race in the main calendar
-                calendar_id=UCI_to_calendar_id(UCI, WWT, UWT, man_or_woman)
+                calendar_id=UCI_to_calendar_id(UCI, WWT, UWT, year, man_or_woman)
                     
                 if calendar_id is not None:
                     item_calendar =pywikibot.ItemPage(repo, calendar_id)
