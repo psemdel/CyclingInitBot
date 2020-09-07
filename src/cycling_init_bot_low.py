@@ -408,7 +408,7 @@ def table_reader(filename,result_dic, startline, verbose):
         clean_txt_bool=True
     else:
         print('no file found')
-        return 0
+        return None, 0, None
     
     if verbose:
         print("corrected file path: " + filepath)

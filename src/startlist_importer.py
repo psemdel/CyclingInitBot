@@ -148,7 +148,7 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
     return list_of_cyclists, log          
                        
 def f(pywikibot,site,repo, prologue_or_final, id_race, 
-      time_of_race,chrono,test,nation_table,man_or_woman, force_nation_team):
+      time_of_race,chrono,test,nation_table,man_or_woman, force_nation_team,**kwargs):
      #0=prologue, 1=final, 2=one day 
     try:
         verbose=False
@@ -166,7 +166,8 @@ def f(pywikibot,site,repo, prologue_or_final, id_race,
         'bib':[-1,8,''] #dossard
         }
         
-        result_table, row_count, ecart=table_reader('Results', result_dic,0,True)
+        file=kwargs.get('file','Results')
+        result_table, row_count, ecart=table_reader(file, result_dic,0,True)
         #Sort by dossard
         result_table=sorted(result_table, key=lambda tup: int(tup[8]))
         log.concat('table read and sorted')
