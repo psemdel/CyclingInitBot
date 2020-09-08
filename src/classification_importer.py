@@ -70,7 +70,30 @@ def put_dnf_in_startlist(pywikibot, site, repo, item, startlist, row_count,
                      if test and stage_nummer!=-1: 
                          return this_starter, stage_nummer #return first dnf rider
     return None, stage_nummer                          
-                      
+
+def is_there_a_startlist(item, general_or_stage, general_or_stage_team, startliston):
+    there_is_a_startlist=False #only useful for stage race
+    in_parent=False
+    startlist=None
+    item_with_startlist=None
+    
+    if (general_or_stage not in general_or_stage_team) and  startliston:
+        if(u'P710' in item.claims): 
+            item_with_startlist=item
+        elif (u'P361' in item.claims):
+            list_of_comprend=item.claims.get(u'P361')
+            parent=list_of_comprend[0].getTarget()
+            parent.get()
+            if(u'P710' in parent.claims): 
+                item_with_startlist=parent
+                in_parent=True
+       
+        if item_with_startlist is not None:
+            startlist=item_with_startlist.claims.get(u'P710')
+            there_is_a_startlist=True
+
+    return there_is_a_startlist, startlist, in_parent
+                    
 def f(pywikibot,site,repo,general_or_stage, id_race,
                            final, maxkk,test,**kwargs):
      
@@ -149,20 +172,9 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
         item =pywikibot.ItemPage(repo, id_race)
         item.get()
         
-        there_is_a_startlist=False #only useful for stage race
-        if (general_or_stage not in general_or_stage_team) and  startliston:
-            if(u'P361' in item.claims):  #part of
-                if general_or_stage==1:
-                    list_of_comprend=item.claims.get(u'P361')
-                    parent=list_of_comprend[0].getTarget()
-                    parent.get()
-                    item_with_startlist=parent
-                else:
-                    item_with_startlist=item
-                if(u'P710' in item_with_startlist.claims): 
-                    startlist=item_with_startlist.claims.get(u'P710')
-                    there_is_a_startlist=True
-                    log.concat('startlist found')
+        there_is_a_startlist, startlist, in_parent=is_there_a_startlist(item, general_or_stage, general_or_stage_team, startliston)
+        if there_is_a_startlist:
+            log.concat('startlist found')
         
         if not test:
             if(u'P'+str(property_nummer) in item.claims):  #already there do nothing

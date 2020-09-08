@@ -2,7 +2,8 @@
 
 import pywikibot
 import unittest
-from src.classification_importer import copy_team, put_dnf_in_startlist
+from src.classification_importer import (copy_team, put_dnf_in_startlist,
+                                         is_there_a_startlist)
 from src.cycling_init_bot_low import table_reader
 
 site = pywikibot.Site("wikidata", "wikidata")
@@ -54,6 +55,18 @@ class Test_f(unittest.TestCase):
         self.assertEqual( this_starter, "Q98895868")
         self.assertEqual(team, "Q74748391")   
 
+        target = pywikibot.ItemPage(repo, "Q26792853") #AUT
+        claim=pywikibot.Claim(repo, u'P2321')  
+
+        this_starter, team=copy_team(pywikibot, site, startlist, claim, target, test=True)
+        self.assertEqual(this_starter, "Q26792853")
+        self.assertEqual(team, "Q74748391")
+        
+        claim=pywikibot.Claim(repo, u'P2417') 
+        this_starter, team=copy_team(pywikibot, site, startlist, claim, target, test=True)
+        self.assertEqual( this_starter, "Q26792853")
+        self.assertEqual(team, "Q74748391") 
+
         target = pywikibot.ItemPage(repo, "Q129857") #francois Ier
         claim=pywikibot.Claim(repo, u'P2321')  
         
@@ -94,6 +107,43 @@ class Test_f(unittest.TestCase):
             
             self.assertEqual(starter.getTarget().getID(), "Q18125995")
             self.assertEqual(stage_nummer, '1')
+
+    def test_is_there_a_startlist(self):
+        
+        general_or_stage=0
+        general_or_stage_team=[5,6]
+        startliston=True
+        #stage, with startlist
+        item =pywikibot.ItemPage(repo, "Q98293689")
+        item.get()
+        
+        there_is_a_startlist, startlist, in_parent=is_there_a_startlist(item, general_or_stage, general_or_stage_team, startliston)
+        self.assertEqual(there_is_a_startlist, True)
+        self.assertEqual(in_parent, True)
+        #stage race, with startlist
+        item =pywikibot.ItemPage(repo, "Q79138636")
+        item.get()
+        
+        there_is_a_startlist, startlist, in_parent=is_there_a_startlist(item, general_or_stage, general_or_stage_team, startliston)
+        self.assertEqual(there_is_a_startlist, True)
+        self.assertEqual(in_parent, False)
+       
+         #single day race, with startlist
+        item =pywikibot.ItemPage(repo, "Q57277525")
+        item.get()
+        
+        there_is_a_startlist, startlist, in_parent=is_there_a_startlist(item, general_or_stage, general_or_stage_team, startliston)
+        self.assertEqual(there_is_a_startlist, True)
+        self.assertEqual(in_parent, False)       
+        
+        #single day race, without startlist
+        item =pywikibot.ItemPage(repo, "Q24575332")
+        item.get()
+        
+        there_is_a_startlist, startlist, in_parent=is_there_a_startlist(item, general_or_stage, general_or_stage_team, startliston)
+        self.assertEqual(there_is_a_startlist, False)
+        self.assertEqual(in_parent, False) 
+
 
 if __name__ == '__main__':
     unittest.main()
