@@ -34,8 +34,7 @@ def put_dnf_in_startlist(pywikibot, site, repo, item, startlist, row_count,
                          result_table, result_dic,**kwargs):
     
     test=kwargs.get('test',False)
-    qualifier_DNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
-    qualifier_stage_number=pywikibot.page.Claim(site, 'P1545', is_qualifier=True)
+    
     stage_nummer=-1
     if(u'P1545' in item.claims):  
         list_of_order=item.claims.get(u'P1545')
@@ -57,6 +56,7 @@ def put_dnf_in_startlist(pywikibot, site, repo, item, startlist, row_count,
                          qualnotfound=False
                      if qualnotfound:
                          target_qualifier = pywikibot.ItemPage(repo, u'Q1210380')
+                         qualifier_DNF=pywikibot.page.Claim(site, 'P1534', is_qualifier=True)
                          qualifier_DNF.setTarget(target_qualifier)
                          if not test:
                              this_starter.addQualifier(qualifier_DNF)
@@ -64,6 +64,7 @@ def put_dnf_in_startlist(pywikibot, site, repo, item, startlist, row_count,
                      for qual in this_starter.qualifiers.get('P1545', []):
                          qualnotfound=False 
                      if qualnotfound and stage_nummer!=-1:   
+                         qualifier_stage_number=pywikibot.page.Claim(site, 'P1545', is_qualifier=True)
                          qualifier_stage_number.setTarget(stage_nummer)
                          if not test:
                              this_starter.addQualifier(qualifier_stage_number)
