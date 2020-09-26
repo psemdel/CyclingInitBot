@@ -74,9 +74,10 @@ def f(
             add_Qvalue(pywikibot, repo, item, "P106", "Q2309784", u'cyclist')
         else:
             log.concat("AlreadyThere with id " +id_rider)
-            return 1, log
+            return 1, log, "Q1"
         return 0, log, id_rider
-    except:
+    except Exception as msg:
+        print(msg)
         log.concat("General Error in rider_fast_init")
-        return 10, log
+        return 10, log, "Q1"
 

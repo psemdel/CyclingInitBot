@@ -30,8 +30,18 @@ def f(pywikibot,site,repo,time,man_or_woman):
           if (u'P1346' in item_this_year.claims): #winner
              winners=item_this_year.claims.get(u'P1346')
              for winner in winners:
-                 id_this_qual=winner.qualifiers['P642'][0].getTarget().getID()
-                 if id_this_qual=='Q20882667': #check qualifier
+                 there_is_qual=False
+                 id_this_qual=None
+                 
+                 for qual in winner.qualifiers.get('P642', []):
+                     there_is_qual=True
+                 if there_is_qual:
+                     id_this_qual=winner.qualifiers['P642'][0].getTarget().getID()
+                 else:
+                     print(get_label('fr',item_this_year))
+                     print("no qualifier")
+                    
+                 if id_this_qual is not None and id_this_qual=='Q20882667': #check qualifier
                      id_temp_winner=winner.getTarget().getID()
                      there_is_a_winner=True   
                  if date_found and there_is_a_winner:
@@ -109,7 +119,7 @@ def f(pywikibot,site,repo,time,man_or_woman):
     verbose=False
     log=Log()
        
-    startYear=2017
+    startYear=2020
     EndYear=2021
     champ_table = [[0 for x in range(10)] for y in range(1000)] 
     

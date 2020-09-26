@@ -113,37 +113,41 @@ def f(
             str(year) + " " + description_part2_fr + " " + team_table[kk][1]
         return mydescription
     
-    kkinit = 1
-    endkk=len(team_table)
-    log=Log()
+    try:
+        kkinit = 1
+        endkk=len(team_table)
+        log=Log()
+        
+        if True:
+            for kk in range(kkinit, endkk): 
+                if team_table[kk][team_dic['active']] == 1:
     
-    if True:
-        for kk in range(kkinit, endkk): 
-            if team_table[kk][team_dic['active']] == 1:
-
-                mylabel = {}
-                mylabel = team_label(team_table, kk, year)
-                id_present, item=create_present(pywikibot, site,repo,time,mylabel)
-                
-                if id_present!=u'Q1':
-                    log.concat("team id: " + id_present)
-                    team_intro(item, team_table, kk, year, team_dic)
-                    team_basic(
-                        pywikibot,
-                        repo,
-                        item,
-                        site,
-                        team_table[kk][team_dic['name']],
-                        CIOtoIDsearch(
-                            nation_table,
-                            team_table[kk][team_dic['country']]),
-                        year,
-                        team_table[kk][team_dic['master']],
-                        id_present,
-                        team_table[kk][team_dic['UCIcode']]
-                        )
-                     # Link the other to the new item
-                    name_previous=team_label(team_table, kk, year-1)
-                    name_next=team_label(team_table, kk, year+1)
-                    link_year(pywikibot, site,repo, id_present,name_previous[u'fr'],name_next[u'fr'])
-    return 0, log
+                    mylabel = {}
+                    mylabel = team_label(team_table, kk, year)
+                    id_present, item=create_present(pywikibot, site,repo,time,mylabel)
+                    
+                    if id_present!=u'Q1':
+                        log.concat("team id: " + id_present)
+                        team_intro(item, team_table, kk, year, team_dic)
+                        team_basic(
+                            pywikibot,
+                            repo,
+                            item,
+                            site,
+                            team_table[kk][team_dic['name']],
+                            CIOtoIDsearch(
+                                nation_table,
+                                team_table[kk][team_dic['country']]),
+                            year,
+                            team_table[kk][team_dic['master']],
+                            id_present,
+                            team_table[kk][team_dic['UCIcode']]
+                            )
+                         # Link the other to the new item
+                        name_previous=team_label(team_table, kk, year-1)
+                        name_next=team_label(team_table, kk, year+1)
+                        link_year(pywikibot, site,repo, id_present,name_previous[u'fr'],name_next[u'fr'])
+        return 0, log, id_present
+    except:
+        log.concat("General Error in team creator")
+        return 10, log, "Q1"

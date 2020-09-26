@@ -13,7 +13,7 @@ def load():
     # Item 1 = Country name fr
     # Item 2 = genre
     # Item 3= Element of the country
-    # Item 4= Element of the master for the team
+    # Item 4= Element of the master for the team women
     # Item 5= Country name en
     # Item 6= Country adjective en
     # Item 7= CIO code
@@ -45,6 +45,7 @@ def load():
     team_table[kk][6] = u'Afghan'
     team_table[kk][7] = u'AFG'
     team_table[kk][8] = 3
+    team_table[kk][15] =u"Afganistán"
     team_table[kk][16] =u'afghane'
     team_table[kk][17] =u'afghan'
     kk += 1
@@ -57,6 +58,7 @@ def load():
     team_table[kk][6] = u'Albanian'
     team_table[kk][7] = u'ALB'
     team_table[kk][8] = 2
+    team_table[kk][9] = 2954296
     team_table[kk][14] = 35541706
     team_table[kk][15] = u'Albania'
     team_table[kk][16] =u'albanaise'
@@ -88,6 +90,7 @@ def load():
     team_table[kk][6] = u'Andorran'
     team_table[kk][7] = u'AND'
     team_table[kk][8] = 2
+    team_table[kk][9] = 16538033
     team_table[kk][15] = u'Andorra'
     team_table[kk][16] =u'andorrane'
     team_table[kk][17] =u'andorran'
@@ -101,6 +104,8 @@ def load():
     team_table[kk][6] = u'Angolan'
     team_table[kk][7] = u'ANG'
     team_table[kk][8] = 3
+    team_table[kk][9] = 16538037
+    team_table[kk][15] = u"Angola"
     team_table[kk][16] =u'angolaise'
     team_table[kk][17] =u'angolaise'
     kk += 1
@@ -147,6 +152,7 @@ def load():
     team_table[kk][6] = u'Armenian'
     team_table[kk][7] = u'ARM'
     team_table[kk][8] = 3
+    team_table[kk][15] = u"Armenia"
     team_table[kk][16] =u'arménienne'
     team_table[kk][17] =u'arménien'
     kk += 1
@@ -159,6 +165,10 @@ def load():
     team_table[kk][6] = u'Aruban'
     team_table[kk][7] = u'ARU'
     team_table[kk][8] = 3
+    team_table[kk][9] =17174286
+    team_table[kk][15] = u'Aruba'
+    team_table[kk][16] =u'arubaine'
+    team_table[kk][17] =u'arubain'
     kk += 1
 
     team_table[kk][1] = u'Samoa américaines'
@@ -169,6 +179,7 @@ def load():
     team_table[kk][6] = u'American Samoan'
     team_table[kk][7] = u'ASA'  # to check
     team_table[kk][8] = 3
+    team_table[kk][15] =u"Samoa Estadounidense"
     team_table[kk][16] =u'samoa'
     team_table[kk][17] =u'samoa'
     kk += 1
@@ -242,6 +253,23 @@ def load():
     team_table[kk][16] =u'bahamienne'
     team_table[kk][17] =u'bahamien'
     kk += 1
+
+    team_table[kk][1] = u'Barbade'
+    team_table[kk][2] = u"de la "
+    team_table[kk][3] = 244
+    team_table[kk][4] = 99544980
+    team_table[kk][5] = u'Barbados'
+    team_table[kk][6] = u'Barbados'
+    team_table[kk][7] = u'BAR'
+    team_table[kk][8] = 2
+    team_table[kk][9] = 56301263
+    team_table[kk][10] = 0
+    team_table[kk][11] = 0
+    team_table[kk][15] = u'Barbados'
+    team_table[kk][16] =u'barbadienne'
+    team_table[kk][17] =u'barbadien'
+    kk += 1
+
  
     team_table[kk][1] = u'Bahreïn'
     team_table[kk][2] = u"du "
@@ -359,6 +387,9 @@ def load():
     team_table[kk][6] = u'Bulgarian'
     team_table[kk][7] = u'BUL'
     team_table[kk][8] = 2
+    team_table[kk][9] = 2954795
+    team_table[kk][14] =33888075
+    team_table[kk][15] =u"Bulgaria"
     team_table[kk][16] =u'bulgare'
     team_table[kk][17] =u'bulgare'
     kk += 1
@@ -656,6 +687,22 @@ def load():
     team_table[kk][16] =u'estonienne'
     team_table[kk][17] =u'estonien'
     kk += 1
+    
+    team_table[kk][1] = u'Éthiopie'
+    team_table[kk][2] = u"d'"
+    team_table[kk][3] = 115
+    team_table[kk][4] = 99601830
+    team_table[kk][5] = u"Ethiopia"
+    team_table[kk][6] = u"Ethiopian"
+    team_table[kk][7] = u'ETH'
+    team_table[kk][8] = 2
+    team_table[kk][9] = 16538092
+    team_table[kk][14] = 22114621  
+    team_table[kk][15] = u'Etiopía'
+    team_table[kk][16] =u'éthiopienne'
+    team_table[kk][17] =u'éthiopien'    
+    kk += 1
+
 
     team_table[kk][1] = u'Finlande'
     team_table[kk][2] = u"de "
@@ -843,6 +890,20 @@ def load():
     team_table[kk][15] = u'Irlanda'
     team_table[kk][16] =u'irlandaise'
     team_table[kk][17] =u'irlandais'
+    kk += 1
+    
+    team_table[kk][1] = u'Islande'
+    team_table[kk][2] = u"d'"
+    team_table[kk][3] = 189
+    team_table[kk][4] = 99545212
+    team_table[kk][5] = u"Iceland"
+    team_table[kk][6] = u"Iceland"
+    team_table[kk][7] = u'ISL'
+    team_table[kk][8] = 2
+    team_table[kk][9] = 2803099
+    team_table[kk][15] =u"Islandia"
+    team_table[kk][16] = u"islandaise"
+    team_table[kk][17] = u"islandais"
     kk += 1
 
     team_table[kk][1] = u'Israel'
@@ -1480,6 +1541,20 @@ def load():
     team_table[kk][16] =u'taïwanaise'
     team_table[kk][17] =u'taïwanais'
     kk += 1
+    
+    team_table[kk][1] = u'Trinité-et-Tobago'
+    team_table[kk][2] = u"de "
+    team_table[kk][3] = 754
+    team_table[kk][4] = 68357560
+    team_table[kk][5] = u'Trinidad and Tobago'
+    team_table[kk][6] = u'Trinidad and Tobago'
+    team_table[kk][7] = u'TTO'
+    team_table[kk][8] = 2
+    team_table[kk][9] = 17624423
+    team_table[kk][15] = u"Trinidad y Tobago"
+    team_table[kk][16] =u'trinidadienne'
+    team_table[kk][17] =u'trinidadien'
+    kk += 1
 
     team_table[kk][1] = u'Turquie'
     team_table[kk][2] = u"de "
@@ -1533,6 +1608,21 @@ def load():
     team_table[kk][15] = u'Ucrania'
     team_table[kk][16] =u'ukrainienne'
     team_table[kk][17] =u'ukrainien'
+    kk += 1
+    
+    team_table[kk][1] = u'Ouzbékistan'
+    team_table[kk][2] = u"d'"
+    team_table[kk][3] = 265
+    team_table[kk][4] =99601832
+    team_table[kk][5] = u"Uzbekistan"
+    team_table[kk][6] = u"Uzbekistan"
+    team_table[kk][7] = u'UZB'
+    team_table[kk][8] = 1
+    team_table[kk][9] = 2954773
+    team_table[kk][14] = 34011051
+    team_table[kk][15] = u"Uzbekistán"
+    team_table[kk][16] = u"ouzbeke"
+    team_table[kk][17] = u"ouzbek"
     kk += 1
 
     team_table[kk][1] = u'États-Unis'

@@ -140,7 +140,7 @@ def add_winner(pywikibot, site, repo, item, value, order, general_or_stage):
 
     if order == 1:
         if general_or_stage in dic_order1:
-            qualifier_nummer=dic_order1(general_or_stage)
+            qualifier_nummer=dic_order1[general_or_stage]
         else:
             qualifier_nummer = 'Q20882667'
     elif order == 2 and general_or_stage==0:
