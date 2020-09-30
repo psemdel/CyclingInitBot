@@ -12,5 +12,5 @@ branches:
         - dev
 
 script:
-  - python -m unittest -v discover
+  - python -m unittest -v
 
