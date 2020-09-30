@@ -7,6 +7,7 @@ python:
 install:
   - pip install -U setuptools
   - pip install pywikibot
+  - pip install xlrd
 # command to run tests
 branches:
     only:
