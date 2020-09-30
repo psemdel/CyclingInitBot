@@ -6,7 +6,8 @@ Created on Thu Dec 19 20:34:29 2019
 @author: maxime
 """
 from .cycling_init_bot_low import (table_reader, cyclists_table_reader, 
-IDtoCIOsearch, search_item, get_present_team, noQ, get_label, get_items)                               
+IDtoCIOsearch, search_item, get_present_team, noQ, get_label, get_items,
+get_nationality)                               
 from . import get_rider_tricot 
 from .bot_log import Log
 
@@ -80,7 +81,6 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
         if not force_nation_team:
             if result_table[ii][result_dic['bib'][1]]%10==1:
                         #insert last team
-      
                 if (national_team_detected and all_same_team<0):
                     log.concat(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
                     #insert the team
@@ -102,15 +102,15 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
                 if verbose:
                     print(list_of_cyclists[ii].dossard)
                 #get nationality
-                if (u'P27' in item_rider.claims):
-                    nationality=item_rider.claims.get(u'P27')
-                    list_of_cyclists[ii].nationality=nationality
+                nationality=get_nationality(pywikibot, repo, site, id_rider, time_of_race)    
+                if nationality !="Q0":
                     if verbose:
-                        print("nationality: "+ nationality[0].getTarget().getID())
+                        print("nationality: "+ nationality)
+                    list_of_cyclists[ii].nationality=nationality   
                     if national_team_nation==u'reset':
-                        national_team_nation=nationality[0].getTarget().getID()
+                        national_team_nation=nationality   
                     else:
-                        if national_team_nation!=nationality[0].getTarget().getID(): 
+                        if national_team_nation!=nationality   : 
                             #not the same nation --> not a national team
                             if verbose:
                                 print("different nation")
@@ -127,14 +127,6 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
                     elif team=='Q1':
                         all_same_team=all_same_team-1
             #last team
-            if national_team_detected and all_same_team<0:
-                 log.concat(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
-                        #insert the team
-                 for jj in range(national_team_begin,row_count):
-                    id_national_team=get_national_team_id(pywikibot,site, repo,nation_table, national_team_nation, year, man_or_woman) 
-                    if id_national_team!=u'Q0':
-                        list_of_cyclists[jj].team=id_national_team   
-                        list_of_cyclists[jj].national_team=True #for testing
         else: #force_nation_team, then only look at nation value
             item_rider=list_of_cyclists[ii].item
             id_rider=list_of_cyclists[ii].id_item
@@ -144,6 +136,17 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
             if id_national_team!=u'Q0':
                 list_of_cyclists[ii].team=id_national_team
                 list_of_cyclists[ii].national_team=True #for testing
+
+     
+    if not force_nation_team and national_team_detected and all_same_team<0:
+         print("last")
+         log.concat(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
+                #insert the team
+         for jj in range(national_team_begin,row_count):
+            id_national_team=get_national_team_id(pywikibot,site, repo,nation_table, national_team_nation, year, man_or_woman) 
+            if id_national_team!=u'Q0':
+                list_of_cyclists[jj].team=id_national_team   
+                list_of_cyclists[jj].national_team=True #for testing
 
     return list_of_cyclists, log          
                        

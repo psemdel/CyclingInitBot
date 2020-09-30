@@ -668,6 +668,21 @@ def load():
     team_table[kk][16] =u'espagnole'
     team_table[kk][17] =u'espagnol'
     kk += 1
+    
+    team_table[kk][1] = u'Érythrée'
+    team_table[kk][2] = u"d'"
+    team_table[kk][3] = 986
+    team_table[kk][4] = 0
+    team_table[kk][5] = u'Eritrea'
+    team_table[kk][6] = u'Eritrean'
+    team_table[kk][7] = u'ERI'
+    team_table[kk][8] = 1
+    team_table[kk][9] = 2954781
+    team_table[kk][14] = 22107353
+    team_table[kk][15] = u'Eritrea'
+    team_table[kk][16] =u'érythréenne'
+    team_table[kk][17] =u'érythréen'
+    kk += 1
 
     team_table[kk][1] = u'Estonie'
     team_table[kk][2] = u"d'"
@@ -702,7 +717,7 @@ def load():
     team_table[kk][16] =u'éthiopienne'
     team_table[kk][17] =u'éthiopien'    
     kk += 1
-
+       
 
     team_table[kk][1] = u'Finlande'
     team_table[kk][2] = u"de "

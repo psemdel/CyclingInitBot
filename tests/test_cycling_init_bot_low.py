@@ -13,7 +13,8 @@ import csv
 from src.cycling_init_bot_low import (search_race, is_it_a_cyclist, search_item,
 search_rider, define_article, get_class, get_present_team, CIOtoIDsearch,
 get_class_WWT, get_country, table_reader, compare_dates, get_year, checkid,
-checkprop, get_single_or_stage,excel_to_csv,bot_or_site, date_finder, search_team_by_code)
+checkprop, get_single_or_stage,excel_to_csv,bot_or_site, date_finder, search_team_by_code,
+float_to_int, IDtoCIOsearch, get_nationality)
 from src import race_list
 from src import nation_team_table
 
@@ -21,6 +22,27 @@ site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
 
 class TestSearch(unittest.TestCase):  
+    def test_get_nationality(self):
+        this_date1=pywikibot.WbTime(site=site,year=2009, month=12, day=31, precision='day')    
+        
+        res=get_nationality(pywikibot, repo, site, "Q13893333", this_date1)
+        self.assertEqual(res,"Q142")
+        res=get_nationality(pywikibot, repo, site, "Q16215626", this_date1)
+        self.assertEqual(res,"Q212")       
+        res=get_nationality(pywikibot, repo, site, "Q270555", this_date1)
+        self.assertEqual(res,"Q35")   
+        
+        this_date2=pywikibot.WbTime(site=site,year=2019, month=12, day=31, precision='day')    
+        res=get_nationality(pywikibot, repo, site, "Q270555", this_date2)
+        self.assertEqual(res,"Q664")  
+        
+    def test_IDtoCIOsearch(self):
+        nation_table= nation_team_table.load()
+        
+        self.assertEqual(IDtoCIOsearch(nation_table,456789),"no code")
+        self.assertEqual(IDtoCIOsearch(nation_table,889),"AFG")
+        self.assertEqual(IDtoCIOsearch(nation_table,804),"PAN")
+    
     def test_search_race(self):
         race_table, race_dic = race_list.load()
         result1, result2 = search_race('Tour Santos Women', race_table,race_dic)
@@ -177,6 +199,13 @@ class TestSearch(unittest.TestCase):
 
     def test_bot_or_site(self):
         self.assertEqual(bot_or_site(),True)  
+       
+    def test_float_to_int(self):
+        self.assertEqual( float_to_int('1149.67'),1149)  
+        self.assertEqual( float_to_int("1149.67"),1149)  
+        self.assertEqual( float_to_int(1149.67),1149)  
+        self.assertEqual( float_to_int(1149),1149)  
+        
         
     def test_date_finder(self):
         #easy case

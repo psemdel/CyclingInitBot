@@ -311,9 +311,10 @@ def date_finder(pywikibot, number,first_stage,last_stage, race_begin,
 # ==Table reader ==
 
 def float_to_int(a):
-    a=a.replace(",",".")
-    a=a.replace(".0","")
-    return int(a)
+    if isinstance(a, str):
+        a=a.replace(",",".")
+        a=a.replace(".0","")
+    return int(float(a))
 
 def clean_txt(a):
     return a
@@ -708,6 +709,63 @@ def get_country(pywikibot, repo, item_id):
          return P17[0].getTarget().getID()
     else:
         return "Q0"
+    
+#return ID of country from nationality
+def get_nationality(pywikibot, repo, site, item_id, time_of_race):
+    item = pywikibot.ItemPage(repo, item_id)
+    item.get()
+    result="Q0"
+    if (u'P1532' in item.claims):
+        nationalities=item.claims.get(u'P1532')
+        if len(nationalities)==1:
+           result=nationalities[0].getTarget().getID()
+        else:
+            for nationality in nationalities:
+                if ('P580' in nationality.qualifiers):
+                    begin_time = nationality.qualifiers['P580'][0].getTarget()
+                else:
+                    begin_time = pywikibot.WbTime(
+                    site=site, year=1000, month=1, day=1, precision='day')   
+                    
+                if ('P582' in nationality.qualifiers):
+                    end_time = nationality.qualifiers['P582'][0].getTarget()
+                    if end_time.month == 0:
+                        end_time.month = 12
+                        end_time.day = 31
+                else:
+                    end_time = pywikibot.WbTime(
+                    site=site, year=2100, month=1, day=1, precision='day')
+            
+                if (compare_dates(begin_time,time_of_race) == 2 or compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or compare_dates(end_time,time_of_race) == 0):
+                    result = nationality.getTarget().getID()
+                    break
+        
+    if result=="Q0":
+        if (u'P27' in item.claims):
+            nationalities=item.claims.get(u'P27')
+            if len(nationalities)==1:
+               result=nationalities[0].getTarget().getID()
+            else:
+                for nationality in nationalities:
+                    if ('P580' in nationality.qualifiers):
+                        begin_time = nationality.qualifiers['P580'][0].getTarget()
+                    else:
+                        begin_time = pywikibot.WbTime(
+                        site=site, year=1000, month=1, day=1, precision='day')   
+                    if ('P582' in nationality.qualifiers):
+                        end_time = nationality.qualifiers['P582'][0].getTarget()
+                        if end_time.month == 0:
+                            end_time.month = 12
+                            end_time.day = 31
+                    else:
+                        end_time = pywikibot.WbTime(
+                        site=site, year=2100, month=1, day=1, precision='day')
+                
+                    if (compare_dates(begin_time,time_of_race) == 2 or compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or compare_dates(end_time,time_of_race) == 0):
+                        result = nationality.getTarget().getID()
+                        break
+    return result
+    
  
 def get_race_begin(pywikibot, repo, item_id):
     item = pywikibot.ItemPage(repo, item_id)
@@ -876,11 +934,13 @@ def CIOtoIDsearch(team_table, CIOcode):
 
 
 def IDtoCIOsearch(team_table, ID):
-    result = 0
+    result = "no code"
     for ii in range(len(team_table)):
         if team_table[ii][3] == ID:
             result = team_table[ii][7]
             break
+    if result=="no code":
+        print("country ID not found: " + str(ID))
     return result
 
 # ==Create==
