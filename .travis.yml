@@ -4,8 +4,9 @@ python:
 # command to install dependencies
 
 
-#install:
-#  - pip install -r requirements.txt
+install:
+  - pip install -U setuptools
+  - pip install pywikibot
 # command to run tests
 branches:
     only:
