@@ -764,6 +764,9 @@ def get_nationality(pywikibot, repo, site, item_id, time_of_race):
                     if (compare_dates(begin_time,time_of_race) == 2 or compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or compare_dates(end_time,time_of_race) == 0):
                         result = nationality.getTarget().getID()
                         break
+    if  result=="Q15180": #USSR
+        print("USSR rider")
+        print(item_id)
     return result
     
  
@@ -934,6 +937,10 @@ def CIOtoIDsearch(team_table, CIOcode):
 
 
 def IDtoCIOsearch(team_table, ID):
+    #exception
+    if ID==54:
+        return 'NED'
+    
     result = "no code"
     for ii in range(len(team_table)):
         if team_table[ii][3] == ID:

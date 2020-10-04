@@ -71,7 +71,7 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
                        force_nation_team, year, log, man_or_woman,
                        time_of_race):
     
-    verbose=False
+    verbose=True
     national_team_detected=False #otherwise insert nothing during first loop
     all_same_team=1
     national_team_nation=u'reset'
@@ -97,6 +97,7 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
                 all_same_team=1 #if all_same_team is 1 then it is probably not a national team
                
             if national_team_detected: 
+                
                 item_rider=list_of_cyclists[ii].item
                 id_rider=list_of_cyclists[ii].id_item
                 if verbose:
@@ -130,8 +131,8 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
         else: #force_nation_team, then only look at nation value
             item_rider=list_of_cyclists[ii].item
             id_rider=list_of_cyclists[ii].id_item
-            nationality=item_rider.claims.get(u'P27')
-            national_team_nation=nationality[0].getTarget().getID()
+            nationality=get_nationality(pywikibot, repo, site, id_rider, time_of_race)    
+            national_team_nation=nationality
             id_national_team=get_national_team_id(pywikibot,site, repo,nation_table, national_team_nation, year, man_or_woman) 
             if id_national_team!=u'Q0':
                 list_of_cyclists[ii].team=id_national_team
