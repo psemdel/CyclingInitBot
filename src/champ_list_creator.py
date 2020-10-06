@@ -94,7 +94,8 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
         return champ_table, offset
     
     def sub_create_champ(result_dic,dic, dic_worldconti, road_or_clm,verbose,
-                         start_year,EndYear,filename,old_filename,actualize):
+                         start_year,EndYear,filename,old_filename,actualize,
+                         pattern):
         
         champ_table = [[0 for x in range(10)] for y in range(2000)] 
         
@@ -128,8 +129,9 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
                       if list_of_comprend2 is None:
                           print(get_label('fr',item_this_national) + " has no P527")
                       else:
-                          for in_comprend2 in list_of_comprend2:                      
-                              champ_table, offset=sub_courseenligne(in_comprend2,champ_table, result_dic,"Course en ligne féminine aux", "Road",ll)
+                          for in_comprend2 in list_of_comprend2:  
+                              champ_table, offset=sub_courseenligne(in_comprend2,
+                                                                    champ_table, result_dic,pattern, road_or_clm,ll)
                               ll=ll+offset
         #write file
         final_table=champ_table[:ll]
@@ -211,26 +213,32 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
         filename='src/input/champ2.csv'
         old_filename='src/input/champ.csv'
         dic_worldconti=dic_road_race_women
+        pattern="Course en ligne féminine aux"
     else:
         filename='src/input/champ_man2.csv'
         old_filename='src/input/champ_man.csv'
         dic_worldconti=dic_road_race_men
+        pattern="Course en ligne masculine aux"
         
-    sub_create_champ(result_dic,dic,dic_worldconti, 'Road',verbose,
-                         start_year,EndYear,filename,old_filename,actualize)
+   # sub_create_champ(result_dic,dic,dic_worldconti, 'Road',verbose,
+  #                       start_year,EndYear,filename,old_filename,actualize,
+   #                      pattern)
 
     #Clm
     if man_or_woman=="woman":
         filename='src/input/champ_clm2.csv'
         old_filename='src/input/champ_clm.csv'
         dic_worldconti=dic_clm_women
+        pattern="Contre-la-montre féminin aux"
     else:
         filename='src/input/champ_clm_man2.csv'
         old_filename='src/input/champ_clm_man.csv'
         dic_worldconti=dic_clm_men
+        pattern="Contre-la-montre masculin aux"
         
     sub_create_champ(result_dic,dic,dic_worldconti, 'Clm',verbose,
-                         start_year,EndYear,filename,old_filename,actualize)
+                         start_year,EndYear,filename,old_filename,actualize,
+                         pattern)
 
 
 
