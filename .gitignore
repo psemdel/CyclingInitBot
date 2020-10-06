@@ -1,3 +1,5 @@
 **/__pycache__
 **/apicache-py3
+*.pyc
 pywikibot
+champ2.csv

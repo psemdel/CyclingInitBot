@@ -1075,7 +1075,7 @@ def load():
     team_table[kk][1] = u'Maroc'
     team_table[kk][2] = u"du "
     team_table[kk][3] = 1028
-    team_table[kk][4] = 0
+    team_table[kk][4] = 99963674
     team_table[kk][5] = u'Morocco'
     team_table[kk][6] = u'Moroccan'
     team_table[kk][7] = u'MAR'

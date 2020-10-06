@@ -8,9 +8,10 @@ Created on Thu Dec 19 20:35:53 2019
 from .cycling_init_bot_low import get_label
 import csv
 from .bot_log import Log
+from datetime import date
+ 
+def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
 
-def f(pywikibot,site,repo,time,man_or_woman):
-    
     def sub_findwinner(item_this_year,id_race,champ_table, result_dic, road_or_clm,ll):
           date_found=False
           invalid_precision=False
@@ -57,7 +58,7 @@ def f(pywikibot,site,repo,time,man_or_woman):
                          warning_written=True
           return champ_table, offset   
     
-    def sub_champlist(champ_table, result_dic,dic_road_race, road_or_clm,ll):
+    def sub_champlist(champ_table, result_dic,dic_road_race, road_or_clm,ll, actualize, start_year):
         for id_race in dic_road_race:
             item_race =pywikibot.ItemPage(repo, id_race)
             item_race.get()            
@@ -66,8 +67,14 @@ def f(pywikibot,site,repo,time,man_or_woman):
                  for in_comprend in list_of_comprend:  
                      item_this_year =in_comprend.getTarget()
                      item_this_year.get()
-                     champ_table, offset=sub_findwinner(item_this_year,id_race,champ_table, result_dic, road_or_clm,ll)
-                     ll=ll+offset
+                     
+                     if (u'P585' in item_this_year.claims):
+                         list_of_race_date=item_this_year.claims.get(u'P585')
+                         race_year=list_of_race_date[0].getTarget().year
+                         
+                         if (actualize and race_year>=start_year) or (actualize==False):
+                             champ_table, offset=sub_findwinner(item_this_year,id_race,champ_table, result_dic, road_or_clm,ll)
+                             ll=ll+offset
                      
         return champ_table, ll         
     
@@ -86,14 +93,92 @@ def f(pywikibot,site,repo,time,man_or_woman):
             champ_table, offset=sub_findwinner(item_this_race,id_master,champ_table, result_dic, road_or_clm,ll)
         return champ_table, offset
     
+    def sub_create_champ(result_dic,dic, dic_worldconti, road_or_clm,verbose,
+                         start_year,EndYear,filename,old_filename,actualize):
+        
+        champ_table = [[0 for x in range(10)] for y in range(2000)] 
+        
+        #header
+        for dic_content in result_dic:
+            champ_table[0][result_dic[dic_content]]=dic_content
+        
+        if not actualize:
+            champ_table, ll=sub_champlist(champ_table, result_dic,dic_worldconti, road_or_clm,1, actualize, start_year)
+            log.concat(road_or_clm +" world and continental championships "+ man_or_woman + " completed")
+        else:
+            ll=1
+        
+        if verbose:     
+            log.concat(champ_table)  
+            
+        #Look in the national championships
+        for ii in range( start_year,EndYear):
+            log.concat(road_or_clm + " start year " + str(ii))
+            id_all_national=dic[ii]
+            item_all_national =pywikibot.ItemPage(repo, id_all_national)
+            item_all_national.get()
+            
+            if(u'P527' in item_all_national.claims):
+                 list_of_comprend=item_all_national.claims.get(u'P527')
+                 for in_comprend in list_of_comprend:  
+                      item_this_national =in_comprend.getTarget()
+                      item_this_national.get()
+                      list_of_comprend2=item_this_national.claims.get(u'P527')
+                      
+                      if list_of_comprend2 is None:
+                          print(get_label('fr',item_this_national) + " has no P527")
+                      else:
+                          for in_comprend2 in list_of_comprend2:                      
+                              champ_table, offset=sub_courseenligne(in_comprend2,champ_table, result_dic,"Course en ligne féminine aux", "Road",ll)
+                              ll=ll+offset
+        #write file
+        final_table=champ_table[:ll]
+        total_table = [[0 for x in range(10)] for y in range(2000)]
+        
+        if actualize:
+            kk=0
+            old_table = [[0 for x in range(10)] for y in range(2000)]
+            
+            with open(old_filename, newline='') as csvfile:
+                file_object = csv.reader(csvfile, delimiter=';', quotechar='|')
+                for row in file_object: 
+                    if kk==0: #first line
+                        old_table[kk]=row
+                        kk=kk+1
+                    else:
+                        is_empty=True
+                        for ii in range(len(row)):
+                            if row[ii]!='':
+                                is_empty=False
+                        if is_empty:
+                            break
+                        else:
+                            #new results are actualized
+                            if int(row[result_dic[road_or_clm + ' year']]) < start_year: 
+                                old_table[kk]=row
+                                kk=kk+1
+        
+            kk =kk-1  
+            #concat
+            total_table[0:kk]=old_table[:kk]
+            total_table[kk+1:kk+ll]=final_table[1:] #no first line
+            #write
+        else:
+            total_table=final_table
+
+        #write results
+        with open(filename, 'w', newline='') as csvFile:
+            writer = csv.writer(csvFile, delimiter=';')
+            writer.writerows(total_table) 
+        
     ##Begin main function ##
     #Championnats nationaux de cyclisme sur route 
     dic ={2020 : 'Q70655305',
         2019 : 'Q60015262', 2018 : 'Q43920899', 2017 : 'Q28005879', 2016 : 'Q22021840',
 		2015 : 'Q19296998', 2014 : 'Q15621925', 2013: 'Q3339162',
 		2012 : 'Q1333003', 2011 : 'Q1143844', 2010 : 'Q1568490',
-		2009 : 'Q263224', 2008 : 'Q826505', 2007 : 'Q43286248',
-		2006 : 'Q43286261', 2005 : 'Q1335357', 2004 : 'Q43286272',
+		2009 : 'Q263224', 2008 : 'Q826505', 2007 : 'Q640286',
+		2006 : 'Q492135', 2005 : 'Q1335357', 2004 : 'Q43286272',
 		2003 : 'Q43286289', 2002 : 'Q43286297', 2001 : 'Q43286309'
 	}
     
@@ -109,70 +194,44 @@ def f(pywikibot,site,repo,time,man_or_woman):
     'Road month':2,
     'Road year':3,
     'Road winner':4,
-    'Clm champ':5,
-    'Clm day':6,
-    'Clm month':7,
-    'Clm year':8,
-    'Clm winner':9,
+    'Clm champ':0,
+    'Clm day':1,
+    'Clm month':2,
+    'Clm year':3,
+    'Clm winner':4,
     }
     
     verbose=False
     log=Log()
        
-    startYear=2020
-    EndYear=2021
-    champ_table = [[0 for x in range(10)] for y in range(1000)] 
-    
-    #header
-    for dic_content in result_dic:
-        champ_table[0][result_dic[dic_content]]=dic_content
+    EndYear=date.today().year+1
 
-    #fill world champs...
+    #Road
     if man_or_woman=="woman":
-        champ_table, ll_road=sub_champlist(champ_table, result_dic,dic_road_race_women, 'Road',1)
-        log.concat("Road world and continental championships women completed")
-        champ_table, ll_clm=sub_champlist(champ_table, result_dic,dic_clm_women, 'Clm',1)
-        log.concat("Clm world and continental championships women completed")
+        filename='src/input/champ2.csv'
+        old_filename='src/input/champ.csv'
+        dic_worldconti=dic_road_race_women
     else:
-        champ_table, ll_road=sub_champlist(champ_table, result_dic,dic_road_race_men, 'Road',1)
-        log.concat("Road world and continental championships men completed")
-        champ_table, ll_clm=sub_champlist(champ_table, result_dic,dic_clm_men, 'Clm',1)
-        log.concat("Clm world and continental championships men completed")   
-   
-    if verbose:     
-        log.concat(champ_table)  
-
-    #Look in the national championships
-    for ii in range( startYear,EndYear):
-        log.concat("start year " + str(ii))
-        id_all_national=dic[ii]
-        item_all_national =pywikibot.ItemPage(repo, id_all_national)
-        item_all_national.get()
+        filename='src/input/champ_man2.csv'
+        old_filename='src/input/champ_man.csv'
+        dic_worldconti=dic_road_race_men
         
-        if(u'P527' in item_all_national.claims):
-             list_of_comprend=item_all_national.claims.get(u'P527')
-             for in_comprend in list_of_comprend:  
-                  item_this_national =in_comprend.getTarget()
-                  item_this_national.get()
-                  list_of_comprend2=item_this_national.claims.get(u'P527')
-                  
-                  for in_comprend2 in list_of_comprend2:                      
-                      champ_table, offset=sub_courseenligne(in_comprend2,champ_table, result_dic,"Course en ligne féminine aux", "Road",ll_road)
-                      ll_road=ll_road+offset
-                      champ_table, offset=sub_courseenligne(in_comprend2,champ_table, result_dic,"Contre-la-montre féminin aux", "Clm",ll_clm)
-                      ll_clm=ll_clm+offset
-                      
-    ll_max=max(ll_road,ll_clm)
-    final_table = [[0 for x in range(10)] for y in range(ll_max)]
-    final_table=champ_table[:ll_max]
+    sub_create_champ(result_dic,dic,dic_worldconti, 'Road',verbose,
+                         start_year,EndYear,filename,old_filename,actualize)
 
-    if verbose:     
-        log.concat(champ_table)  
-    if man_or_woman=="woman":    
-        with open('src/input/champ2.csv', 'w', newline='') as csvFile:
-            writer = csv.writer(csvFile, delimiter=';')
-            writer.writerows(final_table)
+    #Clm
+    if man_or_woman=="woman":
+        filename='src/input/champ_clm2.csv'
+        old_filename='src/input/champ_clm.csv'
+        dic_worldconti=dic_clm_women
     else:
-        with open('src/input/champ_man2.csv', 'w', newline='') as csvFile:
-            writer = csv.writer(csvFile, delimiter=';')
-            writer.writerows(final_table)
+        filename='src/input/champ_clm_man2.csv'
+        old_filename='src/input/champ_clm_man.csv'
+        dic_worldconti=dic_clm_men
+        
+    sub_create_champ(result_dic,dic,dic_worldconti, 'Clm',verbose,
+                         start_year,EndYear,filename,old_filename,actualize)
+
+
+
+

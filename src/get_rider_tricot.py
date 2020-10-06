@@ -98,11 +98,11 @@ def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, man_or_woman, **kw
     'road month':[-1, 2,''],
     'road year':[-1, 3,''],
     'road winner':[-1, 4,''],
-    'clm champ':[-1, 5,''],
-    'clm day':[-1, 6,''],
-    'clm month':[-1, 7,''],
-    'clm year':[-1, 8,''],
-    'clm winner':[-1, 9,''],
+    'clm champ':[-1, 0,''],
+    'clm day':[-1, 1,''],
+    'clm month':[-1, 2,''],
+    'clm year':[-1, 3,''],
+    'clm winner':[-1, 4,''],
     }
 
     id_worldroadchamp=u'Q934877'
@@ -111,18 +111,27 @@ def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, man_or_woman, **kw
     id_eurclmchamp= u'Q30894543'
     
     test=kwargs.get('test',False)
+    #road champ
     if man_or_woman==u'woman':
         result_table, row_count, ecart=table_reader('champ',result_dic,0,False)
     else:
         result_table, row_count, ecart=table_reader('champ_man',result_dic,0,False)
-      
+     
     for ii in range(row_count):
         if id_rider==result_table[ii][result_dic['road winner'][1]]:
             result=sub_function(result_table,result_dic,'road',id_worldroadchamp,id_eurroadchamp, 
                                 time_of_race,repo,claim,test,id_rider)
             if test and result!=0:
                 return result
-        if chrono:   
+   
+    #clm
+    if chrono:   
+        if man_or_woman==u'woman':
+            result_table, row_count, ecart=table_reader('champ_clm',result_dic,0,False)
+        else:
+            result_table, row_count, ecart=table_reader('champ_man_clm',result_dic,0,False)
+
+        for ii in range(row_count):
             if id_rider==result_table[ii][result_dic['clm winner'][1]]:
                 result=sub_function(result_table,result_dic,'clm',id_worldclmchamp,id_eurclmchamp,
                                     time_of_race,repo,claim,test,id_rider)
