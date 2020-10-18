@@ -14,7 +14,7 @@ from src.cycling_init_bot_low import (search_race, is_it_a_cyclist, search_item,
 search_rider, define_article, get_class, get_present_team, CIOtoIDsearch,
 get_class_WWT, get_country, table_reader, compare_dates, get_year, checkid,
 checkprop, get_single_or_stage,excel_to_csv,bot_or_site, date_finder, search_team_by_code,
-float_to_int, IDtoCIOsearch, get_nationality)
+float_to_int, IDtoCIOsearch, get_nationality, get_race_begin, get_end_date)
 from src import race_list
 from src import nation_team_table
 
@@ -203,10 +203,21 @@ class TestSearch(unittest.TestCase):
     def test_float_to_int(self):
         self.assertEqual( float_to_int('1149.67'),1149)  
         self.assertEqual( float_to_int("1149.67"),1149)  
+        self.assertEqual( float_to_int("1149.07"),1149)  
         self.assertEqual( float_to_int(1149.67),1149)  
         self.assertEqual( float_to_int(1149),1149)  
         
-        
+ 
+    def test_get_race_begin(self):
+        race_begin=pywikibot.WbTime(site=site,year=2020, month=10, day=14, precision='day')    
+        res=get_race_begin(pywikibot, repo, "Q79137942")
+        self.assertEqual( res,race_begin)  
+
+    def test_get_end_date(self):
+        race_end=pywikibot.WbTime(site=site,year=2020, month=10, day=16, precision='day')    
+        res=get_end_date(pywikibot, repo, "Q79137942")
+        self.assertEqual( res,race_end)  
+       
     def test_date_finder(self):
         #easy case
         first_stage=1
@@ -300,9 +311,16 @@ class TestSearch(unittest.TestCase):
         exp=pywikibot.WbTime(site=site,year=2015, month=1, day=1, precision='day')    
         self.assertEqual(res,exp)
         res=date_finder(pywikibot,4,first_stage,last_stage, race_begin,race_end)
-        self.assertEqual(res,race_end)      
+        self.assertEqual(res,race_end)  
 
-
+        #case thailand
+        first_stage=1
+        last_stage=3
+        number=1
+        race_begin=pywikibot.WbTime(site=site,year=2020, month=10, day=14, precision='day')    
+        race_end=pywikibot.WbTime(site=site,year=2020, month=10, day=16, precision='day')  
+        res=date_finder(pywikibot,number,first_stage,last_stage, race_begin,race_end)
+        self.assertEqual(res,race_begin)
               
 if __name__ == '__main__':
     unittest.main()

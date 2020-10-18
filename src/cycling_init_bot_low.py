@@ -284,7 +284,6 @@ def date_finder(pywikibot, number,first_stage,last_stage, race_begin,
                 race_end):
     
     days_in_month = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    
     if number==last_stage:
          return date_duplicate(pywikibot,race_end)
     elif number<=first_stage:
@@ -313,7 +312,7 @@ def date_finder(pywikibot, number,first_stage,last_stage, race_begin,
 def float_to_int(a):
     if isinstance(a, str):
         a=a.replace(",",".")
-        a=a.replace(".0","")
+       # a=a.replace(".0","")
     return int(float(a))
 
 def clean_txt(a):
@@ -376,7 +375,6 @@ def excel_to_csv(filepath, destination):
         
 def table_reader(filename,result_dic, startline, verbose):
     default_separator=';'
-     
     bot=bot_or_site() 
     
     clean_txt_bool=False
@@ -399,7 +397,7 @@ def table_reader(filename,result_dic, startline, verbose):
     
     if (filepathcsv is not None) and os.path.isfile(filepathcsv):
         filepath=filepathcsv
-    elif os.path.isfile(filepathxlsx):
+    elif (filepathxlsx is not None) and os.path.isfile(filepathxlsx):
         filename=filename[:(len(filename)-5)] #excel
         if bot:
             destination='src/input/'+filename+'.csv'
@@ -408,7 +406,7 @@ def table_reader(filename,result_dic, startline, verbose):
         filepath=excel_to_csv(filepathxlsx,destination)
         clean_txt_bool=True
     else:
-        print('no file found')
+        print(filename + ': no file found')
         return None, 0, None
     
     if verbose:
@@ -774,7 +772,7 @@ def get_race_begin(pywikibot, repo, item_id):
     item = pywikibot.ItemPage(repo, item_id)
     item.get()
     if (u'P580' in item.claims):
-        this_date = item.claims.get(u'P580')
+        this_date = item.claims.get(u'P580')[0].getTarget()
     else:
         return 0
     
@@ -784,7 +782,7 @@ def get_end_date(pywikibot, repo, item_id):
     item = pywikibot.ItemPage(repo, item_id)
     item.get()
     if (u'P582' in item.claims):
-        this_date = item.claims.get(u'P582')
+        this_date = item.claims.get(u'P582')[0].getTarget()
     else:
         return 0
     return this_date    

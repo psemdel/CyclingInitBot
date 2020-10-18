@@ -2,7 +2,7 @@
 """
 Created on Wed Nov  1 14:12:10 2017
 
-@author: psemdely
+@author: psemdel
 """
 
 import time
@@ -15,7 +15,7 @@ repo = site.data_repository()
 def cycling_init_bot():
     nation_table= nation_team_table.load()
 
-    selector=13
+    selector=16
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -87,7 +87,7 @@ def cycling_init_bot():
         team_creator.f(pywikibot,site,repo,time,team_table,nation_table, team_dic,year)
     elif selector==5:   
         from src import sorter
-        id_team=u'Q79137983'
+        id_team=u'Q78661480'
         # 'has part (P527)', 'participating team (P1923)'
         prop="P1923"
         test=False
@@ -107,6 +107,7 @@ def cycling_init_bot():
         race_name=u"Semaine cycliste valencienne"
         id_race_master=28752781
         create_stages=True
+        year=2010
         race_begin=pywikibot.WbTime(site=site,year=year, month=2, day=20, precision='day')
         end_date=pywikibot.WbTime(site=site,year=year, month=2, day=23, precision='day')
         first_stage=1
@@ -116,6 +117,7 @@ def cycling_init_bot():
         edition_nr=''
         single_race=False
         man_or_woman=u'woman'
+        
         
         race_creator.f(pywikibot,site,repo,time,
                       nation_table,
@@ -131,12 +133,14 @@ def cycling_init_bot():
                       only_stages=False,
                       create_stages=create_stages, 
                       first_stage=first_stage,
-                      last_stage=last_stage)
+                      last_stage=last_stage,
+                      year=year)
          
     elif selector==8:
          from src import race_creator
          race_name=u"Tour du Nanxijiang "
          id_race_master=71731311 
+         year=2010
          race_date=pywikibot.WbTime(site=site,year=year, month=10, day=17, precision='day')
          countryCIO=u'CHN'
          classe='1.2'
@@ -153,12 +157,13 @@ def cycling_init_bot():
                 edition_nr=edition_nr,
                 id_race_master=id_race_master,
                 countryCIO=countryCIO,
-                classe=classe)
+                classe=classe,
+                year=year)
          
     elif selector==9:
         from src import classification_importer
-        id_race='Q79138012'
-        stage_or_general=6# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
+        id_race='Q78661480'
+        stage_or_general=7# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
         final=False
         maxkk=10
@@ -171,27 +176,27 @@ def cycling_init_bot():
                                man_or_woman=man_or_woman)
     elif selector==10:
         from src import startlist_importer
-        id_race='Q99519567'
+        id_race='Q78661480'
         prologue_or_final=2 #0=prologue, 1=final, 2=one day race
         chrono=False
         test=False
         man_or_woman=u'woman'
-        force_nation_team=True
-        time_of_race=pywikibot.WbTime(site=site,year=2020, month=9, day=26, precision='day')    
+        force_nation_team=False
+        time_of_race=pywikibot.WbTime(site=site,year=2020, month=10, day=11, precision='day')    
         startlist_importer.f(pywikibot,site,repo, prologue_or_final, id_race, 
                                    time_of_race,chrono,test,nation_table,man_or_woman,
                                    force_nation_team)  
     elif selector==12:
         from src import rider_fast_init
-        name=u"Margaux Vigie"
-        countryCIO=u'FRA'
+        name=u"Iara Gillespie"
+        countryCIO=u'IRL'
         man_or_woman=u'woman'
         rider_fast_init.f(pywikibot,site,repo,time,nation_table, name,countryCIO,man_or_woman)
     elif selector==13:
         from src import champ_list_creator
         man_or_woman=u'woman'
-        actualize=True
-        start_year=2020
+        actualize=False
+        start_year=2005
         champ_list_creator.f(pywikibot,site,repo,time,man_or_woman,start_year,actualize)
     elif selector==14:  
         from src import uci_classification
@@ -209,21 +214,26 @@ def cycling_init_bot():
     elif selector==16: 
         #only stage
         from src import race_creator
-        race_name=u"Semaine cycliste valencienne"
+        race_name=u"Tour de Thaïlande féminin"
         id_race_master=1
-        stage_race_id=78658035 #only for onlystages
+        year=2020
+        stage_race_id="Q79137942" #only for onlystages
         first_stage=1
-        last_stage=4
+        last_stage=3
         single_race=False
+        man_or_woman=u'woman'
         
         race_creator.f(pywikibot,site,repo,time,
                       nation_table,
                       race_name,
                       single_race,
+                      man_or_woman,
                       stage_race_id=stage_race_id,
                       only_stages=True,
                       first_stage=first_stage,
-                      last_stage=last_stage)
+                      last_stage=last_stage,
+                      year=year)
+        
     elif selector==17:
         from src import get_rider_tricot
         id_race='Q78663025'

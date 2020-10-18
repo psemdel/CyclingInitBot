@@ -71,7 +71,7 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
                        force_nation_team, year, log, man_or_woman,
                        time_of_race):
     
-    verbose=True
+    verbose=False
     national_team_detected=False #otherwise insert nothing during first loop
     all_same_team=1
     national_team_nation=u'reset'
