@@ -15,7 +15,7 @@ repo = site.data_repository()
 def cycling_init_bot():
     nation_table= nation_team_table.load()
 
-    selector=16
+    selector=0
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -26,10 +26,13 @@ def cycling_init_bot():
         from src import national_team_creator
         
         man_or_woman=u'man'
-        start_year=2020
-        end_year=2021
+        start_year=1953
+        end_year=2014
+        #optional
+        country='FRA' #false is not
+        
         national_team_creator.f(pywikibot,site,repo,time,nation_table,
-                                man_or_woman,start_year,end_year)
+                                man_or_woman,start_year,end_year,country=country)
     elif selector==1:
         from src import national_championship_creator
         from src import cc_table
@@ -162,8 +165,8 @@ def cycling_init_bot():
          
     elif selector==9:
         from src import classification_importer
-        id_race='Q78661480'
-        stage_or_general=7# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
+        id_race='Q78661713'
+        stage_or_general=6# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
         final=False
         maxkk=10
@@ -236,11 +239,11 @@ def cycling_init_bot():
         
     elif selector==17:
         from src import get_rider_tricot
-        id_race='Q78663025'
-        chrono=True
+        id_race='Q78661713'
+        chrono=False
         test=False
         man_or_woman=u'woman'
-        time_of_race=pywikibot.WbTime(site=site,year=2020, month=9, day=11, precision='day')    
+        time_of_race=pywikibot.WbTime(site=site,year=2020, month=10, day=18, precision='day')    
         get_rider_tricot.scan(pywikibot,site,repo, id_race, time_of_race,chrono, test,man_or_woman)
     else: 
         print('do nothing')

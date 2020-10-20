@@ -205,7 +205,8 @@ def compare_dates(date1, date2):
 def link_year(pywikibot, site,repo, present_id,arg1,arg2):
     #arg1 = year or nameprev
     #arg2 = name or namenext
-    if isinstance(arg1, str):
+
+    if isinstance(arg1, str) or isinstance(arg1, dict):
         year_bool=False
         nameprev=arg1
         namenext=arg2
@@ -216,15 +217,16 @@ def link_year(pywikibot, site,repo, present_id,arg1,arg2):
     #previous or next
     kk=-1
     
-    while kk<2:        
+    while kk<2:
+        mylabel_other={}
         if year_bool:
-            mylabel_other = name + " " + str(year + kk)
+            mylabel_other['fr'] = name['fr'] + " " + str(year + kk)
         else:
             if kk==-1:
-                mylabel_other = nameprev
+                mylabel_other['fr'] = nameprev['fr']
             else:
-                mylabel_other = namenext
-        id_other = search_item(pywikibot, site, mylabel_other)
+                mylabel_other['fr'] = namenext['fr']
+        id_other = search_item(pywikibot, site, mylabel_other['fr'])
         if (id_other != u'Q0') and (id_other != u'Q1'):  # no previous or several
             if kk==-1:
                 p1="P155"

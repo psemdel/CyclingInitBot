@@ -166,13 +166,15 @@ def f(
             for ii in range(start_year, end_year+1):
         
                 year = ii
-                if team_table[kk][IndexTeam] != 0:
+                if team_table[kk][IndexTeam] == 0:
+                    log.concat("master of the team not found, contact the Webmaster")
+                else :
                     mylabel = {}
                     mylabel = national_team_label(
                         team_table, kk, year, man_or_woman)
                     
                     id_present, item=create_present(pywikibot, site,repo,time,mylabel)
-        
+                    log.concat("national team created")
                     if id_present!=u'Q1':
                         national_team_intro(item, team_table, kk, year)
                         time.sleep(1.0)
@@ -197,9 +199,9 @@ def f(
                         
                         link_year(pywikibot, site,repo, id_present, mylabel_previous,mylabel_next)
                     # link to master
-                    if team_table[kk][4] != 0:
+                    if team_table[kk][IndexTeam] != 0:
                         item_master = pywikibot.ItemPage(
-                            repo, u'Q' + str(team_table[kk][4]))
+                            repo, u'Q' + str(team_table[kk][IndexTeam]))
                         item_master.get()
                         add_multiple_value(
                             pywikibot,
@@ -210,4 +212,5 @@ def f(
                             u'link year ' +
                             str(year),
                             0)
+                        log.concat("national team added to master")
     return 0, log                    
