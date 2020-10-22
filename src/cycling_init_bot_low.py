@@ -284,6 +284,20 @@ def get_year(pywikibot, repo, present_id):
 
     return int(this_date.year)
 
+def get_date(pywikibot, repo, present_id):
+    item = pywikibot.ItemPage(repo, present_id)
+    item.get()
+    if (u'P585' in item.claims):
+         this_claim = item.claims.get(u'P585')
+         this_date = this_claim[0].getTarget()
+    elif (u'P580' in item.claims):
+        this_claim  = item.claims.get(u'P580')
+        this_date = this_claim[0].getTarget()
+    else:
+        return 0
+
+    return this_date
+
 def date_duplicate(pywikibot, date_input):
     return pywikibot.WbTime.fromTimestr(date_input.toTimestr(),precision="day")
     

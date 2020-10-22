@@ -15,7 +15,7 @@ repo = site.data_repository()
 def cycling_init_bot():
     nation_table= nation_team_table.load()
 
-    selector=0
+    selector=13
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -26,10 +26,10 @@ def cycling_init_bot():
         from src import national_team_creator
         
         man_or_woman=u'man'
-        start_year=1953
-        end_year=2014
+        start_year=1955
+        end_year=2008
         #optional
-        country='FRA' #false is not
+        country='NED' #false is not
         
         national_team_creator.f(pywikibot,site,repo,time,nation_table,
                                 man_or_woman,start_year,end_year,country=country)
@@ -197,7 +197,7 @@ def cycling_init_bot():
         rider_fast_init.f(pywikibot,site,repo,time,nation_table, name,countryCIO,man_or_woman)
     elif selector==13:
         from src import champ_list_creator
-        man_or_woman=u'woman'
+        man_or_woman=u'man'
         actualize=False
         start_year=2005
         champ_list_creator.f(pywikibot,site,repo,time,man_or_woman,start_year,actualize)
@@ -245,6 +245,16 @@ def cycling_init_bot():
         man_or_woman=u'woman'
         time_of_race=pywikibot.WbTime(site=site,year=2020, month=10, day=18, precision='day')    
         get_rider_tricot.scan(pywikibot,site,repo, id_race, time_of_race,chrono, test,man_or_woman)
+    
+    elif selector==18:
+        from src import get_rider_tricot
+        id_race='Q21856739'
+        chrono=False
+        test=False
+        man_or_woman=u'woman'
+     
+        get_rider_tricot.scan_existing(pywikibot,site,repo, id_race, chrono, test,man_or_woman)
+
     else: 
         print('do nothing')
         

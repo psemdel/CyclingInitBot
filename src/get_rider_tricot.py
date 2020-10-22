@@ -6,7 +6,7 @@ Created on Thu Dec 19 20:38:20 2019
 @author: maxime
 """
 from .cycling_init_bot_low import (compare_dates, table_reader, cyclists_table_reader,
-                                   get_label)
+                                   get_label, get_date)
 from .bot_log import Log
                                    
 def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, man_or_woman, **kwargs):
@@ -171,3 +171,19 @@ def scan(pywikibot,site,repo,id_race, time_of_race,chrono, test,man_or_woman):
                 claim=pywikibot.Claim(repo, u'P710')  #reinit everytime
                 f(pywikibot,site,repo,this_rider.id_item,time_of_race,claim,chrono,man_or_woman)
              
+def scan_existing(pywikibot,site,repo,id_race, chrono, test,man_or_woman):
+
+    item =pywikibot.ItemPage(repo, id_race)
+    item.get()     
+    time_of_race=get_date(pywikibot, repo, id_race)
+    
+    if(u'P710' in item.claims): 
+        startlist=item.claims.get(u'P710')
+        
+        for ii in range(len(startlist)):
+            claim=pywikibot.Claim(repo, u'P710')
+            rider_id=startlist[ii].getTarget().getID()
+            item_rider=pywikibot.ItemPage(repo, rider_id)
+            item_rider.get()
+            claim.setTarget(item_rider)
+            f(pywikibot,site,repo,rider_id,time_of_race,claim,chrono,man_or_woman)

@@ -23,7 +23,11 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
           if (u'P585' in item_this_year.claims):
              list_of_race_date=item_this_year.claims.get(u'P585')
              race_date=list_of_race_date[0].getTarget()
-             if race_date.day==1 and race_date.month==1:
+             if race_date is None:
+                 invalid_precision=True
+             elif ((race_date.day==1 and race_date.month==1) or
+                 race_date.day==0 or
+                 race_date.month==0):
                  invalid_precision=True
              else:
                  date_found=True
@@ -43,8 +47,9 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
                      print("no qualifier")
                     
                  if id_this_qual is not None and id_this_qual=='Q20882667': #check qualifier
-                     id_temp_winner=winner.getTarget().getID()
-                     there_is_a_winner=True   
+                     if winner.getTarget() is not None:
+                         id_temp_winner=winner.getTarget().getID()
+                         there_is_a_winner=True   
                  if date_found and there_is_a_winner:
                      champ_table[ll][result_dic[road_or_clm + ' day']]=race_date.day
                      champ_table[ll][result_dic[road_or_clm + ' month']]=race_date.month
@@ -220,9 +225,9 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
         dic_worldconti=dic_road_race_men
         pattern="Course en ligne masculine aux"
         
-   # sub_create_champ(result_dic,dic,dic_worldconti, 'Road',verbose,
-  #                       start_year,EndYear,filename,old_filename,actualize,
-   #                      pattern)
+    sub_create_champ(result_dic,dic,dic_worldconti, 'Road',verbose,
+                         start_year,EndYear,filename,old_filename,actualize,
+                         pattern)
 
     #Clm
     if man_or_woman=="woman":
@@ -231,8 +236,8 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
         dic_worldconti=dic_clm_women
         pattern="Contre-la-montre féminin aux"
     else:
-        filename='src/input/champ_clm_man2.csv'
-        old_filename='src/input/champ_clm_man.csv'
+        filename='src/input/champ_man_clm2.csv'
+        old_filename='src/input/champ_man_clm.csv'
         dic_worldconti=dic_clm_men
         pattern="Contre-la-montre masculin aux"
         
