@@ -121,8 +121,13 @@ def f(
     
         # Teamlabel_es
         countryname_es = teamTable[kk][15]
+        if teamTable[kk][26]!=0:
+            genre_es=teamTable[kk][26]+ " " #for instance NED
+        else:
+            genre_es=""
+        
         if countryname_es != '':
-            mylabel[u'es'] = u"Equipo nacional" + adjes + " de " + \
+            mylabel[u'es'] = u"Equipo nacional" + adjes + " de " + genre_es +\
                 countryname_es + " de ciclismo en ruta" + " " + str(Year)
     
         return mylabel
@@ -146,71 +151,76 @@ def f(
         return mydescription
     
     ### begin main ###
-    country=kwargs.get('country',False)
-    log=Log()
-    if country:
-        kkinit = teamCIOsearch(team_table, country)
-        endkk = kkinit+1
-    else:
-        kkinit =1
-        endkk = len(team_table)
-        
-    if man_or_woman == 'man':
-        IndexTeam = 14
-    else:
-        IndexTeam = 4
-
-    for kk in range(kkinit, endkk):  #
-        group = team_table[kk][8]
-        if group == 1:
-            for ii in range(start_year, end_year+1):
-        
-                year = ii
-                if team_table[kk][IndexTeam] == 0:
-                    log.concat("master of the team not found, contact the Webmaster")
-                else :
-                    mylabel = {}
-                    mylabel = national_team_label(
-                        team_table, kk, year, man_or_woman)
-                    
-                    id_present, item=create_present(pywikibot, site,repo,time,mylabel)
-                    log.concat("national team created")
-                    if id_present!=u'Q1':
-                        national_team_intro(item, team_table, kk, year)
-                        time.sleep(1.0)
-                        national_team_basic(
-                            pywikibot,
-                            repo,
-                            item,
-                            site,
-                            team_table[kk][1],
-                            team_table[kk][3],
-                            year,
-                            team_table[kk][IndexTeam],
-                            team_table[kk][7])
-                        time.sleep(1.0)
-                    # Link the other to the new item
-
-                        # Search previous
-                        mylabel_previous = national_team_label(
-                            team_table, kk, year-1, man_or_woman)
-                        mylabel_next = national_team_label(
-                            team_table, kk, year+1, man_or_woman)
+    try:
+        country=kwargs.get('country',False)
+        log=Log()
+        if country:
+            kkinit = teamCIOsearch(team_table, country)
+            endkk = kkinit+1
+        else:
+            kkinit =1
+            endkk = len(team_table)
+            
+        if man_or_woman == 'man':
+            IndexTeam = 14
+        else:
+            IndexTeam = 4
+    
+        for kk in range(kkinit, endkk):  #
+            group = team_table[kk][8]
+            if group == 1:
+                for ii in range(start_year, end_year+1):
+            
+                    year = ii
+                    if team_table[kk][IndexTeam] == 0:
+                        log.concat("master of the team not found, contact the Webmaster")
+                    else :
+                        mylabel = {}
+                        mylabel = national_team_label(
+                            team_table, kk, year, man_or_woman)
                         
-                        link_year(pywikibot, site,repo, id_present, mylabel_previous,mylabel_next)
-                    # link to master
-                    if team_table[kk][IndexTeam] != 0:
-                        item_master = pywikibot.ItemPage(
-                            repo, u'Q' + str(team_table[kk][IndexTeam]))
-                        item_master.get()
-                        add_multiple_value(
-                            pywikibot,
-                            repo,
-                            item_master,
-                            "P527",
-                            id_present,
-                            u'link year ' +
-                            str(year),
-                            0)
-                        log.concat("national team added to master")
-    return 0, log                    
+                        id_present, item=create_present(pywikibot, site,repo,time,mylabel)
+                        log.concat("national team created")
+                        log.concat("team id: " + id_present)
+                        if id_present!=u'Q1':
+                            national_team_intro(item, team_table, kk, year)
+                            time.sleep(1.0)
+                            national_team_basic(
+                                pywikibot,
+                                repo,
+                                item,
+                                site,
+                                team_table[kk][1],
+                                team_table[kk][3],
+                                year,
+                                team_table[kk][IndexTeam],
+                                team_table[kk][7])
+                            time.sleep(1.0)
+                        # Link the other to the new item
+    
+                            # Search previous
+                            mylabel_previous = national_team_label(
+                                team_table, kk, year-1, man_or_woman)
+                            mylabel_next = national_team_label(
+                                team_table, kk, year+1, man_or_woman)
+                            
+                            link_year(pywikibot, site,repo, id_present, mylabel_previous,mylabel_next)
+                        # link to master
+                        if team_table[kk][IndexTeam] != 0:
+                            item_master = pywikibot.ItemPage(
+                                repo, u'Q' + str(team_table[kk][IndexTeam]))
+                            item_master.get()
+                            add_multiple_value(
+                                pywikibot,
+                                repo,
+                                item_master,
+                                "P527",
+                                id_present,
+                                u'link year ' +
+                                str(year),
+                                0)
+                            log.concat("national team added to master")
+        return 0, log, id_present                   
+    except:
+        log.concat("General Error in national team creator")
+        return 10, log, "Q1"

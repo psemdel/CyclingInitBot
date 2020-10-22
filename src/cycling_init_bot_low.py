@@ -378,6 +378,8 @@ def excel_to_csv(filepath, destination):
 def table_reader(filename,result_dic, startline, verbose):
     default_separator=';'
     bot=bot_or_site() 
+    filepathxlsx=None
+    local_saved_list=["champ","champ_clm","champ_man","champ_man_clm"]
     
     clean_txt_bool=False
     #differentiate local from remote
@@ -388,11 +390,13 @@ def table_reader(filename,result_dic, startline, verbose):
             filepathcsv=None
             filepathxlsx='uploads/'+filename
  
-    elif filename=="champ":
+    elif filename in local_saved_list:
         if bot:
-            filepathcsv="src/input/champ.csv"
+            filepathcsv="src/input/"+filename+".csv"
         else:
-            filepathcsv="bot_requests/src/input/champ.csv"
+            filepathcsv="bot_src/src/input/"+filename+".csv"
+        if os.path.isfile(filepathcsv)==False:
+            print("champ file detection failed!")
     elif bot: #by site not allowed other type
         filepathcsv='src/input/'+filename+'.csv'
         filepathxlsx='src/input/'+filename+'.xlsx'    
@@ -638,8 +642,8 @@ def search_team_by_code(pywikibot, site, search_string):
     exception_table=exception.list_of_team_code_exception()
     return search_itemv2(pywikibot, site, search_string, False, True, exception_table=exception_table)
 
-def search_team_by_code_men(pywikibot, site, search_string):
-    exception_table=exception.ist_of_team_code_exception_men()
+def search_team_by_code_man(pywikibot, site, search_string):
+    exception_table=exception.list_of_team_code_exception_man()
     return search_itemv2(pywikibot, site, search_string, False, True, exception_table=exception_table)
 
 ## other ##

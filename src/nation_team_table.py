@@ -35,6 +35,7 @@ def load():
     # item 23 = Clm man U23
     # item 24 = Road race man junior
     # item 25 = Clm man junior
+    # item 26 = es article (normally nothing)
     kk = 0
 
     team_table[kk][1] = u'Afghanistan'
@@ -1176,6 +1177,7 @@ def load():
     team_table[kk][15] = u'Países Bajos'
     team_table[kk][16] =u'néerlandaise'
     team_table[kk][17] =u'néerlandais'
+    team_table[kk][26] = u'los'
     kk += 1
 
     team_table[kk][1] = u'Norvège'
