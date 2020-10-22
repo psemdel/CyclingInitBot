@@ -206,26 +206,33 @@ def link_year(pywikibot, site,repo, present_id,arg1,arg2):
     #arg1 = year or nameprev
     #arg2 = name or namenext
 
-    if isinstance(arg1, str) or isinstance(arg1, dict):
+    if isinstance(arg1, str):
         year_bool=False
         nameprev=arg1
-        namenext=arg2
+        namenext=arg2        
+    elif isinstance(arg1, dict):
+        year_bool=False
+        nameprev=arg1['fr']
+        namenext=arg2['fr']
     else:
         year_bool=True
         year=arg1
-        name=arg2
+        if isinstance(arg2, dict): #should be the case
+            name=arg2['fr']
+        else:
+            name=arg2
     #previous or next
     kk=-1
     
     while kk<2:
         mylabel_other={}
         if year_bool:
-            mylabel_other['fr'] = name['fr'] + " " + str(year + kk)
+            mylabel_other['fr'] = name + " " + str(year + kk)
         else:
             if kk==-1:
-                mylabel_other['fr'] = nameprev['fr']
+                mylabel_other['fr'] = nameprev
             else:
-                mylabel_other['fr'] = namenext['fr']
+                mylabel_other['fr'] = namenext
         id_other = search_item(pywikibot, site, mylabel_other['fr'])
         if (id_other != u'Q0') and (id_other != u'Q1'):  # no previous or several
             if kk==-1:
