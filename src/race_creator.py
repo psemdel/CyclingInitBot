@@ -13,6 +13,7 @@ from .cycling_init_bot_low import (add_Qvalue, add_date, add_value, CIOtoIDsearc
 from .calendar_list import calendaruciID, calendarWWTID, calendarUWTID
 from .bot_log import Log
 
+
 def stage_label(number, genre,race_name, year):
     mylabel={}
 
@@ -55,7 +56,6 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
         else:
             add_date(pywikibot,repo,item,"P580",start_date,u'starting date')
             end_date=kwargs.get('end_date')
-            print(end_date)
             add_date(pywikibot,repo,item,"P582",end_date,u'ending date')
     
         #insert the 

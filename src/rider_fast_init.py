@@ -11,7 +11,10 @@ from .cycling_init_bot_low import (search_rider,  teamCIOsearch, create_item,
                                    add_Qvalue)
 
 from .bot_log import Log
-                                   
+import language_list 
+
+all_langs=language_list.load()
+                             
 def f(
         pywikibot,
         site,
@@ -44,6 +47,10 @@ def f(
         mydescription=create_fr_description(CountryCIO,team_table,man_or_woman)
         label = {}
         label['fr'] = name
+        label['en'] = name
+                
+        for lang in all_langs:
+            label[lang] = label[u'fr']
     
         ## kkinit=teamCIOsearch(team_table, u'NAM')
         kk = teamCIOsearch(team_table, CountryCIO)

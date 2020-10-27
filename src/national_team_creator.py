@@ -7,6 +7,9 @@ Created on Thu Jan  4 15:28:39 2018
 from .cycling_init_bot_low import (add_Qvalue, add_value, get_description, get_alias,
 teamCIOsearch, create_present, link_year, add_multiple_value)
 from .bot_log import Log
+import language_list 
+
+all_langs=language_list.load()
 
 def f(
         pywikibot,
@@ -26,10 +29,11 @@ def f(
         alias = {}
         alias['fr'] = [teamTable[kk][7] + u" " + str(Year)]
         alias['en'] = alias['fr']
-        alias['es'] = alias['fr']
+        for lang in all_langs:
+            alias[lang] = alias[u'fr']
+
         return alias
-
-
+   
     def national_team_basic(
                 pywikibot,
                 repo,

@@ -7,6 +7,8 @@ from .cycling_init_bot_low import (add_multiple_value, add_value, add_Qvalue,
 add_to_master,
 get_description, get_alias, create_present, CIOtoIDsearch, link_year)                                  
 from .bot_log import Log
+import language_list 
+all_langs=language_list.load()
 
 def f(
         pywikibot,
@@ -23,6 +25,10 @@ def f(
         alias = {}
         if team_table[kk][team_dic['UCIcode']] != u'':
             alias['fr'] = [team_table[kk][team_dic['UCIcode']] + u" " + str(year)]  # UCI code + year
+            alias['en'] =  alias['fr']
+            for lang in all_langs:
+                alias[lang] = alias[u'fr']
+            
         return alias
 
     def team_basic(
@@ -99,6 +105,9 @@ def f(
         # Teamlabel_fr
         mylabel[u'fr'] = team_table[kk][1] + " " + str(year)
         mylabel[u'en'] = mylabel[u'fr']
+        
+        for lang in all_langs:
+            mylabel[lang] = mylabel[u'fr']
         # Teamlabel_en
         return mylabel
     
