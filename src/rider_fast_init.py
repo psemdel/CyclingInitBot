@@ -11,9 +11,8 @@ from .cycling_init_bot_low import (search_rider,  teamCIOsearch, create_item,
                                    add_Qvalue)
 
 from .bot_log import Log
-import language_list 
-
-all_langs=language_list.load()
+from .language_list  import load 
+all_langs=load()
                              
 def f(
         pywikibot,

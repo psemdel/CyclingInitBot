@@ -7,8 +7,8 @@ from .cycling_init_bot_low import (add_multiple_value, add_value, add_Qvalue,
 add_to_master,
 get_description, get_alias, create_present, CIOtoIDsearch, link_year)                                  
 from .bot_log import Log
-import language_list 
-all_langs=language_list.load()
+from .language_list  import load 
+all_langs=load()
 
 def f(
         pywikibot,
