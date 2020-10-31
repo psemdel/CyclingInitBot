@@ -677,8 +677,11 @@ def get_class_id(classe_text):
       "1.WWT":"Q23005601",
       "2.WWT":"Q23005603",
       "1.Pro":"Q74275170",
-      "2.Pro":"Q74275176"
-              } 
+      "2.Pro":"Q74275176",
+      "1.5":"Q98686837",
+      "1.UWT":"Q22231106",
+      "2.UWT":"Q22231107",
+       } 
     
     if classe_text in dic_class:
         return dic_class[classe_text]
@@ -693,6 +696,7 @@ def get_class_WWT(classe):
       "2.1":False,
       "1.2":False,
       "2.2":False,
+      "1.5":False,
       "1.WWT":True,
       "2.WWT":True,
       "1.Pro":False,
@@ -706,6 +710,7 @@ def get_class_WWT(classe):
       "2.1":False,
       "1.2":False,
       "2.2":False,
+      "1.5":False,
       "1.WWT":False,
       "2.WWT":False,
       "1.Pro":False,
