@@ -77,23 +77,27 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
         #race_begin later
  
     ##main starts here##
-    try:   
-        
+    try: 
+        log=None
+        log=Log()
         mydescription={}
         race_begin=kwargs.get('race_begin')
         end_date=kwargs.get('end_date')
         classe=kwargs.get('classe')
         countryCIO=kwargs.get('countryCIO')
         id_race_master=kwargs.get('id_race_master')
-        edition_nr=kwargs.get('edition_nr')
+        edition_nr=str(kwargs.get('edition_nr'))
         year=kwargs.get('year')
-        log=Log()
     
         if single_race:
             only_stages=False
             create_stages=False
             end_date=None
             create_main=True
+            if year is None and race_begin is not None: 
+                year=race_begin.year
+            else:
+                log.concat("year of the race not found")
         else:
             only_stages=kwargs.get('only_stages')
             first_stage=kwargs.get('first_stage')
@@ -121,7 +125,9 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                 create_main=True
                 if year is None and race_begin is not None: 
                     year=race_begin.year
-             
+                else:
+                    log.concat("year of the race not found")
+                    
         if isinstance(countryCIO, str):
             country_id=CIOtoIDsearch(team_table_femmes, countryCIO)
         else:
@@ -215,6 +221,9 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                 #Link to next
                 #Not required 
         return 0, log, present_id       
+    except Exception as msg:
+        print(msg)
+        return 10, log, "Q1"      
     except:
         log.concat("General Error in race creator")
-        return 10, log        
+        return 10, log, "Q1"         
