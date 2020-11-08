@@ -1636,6 +1636,8 @@ def load():
     team_table[kk][7] = u'UZB'
     team_table[kk][8] = 1
     team_table[kk][9] = 2954773
+    team_table[kk][10] = 101252474
+    team_table[kk][11] = 101252489
     team_table[kk][14] = 34011051
     team_table[kk][15] = u"Uzbekistán"
     team_table[kk][16] = u"ouzbeke"

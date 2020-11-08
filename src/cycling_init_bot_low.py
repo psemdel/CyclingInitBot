@@ -514,6 +514,7 @@ def table_reader(filename,result_dic, startline, verbose):
 def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwargs):
     list_of_cyclists = []
     all_riders_found=True
+    log=''
 
     #check if all riders are already present
     for ii in range(len(result_table)):
@@ -534,17 +535,22 @@ def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwar
                this_rider.rank=result_table[ii][result_dic['rank'][1]]
            else:
                all_riders_found=False
-               print(str(result_table[ii][result_dic['name'][1]]) + " " + 
-                     str(result_table[ii][result_dic['last name'][1]]) + " " + 
-                     str(result_table[ii][result_dic['bib'][1]]) + " not found")
+               error_msg=str(result_table[ii][result_dic['name'][1]]) 
+               error_msg = error_msg + " " +  str(result_table[ii][result_dic['last name'][1]]) + " "  
+               error_msg = error_msg + str(result_table[ii][result_dic['bib'][1]]) + " not found"
+               log=log + '\n' + error_msg
+               print(error_msg)
+               
                this_rider=Cyclist(ii, 'not found', id_rider)
            list_of_cyclists.append(this_rider)
 
     if all_riders_found: 
+        log = log+' list of cyclists created'
         print('list of cyclists created')
     else:
+        log= log+' reading of list of cyclists: failure not all riders found'
         print('reading of list of cyclists: failure not all riders found')
-    return list_of_cyclists, all_riders_found
+    return list_of_cyclists, all_riders_found, log
 
 # ==Search ==
 def search_race(name, race_table,race_dic):

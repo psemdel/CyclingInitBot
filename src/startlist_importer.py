@@ -176,8 +176,10 @@ def f(pywikibot,site,repo, prologue_or_final, id_race,
         result_table=sorted(result_table, key=lambda tup: int(tup[8]))
         log.concat('table read and sorted')
         
-        list_of_cyclists, all_riders_found=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, nosortkey=True)
+        list_of_cyclists, all_riders_found, cycling_log=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, nosortkey=True)
+        log.concat(cycling_log)
         if not all_riders_found:
+            log.concat(u'Not all riders found, request stopped')
             return 1, log
         row_count=len(list_of_cyclists)
         

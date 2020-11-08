@@ -33,7 +33,7 @@ def f(
         CC):
     
         add_Qvalue(pywikibot, repo, item, "P31", id_master, u'Nature')
-        add_value(pywikibot, repo, item, "P641", "Q3609", u'cyclisme sur route')
+        add_Qvalue(pywikibot, repo, item, "P641", "Q3609", u'cyclisme sur route')
         add_to_master(pywikibot,site,repo,id_present,id_master)
         
         if CC==False:
@@ -255,12 +255,12 @@ def f(
                 
                 log.concat( "championships creation for country: Q" + str(country_code))
                 
-                for year in range(start_year, end_year):
+                for year in range(start_year, end_year+1):
                     log.concat( "championships creation for year: " + str(year))    
                     # Create the championship
                     mylabel = {}
                     mylabel = national_championship_label(team_table, kk, year,True)
-                    id_present, item=create_present(mylabel)
+                    id_present, item=create_present(pywikibot, site,repo,time, mylabel)
     
                     if id_present!='Q1':
                         national_championship_basic(
@@ -275,16 +275,15 @@ def f(
                             CC)
                     
                         name_previous = national_championship_label(
-                                        team_table, kk, year-1)
+                                        team_table, kk, year-1, True)
                         name_next = national_championship_label(
-                                                            team_table, kk, year+1)
-                        link_year(pywikibot, site,id_present,name_previous,name_next)
-                
+                                                            team_table, kk, year+1,True)
+                        link_year(pywikibot, site,repo, id_present,name_previous,name_next)
                         # Create the road race
                         if team_table[kk][index_road_race] != 0:
                             mylabel_enligne =  national_championship_race_label(
                                     team_table, kk, year, m_or_w,True)
-                            id_enligne_present, item_enligne=create_present(mylabel_enligne)
+                            id_enligne_present, item_enligne=create_present(pywikibot, site,repo,time,mylabel_enligne)
                             
                             if id_enligne_present!=u'Q1':
                                 national_championship_race_basic(
@@ -304,14 +303,14 @@ def f(
                                     team_table, kk, year-1, m_or_w,True)
                                 name_enligne_next=national_championship_race_label(
                                     team_table, kk, year+1, m_or_w,True)
-                                link_year(pywikibot, site,id_enligne_present,
+                                link_year(pywikibot, site,repo, id_enligne_present,
                                           name_enligne_previous,name_enligne_next)
                         
                         # Create the Clm
                         if clm and team_table[kk][index_clm_race] != 0:
                             mylabel_clm =  national_championship_race_label(
                                     team_table, kk, year, m_or_w,False)
-                            id_clm_present, item_clm=create_present(mylabel_clm)
+                            id_clm_present, item_clm=create_present(pywikibot, site,repo,time,mylabel_clm)
     
                             if id_clm_present!=u'Q1':
                                 national_championship_race_basic(
@@ -331,7 +330,7 @@ def f(
                                     team_table, kk, year-1, m_or_w,False)
                                 name_clm_next=national_championship_race_label(
                                     team_table, kk, year+1, m_or_w,False)
-                                link_year(pywikibot, site,id_enligne_present,
+                                link_year(pywikibot, site,repo, id_enligne_present,
                                           name_clm_previous,name_clm_next)
     return 0, log
 
