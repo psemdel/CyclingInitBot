@@ -184,7 +184,8 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
                 claim=pywikibot.Claim(repo, u'P'+str(property_nummer))  
                 for ii in range(maxkk):
                     if general_or_stage in general_or_stage_team: #team
-                        log.concat("this a " + man_or_woman + " team")
+                        if verbose:
+                            log.concat("this a " + man_or_woman + " team")
                         if man_or_woman=="woman":
                             this_id=search_team_by_code(pywikibot, site, result_table[ii][result_dic['team code'][1]])
                         else:
@@ -225,7 +226,7 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
                            
                     else:
                        log.concat(str(result_table[ii][result_dic['name'][1]]) + ', ' +str(result_table[ii][result_dic['last name'][1]]))
-                       log.concat(u'interrupted at row ' + str(ii))
+                       log.concat(u'item not found, interrupted at row ' + str(ii))
                        return 0
             log.concat('result inserted')
             #fill startlist with DNF, HD and so on

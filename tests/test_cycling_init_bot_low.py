@@ -59,6 +59,7 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(search_team_by_code(pywikibot, site, "MTS 2020"),'Q74725715')
         self.assertEqual(search_team_by_code(pywikibot, site, "ASA 2020"),'Q74725122')
         self.assertEqual(search_team_by_code(pywikibot, site, "TFS 2020"),'Q82315001')
+        self.assertEqual(search_team_by_code(pywikibot, site, "LSL 2020"),'Q74725666')
         
     def test_other(self):
         self.assertFalse(is_it_a_cyclist(pywikibot, repo, 'Q38222'))
