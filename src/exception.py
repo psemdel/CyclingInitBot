@@ -130,6 +130,9 @@ def list_of_team_code_exception():
     exception_table[kk][0] = u'CCC 2020'
     exception_table[kk][1] = u'Q74726282'   
     kk += 1  
+    exception_table[kk][0] = u'LSL 2020'
+    exception_table[kk][1] = u'Q74725666'   
+    kk += 1   
     
     
     final_table = [['' for x in range(2)] for y in range(kk)]
