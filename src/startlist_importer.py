@@ -82,7 +82,7 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
             if result_table[ii][result_dic['bib'][1]]%10==1:
                         #insert last team
                 if (national_team_detected and all_same_team<0):
-                    log.concat(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
+                    print(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
                     #insert the team
                     for jj in range(national_team_begin,ii):
                         id_national_team=get_national_team_id(pywikibot,site, repo,nation_table, national_team_nation, year, man_or_woman) 
@@ -141,7 +141,7 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
      
     if not force_nation_team and national_team_detected and all_same_team<0:
          print("last")
-         log.concat(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
+         print(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
                 #insert the team
          for jj in range(national_team_begin,row_count):
             id_national_team=get_national_team_id(pywikibot,site, repo,nation_table, national_team_nation, year, man_or_woman) 
