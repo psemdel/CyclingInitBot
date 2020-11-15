@@ -203,12 +203,13 @@ def cycling_init_bot():
         champ_list_creator.f(pywikibot,site,repo,time,man_or_woman,start_year,actualize)
     elif selector==14:  
         from src import uci_classification
+        man_or_woman=u'man'
         id_master_UCI=u'Q57267790'
         year=u'2019'
         filename=u'UCIranking' #'UCIranking'
         test=False
         cleaner=False #delete the UCI ranking
-        uci_classification.f(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test)
+        uci_classification.f(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test,man_or_woman)
     elif selector==15:
         from src import cycling_init_bot_low as low
         id_item=u'Q57267790'

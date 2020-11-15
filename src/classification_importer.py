@@ -187,9 +187,9 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
                         if verbose:
                             log.concat("this a " + man_or_woman + " team")
                         if man_or_woman=="woman":
-                            this_id=search_team_by_code(pywikibot, site, result_table[ii][result_dic['team code'][1]])
+                            this_id=search_team_by_code(pywikibot, site, repo,  result_table[ii][result_dic['team code'][1]])
                         else:
-                            this_id=search_team_by_code_man(pywikibot, site, result_table[ii][result_dic['team code'][1]])
+                            this_id=search_team_by_code_man(pywikibot, site,  repo, result_table[ii][result_dic['team code'][1]])
                     else:
                         this_id=search_rider(pywikibot, site, repo,result_table[ii][result_dic['name'][1]],
                                             result_table[ii][result_dic['first name'][1]],result_table[ii][result_dic['last name'][1]] )

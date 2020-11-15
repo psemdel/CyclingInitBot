@@ -9,7 +9,7 @@ Created on Sat Jan  6 15:38:42 2018
 #import exception
 
 
-from .moo import ThisName, Cyclist
+from .moo import ThisName, Cyclist, Team
 from . import exception 
 
 import csv 
@@ -511,11 +511,15 @@ def table_reader(filename,result_dic, startline, verbose):
     return result_table, row_count, ecart_global
 
 #create a list of cyclist objects from result_table
+#check that all items are there before modifying the database
 def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwargs):
     list_of_cyclists = []
+    list_of_teams=[]
     all_riders_found=True
+    all_teams_found=True
     log=''
-
+    search_team=kwargs.get('search_team',False)
+    man_or_woman=kwargs.get('man_or_woman',u'woman') #used only for team
     #check if all riders are already present
     for ii in range(len(result_table)):
         if (result_table[ii][result_dic['name'][1]]!=0 or result_table[ii][result_dic['first name'][1]]!=0):
@@ -543,14 +547,39 @@ def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwar
                
                this_rider=Cyclist(ii, 'not found', id_rider)
            list_of_cyclists.append(this_rider)
+        if search_team:
+            if result_table[ii][result_dic['team code'][1]] != 0:
+                if man_or_woman=="woman":
+                    id_team=search_team_by_code(pywikibot, site,  repo, result_table[ii][result_dic['team code'][1]])
+                else:
+                    id_team=search_team_by_code_man(pywikibot, site, repo,  result_table[ii][result_dic['team code'][1]])
+                
+                if id_team!='Q0' and id_team!='Q1':
+                    this_team=Team(ii, 
+                                   result_table[ii][result_dic['team code'][1]],
+                                   id_team,
+                                   '')
+                else:
+                    this_team=Team(ii,'not found', "Q0", '') 
+                    log = log + '\n' + str(result_table[ii][result_dic['team code'][1]])
+                    log = log + "not found"
+                    all_teams_found=False
+            list_of_teams.append(this_team)        
 
+    if all_teams_found: 
+        log = log+' list of teams created'
+        print('list of teams created')
+    else:
+        log= log+' reading of list of teams: failure not all teams found'
+        print('reading of list of teams: failure not all teams found')
+    
     if all_riders_found: 
         log = log+' list of cyclists created'
         print('list of cyclists created')
     else:
         log= log+' reading of list of cyclists: failure not all riders found'
         print('reading of list of cyclists: failure not all riders found')
-    return list_of_cyclists, all_riders_found, log
+    return list_of_cyclists, all_riders_found, log, list_of_teams, all_teams_found
 
 # ==Search ==
 def search_race(name, race_table,race_dic):
@@ -576,13 +605,25 @@ def search_race(name, race_table,race_dic):
 def is_it_a_cyclist(pywikibot, repo, item_id):
     item = pywikibot.ItemPage(repo, item_id)
     item.get()
-    if(u'P106' in item.claims):  # already there do nothing
+    if(u'P106' in item.claims): 
         list_of_occupation = item.claims.get(u'P106')
         cyclist_occupation = pywikibot.ItemPage(repo, u'Q2309784')
         for occu in list_of_occupation:
             if occu.getTarget() == cyclist_occupation:  # Already there
                 return True
     return False
+
+def is_it_a_teamseason(pywikibot, repo, item_id):
+    item = pywikibot.ItemPage(repo, item_id)
+    item.get()
+    if(u'P31' in item.claims):  
+        list_of_natures = item.claims.get(u'P31')
+        team_season = pywikibot.ItemPage(repo, u'Q53534649')
+        for nature in list_of_natures:
+            if nature.getTarget() == team_season:  # Already there
+                return True
+    return False
+
 
 def search_item(pywikibot, site, search_string):
     from pywikibot.data import api
@@ -601,7 +642,7 @@ def search_item(pywikibot, site, search_string):
 
     return result_id
 
-def search_itemv2(pywikibot, site, search_string, rider_bool,code_bool, **kwargs): #For Team and rider
+def search_itemv2(pywikibot, site,  repo, search_string, rider_bool,code_bool, **kwargs): #For Team and rider
     from pywikibot.data import api
     
     if search_string!=0:
@@ -632,7 +673,10 @@ def search_itemv2(pywikibot, site, search_string, rider_bool,code_bool, **kwargs
         if ref_name==exp:
                return exception_table[ii][1]
       
+
     wikidata_entries = get_items(api, site, ref_name)
+    disam=kwargs.get('disam',None) #disambiguation_function
+    force_disam=kwargs.get('force_disam',False) #disam criteria must be always filed
     
     if(wikidata_entries['search'] == []):
         # no result
@@ -640,38 +684,48 @@ def search_itemv2(pywikibot, site, search_string, rider_bool,code_bool, **kwargs
     elif len(wikidata_entries['search'])==1:
         wikidataSearchresult = wikidata_entries['search']
         wikidataSearchresult1 = wikidataSearchresult[0]
-        result_id = wikidataSearchresult1['id']    
+        temp_id  = wikidataSearchresult1['id'] 
+        if force_disam==False:
+            result_id=temp_id
+        else:
+            if disam(pywikibot, repo, temp_id):
+                result_id=temp_id
     else:
         result_id = u'Q1'
-        disam=kwargs.get('disam',None) #disambiguation_function
         if disam!=None:
-            repo=kwargs.get('repo',None)
-            if repo!=None:
-                all_results = wikidata_entries['search']
-                for result in all_results:
-                    temp_id=result['id']
-                    if disam(pywikibot, repo, temp_id):
-                        result_id=temp_id
-                        break
+            all_results = wikidata_entries['search']
+            for result in all_results:
+                temp_id=result['id']
+                if disam(pywikibot, repo, temp_id):
+                    result_id=temp_id
+                    break
         
     return result_id
 
 def search_rider(pywikibot, site, repo,search_string, first_name, last_name):
     exception_table=exception.list_of_rider_exception()
-    return search_itemv2(pywikibot, site, search_string, True, False, disam=is_it_a_cyclist, repo=repo, 
+    return search_itemv2(pywikibot, site, repo, search_string, True, False, disam=is_it_a_cyclist, 
                         exception_table=exception_table, first_name=first_name, last_name=last_name)
 
-def search_team_by_name(pywikibot, site, search_string):
+def search_team_by_name(pywikibot, site,  repo, search_string):
     exception_table=exception.list_of_team_name_exception()
-    return search_itemv2(pywikibot, site, search_string, False, False, exception_table=exception_table)
+    return search_itemv2(pywikibot, site,  repo, search_string, False, False, exception_table=exception_table)
 
-def search_team_by_code(pywikibot, site, search_string):
+def search_team_by_code(pywikibot, site, repo,  search_string):
     exception_table=exception.list_of_team_code_exception()
-    return search_itemv2(pywikibot, site, search_string, False, True, exception_table=exception_table)
+    return search_itemv2(pywikibot, site,  repo, search_string, False, True,
+                         exception_table=exception_table,
+                         disam=is_it_a_teamseason,
+                         force_disam=True)
 
-def search_team_by_code_man(pywikibot, site, search_string):
+def search_team_by_code_man(pywikibot, site,  repo, search_string):
     exception_table=exception.list_of_team_code_exception_man()
-    return search_itemv2(pywikibot, site, search_string, False, True, exception_table=exception_table)
+    return search_itemv2(pywikibot, site, repo,  search_string, 
+                         False, 
+                         True, 
+                         exception_table=exception_table, 
+                         disam=is_it_a_teamseason,
+                         force_disam=True)
 
 ## other ##
 def get_class_id(classe_text):

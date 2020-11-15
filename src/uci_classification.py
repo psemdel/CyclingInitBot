@@ -5,7 +5,8 @@ Created on Thu Nov  7 21:44:28 2019
 
 @author: maxime
 """
-from .cycling_init_bot_low import (cyclists_table_reader, table_reader, search_team_by_code)
+from .cycling_init_bot_low import (cyclists_table_reader, table_reader, search_team_by_code,
+                                   search_team_by_code_man)
 from .bot_log import Log
 
 def UCI_classification_importer(
@@ -17,6 +18,7 @@ def UCI_classification_importer(
         filename,
         cleaner,
         test,
+        man_or_woman,
         ):
  
     try:
@@ -41,14 +43,23 @@ def UCI_classification_importer(
         
         log=Log()
         log.concat('result_table created')
-        list_of_cyclists=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic)
-    
+        list_of_cyclists, all_riders_found, cycling_log, list_of_teams, all_teams_found=cyclists_table_reader(pywikibot, 
+                                                                                               site, 
+                                                                                   man_or_woman=man_or_woman)
+        if not all_riders_found:
+            log.concat(u'Not all riders found, request stopped')
+            return 1, log
+        
+        if not all_teams_found:
+            log.concat(u'Not all teams found, request stopped')
+            return 1, log           
+        
         #fill the rider
         if not test:
             for ii in range(len(list_of_cyclists)):
                 this_rider=list_of_cyclists[ii]
                 
-                if this_rider!='Q0' and this_rider!='Q1':
+                if this_rider.id_item!='Q0' and this_rider.id_item!='Q1':
                     if cleaner!=True:
                         #action in the rider 
                         Addc=True
@@ -79,8 +90,9 @@ def UCI_classification_importer(
         
                     #action in the team
                     if result_table[ii][result_dic['team code'][1]] != 0:
-                        id_team=search_team_by_code(pywikibot, site, result_table[ii][result_dic['team code'][1]])
-                       
+                        this_team=list_of_teams[ii]
+                        id_team= this_team.id_item
+
                         if id_team!='Q0' and id_team!='Q1':
                             item_team= pywikibot.ItemPage(repo, id_team)
                             item_team.get()

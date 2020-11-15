@@ -105,7 +105,7 @@ class NationalTeam(unittest.TestCase):
     
         result_table, row_count, ecart=table_reader('National_team_tests', result_dic,0,False)
         result_table=sorted(result_table, key=lambda tup: int(tup[8]))
-        list_of_cyclists, all_riders_found=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, nosortkey=True)
+        list_of_cyclists, all_riders_found, log=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, nosortkey=True)
 
         res_list_of_cyclists, log=find_national_team(pywikibot,site,repo,list_of_cyclists, 
                        result_table, result_dic, row_count, nation_table, 

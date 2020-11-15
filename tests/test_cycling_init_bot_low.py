@@ -14,7 +14,8 @@ from src.cycling_init_bot_low import (search_race, is_it_a_cyclist, search_item,
 search_rider, define_article, get_class, get_present_team, CIOtoIDsearch,
 get_class_WWT, get_country, table_reader, compare_dates, get_year, checkid,
 checkprop, get_single_or_stage,excel_to_csv,bot_or_site, date_finder, search_team_by_code,
-float_to_int, IDtoCIOsearch, get_nationality, get_race_begin, get_end_date)
+float_to_int, IDtoCIOsearch, get_nationality, get_race_begin, get_end_date,
+search_team_by_code_man, is_it_a_teamseason)
 from src import race_list
 from src import nation_team_table
 
@@ -56,15 +57,27 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(result2 , 0)   
         
     def test_search_team_by_code(self):
-        self.assertEqual(search_team_by_code(pywikibot, site, "MTS 2020"),'Q74725715')
-        self.assertEqual(search_team_by_code(pywikibot, site, "ASA 2020"),'Q74725122')
-        self.assertEqual(search_team_by_code(pywikibot, site, "TFS 2020"),'Q82315001')
-        self.assertEqual(search_team_by_code(pywikibot, site, "LSL 2020"),'Q74725666')
+        self.assertEqual(search_team_by_code(pywikibot, site, repo, "MTS 2020"),'Q74725715')
+        self.assertEqual(search_team_by_code(pywikibot, site, repo, "ASA 2020"),'Q74725122')
+        self.assertEqual(search_team_by_code(pywikibot, site, repo, "TFS 2020"),'Q82315001')
+        self.assertEqual(search_team_by_code(pywikibot, site, repo, "LSL 2020"),'Q74725666')
         
-    def test_other(self):
+    def test_search_team_by_code_man(self):
+        self.assertEqual(search_team_by_code_man(pywikibot, site, repo, "TFS 2020"),'Q78075353')
+        self.assertEqual(search_team_by_code_man(pywikibot, site, repo, "DQT 2020"),'Q78075314')
+
+    def test_is_it_a_cyclist(self):
         self.assertFalse(is_it_a_cyclist(pywikibot, repo, 'Q38222'))
         self.assertTrue(is_it_a_cyclist(pywikibot, repo, 'Q563737'))
-        
+        self.assertTrue(is_it_a_cyclist(pywikibot, repo, 'Q47295776'))
+        self.assertFalse(is_it_a_cyclist(pywikibot, repo, 'Q75271148'))
+
+    def test_is_it_a_teamseason(self):
+        self.assertTrue(is_it_a_teamseason(pywikibot, repo, 'Q78075314'))
+        self.assertTrue(is_it_a_teamseason(pywikibot, repo, 'Q82315001'))
+        self.assertFalse(is_it_a_teamseason(pywikibot, repo, 'Q563737'))
+
+    def test_other(self):
         self.assertEqual(search_item(pywikibot, site, 'Anna van der Breggen'),'Q563737')
         self.assertEqual(search_item(pywikibot, site, 'Anna'),'Q1')
         self.assertEqual(search_item(pywikibot, site, 'zz14563465465wuichWRUPIUDGCOIUWR'),'Q0')
