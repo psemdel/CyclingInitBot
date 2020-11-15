@@ -9,7 +9,7 @@ from .cycling_init_bot_low import (cyclists_table_reader, table_reader, search_t
                                    search_team_by_code_man)
 from .bot_log import Log
 
-def UCI_classification_importer(
+def f(
         pywikibot,
         site,
         repo,
@@ -19,6 +19,7 @@ def UCI_classification_importer(
         cleaner,
         test,
         man_or_woman,
+        UCIranking
         ):
  
     try:
@@ -33,24 +34,30 @@ def UCI_classification_importer(
         'ecart':[1,6,'time'],  #always created
         'bib':[-1,8,''] #dossard
         }
+        verbose=False
+        log=Log()
         
-        result_table, row_count, ecart=table_reader('input/' + filename + year + '.csv', result_dic,0)
-        
+        result_table, row_count, ecart=table_reader(filename , result_dic,0,verbose)
         #post-processing
         for ii in range(row_count):
             if result_table[ii][result_dic['points'][1]]==0:
                 result_table[ii][result_dic['points'][1]]=result_table[ii][result_dic['result'][1]]
-        
-        log=Log()
+            if result_table[ii][result_dic['team code'][1]]!=0 and result_table[ii][result_dic['team code'][1]]!="":
+                result_table[ii][result_dic['team code'][1]]=result_table[ii][result_dic['team code'][1]]+" "+str(year)  
+
         log.concat('result_table created')
+        search_team=(not UCIranking)
         list_of_cyclists, all_riders_found, cycling_log, list_of_teams, all_teams_found=cyclists_table_reader(pywikibot, 
-                                                                                               site, 
-                                                                                   man_or_woman=man_or_woman)
+                                                                                               site, repo,result_table,
+                                                                                                result_dic,
+                                                                                                search_team=search_team,
+                                                                                           man_or_woman=man_or_woman)
+
         if not all_riders_found:
             log.concat(u'Not all riders found, request stopped')
             return 1, log
         
-        if not all_teams_found:
+        if not all_teams_found and UCIranking:
             log.concat(u'Not all teams found, request stopped')
             return 1, log           
         
@@ -88,46 +95,46 @@ def UCI_classification_importer(
                                 qualifier_points.setTarget(target_qualifier)
                                 claim.addQualifier(qualifier_points)
         
-                    #action in the team
-                    if result_table[ii][result_dic['team code'][1]] != 0:
-                        this_team=list_of_teams[ii]
-                        id_team= this_team.id_item
-
-                        if id_team!='Q0' and id_team!='Q1':
-                            item_team= pywikibot.ItemPage(repo, id_team)
-                            item_team.get()
-                            
-                            Addc=True
-                            if(u'P3494' in item_team.claims):
-                                if cleaner:
-                                    item_team.removeClaims(this_rider.item.claims['P3494'])
-                                else: #not clear
-                                    list_of_comprend = this_rider.item.claims.get(u'P3494')
-                                    item_to_add =this_rider.item
-                                    for in_comprend in list_of_comprend:
-                                        if in_comprend.getTarget() == item_to_add:  # Already there
-                                            Addc = False
-                                            log.concat('Item already in the Master list')
-                
-                                    if Addc:
-                                       claim = pywikibot.Claim(repo, u'P3494')
-                                       claim.setTarget(item_to_add)
-                                       item_team.item.addClaim(claim, summary=u'Adding classification')
-                                       
-                                       qualifier_rank = pywikibot.page.Claim(
-                                               site, 'P1352', is_qualifier=True)
-                                       target_qualifier = pywikibot.WbQuantity(
-                                               amount=this_rider.rank, site=repo)
-                                       qualifier_rank.setTarget(target_qualifier)
-                                       claim.addQualifier(qualifier_rank)
-                                       
-                                       qualifier_points = pywikibot.page.Claim(
-                                               site, 'P1358', is_qualifier=True)
-                                       target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['points'][1]],
-                                                                               site=repo)
-                                       qualifier_points.setTarget(target_qualifier)
-                                       claim.addQualifier(qualifier_points)
+                    #action in the team, only for UCI ranking up to now
+                        if result_table[ii][result_dic['team code'][1]]!=0 and result_table[ii][result_dic['team code'][1]]!="" and UCIranking:
+                            this_team=list_of_teams[ii]
+                            id_team= this_team.id_item
+                            if id_team!='Q0' and id_team!='Q1':
+                                item_team= pywikibot.ItemPage(repo, id_team)
+                                item_team.get()
+                                
+                                Addc=True
+                                if(u'P3494' in item_team.claims):
+                                    if cleaner:
+                                        item_team.removeClaims(this_rider.item.claims['P3494'])
+                                    else: #not clear
+                                        list_of_comprend = item_team.claims.get(u'P3494')
+                                        item_to_add =this_rider.item
+                                        for in_comprend in list_of_comprend:
+                                            if in_comprend.getTarget() == item_to_add:  # Already there
+                                                Addc = False
+                                                log.concat('Item already in the Master list')
+                    
+                                        if Addc:
+                                           claim = pywikibot.Claim(repo, u'P3494')
+                                           claim.setTarget(item_to_add)
+                                           item_team.item.addClaim(claim, summary=u'Adding classification')
+                                           
+                                           qualifier_rank = pywikibot.page.Claim(
+                                                   site, 'P1352', is_qualifier=True)
+                                           target_qualifier = pywikibot.WbQuantity(
+                                                   amount=this_rider.rank, site=repo)
+                                           qualifier_rank.setTarget(target_qualifier)
+                                           claim.addQualifier(qualifier_rank)
+                                           
+                                           qualifier_points = pywikibot.page.Claim(
+                                                   site, 'P1358', is_qualifier=True)
+                                           target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['points'][1]],
+                                                                                   site=repo)
+                                           qualifier_points.setTarget(target_qualifier)
+                                           claim.addQualifier(qualifier_points)
             return 0, log
-    except:
+    except Exception as msg:
+        print(msg)
         log.concat("General Error in UCI ranking")
         return 10, log        

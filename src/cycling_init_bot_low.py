@@ -441,6 +441,7 @@ def table_reader(filename,result_dic, startline, verbose):
     
     with open(filepath, newline='') as csvfile:
         file_object = csv.reader(csvfile, delimiter=default_separator, quotechar='|')
+        
         for row in file_object: 
             if len(row)==1:  #wrong separator, try coma
                 separator=','
@@ -548,7 +549,7 @@ def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwar
                this_rider=Cyclist(ii, 'not found', id_rider)
            list_of_cyclists.append(this_rider)
         if search_team:
-            if result_table[ii][result_dic['team code'][1]] != 0:
+            if result_table[ii][result_dic['team code'][1]]!=0 and result_table[ii][result_dic['team code'][1]]!="":
                 if man_or_woman=="woman":
                     id_team=search_team_by_code(pywikibot, site,  repo, result_table[ii][result_dic['team code'][1]])
                 else:
@@ -558,12 +559,15 @@ def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwar
                     this_team=Team(ii, 
                                    result_table[ii][result_dic['team code'][1]],
                                    id_team,
-                                   '')
+                                   '',site=site,pywikibot=pywikibot)
                 else:
-                    this_team=Team(ii,'not found', "Q0", '') 
-                    log = log + '\n' + str(result_table[ii][result_dic['team code'][1]])
-                    log = log + "not found"
+                    this_team=Team(ii,'not found', "Q0", '',site=site,pywikibot=pywikibot) 
+                    error_msg=str(result_table[ii][result_dic['team code'][1]])+ " not found"
+                    print(error_msg)
+                    log = log + '\n' + error_msg
                     all_teams_found=False
+            else:
+                this_team=Team(ii,'no team', "Q0", '',site=site,pywikibot=pywikibot) 
             list_of_teams.append(this_team)        
 
     if all_teams_found: 
@@ -691,14 +695,22 @@ def search_itemv2(pywikibot, site,  repo, search_string, rider_bool,code_bool, *
             if disam(pywikibot, repo, temp_id):
                 result_id=temp_id
     else:
+        candidate=0
         result_id = u'Q1'
         if disam!=None:
             all_results = wikidata_entries['search']
             for result in all_results:
                 temp_id=result['id']
                 if disam(pywikibot, repo, temp_id):
-                    result_id=temp_id
-                    break
+                    if force_disam==False:
+                        result_id=temp_id
+                        break
+                    else:
+                        candidate=candidate+1
+            if candidate==1:
+                result_id=temp_id
+            elif candidate>1:
+                print("2 teams found for: " +ref_name)
         
     return result_id
 

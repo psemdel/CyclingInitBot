@@ -14,8 +14,8 @@ repo = site.data_repository()
 
 def cycling_init_bot():
     nation_table= nation_team_table.load()
-
-    selector=13
+    
+    selector=14
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -203,13 +203,14 @@ def cycling_init_bot():
         champ_list_creator.f(pywikibot,site,repo,time,man_or_woman,start_year,actualize)
     elif selector==14:  
         from src import uci_classification
-        man_or_woman=u'man'
-        id_master_UCI=u'Q57267790'
-        year=u'2019'
-        filename=u'UCIranking' #'UCIranking'
+        man_or_woman=u'woman'
+        id_master_UCI=u'Q74127378'
+        year=u'2020'
+        filename=u'UCIranking2020' #'UCIranking'
         test=False
         cleaner=False #delete the UCI ranking
-        uci_classification.f(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test,man_or_woman)
+        UCIranking=True
+        uci_classification.f(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test,man_or_woman,UCIranking)
     elif selector==15:
         from src import cycling_init_bot_low as low
         id_item=u'Q57267790'

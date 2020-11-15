@@ -1,3 +1,11 @@
+import os
+
+def bot_or_site():
+    if 'bot_requests' in os.listdir():
+        return False #site
+    else:
+        return True #bot
+
 def concaten(names_table,ii):
     start=names_table[ii]
     for kk in range(ii+1,len(names_table)):
@@ -101,9 +109,12 @@ class Cyclist(ThisName):
             if sortkey!='': 
                  self.sortkey=sortkey
             else:
-                 print(self.name)
-                 ii = input('Index of the family name : ')
-                 self.sortkey=concaten(names_cor_table ,int(ii))       
+                 if False:#bot_or_site():
+                     print(self.name)
+                     ii = input('Index of the family name : ')
+                     self.sortkey=concaten(names_cor_table ,int(ii))       
+                 else: #site
+                     self.sortkey=concaten(names_cor_table ,1) #arbitrary
          
 class Race(ThisName):
     def __init__(self, id, name, id_item, date, **kwargs):
