@@ -19,7 +19,8 @@ def f(
         cleaner,
         test,
         man_or_woman,
-        UCIranking
+        UCIranking,
+        bypass
         ):
  
     try:
@@ -46,26 +47,25 @@ def f(
                 result_table[ii][result_dic['team code'][1]]=result_table[ii][result_dic['team code'][1]]+" "+str(year)  
 
         log.concat('result_table created')
-        search_team=(not UCIranking)
-        list_of_cyclists, all_riders_found, cycling_log, list_of_teams, all_teams_found=cyclists_table_reader(pywikibot, 
-                                                                                               site, repo,result_table,
+        search_team=UCIranking
+        list_of_cyclists, all_riders_found, cycling_log, list_of_teams, all_teams_found=cyclists_table_reader(pywikibot, site, repo,result_table,
                                                                                                 result_dic,
                                                                                                 search_team=search_team,
                                                                                            man_or_woman=man_or_woman)
 
-        if not all_riders_found:
+        if not all_riders_found and bypass==False:
             log.concat(u'Not all riders found, request stopped')
             return 1, log
         
-        if not all_teams_found and UCIranking:
+        if (not all_teams_found and UCIranking) and bypass==False:
             log.concat(u'Not all teams found, request stopped')
             return 1, log           
         
         #fill the rider
+       
         if not test:
             for ii in range(len(list_of_cyclists)):
                 this_rider=list_of_cyclists[ii]
-                
                 if this_rider.id_item!='Q0' and this_rider.id_item!='Q1':
                     if cleaner!=True:
                         #action in the rider 
@@ -104,35 +104,36 @@ def f(
                                 item_team.get()
                                 
                                 Addc=True
+                                item_to_add =this_rider.item
                                 if(u'P3494' in item_team.claims):
                                     if cleaner:
+                                        Addc=False
                                         item_team.removeClaims(this_rider.item.claims['P3494'])
                                     else: #not clear
                                         list_of_comprend = item_team.claims.get(u'P3494')
-                                        item_to_add =this_rider.item
                                         for in_comprend in list_of_comprend:
                                             if in_comprend.getTarget() == item_to_add:  # Already there
                                                 Addc = False
                                                 log.concat('Item already in the Master list')
-                    
-                                        if Addc:
-                                           claim = pywikibot.Claim(repo, u'P3494')
-                                           claim.setTarget(item_to_add)
-                                           item_team.item.addClaim(claim, summary=u'Adding classification')
-                                           
-                                           qualifier_rank = pywikibot.page.Claim(
-                                                   site, 'P1352', is_qualifier=True)
-                                           target_qualifier = pywikibot.WbQuantity(
-                                                   amount=this_rider.rank, site=repo)
-                                           qualifier_rank.setTarget(target_qualifier)
-                                           claim.addQualifier(qualifier_rank)
-                                           
-                                           qualifier_points = pywikibot.page.Claim(
-                                                   site, 'P1358', is_qualifier=True)
-                                           target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['points'][1]],
-                                                                                   site=repo)
-                                           qualifier_points.setTarget(target_qualifier)
-                                           claim.addQualifier(qualifier_points)
+                                #no property or not there
+                                if Addc:
+                                   claim = pywikibot.Claim(repo, u'P3494')
+                                   claim.setTarget(item_to_add)
+                                   item_team.addClaim(claim, summary=u'Adding classification')
+                                   
+                                   qualifier_rank = pywikibot.page.Claim(
+                                           site, 'P1352', is_qualifier=True)
+                                   target_qualifier = pywikibot.WbQuantity(
+                                           amount=this_rider.rank, site=repo)
+                                   qualifier_rank.setTarget(target_qualifier)
+                                   claim.addQualifier(qualifier_rank)
+                                   
+                                   qualifier_points = pywikibot.page.Claim(
+                                           site, 'P1358', is_qualifier=True)
+                                   target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['points'][1]],
+                                                                           site=repo)
+                                   qualifier_points.setTarget(target_qualifier)
+                                   claim.addQualifier(qualifier_points)
             return 0, log
     except Exception as msg:
         print(msg)

@@ -694,6 +694,8 @@ def search_itemv2(pywikibot, site,  repo, search_string, rider_bool,code_bool, *
         else:
             if disam(pywikibot, repo, temp_id):
                 result_id=temp_id
+            else:
+                result_id = u'Q0'
     else:
         candidate=0
         result_id = u'Q1'
