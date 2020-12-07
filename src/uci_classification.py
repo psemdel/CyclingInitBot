@@ -70,30 +70,31 @@ def f(
                     if cleaner!=True:
                         #action in the rider 
                         Addc=True
+                        item_to_add = pywikibot.ItemPage(repo, id_master_UCI)
                         if(u'P1344' in this_rider.item.claims):
                              list_of_comprend = this_rider.item.claims.get(u'P1344')
-                             item_to_add = pywikibot.ItemPage(repo, id_master_UCI)
                              for in_comprend in list_of_comprend:
                                 if in_comprend.getTarget() == item_to_add:  # Already there
                                     Addc = False
                                     log.concat('Item already in the Master list')
-                             if Addc:
-                                #add the calendar to P1344
-                                claim = pywikibot.Claim(repo, u'P1344')
-                                claim.setTarget(item_to_add)
-                                this_rider.item.addClaim(claim, summary=u'Adding classification')
-                                
-                                qualifier_rank = pywikibot.page.Claim(site, 'P1352', is_qualifier=True)
-                                target_qualifier = pywikibot.WbQuantity(amount=this_rider.rank, site=repo)
-                                qualifier_rank.setTarget(target_qualifier)
-                                claim.addQualifier(qualifier_rank)
-                                
-                                qualifier_points = pywikibot.page.Claim(
-                                    site, 'P1358', is_qualifier=True)
-                                target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['points'][1]],
-                                                                        site=repo)
-                                qualifier_points.setTarget(target_qualifier)
-                                claim.addQualifier(qualifier_points)
+                        #no property or not there
+                        if Addc:
+                           #add the calendar to P1344
+                           claim = pywikibot.Claim(repo, u'P1344')
+                           claim.setTarget(item_to_add)
+                           this_rider.item.addClaim(claim, summary=u'Adding classification')
+                           
+                           qualifier_rank = pywikibot.page.Claim(site, 'P1352', is_qualifier=True)
+                           target_qualifier = pywikibot.WbQuantity(amount=this_rider.rank, site=repo)
+                           qualifier_rank.setTarget(target_qualifier)
+                           claim.addQualifier(qualifier_rank)
+                           
+                           qualifier_points = pywikibot.page.Claim(
+                               site, 'P1358', is_qualifier=True)
+                           target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['points'][1]],
+                                                                   site=repo)
+                           qualifier_points.setTarget(target_qualifier)
+                           claim.addQualifier(qualifier_points)
         
                     #action in the team, only for UCI ranking up to now
                         if result_table[ii][result_dic['team code'][1]]!=0 and result_table[ii][result_dic['team code'][1]]!="" and UCIranking:
