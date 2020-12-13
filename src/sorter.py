@@ -102,6 +102,23 @@ def date_sorter(pywikibot, site, repo, time, team_id, property_number,test):
         return 10, log        
 
 #sort the family name of cyclists
+def check_if_team(item):
+    list_of_team_cat = [
+    "Q6154783", "Q20638319", "Q382927", "Q1756006", 
+    "Q23726798", "Q20738667", "Q28492441", "Q20639848", 
+    "Q20639847", "Q20652655", "Q20653563", "Q20653564",
+    "Q20653566", "Q2466826", "Q26849121", "Q78464255", 
+    "Q80425135", "Q53534649", "Q2466826"
+    ]
+    
+    team=False
+    if u'P31' in item.claims:
+        list_of_comprend = item.claims.get(u'P31')
+        for e in list_of_comprend:
+            if e.getTarget().getID() in list_of_team_cat:
+                team=True
+    return team
+            
 def name_sorter(pywikibot, site, repo, time, team_id, property_number, test):
     try:
         item = pywikibot.ItemPage(repo, team_id)
@@ -109,22 +126,10 @@ def name_sorter(pywikibot, site, repo, time, team_id, property_number, test):
     
         list_of_objects = []
         list_of_names = []
-    
-        list_of_team_cat = [
-            "Q6154783", "Q20638319", "Q382927", "Q1756006", 
-            "Q23726798", "Q20738667", "Q28492441", "Q20639848", 
-            "Q20639847", "Q20652655", "Q20653563", "Q20653564",
-            "Q20653566", "Q2466826", "Q26849121", "Q78464255", 
-            "Q80425135", "Q53534649"
-            ]
-        
+
         log=Log()
-        team=False
+        team=check_if_team(item)
         raceteam=False
-        if u'P31' in item.claims:
-            list_of_comprend = item.claims.get(u'P31')
-            if list_of_comprend[0].getTarget() in list_of_team_cat:
-                team=True
     
         # Read the list of racers and correct their name
         prop=checkprop(property_number)
