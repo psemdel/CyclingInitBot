@@ -1582,6 +1582,7 @@ def load():
     team_table[kk][6] = u'Turkish'
     team_table[kk][7] = u'TUR'
     team_table[kk][8] = 2
+    team_table[kk][9] = 24960050
     team_table[kk][12] = 27230611
     team_table[kk][13] = 27235639
     team_table[kk][14] = 41768233
