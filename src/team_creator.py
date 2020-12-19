@@ -55,6 +55,7 @@ def f(
     
         add_Qvalue(pywikibot, repo, item, "P17", country_code, u'country')
         add_Qvalue(pywikibot, repo, item, "P361", id_master, u'part of')
+        add_Qvalue(pywikibot, repo, item, "P5138", id_master, u'part of')
         add_to_master(pywikibot,site,repo,id_present,id_master)
     
         if(u'P580' not in item.claims):

@@ -153,6 +153,7 @@ def load():
     team_table[kk][6] = u'Armenian'
     team_table[kk][7] = u'ARM'
     team_table[kk][8] = 3
+    team_table[kk][9] = 104294064
     team_table[kk][15] = u"Armenia"
     team_table[kk][16] =u'arménienne'
     team_table[kk][17] =u'arménien'
@@ -1076,7 +1077,7 @@ def load():
     team_table[kk][1] = u'Maroc'
     team_table[kk][2] = u"du "
     team_table[kk][3] = 1028
-    team_table[kk][4] = 99963674
+    team_table[kk][4] = 99631646
     team_table[kk][5] = u'Morocco'
     team_table[kk][6] = u'Moroccan'
     team_table[kk][7] = u'MAR'

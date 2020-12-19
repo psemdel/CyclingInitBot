@@ -220,8 +220,8 @@ def f(
     for m_or_w in gender_dic:
         log.concat( "championships creation for gender: " + m_or_w)
         for kk in range(kkinit, endkk):  
-            #group = team_table[kk][8]
-            if True:
+            group = team_table[kk][8]
+            if group == 1 or group == 2:
                 if CC:
                     id_master=team_table[kk][3]
                     country_code=0

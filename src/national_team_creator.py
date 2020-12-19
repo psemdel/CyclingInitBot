@@ -161,7 +161,7 @@ def f(
             kkinit = teamCIOsearch(team_table, country)
             endkk = kkinit+1
         else:
-            kkinit =1
+            kkinit = 1 #teamCIOsearch(team_table, 'MEX')
             endkk = len(team_table)
             
         if man_or_woman == 'man':
