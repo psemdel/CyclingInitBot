@@ -13,7 +13,6 @@ from .moo import ThisName, Cyclist, Team, ThisCyclistName
 from . import exception 
 
 import csv 
-import openpyxl
 from openpyxl import load_workbook
 import os.path
 
