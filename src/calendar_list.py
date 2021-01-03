@@ -31,6 +31,7 @@ def load():
 #women
 def calendaruciID(year):
     calendar_dic={
+            "2021":"Q103982710",
             "2020":"Q74127378",
             "2019":"Q57267790",
             "2018":"Q47005682",
@@ -56,6 +57,7 @@ def calendaruciID(year):
 #women
 def calendarWWTID(year): 
     calendar_dic={
+        "2021":"Q101436794",
         "2020":"Q70443700",
         "2019":"Q57277246",
         "2018":"Q41787783",
@@ -80,7 +82,8 @@ def calendarUWTID(year):
         "2017":"Q21857932",
         "2018":"Q42317185",
         "2019":"Q56966729",
-        "2020":"Q66739340"
+        "2020":"Q66739340",
+        "2021":"Q97926291"
         }
     
     if year in calendar_dic:

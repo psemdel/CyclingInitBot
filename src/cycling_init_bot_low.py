@@ -9,7 +9,7 @@ Created on Sat Jan  6 15:38:42 2018
 #import exception
 
 
-from .moo import ThisName, Cyclist, Team
+from .moo import ThisName, Cyclist, Team, ThisCyclistName
 from . import exception 
 
 import csv 
@@ -587,7 +587,7 @@ def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwar
 
 # ==Search ==
 def search_race(name, race_table,race_dic):
-    result = 0, 0
+    result = "Q0", ""
     
     thisname=ThisName(name)  #delete the accent and so on
     name=thisname.name_cor
@@ -602,7 +602,8 @@ def search_race(name, race_table,race_dic):
             
             if name.find(key1) != -1:
                 if name.find(key2) != -1:
-                    return race_table[ii][race_dic['master']], race_table[ii][race_dic['genre']]
+                    id_master="Q" + str( race_table[ii][race_dic['master']])
+                    return id_master, race_table[ii][race_dic['genre']]
 
     return result 
 
@@ -650,17 +651,17 @@ def search_itemv2(pywikibot, site,  repo, search_string, rider_bool,code_bool, *
     from pywikibot.data import api
     
     if search_string!=0:
-        this_name=ThisName(search_string)
         if rider_bool:
-            ref_name=this_name.name_cor
+            this_name=ThisCyclistName(search_string) #reverted
         else:
-            ref_name=this_name.name #no need to revert
+            this_name=ThisName(search_string)
+        ref_name=this_name.name_cor
     else:
         first_name=kwargs.get('first_name','')
         last_name=kwargs.get('last_name','')
         name=first_name + " " + last_name
         if name!=" ":
-           this_name=ThisName(name)
+           this_name=ThisCyclistName(name)
            ref_name=this_name.name_cor
         else:
            return u'Q1', ''
@@ -668,15 +669,14 @@ def search_itemv2(pywikibot, site,  repo, search_string, rider_bool,code_bool, *
     #exception management
     exception_table=kwargs.get('exception_table',[])
     for ii in range(len(exception_table)):
+       # if code_bool:
+       #     this_exception=ThisCyclistName(exception_table[ii][0])  
+       # else:
         this_exception=ThisName(exception_table[ii][0])  
-        if code_bool:
-            exp=this_exception.name
-        else:
-            exp=this_exception.name_cor
+        exp=this_exception.name_cor
        
         if ref_name==exp:
                return exception_table[ii][1]
-      
 
     wikidata_entries = get_items(api, site, ref_name)
     disam=kwargs.get('disam',None) #disambiguation_function

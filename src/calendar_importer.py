@@ -6,13 +6,14 @@ Created on Wed Nov 27 20:54:17 2019
 @author: maxime
 """
 from .cycling_init_bot_low import (noQ, table_reader, search_race, search_item,
-                                   get_single_or_stage)
-import race_creator
+                                   get_single_or_stage, get_country, get_label)
+from src import race_creator
+#from .race_creator import f as rcf
 from .bot_log import Log
 
 # ==Initialisation==
-def f(pywikibot, site, repo, time, team_table, separator, test, 
-      race_table, race_dic, man_or_woman):
+def f(pywikibot, site, repo, time, team_table, test, 
+      race_table, race_dic, man_or_woman, filename, year):
     #title in table, column in table, column in result_table
     result_dic={
             'date from':[-1, 0,''],
@@ -23,13 +24,12 @@ def f(pywikibot, site, repo, time, team_table, separator, test,
             }
     verbose=False
     log=Log()
-   
-    result_table, row_count, ecart_global=table_reader('input/Calendar.csv',separator,result_dic,1)
+
+    result_table, row_count, ecart_global=table_reader(filename,result_dic,1,verbose)
     if verbose:
         log.concat(result_table)
         
     for kk in range(row_count):
-        id_master = '0'
         if result_table[kk][result_dic['name'][1]] != 0:
             #read class
             if result_table[kk][result_dic['class'][1]] != 0:
@@ -39,16 +39,15 @@ def f(pywikibot, site, repo, time, team_table, separator, test,
             id_master, master_genre =search_race(
                 result_table[kk][result_dic['name'][1]], race_table, race_dic)
             
-            if id_master != 0 and id_master != '0' and classe != 0:
-                item_master = pywikibot.ItemPage(repo, "Q" + str(id_master))
+            if id_master != "Q0" and classe != 0:
+                item_master = pywikibot.ItemPage(repo, id_master)
                 item_master.get()
-                
-                id_country=''                
-                if(u'P17' in item_master.claims): #edition
-                    country_list = item_master.claims.get(u'P17')
-                    id_country=int(noQ(country_list[0]))
-                
-                master_name = item_master.labels["fr"]
+                #same form as in national_table
+                id_country=noQ(get_country(pywikibot, repo, id_master)) #else Q0
+               #     id_country=noQ(country_list[0].getTarget().getID())
+     
+                master_name =get_label('fr', item_master)
+               # item_master.labels["fr"]
 
                 if result_table[kk][result_dic['date from'][1]] != 0:
                     start_date = result_table[kk][result_dic['date from'][1]]
@@ -69,13 +68,14 @@ def f(pywikibot, site, repo, time, team_table, separator, test,
                         edition_nr=''
                         if(u'P393' in item_previous.claims): #edition
                             edition_list = item_previous.claims.get(u'P393')
-                            edition_nr=int(edition_list[0])+1
+                            edition_nr=int(edition_list[0].getTarget())+1
     
                     #note: country is a name which is not correct, make inherit the country
                     #note 2: get edition from last year
                     if single_race:
                         if not test:
-                             status, log=race_creator.f(pywikibot,site,repo,time,
+                           
+                             status, log, res_id=race_creator.f(pywikibot,site,repo,time,
                                   team_table,
                                   master_name,
                                   single_race,
@@ -85,20 +85,21 @@ def f(pywikibot, site, repo, time, team_table, separator, test,
                                   id_race_master=id_master,
                                   countryCIO=id_country,
                                   classe=classe,
+                                  year=year
                                   )
                     else: #stage race
                         if result_table[kk][result_dic['date to'][1]] != 0:
                             end_date = result_table[kk][result_dic['date to'][1]]
-                            table_tate = end_date.split("/")
+                            table_date = end_date.split("/")
                             stage_race_end = pywikibot.WbTime(
                                 site=site,
-                                year=int(table_tate[2]),
-                                month=int(table_tate[1]),
+                                year=int(table_date[2]),
+                                month=int(table_date[1]),
                                 day=int(table_date[0]),
                                 precision='day')
 
                             if not test:
-                                race_creator.f(pywikibot,site,repo,time,
+                                status, log, res_id=race_creator.f(pywikibot,site,repo,time,
                                       team_table,
                                       master_name,
                                       single_race,
@@ -110,7 +111,8 @@ def f(pywikibot, site, repo, time, team_table, separator, test,
                                       classe=classe,
                                       end_date=stage_race_end,
                                       only_stages=False,
-                                      create_stages=False, 
+                                      create_stages=False,
+                                      year=year
                                       )
 
             elif classe != "CN" and classe != "CC" and classe !="CRT":

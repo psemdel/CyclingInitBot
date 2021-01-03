@@ -16,7 +16,6 @@ class ThisName:
     def __init__(self, name):
         self.name = name
         self.name_cor = name
-        self.check_and_revert()
         self.correct_name()
         self.sortkey = self.name_cor
         
@@ -36,7 +35,8 @@ class ThisName:
                    'n': ['ñ'],
                    'ss' : ['ß'],
                    'c' : ['č','ć'],
-                   'z' : ['ž']}
+                   'z' : ['ž'],
+                   ' ': ["\xa0"]}
         for (char, accented_chars) in accents.items():
             for accented_char in accented_chars:
                 ligne = ligne.replace(accented_char, char)
@@ -49,10 +49,18 @@ class ThisName:
                 self.sortkey=self.name_cor[len(word):]
                 break
         return self.sortkey
-    
-    def check_and_revert(self):
+
+class ThisCyclistName(ThisName):
+     def __init__(self, name):
+        ThisName.__init__(self,name)
+        self.check_and_revert()
+        
+     def check_and_revert(self):
         names_table = self.name.split(" ")
         
+      #  if len(names_table)==1: #no person
+     #       self.name_cor=self.name
+     #   else:
         if names_table[0]==names_table[0].upper():
             last_name=names_table[0]
             end_last_name=0
@@ -65,15 +73,16 @@ class ThisName:
             last_name=last_name.lower()
        
             first_name=names_table[end_last_name]
+            first_name=first_name.lower()
             for ii in range(end_last_name+1,len(names_table)):
                 first_name=first_name + " " + names_table[ii]
             
             self.name_cor=first_name + " " + last_name
 
 #A cyclist
-class Cyclist(ThisName):
+class Cyclist(ThisCyclistName):
     def __init__(self, id, name, id_item, **kwargs):
-        ThisName.__init__(self,name)
+        ThisCyclistName.__init__(self,name)
         self.key = id
         self.id_item = id_item
         self.dossard = 0
@@ -87,6 +96,7 @@ class Cyclist(ThisName):
         self.nationality=''
         self.rank=0
         self.national_team=False
+  
     
     def find_start_sortkey(self,start_words,names_cor_table):
         sortkey=''

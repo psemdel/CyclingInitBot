@@ -15,7 +15,7 @@ repo = site.data_repository()
 def cycling_init_bot():
     nation_table= nation_team_table.load()
     
-    selector=14
+    selector=5
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -26,10 +26,10 @@ def cycling_init_bot():
         from src import national_team_creator
         
         man_or_woman=u'man'
-        start_year=1955
-        end_year=2008
+        start_year=2021
+        end_year=2021
         #optional
-        country='NED' #false is not
+        country=False #false is not
         
         national_team_creator.f(pywikibot,site,repo,time,nation_table,
                                 man_or_woman,start_year,end_year,country=country)
@@ -38,32 +38,36 @@ def cycling_init_bot():
         from src import cc_table
         #cc
         cc_table=cc_table.load()
-        man_or_woman=u'woman'
+        man_or_woman=u'both' #both
         option=u'clmon' #'clmoff'
-        start_year=2020
+        start_year=2021
         end_year=2021
+        CC=True
         national_championship_creator.f(pywikibot,site,repo,time,cc_table,
-                                    man_or_woman,option,start_year,end_year,True)      
+                                    man_or_woman,option,start_year,end_year,CC)      
         
     elif selector==2:#
         #not cc
         from src import national_championship_creator
         
-        man_or_woman=u'man'
+        man_or_woman=u'woman'
         option=u'clmon' #'clmoff'
-        start_year=2020
+        start_year=2021
         end_year=2021
-        country=u'ESA'  #optional 
+        country=False  #optional/False u'ESA'
+        CC=False
         national_championship_creator.f(pywikibot,site,repo,time,nation_table,
-                                    man_or_woman,option, start_year,end_year,False,country=country)    
+                                    man_or_woman,option, start_year,end_year,CC,country=country)    
     elif selector==3: 
         from src import calendar_importer
         from src import race_list
         race_table, race_dic = race_list.load()
         test=False
         man_or_woman=u'woman'
+        filename='Calendar'
+        year=2021
         
-        calendar_importer.f(pywikibot, site, repo,time, nation_table, ";", test, race_table, race_dic, man_or_woman)
+        calendar_importer.f(pywikibot, site, repo,time, nation_table, test, race_table, race_dic, man_or_woman, filename, year)
     elif selector==4: 
         #more details in the table with activate and group
         from src import team_creator
@@ -90,10 +94,10 @@ def cycling_init_bot():
         team_creator.f(pywikibot,site,repo,time,team_table,nation_table, team_dic,year)
     elif selector==5:   
         from src import sorter
-        id_team=u'Q78661480'
+        id_team=u'Q21856732'
         # 'has part (P527)', 'participating team (P1923)'
         prop="P1923"
-        test=False
+        test=True
         
         sorter.name_sorter( pywikibot,site,repo,time,id_team, prop , test)
     elif selector==6:
@@ -165,8 +169,8 @@ def cycling_init_bot():
          
     elif selector==9:
         from src import classification_importer
-        id_race='Q78661713'
-        stage_or_general=6# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
+        id_race='Q74127378'
+        stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
         final=False
         maxkk=10
@@ -179,7 +183,7 @@ def cycling_init_bot():
                                man_or_woman=man_or_woman)
     elif selector==10:
         from src import startlist_importer
-        id_race='Q78661480'
+        id_race='Q74127378'
         prologue_or_final=2 #0=prologue, 1=final, 2=one day race
         chrono=False
         test=False
@@ -203,14 +207,15 @@ def cycling_init_bot():
         champ_list_creator.f(pywikibot,site,repo,time,man_or_woman,start_year,actualize)
     elif selector==14:  
         from src import uci_classification
-        man_or_woman=u'woman'
-        id_master_UCI=u'Q74127378'
+        man_or_woman=u'man'
+        id_master_UCI=u'Q97367360'  #Q97367360
         year=u'2020'
-        filename=u'UCIranking2020' #'UCIranking'
+        filename=u'UCIranking2020man' #'UCIranking'  CIranking2020man
         test=False
         cleaner=False #delete the UCI ranking
         UCIranking=True
-        uci_classification.f(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test,man_or_woman,UCIranking)
+        bypass=True #don't interrupt if not all riders found
+        uci_classification.f(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test,man_or_woman,UCIranking,bypass)
     elif selector==15:
         from src import cycling_init_bot_low as low
         id_item=u'Q57267790'

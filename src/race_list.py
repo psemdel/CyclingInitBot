@@ -24,6 +24,79 @@ def load():
 
     kk = 1
     
+    raceTable[kk][1] = u'Valli'
+    raceTable[kk][2] = u"Varesine"
+    raceTable[kk][3] = 104637824
+    raceTable[kk][4] = u"des "
+    kk += 1 
+  
+    raceTable[kk][1] = u'Tour'
+    raceTable[kk][2] = u"Suisse"
+    raceTable[kk][3] = 104637798
+    raceTable[kk][4] = u"du "
+    kk += 1   
+    
+    raceTable[kk][1] = u'Delta'
+    raceTable[kk][2] = u"Road Race"
+    raceTable[kk][3] = 28232668
+    raceTable[kk][4] = u"de la "
+    kk += 1 
+    
+    raceTable[kk][1] = u'Vårgårda'
+    raceTable[kk][2] = u"TTT"
+    raceTable[kk][3] = 26266060
+    raceTable[kk][4] = u"du "
+    kk += 1 
+    
+    raceTable[kk][1] = u'Vårgårda'
+    raceTable[kk][2] = u"RR"
+    raceTable[kk][3] = 26266059
+    raceTable[kk][4] = u"de la "
+    kk += 1  
+    
+    raceTable[kk][1] = u'Paris'
+    raceTable[kk][2] = u"Roubaix"
+    raceTable[kk][3] = 96053083
+    raceTable[kk][4] = u"de "
+    kk += 1     
+    
+    raceTable[kk][1] = u'Scheldeprijs'
+    raceTable[kk][2] = u""
+    raceTable[kk][3] = 104637738
+    raceTable[kk][4] = u"du "
+    kk += 1     
+    
+    raceTable[kk][1] = u'Grand Prix'
+    raceTable[kk][2] = u"Chambéry"
+    raceTable[kk][3] = 16763629
+    raceTable[kk][4] = u"du "
+    kk += 1  
+   
+    raceTable[kk][1] = u'GP'
+    raceTable[kk][2] = u"Eco-Struct"
+    raceTable[kk][3] = 104637749
+    raceTable[kk][4] = u"du "
+    kk += 1  
+    
+    raceTable[kk][1] = u'GP'
+    raceTable[kk][2] = u"Oetingen"
+    raceTable[kk][3] = 104637723
+    raceTable[kk][4] = u"du "
+    kk += 1  
+   
+    raceTable[kk][1] = u'Tour'
+    raceTable[kk][2] = u"Zhoushan"
+    raceTable[kk][3] = 13362122
+    raceTable[kk][4] = u"du "
+    kk += 1   
+    
+    raceTable[kk][1] = u'Tour'
+    raceTable[kk][2] = u"Wenzhou"
+    raceTable[kk][3] = 104637782
+    raceTable[kk][4] = u"du "
+    kk += 1   
+    
+    
     raceTable[kk][1] = u'Santos Women'
     raceTable[kk][2] = u"Tour"
     raceTable[kk][3] = 22661614
@@ -54,11 +127,12 @@ def load():
     raceTable[kk][4] = u"du "
     kk += 1  
     
-    raceTable[kk][1] = u"Grand Prix Manavgat"
+    raceTable[kk][1] = u"Grand Prix"
     raceTable[kk][2] = u"Manavgat"
     raceTable[kk][3] = 79031111
     raceTable[kk][4] = u"du "
     kk += 1   
+   
 
     raceTable[kk][1] = u"Dubai"
     raceTable[kk][2] = u"Tour"
@@ -132,11 +206,25 @@ def load():
     raceTable[kk][4] = u"de la "
     kk += 1
 
+    raceTable[kk][1] = u'Challenge'
+    raceTable[kk][2] = u"Vuelta"
+    raceTable[kk][3] = 21030967
+    raceTable[kk][4] = u"de la "
+    kk += 1
+
+
     raceTable[kk][1] = u'Ladies'
     raceTable[kk][2] = u"Belgium"
     raceTable[kk][3] = 6685041
     raceTable[kk][4] = u"du "
     kk += 1
+    
+    raceTable[kk][1] = u'Lotto'
+    raceTable[kk][2] = u"Belgium Tour"
+    raceTable[kk][3] = 6685041
+    raceTable[kk][4] = u"du "
+    kk += 1
+    
 
     raceTable[kk][1] = u'Scenic Avenue'
     raceTable[kk][2] = u"Race I"
@@ -282,8 +370,20 @@ def load():
     raceTable[kk][4] = u"de la "
     kk += 1
 
+    raceTable[kk][1] = u"Classics"
+    raceTable[kk][2] = u"Navarra"
+    raceTable[kk][3] = 66076050
+    raceTable[kk][4] = u"de la "
+    kk += 1
+
     raceTable[kk][1] = u"Nafarroako"
     raceTable[kk][2] = u"Klasikoa"
+    raceTable[kk][3] = 66015725
+    raceTable[kk][4] = u"de la "
+    kk += 1
+    
+    raceTable[kk][1] = u"Nafarroako"
+    raceTable[kk][2] = u"Classics"
     raceTable[kk][3] = 66015725
     raceTable[kk][4] = u"de la "
     kk += 1
@@ -293,6 +393,13 @@ def load():
     raceTable[kk][3] = 16911866
     raceTable[kk][4] = u"du "
     kk += 1
+
+    raceTable[kk][1] = u"Baloise"
+    raceTable[kk][2] = u"Ladies Tour"
+    raceTable[kk][3] = 16911866
+    raceTable[kk][4] = u"du "
+    kk += 1
+
 
     raceTable[kk][1] = u"La Course"
     raceTable[kk][2] = u"Tour de France"
@@ -305,6 +412,19 @@ def load():
     raceTable[kk][3] = 1463076
     raceTable[kk][4] = u"du "
     kk += 1   
+  
+    raceTable[kk][1] = u"Tour de Feminin"
+    raceTable[kk][2] = u""
+    raceTable[kk][3] = 1463076
+    raceTable[kk][4] = u"du "
+    kk += 1  
+    
+    raceTable[kk][1] = u"Sparkassen"
+    raceTable[kk][2] = u"Giro"
+    raceTable[kk][3] = 75628179
+    raceTable[kk][4] = u"du "
+    kk += 1    
+   
     
     raceTable[kk][1] = u"Giro"
     raceTable[kk][2] = u"Italia"
@@ -415,6 +535,14 @@ def load():
     raceTable[kk][3] = 16679864
     raceTable[kk][4] = u" "
     kk += 1 
+ 
+ #too dangerous!!   
+    
+   # raceTable[kk][1] = u"Women's Tour"
+  #  raceTable[kk][2] = u""
+   # raceTable[kk][3] = 16679864
+  #  raceTable[kk][4] = u" "
+ #   kk += 1 
     
     raceTable[kk][1] = u"Dwars"
     raceTable[kk][2] = u"Westhoek"
@@ -470,6 +598,8 @@ def load():
     raceTable[kk][3] =23843462
     raceTable[kk][4] = u"de l'"
     kk += 1 
+    
+    
 
     raceTable[kk][1] = u"Chrono"
     raceTable[kk][2] = u"Gatineau"
@@ -478,6 +608,12 @@ def load():
     kk += 1 
     
     raceTable[kk][1] = u"Grand Prix"
+    raceTable[kk][2] = u"Gatineau"
+    raceTable[kk][3] =3775093
+    raceTable[kk][4] = u"du "
+    kk += 1 
+    
+    raceTable[kk][1] = u"Tour"
     raceTable[kk][2] = u"Gatineau"
     raceTable[kk][3] =3775093
     raceTable[kk][4] = u"du "
@@ -500,6 +636,13 @@ def load():
     raceTable[kk][3] =16982488
     raceTable[kk][4] = u"du "
     kk += 1 
+    
+    raceTable[kk][1] = u"Grand Prix"
+    raceTable[kk][2] = u"Morbihan"
+    raceTable[kk][3] =16982488
+    raceTable[kk][4] = u"du "
+    kk += 1     
+    
     
     raceTable[kk][1] = u"Classique"
     raceTable[kk][2] = u"Morbihan"

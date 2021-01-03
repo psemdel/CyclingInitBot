@@ -79,11 +79,12 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
     ##main starts here##
     try: 
         log=None
+        class_id=None
         log=Log()
         mydescription={}
         race_begin=kwargs.get('race_begin')
         end_date=kwargs.get('end_date')
-        classe=kwargs.get('classe')
+        classe=kwargs.get('classe') #text 1.2 not id
         countryCIO=kwargs.get('countryCIO')
         id_race_master=kwargs.get('id_race_master')
         edition_nr=str(kwargs.get('edition_nr'))
@@ -96,8 +97,9 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
             create_main=True
             if year is None and race_begin is not None: 
                 year=race_begin.year
-            else:
+            if year is None:
                 log.concat("year of the race not found")
+                return 10, log, "Q1"      
         else:
             only_stages=kwargs.get('only_stages')
             first_stage=kwargs.get('first_stage')
@@ -117,7 +119,7 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                 if end_date is None:
                     end_date=get_end_date(pywikibot, repo, present_id)
                 if classe is None:
-                    classe=get_class(pywikibot, repo, present_id)
+                    class_id=get_class(pywikibot, repo, present_id)
                 if year is None:
                     year=get_year(pywikibot, repo, present_id)
             else:
@@ -125,8 +127,9 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                 create_main=True
                 if year is None and race_begin is not None: 
                     year=race_begin.year
-                else:
+                if year is None:
                     log.concat("year of the race not found")
+                    return 10, log, "Q1"       
                     
         if isinstance(countryCIO, str):
             country_id=CIOtoIDsearch(team_table_femmes, countryCIO)
@@ -134,9 +137,9 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
             country_id=countryCIO
 
         race_genre, race_name=define_article(race_name)
-        UCI, WWT, UWT=get_class_WWT(classe)
         
         if create_main:
+            UCI, WWT, UWT=get_class_WWT(classe) #not required for stages, where classe is not defined
             mylabel={}
             mylabel[u'fr']=race_name + " " + str(year)
             present_id, item=create_present(pywikibot, site,repo,time,mylabel)
@@ -161,8 +164,10 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                     item_calendar =pywikibot.ItemPage(repo, calendar_id)
                     item_calendar.get()
                     add_multiple_value(pywikibot,repo,item_calendar,"P527",present_id,u'in',0)
+                                   
+                if class_id is None:
+                    class_id=get_class_id(classe)
                 
-                class_id=get_class_id(classe)
                 if class_id:
                     add_multiple_value(pywikibot,repo,item,"P31", class_id,u'Class',0)
                 #link previous and next

@@ -36,3 +36,6 @@ class Test_f(unittest.TestCase):
         number=1
         res=stage_label(number, genre,race_name, year)
         self.assertEqual(res[u'fr'], "1re étape du Tour de France 2010")
+
+if __name__ == '__main__':
+    unittest.main()
