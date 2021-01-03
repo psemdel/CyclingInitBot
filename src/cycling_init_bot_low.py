@@ -13,7 +13,8 @@ from .moo import ThisName, Cyclist, Team, ThisCyclistName
 from . import exception 
 
 import csv 
-import xlrd
+import openpyxl
+from openpyxl import load_workbook
 import os.path
 
 ### Functions that are used from several other functions ###
@@ -374,26 +375,32 @@ def bot_or_site():
         return True #bot
 
 def excel_to_csv(filepath, destination):
-    wb = xlrd.open_workbook(filepath)
-    list_of_sheets=wb.sheet_names()
+    wb = load_workbook(filepath)
+    list_of_sheets=wb.sheetnames
     sheet_nm=['Results','Invidual','Team']
     if list_of_sheets is None:
         print("empty excel file")
         return None
 
-    sh=wb.sheet_by_name(list_of_sheets[0])
+    sh=wb[list_of_sheets[0]]
     for sheet in list_of_sheets:
         if sheet in sheet_nm:
-            sh = wb.sheet_by_name(sheet)
+            sh = wb[sheet]
             break
         
     destination_file = open(destination, 'w')
-    wr = csv.writer(destination_file, delimiter=";", quoting=csv.QUOTE_NONE)
-
-    for rownum in range(sh.nrows):
-        wr.writerow(sh.row_values(rownum))
+   
+    for row in sh.rows:
+        l = list(row)
+        for i in range(len(l)):
+            if i == len(l) - 1:
+                destination_file.write(str(l[i].value))
+            else:
+                destination_file.write(str(l[i].value) + ';')
+        destination_file.write('\n')
 
     destination_file.close()
+
     return destination
         
 def table_reader(filename,result_dic, startline, verbose):
