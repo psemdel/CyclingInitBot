@@ -212,8 +212,8 @@ class TestSearch(unittest.TestCase):
                     self.assertEqual(row[1],'BIB')
                     self.assertEqual(row[2],'Last Name')
                 elif kk==2:
-                    self.assertEqual(row[0],'1.0')
-                    self.assertEqual(row[1],'21.0')
+                    self.assertEqual(row[0],'1')
+                    self.assertEqual(row[1],'21')
                     self.assertEqual(row[2],'GUNNEWIJK')
                 kk=kk+1
 
