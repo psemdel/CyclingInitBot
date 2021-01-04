@@ -177,6 +177,7 @@ def f(
                     year = ii
                     if team_table[kk][IndexTeam] == 0:
                         log.concat("master of the team not found, contact the Webmaster")
+                        return 10, log, "Q1"
                     else :
                         mylabel = {}
                         mylabel = national_team_label(
