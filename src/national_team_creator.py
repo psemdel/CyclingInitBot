@@ -166,6 +166,16 @@ def f(
             
         if man_or_woman == 'man':
             IndexTeam = 14
+        elif man_or_woman == 'woman':
+            IndexTeam = 4
+        elif man_or_woman == 'womanU':
+            IndexTeam = 27
+        elif man_or_woman == 'manU':
+            IndexTeam = 28     
+        elif man_or_woman == 'womanJ':
+            IndexTeam = 29
+        elif man_or_woman == 'manJ':
+            IndexTeam = 30
         else:
             IndexTeam = 4
     

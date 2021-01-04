@@ -8,7 +8,7 @@ Created on Thu Jan  4 13:23:59 2018
 
 def load():
     # For Europa
-    team_table = [[0 for x in range(30)] for y in range(100)]
+    team_table = [[0 for x in range(40)] for y in range(100)]
 
     # Item 1 = Country name fr
     # Item 2 = genre
@@ -36,6 +36,11 @@ def load():
     # item 24 = Road race man junior
     # item 25 = Clm man junior
     # item 26 = es article (normally nothing)
+    # item 27 = Element of the master for the team women U23
+    # item 28 = Element of the master for the team men U23
+    # item 29 = Element of the master for the team women U19
+    # item 30 = Element of the master for the team men U19
+    # item 31 = Element of the master for the team all categories
     kk = 0
 
     team_table[kk][1] = u'Afghanistan'
@@ -81,6 +86,11 @@ def load():
     team_table[kk][15] = u'Argelia'
     team_table[kk][16] =u'algérienne'
     team_table[kk][17] =u'algérien'
+    team_table[kk][27] =99642513
+    team_table[kk][28] =99641855
+    team_table[kk][29] =99646211
+    team_table[kk][30] =99642961
+    team_table[kk][31] =86989084
     kk += 1
 
     team_table[kk][1] = u'Andorre'
@@ -203,6 +213,11 @@ def load():
     team_table[kk][15] = u'Australia'
     team_table[kk][16] =u'australienne'
     team_table[kk][17] =u'australien'
+    team_table[kk][27] = 99642404
+    team_table[kk][28] = 23925801
+    team_table[kk][29] = 99646094
+    team_table[kk][30] = 99642845
+    team_table[kk][31] = 86921302 
     kk += 1
 
     team_table[kk][1] = u'Autriche'
@@ -306,6 +321,11 @@ def load():
     team_table[kk][15] = u'Bélgica'
     team_table[kk][16] =u'belge'
     team_table[kk][17] =u'belge'
+    team_table[kk][27] =99642462
+    team_table[kk][28] =33888069
+    team_table[kk][29] =99646160
+    team_table[kk][30] =99642909
+    team_table[kk][31] =86916217
     kk += 1
 
     team_table[kk][1] = u'Belize'
@@ -757,6 +777,11 @@ def load():
     team_table[kk][15] = u'Francia'
     team_table[kk][16] =u'française'
     team_table[kk][17] =u'français'
+    team_table[kk][27] =99642472
+    team_table[kk][28] =17577069
+    team_table[kk][29] =99646170
+    team_table[kk][30] =99642919
+    team_table[kk][31] =86916365
     kk += 1
 
     team_table[kk][1] = u'Grande-Bretagne'
@@ -776,6 +801,11 @@ def load():
     team_table[kk][15] = u'Gran Bretaña'
     team_table[kk][16] =u'britannique'
     team_table[kk][17] =u'britannique'
+    team_table[kk][27] =99642410
+    team_table[kk][28] =21886077
+    team_table[kk][29] =99646103
+    team_table[kk][30] =99642851
+    team_table[kk][31] =87069530
     kk += 1
 
     team_table[kk][1] = u'Allemagne'
@@ -795,6 +825,11 @@ def load():
     team_table[kk][15] = u'Alemania'
     team_table[kk][16] =u'allemande'
     team_table[kk][17] =u'allemand'
+    team_table[kk][27] =99642474
+    team_table[kk][28] =33512925
+    team_table[kk][29] =99646172
+    team_table[kk][30] =99642921
+    team_table[kk][31] =86916088
     kk += 1
 
     team_table[kk][1] = u'Grèce'
@@ -1089,6 +1124,11 @@ def load():
     team_table[kk][15] = u'Marruecos'
     team_table[kk][16] =u'marocaine'
     team_table[kk][17] =u'marocain'
+    team_table[kk][27] =99642545
+    team_table[kk][28] =55686886
+    team_table[kk][29] =99646242
+    team_table[kk][30] =99642989
+    team_table[kk][31] =86989098
     kk += 1
 
     team_table[kk][1] = u'Mexique'
@@ -1179,6 +1219,11 @@ def load():
     team_table[kk][16] =u'néerlandaise'
     team_table[kk][17] =u'néerlandais'
     team_table[kk][26] = u'los'
+    team_table[kk][27] =99642490
+    team_table[kk][28] =26960601
+    team_table[kk][29] =99646188
+    team_table[kk][30] =99642937
+    team_table[kk][31] =86915747
     kk += 1
 
     team_table[kk][1] = u'Norvège'
@@ -1217,6 +1262,11 @@ def load():
     team_table[kk][15] = u'Nueva Zelanda'
     team_table[kk][16] =u'néo-zélandaise'
     team_table[kk][17] =u'néo-zélandaise'
+    team_table[kk][27] =99642508
+    team_table[kk][28] =99641992
+    team_table[kk][29] =99646206
+    team_table[kk][30] =99642956
+    team_table[kk][31] =86921303
     kk += 1
 
     team_table[kk][1] = u'Panama'
@@ -1375,6 +1425,11 @@ def load():
     team_table[kk][15] = u'Sudáfrica'
     team_table[kk][16] =u'sud-africaine'
     team_table[kk][17] =u'sud-africain'
+    team_table[kk][27] =99642554
+    team_table[kk][28] =55687121
+    team_table[kk][29] =99646251
+    team_table[kk][30] =99642998
+    team_table[kk][31] =86989061
     kk += 1
 
     team_table[kk][1] = u'Russie'
@@ -1394,6 +1449,11 @@ def load():
     team_table[kk][15] = u'Rusia'
     team_table[kk][16] =u'russe'
     team_table[kk][17] =u'russe'
+    team_table[kk][27] =99642494
+    team_table[kk][28] =20893960
+    team_table[kk][29] =99646191
+    team_table[kk][30] =99642940
+    team_table[kk][31] =86914909
     kk += 1
 
     team_table[kk][1] = u'Rwanda'
@@ -1684,7 +1744,7 @@ def load():
     team_table[kk][17] =u'vénézuelien'
     kk += 1
 
-    final_table = [['' for x in range(30)] for y in range(kk)]
+    final_table = [['' for x in range(40)] for y in range(kk)]
     final_table=team_table[:kk]
 
     return final_table
