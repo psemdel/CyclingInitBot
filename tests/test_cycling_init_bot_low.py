@@ -92,6 +92,10 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(search_rider(pywikibot, site, repo,'Anna van der Breggen','',''),'Q563737')
         self.assertEqual(search_rider(pywikibot, site, repo,'Elizabeth Banks','',''),'Q47295776')
         self.assertEqual(search_rider(pywikibot, site, repo,0, 'Elizabeth', 'Banks'),'Q47295776')
+        #exception
+        self.assertEqual(search_rider(pywikibot, site, repo,0, 'Felix', 'GROß'),'Q39885866')
+        self.assertEqual(search_rider(pywikibot, site, repo,0, 'felix', 'groß'),'Q39885866')
+        self.assertEqual(search_rider(pywikibot, site, repo,0, 'Felix', 'Groß'),'Q39885866')
         
     def test_define_article(self):
         self.assertEqual(define_article("La Classique des Alpes"),("de la ", "Classique des Alpes"))
