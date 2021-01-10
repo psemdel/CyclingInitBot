@@ -226,7 +226,8 @@ class TestSearch(unittest.TestCase):
         self.assertEqual( float_to_int("1149.07"),1149)  
         self.assertEqual( float_to_int(1149.67),1149)  
         self.assertEqual( float_to_int(1149),1149)  
-        
+        self.assertEqual( float_to_int(''),0)  #exception management
+        self.assertEqual( float_to_int(""),0)
  
     def test_get_race_begin(self):
         race_begin=pywikibot.WbTime(site=site,year=2020, month=10, day=14, precision='day')    

@@ -436,6 +436,21 @@ def load():
     team_table[kk][17] =u'bulgare'
     kk += 1
 
+    #BDI
+    #Burundi
+    
+    #BEN
+    #Benin
+    
+    #BOT
+    #Botswana
+    
+    #BUR
+    #Burkina Fasso
+    
+    #CAF
+    #Centrafrique
+
     team_table[kk][1] = u'Canada'
     team_table[kk][2] = u"du "
     team_table[kk][3] = 16
@@ -458,6 +473,9 @@ def load():
     team_table[kk][30] =99643119
     team_table[kk][31] =86989069
     kk += 1
+    
+    #CGO
+    #Congo
 
     team_table[kk][1] = u'Chili'
     team_table[kk][2] = u"du "
@@ -499,6 +517,9 @@ def load():
     team_table[kk][16] =u'chinoise'
     team_table[kk][17] =u'chinois'
     kk += 1
+    
+    #COK
+    #Îles Cook
 
     team_table[kk][1] = u'Colombie'
     team_table[kk][2] = u"de "
@@ -819,6 +840,9 @@ def load():
     team_table[kk][16] =u'éthiopienne'
     team_table[kk][17] =u'éthiopien'    
     kk += 1
+    
+    #FIJ
+    #Fiji
        
 
     team_table[kk][1] = u'Finlande'
@@ -868,6 +892,9 @@ def load():
     team_table[kk][30] =99642919
     team_table[kk][31] =86916365
     kk += 1
+    
+    #FSM
+    #Micronésie francaise
 
     team_table[kk][1] = u'Grande-Bretagne'
     team_table[kk][2] = u"de "
@@ -953,6 +980,9 @@ def load():
     team_table[kk][16] = u'guatémaltèque'
     team_table[kk][17] = u'guatémaltèque'
     kk += 1
+    
+    #GUM
+    #Guam
 
     team_table[kk][1] = u'Hong Kong'
     team_table[kk][2] = u"de "
@@ -1307,6 +1337,10 @@ def load():
     team_table[kk][17] =u'mauricien'
     kk += 1
 
+    #MHL
+    #île Marshall
+
+
     team_table[kk][1] = u'Namibie'
     team_table[kk][2] = u"de "
     team_table[kk][3] = 1030
@@ -1369,6 +1403,9 @@ def load():
     team_table[kk][16] =u'norvégienne'
     team_table[kk][17] =u'norvégien'
     kk += 1
+    
+    #NRU
+    #Nauru
 
     team_table[kk][1] = u'Nouvelle-Zélande'
     team_table[kk][2] = u"de "
@@ -1393,6 +1430,9 @@ def load():
     team_table[kk][30] =99642956
     team_table[kk][31] =86921303
     kk += 1
+    
+    #PLW
+    #Palau
 
     team_table[kk][1] = u'Panama'
     team_table[kk][2] = u'du '
@@ -1618,6 +1658,9 @@ def load():
     team_table[kk][16] =u'slovène'
     team_table[kk][17] =u'slovène'
     kk += 1
+    
+    #SOL
+    #île Solomon
 
     team_table[kk][1] = u'Serbie'
     team_table[kk][2] = u"de "
@@ -1710,6 +1753,9 @@ def load():
     team_table[kk][16] =u'suédoise'
     team_table[kk][17] =u'suédois'
     kk += 1
+    
+    #TGA
+    #Tonga
 
     team_table[kk][1] = u'Thaïlande'
     team_table[kk][2] = u"de "
@@ -1794,6 +1840,9 @@ def load():
     team_table[kk][16] =u'tunisienne'
     team_table[kk][17] =u'tunisien'
     kk += 1
+    
+    #TUV
+    #Tuvulu
 
     team_table[kk][1] = u'Ukraine'
     team_table[kk][2] = u"d'"
@@ -1849,6 +1898,9 @@ def load():
     team_table[kk][16] =u'américaine'
     team_table[kk][17] =u'américain'
     kk += 1
+    
+    #VAN
+    #Vanuatu
 
     team_table[kk][1] = u'Venezuela'
     team_table[kk][2] = u"du "

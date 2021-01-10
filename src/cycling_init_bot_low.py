@@ -333,10 +333,12 @@ def date_finder(pywikibot, number,first_stage,last_stage, race_begin,
 # ==Table reader ==
 
 def float_to_int(a):
-    if isinstance(a, str):
-        a=a.replace(",",".")
-       # a=a.replace(".0","")
-    return int(float(a))
+    if a=='':
+        return 0
+    else:
+        if isinstance(a, str):
+            a=a.replace(",",".")
+        return int(float(a))
 
 def clean_txt(a):
     return a
@@ -403,119 +405,124 @@ def excel_to_csv(filepath, destination):
     return destination
         
 def table_reader(filename,result_dic, startline, verbose):
-    default_separator=';'
-    bot=bot_or_site() 
-    filepathxlsx=None
-    local_saved_list=["champ","champ_clm","champ_man","champ_man_clm"]
-    
-    clean_txt_bool=False
-    #differentiate local from remote
-    if filename[(len(filename)-3):]=='csv' or filename[(len(filename)-4):]=='xlsx':
-        if filename[(len(filename)-3):]=='csv':
-            filepathcsv='uploads/'+filename
-        else:
-            filepathcsv=None
-            filepathxlsx='uploads/'+filename
- 
-    elif filename in local_saved_list:
-        if bot:
-            filepathcsv="src/input/"+filename+".csv"
-        else:
-            filepathcsv="bot_src/src/input/"+filename+".csv"
-        if os.path.isfile(filepathcsv)==False:
-            print("champ file detection failed!")
-    elif bot: #by site not allowed other type
-        filepathcsv='src/input/'+filename+'.csv'
-        filepathxlsx='src/input/'+filename+'.xlsx'    
-    
-    if (filepathcsv is not None) and os.path.isfile(filepathcsv):
-        filepath=filepathcsv
-    elif (filepathxlsx is not None) and os.path.isfile(filepathxlsx):
-        filename=filename[:(len(filename)-5)] #excel
-        if bot:
-            destination='src/input/'+filename+'.csv'
-        else:
-            destination='uploads/'+filename+'.csv'
-        filepath=excel_to_csv(filepathxlsx,destination)
-        clean_txt_bool=True
-    else:
-        print(filename + ': no file found')
-        return None, 0, None
-    
-    if verbose:
-        print("corrected file path: " + filepath)
-    
-    with open(filepath, newline='') as csvfile:
-        file_object = csv.reader(csvfile, delimiter=default_separator, quotechar='|')
+    try:
+        default_separator=';'
+        bot=bot_or_site() 
+        filepathxlsx=None
+        local_saved_list=["champ","champ_clm","champ_man","champ_man_clm"]
         
-        for row in file_object: 
-            if len(row)==1:  #wrong separator, try coma
-                separator=','
+        clean_txt_bool=False
+        #differentiate local from remote
+        if filename[(len(filename)-3):]=='csv' or filename[(len(filename)-4):]=='xlsx':
+            if filename[(len(filename)-3):]=='csv':
+                filepathcsv='uploads/'+filename
             else:
-                separator=default_separator
-            break #always break
-    if verbose: 
-        print(u'separator :' + separator)
-    #count the number of rows not empty 
-    kk=0       
-    with open(filepath, newline='') as csvfile:
-        file_object = csv.reader(csvfile, delimiter=separator, quotechar='|')
-        for row in file_object:
-            is_empty=True
-            for ii in range(len(row)):
-                if row[ii]!='':
-                    is_empty=False
-            if is_empty:
-                break
+                filepathcsv=None
+                filepathxlsx='uploads/'+filename
+     
+        elif filename in local_saved_list:
+            if bot:
+                filepathcsv="src/input/"+filename+".csv"
             else:
-                kk=kk+1
-                
-        row_count =kk-1
-    if verbose:
-        print(str(row_count) + " lines in the file")
+                filepathcsv="bot_src/src/input/"+filename+".csv"
+            if os.path.isfile(filepathcsv)==False:
+                print("champ file detection failed!")
+        elif bot: #by site not allowed other type
+            filepathcsv='src/input/'+filename+'.csv'
+            filepathxlsx='src/input/'+filename+'.xlsx'    
+        
+        if (filepathcsv is not None) and os.path.isfile(filepathcsv):
+            filepath=filepathcsv
+        elif (filepathxlsx is not None) and os.path.isfile(filepathxlsx):
+            filename=filename[:(len(filename)-5)] #excel
+            if bot:
+                destination='src/input/'+filename+'.csv'
+            else:
+                destination='uploads/'+filename+'.csv'
+            filepath=excel_to_csv(filepathxlsx,destination)
+            clean_txt_bool=True
+        else:
+            print(filename + ': no file found')
+            return None, 0, None
+        
+        if verbose:
+            print("corrected file path: " + filepath)
+        
+        with open(filepath, newline='') as csvfile:
+            file_object = csv.reader(csvfile, delimiter=default_separator, quotechar='|')
+            
+            for row in file_object: 
+                if len(row)==1:  #wrong separator, try coma
+                    separator=','
+                else:
+                    separator=default_separator
+                break #always break
+        if verbose: 
+            print(u'separator :' + separator)
+        #count the number of rows not empty 
+        kk=0       
+        with open(filepath, newline='') as csvfile:
+            file_object = csv.reader(csvfile, delimiter=separator, quotechar='|')
+            for row in file_object:
+                is_empty=True
+                for ii in range(len(row)):
+                    if row[ii]!='':
+                        is_empty=False
+                if is_empty:
+                    break
+                else:
+                    kk=kk+1
+                    
+            row_count =kk-1
+        if verbose:
+            print(str(row_count) + " lines in the file")
+        
+        result_table = [[0 for x in range(len(result_dic))] for y in range(row_count)]
+        kk = 0
+        ecart_global=False
+        
+        with open(filepath, newline='') as csvfile:
+            file_object = csv.reader(csvfile, delimiter=separator, quotechar='|')
     
-    result_table = [[0 for x in range(len(result_dic))] for y in range(row_count)]
-    kk = 0
-    ecart_global=False
-    
-    with open(filepath, newline='') as csvfile:
-        file_object = csv.reader(csvfile, delimiter=separator, quotechar='|')
-
-        for row in file_object:
-            if kk == startline:
-                if verbose:
-                    print(row)  #allow to see if there is no problem with the separator
-                for jj in range(len(row)):
-                    if clean_txt_bool:
-                        row[jj]=clean_txt(row[jj])
-                    column=row[jj].lower()
-                    if column in result_dic:
-                        result_dic[column][0]=jj
-            elif kk>startline and kk<=row_count:
-                for dic_key in result_dic:
-                    dic_content=result_dic[dic_key]
-                    if dic_content[0]!=-1:
-                        if dic_key=='rank' or dic_key=='bib':
-                            if row[dic_content[0]]=='':
-                                result_table[kk-1][dic_content[1]]=0
+            for row in file_object:
+                if kk == startline:
+                    if verbose:
+                        print(row)  #allow to see if there is no problem with the separator
+                    for jj in range(len(row)):
+                        if clean_txt_bool:
+                            row[jj]=clean_txt(row[jj])
+                        column=row[jj].lower()
+                        if column in result_dic:
+                            result_dic[column][0]=jj
+                elif kk>startline and kk<=row_count:
+                    for dic_key in result_dic:
+                        dic_content=result_dic[dic_key]
+                        if dic_content[0]!=-1:
+                            cont=row[dic_content[0]] #content
+                            if cont=='None': #openpyxl insert None
+                                cont=''                         
+                            if dic_key=='rank' or dic_key=='bib':
+                                result_table[kk-1][dic_content[1]]=float_to_int(cont)
                             else:
-                                result_table[kk-1][dic_content[1]]=float_to_int(row[dic_content[0]])
-                        else:
-                            if dic_content[2]=='time':
-                                result_table[kk-1][dic_content[1]], ecart=time_converter(row[dic_content[0]])
-                                if kk==startline+2:
-                                    ecart_global=ecart
-                            elif  dic_content[2]=='points':
-                                result_table[kk-1][dic_content[1]]=float_to_int(row[dic_content[0]])
-                            else:
-                                if clean_txt_bool:
-                                    result_table[kk-1][dic_content[1]]=clean_txt(row[dic_content[0]])
+                                if dic_content[2]=='time':
+                                    result_table[kk-1][dic_content[1]], ecart=time_converter(cont)
+                                    if kk==startline+2:
+                                        ecart_global=ecart
+                                elif dic_content[2]=='points':
+                                    result_table[kk-1][dic_content[1]]=float_to_int(cont)
                                 else:
-                                    result_table[kk-1][dic_content[1]]=row[dic_content[0]]
-            kk = kk + 1
-    if verbose:
-        print('table read')
-    return result_table, row_count, ecart_global
+                                    if clean_txt_bool:
+                                        result_table[kk-1][dic_content[1]]=clean_txt(cont)
+                                    else:
+                                        result_table[kk-1][dic_content[1]]=cont
+                kk = kk + 1
+        if verbose:
+            print('table read')
+        return result_table, row_count, ecart_global
+    except Exception as msg:
+        print(msg)
+        print("table read failure")
+        return None, 0, 0
 
 #create a list of cyclist objects from result_table
 #check that all items are there before modifying the database
@@ -675,9 +682,6 @@ def search_itemv2(pywikibot, site,  repo, search_string, rider_bool,code_bool, *
     #exception management
     exception_table=kwargs.get('exception_table',[])
     for ii in range(len(exception_table)):
-       # if code_bool:
-       #     this_exception=ThisCyclistName(exception_table[ii][0])  
-       # else:
         this_exception=ThisName(exception_table[ii][0])  
         exp=this_exception.name_cor
        
