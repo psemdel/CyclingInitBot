@@ -181,6 +181,8 @@ def f(pywikibot,site,repo, prologue_or_final, id_race,
         if not all_riders_found:
             log.concat(u'Not all riders found, request stopped')
             return 1, log
+        else:
+            log.concat(u'all riders found, ok')
         row_count=len(list_of_cyclists)
         
         if not test:

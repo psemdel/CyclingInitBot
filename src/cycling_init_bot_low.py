@@ -466,7 +466,7 @@ def table_reader(filename,result_dic, startline, verbose):
             for row in file_object:
                 is_empty=True
                 for ii in range(len(row)):
-                    if row[ii]!='':
+                    if row[ii]!='' and row[ii]!='None':
                         is_empty=False
                 if is_empty:
                     break
@@ -531,15 +531,19 @@ def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwar
     list_of_teams=[]
     all_riders_found=True
     all_teams_found=True
+    verbose=False
     log=''
     search_team=kwargs.get('search_team',False)
     man_or_woman=kwargs.get('man_or_woman',u'woman') #used only for team
     #check if all riders are already present
     for ii in range(len(result_table)):
-        if (result_table[ii][result_dic['name'][1]]!=0 or result_table[ii][result_dic['first name'][1]]!=0):
+        if ((result_table[ii][result_dic['name'][1]]!=0 and result_table[ii][result_dic['name'][1]]!='') or 
+            (result_table[ii][result_dic['first name'][1]]!=0 and result_table[ii][result_dic['first name'][1]]!='')):
            id_rider=search_rider(pywikibot, site, repo,result_table[ii][result_dic['name'][1]],
                                     result_table[ii][result_dic['first name'][1]],result_table[ii][result_dic['last name'][1]] )
    
+           if verbose:
+               print(id_rider)
            if id_rider!='Q0' and id_rider!='Q1':
                item_rider = pywikibot.ItemPage(repo, id_rider)
                item_rider.get()
