@@ -202,6 +202,7 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
                        target_qualifier =  pywikibot.WbQuantity(amount=result_table[ii][result_dic['rank'][1]], site=repo)
                        qualifier_rank.setTarget(target_qualifier)
                        claim.addQualifier(qualifier_rank)
+                       itemSeconds=pywikibot.ItemPage(repo, "Q11574")
                        if general_or_stage in general_or_stage_points:
                            qualifier_points=pywikibot.page.Claim(site, 'P1358', is_qualifier=True)
                            target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['points'][1]], site=repo)
@@ -209,12 +210,12 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
                            claim.addQualifier(qualifier_points)
                        elif result_table[ii][result_dic['rank'][1]]==1:
                            qualifier_time=pywikibot.page.Claim(site, 'P2781', is_qualifier=True)
-                           target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['result'][1]], site=repo)
+                           target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['result'][1]], site=repo, unit=itemSeconds)
                            qualifier_time.setTarget(target_qualifier)
                            claim.addQualifier(qualifier_time)
                        else:
                            qualifier_ecart=pywikibot.page.Claim(site, 'P2911', is_qualifier=True)
-                           target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['ecart'][1]], site=repo)
+                           target_qualifier = pywikibot.WbQuantity(amount=result_table[ii][result_dic['ecart'][1]], site=repo, unit=itemSeconds)
                            qualifier_ecart.setTarget(target_qualifier)
                            claim.addQualifier(qualifier_ecart)
                        #look for team in startlist
