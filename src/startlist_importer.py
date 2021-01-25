@@ -234,7 +234,7 @@ def f(pywikibot,site,repo, prologue_or_final, id_race,
                                         list_of_comprendbool[jj]=True
                         if Addc==-1:  ##create the rider
                             if prologue_or_final==1:
-                                log.concat('rider not found'+str(list_of_cyclists[ii].id_item))
+                                log.concat('\n rider not found, id: '+str(list_of_cyclists[ii].id_item))
                             claim=pywikibot.Claim(repo, u'P710')  #reinit everytime
                             claim.setTarget(item_rider)
                             item.addClaim(claim, summary=u'Adding starterlist')
@@ -294,5 +294,5 @@ def f(pywikibot,site,repo, prologue_or_final, id_race,
         return 0, log                          
     except Exception as msg:
             print(msg)
-            log.concat("General Error in classification_importer")
+            log.concat("General Error in startlist_importer")
             return 10, log     

@@ -57,6 +57,10 @@ class Test_f(unittest.TestCase):
         self.assertEqual(f(pywikibot,site,repo,id_rider1,this_date2,claim,False,u'woman',test=True),'Q30333102')
         id_rider1='Q289826'
         self.assertEqual(f(pywikibot,site,repo,id_rider1,this_date2,claim,False,u'woman',test=True),'Q934877')
+        #test double champ        
+        id_rider1='Q563737'
+        this_date2=pywikibot.WbTime(site=site,year=2020, month=10, day=1, precision='day')  
+        self.assertEqual(f(pywikibot,site,repo,id_rider1,this_date2,claim,True,u'woman',test=True),'Q934877')
 
         
 if __name__ == '__main__':

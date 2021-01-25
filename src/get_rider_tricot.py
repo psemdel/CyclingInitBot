@@ -118,7 +118,7 @@ def f(pywikibot,site,repo,id_rider,time_of_race,claim,chrono, man_or_woman, **kw
         result_table, row_count, ecart=table_reader('champ_man',result_dic,0,False)
      
     for ii in range(row_count):
-        if id_rider==result_table[ii][result_dic['road winner'][1]]:
+        if id_rider==result_table[ii][result_dic['road winner'][1]]: #potential candidate
             result=sub_function(result_table,result_dic,'road',id_worldroadchamp,id_eurroadchamp, 
                                 time_of_race,repo,claim,test,id_rider)
             if test and result!=0:

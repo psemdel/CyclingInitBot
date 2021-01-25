@@ -62,7 +62,9 @@ class TestMoo(unittest.TestCase):
         tested_cyclist1=Cyclist(1,'anna breggen','item')
         self.assertEqual(tested_cyclist1.sortkey, 'breggen')
         tested_cyclist2=Cyclist(1,'anna van breggen','item')
-        self.assertEqual(tested_cyclist2.sortkey, 'van breggen')      
+        self.assertEqual(tested_cyclist2.sortkey, 'van breggen')   
+        tested_cyclist3=Cyclist(1,'Kaswanto','item')
+        self.assertEqual(tested_cyclist3.sortkey, 'kaswanto')   
       #  tested_cyclist3=Cyclist(1,'anna mo breggen','item')
         #a console is expected
        # self.assertEqual(tested_cyclist3.sortkey, 'mo breggen')  

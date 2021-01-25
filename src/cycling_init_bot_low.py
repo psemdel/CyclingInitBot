@@ -527,80 +527,84 @@ def table_reader(filename,result_dic, startline, verbose):
 #create a list of cyclist objects from result_table
 #check that all items are there before modifying the database
 def cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, **kwargs):
-    list_of_cyclists = []
-    list_of_teams=[]
-    all_riders_found=True
-    all_teams_found=True
-    verbose=False
-    log=''
-    search_team=kwargs.get('search_team',False)
-    man_or_woman=kwargs.get('man_or_woman',u'woman') #used only for team
-    #check if all riders are already present
-    for ii in range(len(result_table)):
-        if ((result_table[ii][result_dic['name'][1]]!=0 and result_table[ii][result_dic['name'][1]]!='') or 
-            (result_table[ii][result_dic['first name'][1]]!=0 and result_table[ii][result_dic['first name'][1]]!='')):
-           id_rider=search_rider(pywikibot, site, repo,result_table[ii][result_dic['name'][1]],
-                                    result_table[ii][result_dic['first name'][1]],result_table[ii][result_dic['last name'][1]] )
-   
-           if verbose:
-               print(id_rider)
-           if id_rider!='Q0' and id_rider!='Q1':
-               item_rider = pywikibot.ItemPage(repo, id_rider)
-               item_rider.get()
-               
-               nosortkey=kwargs.get('nosortkey',False)
-
-               this_label=get_label('fr', item_rider)
-               this_rider=Cyclist(ii, this_label, id_rider, nosortkey=nosortkey)
-               this_rider.item=item_rider
-               this_rider.dossard=result_table[ii][result_dic['bib'][1]]
-               this_rider.rank=result_table[ii][result_dic['rank'][1]]
-           else:
-               all_riders_found=False
-               error_msg=str(result_table[ii][result_dic['name'][1]]) 
-               error_msg = error_msg + " " +  str(result_table[ii][result_dic['last name'][1]]) + " "  
-               error_msg = error_msg + str(result_table[ii][result_dic['bib'][1]]) + " not found"
-               log=log + '\n' + error_msg
-               print(error_msg)
-               
-               this_rider=Cyclist(ii, 'not found', id_rider)
-           list_of_cyclists.append(this_rider)
-        if search_team:
-            if result_table[ii][result_dic['team code'][1]]!=0 and result_table[ii][result_dic['team code'][1]]!="":
-                if man_or_woman=="woman":
-                    id_team=search_team_by_code(pywikibot, site,  repo, result_table[ii][result_dic['team code'][1]])
+    try:
+        list_of_cyclists = []
+        list_of_teams=[]
+        all_riders_found=True
+        all_teams_found=True
+        verbose=False
+        log=''
+        search_team=kwargs.get('search_team',False)
+        man_or_woman=kwargs.get('man_or_woman',u'woman') #used only for team
+        nosortkey=kwargs.get('nosortkey',False)
+        #check if all riders are already present
+        
+        for ii in range(len(result_table)):
+            if ((result_table[ii][result_dic['name'][1]]!=0 and result_table[ii][result_dic['name'][1]]!='') or 
+                (result_table[ii][result_dic['first name'][1]]!=0 and result_table[ii][result_dic['first name'][1]]!='')):
+               id_rider=search_rider(pywikibot, site, repo,result_table[ii][result_dic['name'][1]],
+                                        result_table[ii][result_dic['first name'][1]],result_table[ii][result_dic['last name'][1]] )
+       
+               if verbose:
+                   print(id_rider)
+               if id_rider!='Q0' and id_rider!='Q1':
+                   item_rider = pywikibot.ItemPage(repo, id_rider)
+                   item_rider.get()
+                   this_label=get_label('fr', item_rider)
+                   this_rider=Cyclist(ii, this_label, id_rider, nosortkey=nosortkey)
+                   this_rider.item=item_rider
+                   this_rider.dossard=result_table[ii][result_dic['bib'][1]]
+                   this_rider.rank=result_table[ii][result_dic['rank'][1]]
+               else:
+                   all_riders_found=False
+                   error_msg=str(result_table[ii][result_dic['name'][1]]) 
+                   error_msg = error_msg + " " +  str(result_table[ii][result_dic['last name'][1]]) + " "  
+                   error_msg = error_msg + str(result_table[ii][result_dic['bib'][1]]) + " not found"
+                   log=log + '\n' + error_msg
+                   print(error_msg)
+                   
+                   this_rider=Cyclist(ii, 'not found', id_rider)
+               list_of_cyclists.append(this_rider)
+            if search_team:
+                if result_table[ii][result_dic['team code'][1]]!=0 and result_table[ii][result_dic['team code'][1]]!="":
+                    if man_or_woman=="woman":
+                        id_team=search_team_by_code(pywikibot, site,  repo, result_table[ii][result_dic['team code'][1]])
+                    else:
+                        id_team=search_team_by_code_man(pywikibot, site, repo,  result_table[ii][result_dic['team code'][1]])
+                    
+                    if id_team!='Q0' and id_team!='Q1':
+                        this_team=Team(ii, 
+                                       result_table[ii][result_dic['team code'][1]],
+                                       id_team,
+                                       '',site=site,pywikibot=pywikibot)
+                    else:
+                        this_team=Team(ii,'not found', "Q0", '',site=site,pywikibot=pywikibot) 
+                        error_msg=str(result_table[ii][result_dic['team code'][1]])+ " not found"
+                        print(error_msg)
+                        log = log + '\n' + error_msg
+                        all_teams_found=False
                 else:
-                    id_team=search_team_by_code_man(pywikibot, site, repo,  result_table[ii][result_dic['team code'][1]])
-                
-                if id_team!='Q0' and id_team!='Q1':
-                    this_team=Team(ii, 
-                                   result_table[ii][result_dic['team code'][1]],
-                                   id_team,
-                                   '',site=site,pywikibot=pywikibot)
-                else:
-                    this_team=Team(ii,'not found', "Q0", '',site=site,pywikibot=pywikibot) 
-                    error_msg=str(result_table[ii][result_dic['team code'][1]])+ " not found"
-                    print(error_msg)
-                    log = log + '\n' + error_msg
-                    all_teams_found=False
-            else:
-                this_team=Team(ii,'no team', "Q0", '',site=site,pywikibot=pywikibot) 
-            list_of_teams.append(this_team)        
-
-    if all_teams_found: 
-        log = log+' list of teams created'
-        print('list of teams created')
-    else:
-        log= log+' reading of list of teams: failure not all teams found'
-        print('reading of list of teams: failure not all teams found')
+                    this_team=Team(ii,'no team', "Q0", '',site=site,pywikibot=pywikibot) 
+                list_of_teams.append(this_team)        
     
-    if all_riders_found: 
-        log = log+' list of cyclists created'
-        print('list of cyclists created')
-    else:
-        log= log+' reading of list of cyclists: failure not all riders found'
-        print('reading of list of cyclists: failure not all riders found')
-    return list_of_cyclists, all_riders_found, log, list_of_teams, all_teams_found
+        if all_teams_found: 
+            log = log+'\n list of teams created'
+            print('list of teams created')
+        else:
+            log= log+'\n reading of list of teams: failure not all teams found'
+            print('reading of list of teams: failure not all teams found')
+        
+        if all_riders_found: 
+            log = log+'\n list of cyclists created'
+            print('list of cyclists created')
+        else:
+            log= log+'\n reading of list of cyclists: failure not all riders found'
+            print('reading of list of cyclists: failure not all riders found')
+        return list_of_cyclists, all_riders_found, log, list_of_teams, all_teams_found
+    except Exception as msg:
+        print(msg)
+        print("cyclists_table_reader read failure")
+        return None, False, "cyclists_table_reader read failure", None, False
 
 # ==Search ==
 def search_race(name, race_table,race_dic):

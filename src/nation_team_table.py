@@ -69,6 +69,11 @@ def load():
     team_table[kk][15] = u'Albania'
     team_table[kk][16] =u'albanaise'
     team_table[kk][17] =u'albanais'
+    team_table[kk][27] =99642457
+    team_table[kk][28] =99641920
+    team_table[kk][29] =99646155
+    team_table[kk][30] =99642902
+    team_table[kk][31] =99646695
     kk += 1
 
     team_table[kk][1] = u'Algérie'
@@ -105,6 +110,11 @@ def load():
     team_table[kk][15] = u'Andorra'
     team_table[kk][16] =u'andorrane'
     team_table[kk][17] =u'andorran'
+    team_table[kk][27] =99642458
+    team_table[kk][28] =99641851
+    team_table[kk][29] =99646156
+    team_table[kk][30] =99642905
+    team_table[kk][31] =99646696
     kk += 1
 
     team_table[kk][1] = u'Angola'
@@ -119,6 +129,11 @@ def load():
     team_table[kk][15] = u"Angola"
     team_table[kk][16] =u'angolaise'
     team_table[kk][17] =u'angolaise'
+    team_table[kk][27] =99642514
+    team_table[kk][28] =99641998
+    team_table[kk][29] =99646212
+    team_table[kk][30] =99642962
+    team_table[kk][31] =99646749
     kk += 1
 
     team_table[kk][1] = u'Antigua-et-Barbuda'
@@ -135,6 +150,11 @@ def load():
     team_table[kk][15] = u'Antigua y Barbuda'
     team_table[kk][16] =u'antiguayenne'
     team_table[kk][17] =u'antiguayen'
+    team_table[kk][27] =99642580
+    team_table[kk][28] =99642054
+    team_table[kk][29] =99646269
+    team_table[kk][30] =99643031
+    team_table[kk][31] =99646838
     kk += 1
 
     team_table[kk][1] = u'Argentine'
@@ -172,6 +192,11 @@ def load():
     team_table[kk][15] = u"Armenia"
     team_table[kk][16] =u'arménienne'
     team_table[kk][17] =u'arménien'
+    team_table[kk][27] =99642459
+    team_table[kk][28] =99641921
+    team_table[kk][29] =99646157
+    team_table[kk][30] =99642906
+    team_table[kk][31] =99646697
     kk += 1
 
     team_table[kk][1] = u'Aruba'
@@ -186,6 +211,11 @@ def load():
     team_table[kk][15] = u'Aruba'
     team_table[kk][16] =u'arubaine'
     team_table[kk][17] =u'arubain'
+    team_table[kk][27] =99642583
+    team_table[kk][28] =99642056
+    team_table[kk][29] =99646271
+    team_table[kk][30] =99643050
+    team_table[kk][31] =99646839
     kk += 1
 
     team_table[kk][1] = u'Samoa américaines'
@@ -199,6 +229,11 @@ def load():
     team_table[kk][15] =u"Samoa Estadounidense"
     team_table[kk][16] =u'samoa'
     team_table[kk][17] =u'samoa'
+    team_table[kk][27] =99642584
+    team_table[kk][28] =99642057
+    team_table[kk][29] =99646272
+    team_table[kk][30] =99643060
+    team_table[kk][31] =99646840
     kk += 1
 
     team_table[kk][1] = u'Australie'
@@ -263,6 +298,11 @@ def load():
     team_table[kk][15] = u'Azerbaiyán'
     team_table[kk][16] =u'azerbaijani'
     team_table[kk][17] =u'azerbaijani'
+    team_table[kk][27] =99642461
+    team_table[kk][28] =99641922
+    team_table[kk][29] =99646159
+    team_table[kk][30] =99642908
+    team_table[kk][31] =99646699
     kk += 1
 
     team_table[kk][1] = u'Bahamas'
@@ -279,6 +319,11 @@ def load():
     team_table[kk][15] = u'Bahamas'
     team_table[kk][16] =u'bahamienne'
     team_table[kk][17] =u'bahamien'
+    team_table[kk][27] =99642585
+    team_table[kk][28] =99642058
+    team_table[kk][29] =99646273
+    team_table[kk][30] =99643070
+    team_table[kk][31] =99646841
     kk += 1
 
     team_table[kk][1] = u'Barbade'
@@ -295,6 +340,11 @@ def load():
     team_table[kk][15] = u'Barbados'
     team_table[kk][16] =u'barbadienne'
     team_table[kk][17] =u'barbadien'
+    team_table[kk][27] =99642420
+    team_table[kk][28] =99642059
+    team_table[kk][29] =99646113
+    team_table[kk][30] =99642861
+    team_table[kk][31] =99646843
     kk += 1
 
  
@@ -312,6 +362,11 @@ def load():
     team_table[kk][15] = u'Baréin'
     team_table[kk][16] =u'bahreïnienne'
     team_table[kk][17] =u'bahreïnien'
+    team_table[kk][27] =99642624
+    team_table[kk][28] =99641881
+    team_table[kk][29] =99646314
+    team_table[kk][30] =99643240
+    team_table[kk][31] =99646662
     kk += 1   
 
     team_table[kk][1] = u'Belgique'
@@ -352,6 +407,11 @@ def load():
     team_table[kk][15] = u'Belice'
     team_table[kk][16] =u'bélisienne'
     team_table[kk][17] =u'bélisien'
+    team_table[kk][27] =99642587
+    team_table[kk][28] =99641861
+    team_table[kk][29] =99646275
+    team_table[kk][30] =99643093
+    team_table[kk][31] =99646845
     kk += 1
 
     team_table[kk][1] = u'Biélorussie'
@@ -395,6 +455,11 @@ def load():
     team_table[kk][15] = u'Bolivia'
     team_table[kk][16] =u'bolivienne'
     team_table[kk][16] =u'bolivien'
+    team_table[kk][27] =99642588
+    team_table[kk][28] =99642061
+    team_table[kk][29] =99646276
+    team_table[kk][30] =99643102
+    team_table[kk][31] =99646846
     kk += 1
 
     team_table[kk][1] = u'Brésil'
@@ -434,6 +499,11 @@ def load():
     team_table[kk][15] =u"Bulgaria"
     team_table[kk][16] =u'bulgare'
     team_table[kk][17] =u'bulgare'
+    team_table[kk][27] =99642464
+    team_table[kk][28] =99641925
+    team_table[kk][29] =99646162
+    team_table[kk][30] =99642911
+    team_table[kk][31] =99646703
     kk += 1
 
     #BDI
@@ -516,6 +586,11 @@ def load():
     team_table[kk][15] = u'China'
     team_table[kk][16] =u'chinoise'
     team_table[kk][17] =u'chinois'
+    team_table[kk][27] =99642626
+    team_table[kk][28] =99641884
+    team_table[kk][29] =99646316
+    team_table[kk][30] =99643264
+    team_table[kk][31] =86991495
     kk += 1
     
     #COK
@@ -655,6 +730,11 @@ def load():
     team_table[kk][15] = u'Chipre'
     team_table[kk][16] = u'chypriote'
     team_table[kk][17] = u'chypriote'
+    team_table[kk][27] =99642466
+    team_table[kk][28] =99641927
+    team_table[kk][29] =99646164
+    team_table[kk][30] =99642913
+    team_table[kk][31] =99646705
     kk += 1
 
     team_table[kk][1] = u'République tchèque'
@@ -721,6 +801,11 @@ def load():
     team_table[kk][15] = u'República Dominicana'
     team_table[kk][16] =u'dominicaine'
     team_table[kk][17] =u'dominicain'
+    team_table[kk][27] =99642597
+    team_table[kk][28] =99642070
+    team_table[kk][29] =99646286
+    team_table[kk][30] =99643144
+    team_table[kk][31] =99646850
     kk += 1
 
     team_table[kk][1] = u'Équateur'
@@ -761,6 +846,11 @@ def load():
     team_table[kk][15] = u'El Salvador'
     team_table[kk][16] =u'salvadorienne'
     team_table[kk][17] =u'salvadorien'
+    team_table[kk][27] =99642599
+    team_table[kk][28] =99642071
+    team_table[kk][29] =99646288
+    team_table[kk][30] =99643147
+    team_table[kk][31] =99646851
     kk += 1
 
     team_table[kk][1] = u'Espagne'
@@ -800,6 +890,11 @@ def load():
     team_table[kk][15] = u'Eritrea'
     team_table[kk][16] =u'érythréenne'
     team_table[kk][17] =u'érythréen'
+    team_table[kk][27] =99642530
+    team_table[kk][28] =55686991
+    team_table[kk][29] =99646227
+    team_table[kk][30] =99642976
+    team_table[kk][31] =86989093
     kk += 1
 
     team_table[kk][1] = u'Estonie'
@@ -838,7 +933,12 @@ def load():
     team_table[kk][14] = 22114621  
     team_table[kk][15] = u'Etiopía'
     team_table[kk][16] =u'éthiopienne'
-    team_table[kk][17] =u'éthiopien'    
+    team_table[kk][17] =u'éthiopien' 
+    team_table[kk][27] =99642532
+    team_table[kk][28] =99642013
+    team_table[kk][29] =99646228
+    team_table[kk][30] =99642977
+    team_table[kk][31] =86991482
     kk += 1
     
     #FIJ
@@ -984,6 +1084,11 @@ def load():
     team_table[kk][15] = u'Guatemala'
     team_table[kk][16] = u'guatémaltèque'
     team_table[kk][17] = u'guatémaltèque'
+    team_table[kk][27] =99642601
+    team_table[kk][28] =99642073
+    team_table[kk][29] =99646290
+    team_table[kk][30] =99643155
+    team_table[kk][31] =99646854
     kk += 1
     
     #GUM
@@ -1006,6 +1111,11 @@ def load():
     team_table[kk][15] = u'Hong Kong'
     team_table[kk][16] =u'hong kongaise'
     team_table[kk][17] =u'hong kongais'
+    team_table[kk][27] =99642627
+    team_table[kk][28] =99641885
+    team_table[kk][29] =99646317
+    team_table[kk][30] =99643286
+    team_table[kk][31] =86989108
     kk += 1
 
     team_table[kk][1] = u'Hongrie'
@@ -1048,6 +1158,11 @@ def load():
     team_table[kk][15] = u'Irán'
     team_table[kk][16] =u'iranienne'
     team_table[kk][17] =u'iranien'
+    team_table[kk][27] =99642427
+    team_table[kk][28] =99641848
+    team_table[kk][29] =99646121
+    team_table[kk][30] =99642869
+    team_table[kk][31] =86989063
     kk += 1
 
     team_table[kk][1] = u'Irlande'
@@ -1344,6 +1459,11 @@ def load():
     team_table[kk][15] = u'Macedonia del Norte'
     team_table[kk][16] =u'macédonienne'
     team_table[kk][17] =u'macédonien'
+    team_table[kk][27] =99642486
+    team_table[kk][28] =99641951
+    team_table[kk][29] =99646184
+    team_table[kk][30] =99642933
+    team_table[kk][31] =99646721
     kk += 1
 
     team_table[kk][1] = u'Maurice'

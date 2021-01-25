@@ -108,18 +108,21 @@ class Cyclist(ThisCyclistName):
     
     def find_sortkey(self):
         names_cor_table = self.name_cor.split(" ")
-        done=False
+ #       done=False
 
         family_name_start=[u'van',u'de']
         if len(names_cor_table)==2:
             self.sortkey=names_cor_table[1]
-            done=True
+ #           done=True
+        elif len(names_cor_table)==1:
+            self.sortkey=names_cor_table[0]
+#            done=True       
         else:
             sortkey=self.find_start_sortkey(family_name_start,names_cor_table) 
             if sortkey!='': 
                  self.sortkey=sortkey
             else:
-                 if False:#bot_or_site():
+                 if False:# bot_or_site():
                      print(self.name)
                      ii = input('Index of the family name : ')
                      self.sortkey=concaten(names_cor_table ,int(ii))       
