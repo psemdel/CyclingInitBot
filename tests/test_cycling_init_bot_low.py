@@ -96,6 +96,8 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(search_rider(pywikibot, site, repo,0, 'Felix', 'GROß'),'Q39885866')
         self.assertEqual(search_rider(pywikibot, site, repo,0, 'felix', 'groß'),'Q39885866')
         self.assertEqual(search_rider(pywikibot, site, repo,0, 'Felix', 'Groß'),'Q39885866')
+        #Character
+        self.assertEqual(search_rider(pywikibot, site, repo,'W. Mathias Sorgho','',''),'Q27644062')
         
     def test_define_article(self):
         self.assertEqual(define_article("La Classique des Alpes"),("de la ", "Classique des Alpes"))

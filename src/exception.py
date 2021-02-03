@@ -65,7 +65,7 @@ def list_of_rider_exception():
     kk += 1
     
     #men
-    exception_table[kk][0] = u'Felix Groß'
+    exception_table[kk][0] = u'Felix Gross'
     exception_table[kk][1] = u'Q39885866'
     kk += 1
     

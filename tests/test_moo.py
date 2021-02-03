@@ -35,6 +35,8 @@ class TestMoo(unittest.TestCase):
         self.assertEqual(tested_name1.name_cor, 'mia radotic')
         self.assertEqual(tested_name2.name_cor, 'olga zabelinskaia')
         self.assertEqual(tested_name3.name_cor, 'edita pucinskaite')
+        tested_name1=ThisCyclistName('Felix Groß')
+        self.assertEqual(tested_name1.name_cor, 'felix gross')
       
     def test_check_and_revert(self):
         tested_name1=ThisCyclistName('anna van der breggen')
@@ -45,10 +47,21 @@ class TestMoo(unittest.TestCase):
         self.assertEqual(tested_name2.name_cor, 'anna van der breggen')
         self.assertEqual(tested_name3.name_cor, 'anna van der breggen')
         self.assertEqual(tested_name4.name_cor, 'anna van der breggen')
+        tested_name1=ThisCyclistName('SORGHO W. Mathias')
+        self.assertEqual(tested_name1.name_cor, 'w. mathias sorgho')
+        tested_name1=ThisCyclistName('W. Mathias Sorgho')
+        self.assertEqual(tested_name1.name_cor, 'w. mathias sorgho')
+        tested_name1=ThisCyclistName('GROß Felix')
+        self.assertEqual(tested_name1.name_cor, 'felix gross') #replace ß through ss
+
+
         tested_name=ThisName('GP')
         self.assertEqual(tested_name.name_cor, 'gp')
         tested_name=ThisName('Grand Prix')
         self.assertEqual(tested_name.name_cor, 'grand prix')
+
+
+
     
     def test_cyclist_inherit(self):
         tested_cyclist1=Cyclist(1, 'Mia Radotić', 'item')

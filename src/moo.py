@@ -53,7 +53,19 @@ class ThisName:
 class ThisCyclistName(ThisName):
      def __init__(self, name):
         ThisName.__init__(self,name)
+        self.supprime_esset()
         self.check_and_revert()
+        
+     def supprime_esset(self):
+        """ supprime les accents du texte source """
+        ligne = self.name
+        accents = {
+                   'SS' : ['ß'], #avoir geßner bug
+                   }
+        for (char, accented_chars) in accents.items():
+            for accented_char in accented_chars:
+                ligne = ligne.replace(accented_char, char)
+        self.name=ligne    
         
      def check_and_revert(self):
         names_table = self.name.split(" ")
@@ -61,11 +73,11 @@ class ThisCyclistName(ThisName):
       #  if len(names_table)==1: #no person
      #       self.name_cor=self.name
      #   else:
-        if names_table[0]==names_table[0].upper():
+        if names_table[0]==names_table[0].upper() and not "." in names_table[0]:
             last_name=names_table[0]
             end_last_name=0
             for ii in range(1,len(names_table)):
-                if names_table[ii]==names_table[ii].upper():
+                if names_table[ii]==names_table[ii].upper() and not "." in names_table[ii]: #avoid Jr. and W.
                    last_name=last_name+ " " + names_table[ii]
                 else:
                    end_last_name=ii
@@ -75,7 +87,7 @@ class ThisCyclistName(ThisName):
             first_name=names_table[end_last_name]
             first_name=first_name.lower()
             for ii in range(end_last_name+1,len(names_table)):
-                first_name=first_name + " " + names_table[ii]
+                first_name=first_name + " " + names_table[ii].lower()
             
             self.name_cor=first_name + " " + last_name
 
