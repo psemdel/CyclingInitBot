@@ -177,16 +177,17 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
         with open(filename, 'w', newline='') as csvFile:
             writer = csv.writer(csvFile, delimiter=';')
             writer.writerows(total_table) 
-        
+        print("csv file " + filename + " written")
     ##Begin main function ##
     #Championnats nationaux de cyclisme sur route 
-    dic ={2020 : 'Q70655305',
-        2019 : 'Q60015262', 2018 : 'Q43920899', 2017 : 'Q28005879', 2016 : 'Q22021840',
-		2015 : 'Q19296998', 2014 : 'Q15621925', 2013: 'Q3339162',
-		2012 : 'Q1333003', 2011 : 'Q1143844', 2010 : 'Q1568490',
-		2009 : 'Q263224', 2008 : 'Q826505', 2007 : 'Q640286',
-		2006 : 'Q492135', 2005 : 'Q1335357', 2004 : 'Q43286272',
-		2003 : 'Q43286289', 2002 : 'Q43286297', 2001 : 'Q43286309'
+    dic ={
+        2021 : 'Q104303043',  2020 : 'Q70655305', 2019 : 'Q60015262',   
+        2018 : 'Q43920899',   2017 : 'Q28005879', 2016 : 'Q22021840',
+		2015 : 'Q19296998',   2014 : 'Q15621925', 2013: 'Q3339162',
+		2012 : 'Q1333003',    2011 : 'Q1143844',  2010 : 'Q1568490',
+		2009 : 'Q263224',     2008 : 'Q826505',   2007 : 'Q640286',
+		2006 : 'Q492135',     2005 : 'Q1335357',  2004 : 'Q43286272',
+		2003 : 'Q43286289',   2002 : 'Q43286297', 2001 : 'Q43286309'
 	}
     
     #World champ, continental champs
@@ -229,6 +230,7 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
                          start_year,EndYear,filename,old_filename,actualize,
                          pattern)
 
+    print("road scan finished")
     #Clm
     if man_or_woman=="woman":
         filename='src/input/champ_clm2.csv'
@@ -245,6 +247,6 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
                          start_year,EndYear,filename,old_filename,actualize,
                          pattern)
 
-
+    print("itt scan finished")
 
 

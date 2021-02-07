@@ -6,7 +6,7 @@ Created on Thu Nov  7 21:44:28 2019
 @author: maxime
 """
 from .cycling_init_bot_low import (cyclists_table_reader, table_reader, search_team_by_code,
-                                   search_team_by_code_man)
+                                   search_team_by_code_man, delete_value)
 from .bot_log import Log
 
 def f(
@@ -39,6 +39,7 @@ def f(
         log=Log()
         
         result_table, row_count, ecart=table_reader(filename , result_dic,0,verbose)
+        print(row_count)
         #post-processing
         for ii in range(row_count):
             if result_table[ii][result_dic['points'][1]]==0:
@@ -96,7 +97,7 @@ def f(
                            qualifier_points.setTarget(target_qualifier)
                            claim.addQualifier(qualifier_points)
         
-                    #action in the team, only for UCI ranking up to now
+                        #action in the team, only for UCI ranking up to now
                         if result_table[ii][result_dic['team code'][1]]!=0 and result_table[ii][result_dic['team code'][1]]!="" and UCIranking:
                             this_team=list_of_teams[ii]
                             id_team= this_team.id_item
@@ -135,6 +136,10 @@ def f(
                                                                            site=repo)
                                    qualifier_points.setTarget(target_qualifier)
                                    claim.addQualifier(qualifier_points)
+                    else: #cleaner
+                        delete_value(pywikibot,repo,this_rider.item,u'P1344', id_master_UCI, 'cleaning')
+                 
+            
             return 0, log
     except Exception as msg:
         print(msg)
