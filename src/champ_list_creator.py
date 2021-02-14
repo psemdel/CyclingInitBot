@@ -140,7 +140,7 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
                               ll=ll+offset
         #write file
         final_table=champ_table[:ll]
-        total_table = [[0 for x in range(10)] for y in range(2000)]
+        
         
         if actualize:
             kk=0
@@ -155,7 +155,7 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
                     else:
                         is_empty=True
                         for ii in range(len(row)):
-                            if row[ii]!='':
+                            if row[ii]!='' and row[ii]!=0 and row[ii]!='0':
                                 is_empty=False
                         if is_empty:
                             break
@@ -167,10 +167,12 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
         
             kk =kk-1  
             #concat
-            total_table[0:kk]=old_table[:kk]
+            #total_table = [[0 for x in range(10)] for y in range(kk+ll+1)]
+            total_table=old_table
             total_table[kk+1:kk+ll]=final_table[1:] #no first line
             #write
         else:
+            total_table = [[0 for x in range(10)] for y in range(ll+1)]
             total_table=final_table
 
         #write results
