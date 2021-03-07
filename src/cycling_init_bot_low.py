@@ -1045,6 +1045,8 @@ def teamCIOsearch(team_table, CIOcode):
             result = ii
             break
 
+    if result==0:
+        print("Country code not found")
     return result
 
 

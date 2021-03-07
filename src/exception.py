@@ -151,6 +151,16 @@ def list_of_team_code_exception():
     exception_table[kk][0] = u'ILU 2020'
     exception_table[kk][1] = u'Q86102811'   
     kk += 1       
+    exception_table[kk][0] = u'TFS 2021'
+    exception_table[kk][1] = u'Q104525637'   
+    kk += 1       
+    exception_table[kk][0] = u'MOV 2021'
+    exception_table[kk][1] = u'Q104525417'   
+    kk += 1 
+    exception_table[kk][0] = u'BEX 2021'
+    exception_table[kk][1] = u'Q104523283'   
+    kk += 1   
+    
     
     final_table = [['' for x in range(2)] for y in range(kk)]
     final_table=exception_table[:kk]
@@ -184,7 +194,17 @@ def list_of_team_code_exception_man():
     kk += 1    
     exception_table[kk][0] = u'ILU 2020'
     exception_table[kk][1] = u'Q83016986'   
-    kk += 1       
+    kk += 1     
+    exception_table[kk][0] = u'TFS 2021'
+    exception_table[kk][1] = u'Q102115546'   
+    kk += 1     
+    exception_table[kk][0] = u'MOV 2021'
+    exception_table[kk][1] = u'Q102248307'   
+    kk += 1  
+    exception_table[kk][0] = u'BEX 2021'
+    exception_table[kk][1] = u'Q102247786'   
+    kk += 1   
+    
     
     final_table = [['' for x in range(2)] for y in range(kk)]
     final_table=exception_table[:kk]

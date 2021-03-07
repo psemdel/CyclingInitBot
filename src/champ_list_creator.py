@@ -108,11 +108,13 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
         for dic_content in result_dic:
             champ_table[0][result_dic[dic_content]]=dic_content
         
-        if not actualize:
+        #if not actualize:
+        if True:
             champ_table, ll=sub_champlist(champ_table, result_dic,dic_worldconti, road_or_clm,1, actualize, start_year)
             log.concat(road_or_clm +" world and continental championships "+ man_or_woman + " completed")
-        else:
-            ll=1
+        #else:
+        #    ll=1
+        
         
         if verbose:     
             log.concat(champ_table)  
@@ -141,7 +143,6 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
         #write file
         final_table=champ_table[:ll]
         
-        
         if actualize:
             kk=0
             old_table = [[0 for x in range(10)] for y in range(2000)]
@@ -161,7 +162,7 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
                             break
                         else:
                             #new results are actualized
-                            if int(row[result_dic[road_or_clm + ' year']]) < start_year: 
+                            if int(row[result_dic[road_or_clm + ' year']]) < start_year or kk<100: #save the World Champ and so on.
                                 old_table[kk]=row
                                 kk=kk+1
         

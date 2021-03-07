@@ -181,7 +181,7 @@ def f(
     
         for kk in range(kkinit, endkk):  #
             group = team_table[kk][8]
-            if group == 1:
+            if group == 1 or country:
                 for ii in range(start_year, end_year+1):
             
                     year = ii
