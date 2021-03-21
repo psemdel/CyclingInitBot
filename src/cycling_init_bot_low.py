@@ -686,11 +686,13 @@ def search_itemv2(pywikibot, site,  repo, search_string, rider_bool,code_bool, *
            ref_name=this_name.name_cor
         else:
            return u'Q1', ''
-    
     #exception management
     exception_table=kwargs.get('exception_table',[])
     for ii in range(len(exception_table)):
-        this_exception=ThisName(exception_table[ii][0])  
+        if rider_bool:
+            this_exception=ThisCyclistName(exception_table[ii][0])  
+        else:
+            this_exception=ThisName(exception_table[ii][0])  
         exp=this_exception.name_cor
        
         if ref_name==exp:

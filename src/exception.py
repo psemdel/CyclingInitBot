@@ -15,13 +15,17 @@ def list_of_rider_exception():
     exception_table[kk][0] = u'paulien rooijakkers'
     exception_table[kk][1] = u'Q19577695'
     kk += 1
-    exception_table[kk][0] = u'margarita victo garcia cañellas'
+    exception_table[kk][0] = u'GARCIA CAÑELLAS Margarita Victo'
     exception_table[kk][1] = u'Q23907253'
     kk += 1
     
     exception_table[kk][0] = u'margarita victo garcia cañellas'
     exception_table[kk][1] = u'Q23907253'
     kk += 1
+    
+    exception_table[kk][0] = u'margarita victo garcia canellas'
+    exception_table[kk][1] = u'Q23907253'
+    kk += 1   
 
     exception_table[kk][0] = u'Jessica Allen'
     exception_table[kk][1] = u'Q27306413'
@@ -63,12 +67,21 @@ def list_of_rider_exception():
     exception_table[kk][0] = u'Sandra Gómez'
     exception_table[kk][1] = u'Q23785379'
     kk += 1
+    exception_table[kk][0] = u'1501996785028 ERIC'
+    exception_table[kk][1] = u'Q19661759'
+    kk += 1     
     exception_table[kk][0] = u'ERIĆ 1501996785028'
     exception_table[kk][1] = u'Q19661759'
     kk += 1    
     exception_table[kk][0] = u'1501996785028 ERIĆ'
     exception_table[kk][1] = u'Q19661759'
     kk += 1     
+    exception_table[kk][0] = u'1501996785028 ERIĆ 1501996785028 ERIĆ'
+    exception_table[kk][1] = u'Q19661759'
+    kk += 1  
+    exception_table[kk][0] = u'ERIĆ 1501996785028 ERIĆ 1501996785028'
+    exception_table[kk][1] = u'Q19661759'
+    kk += 1      
 
     #men
     exception_table[kk][0] = u'Felix Gross'
@@ -169,7 +182,9 @@ def list_of_team_code_exception():
     exception_table[kk][0] = u'BEX 2021'
     exception_table[kk][1] = u'Q104523283'   
     kk += 1   
-    
+    exception_table[kk][0] = u'DSM 2021'
+    exception_table[kk][1] = u'Q104525447'   
+    kk += 1      
     
     final_table = [['' for x in range(2)] for y in range(kk)]
     final_table=exception_table[:kk]
@@ -213,6 +228,9 @@ def list_of_team_code_exception_man():
     exception_table[kk][0] = u'BEX 2021'
     exception_table[kk][1] = u'Q102247786'   
     kk += 1   
+    exception_table[kk][0] = u'DSM 2021'
+    exception_table[kk][1] = u'Q102248403'   
+    kk += 1     
     
     
     final_table = [['' for x in range(2)] for y in range(kk)]
