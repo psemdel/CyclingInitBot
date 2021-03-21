@@ -142,13 +142,27 @@ def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
                               ll=ll+offset
         #write file
         final_table=champ_table[:ll]
+        default_separator=';'
         
         if actualize:
             kk=0
             old_table = [[0 for x in range(10)] for y in range(2000)]
             
+            #test separator
             with open(old_filename, newline='') as csvfile:
-                file_object = csv.reader(csvfile, delimiter=';', quotechar='|')
+                file_object = csv.reader(csvfile, delimiter=default_separator, quotechar='|')
+            
+                for row in file_object: 
+                    if len(row)==1:  #wrong separator, try coma
+                        separator=','
+                    else:
+                        separator=default_separator
+                    break #always break
+            if verbose: 
+                print(u'separator :' + separator)
+            
+            with open(old_filename, newline='') as csvfile:
+                file_object = csv.reader(csvfile, delimiter= separator, quotechar='|')
                 for row in file_object: 
                     if kk==0: #first line
                         old_table[kk]=row

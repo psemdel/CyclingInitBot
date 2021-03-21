@@ -97,8 +97,8 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
                 all_same_team=1 #if all_same_team is 1 then it is probably not a national team
                
             if national_team_detected: 
-                
-                item_rider=list_of_cyclists[ii].item
+    
+                #item_rider=list_of_cyclists[ii].item
                 id_rider=list_of_cyclists[ii].id_item
                 if verbose:
                     print(list_of_cyclists[ii].dossard)
@@ -129,7 +129,7 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
                         all_same_team=all_same_team-1
             #last team
         else: #force_nation_team, then only look at nation value
-            item_rider=list_of_cyclists[ii].item
+            #item_rider=list_of_cyclists[ii].item
             id_rider=list_of_cyclists[ii].id_item
             nationality=get_nationality(pywikibot, repo, site, id_rider, time_of_race)    
             national_team_nation=nationality

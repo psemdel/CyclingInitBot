@@ -44,7 +44,11 @@ class Test_f(unittest.TestCase):
         this_date2=pywikibot.WbTime(site=site,year=2019, month=7, day=1, precision='day')    
         self.assertEqual(f(pywikibot,site,repo,id_rider1,this_date2,claim,True,u'woman',test=True),'Q30332806')
         this_date2=pywikibot.WbTime(site=site,year=2019, month=6, day=1, precision='day')    
-        self.assertEqual(f(pywikibot,site,repo,id_rider1,this_date2,claim,True,u'woman',test=True),0)    
+        self.assertEqual(f(pywikibot,site,repo,id_rider1,this_date2,claim,True,u'woman',test=True),0)   
+        
+        id_rider1='Q289826'
+        this_date2=pywikibot.WbTime(site=site,year=2021, month=3, day=6, precision='day')    
+        self.assertEqual(f(pywikibot,site,repo,id_rider1,this_date2,claim,True,u'woman',test=True),'Q30894544') 
 
         #test chrono
         id_rider1='Q2870834'

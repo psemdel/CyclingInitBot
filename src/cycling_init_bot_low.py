@@ -834,37 +834,12 @@ def get_country(pywikibot, repo, item_id):
     
 #return ID of country from nationality
 def get_nationality(pywikibot, repo, site, item_id, time_of_race):
-    item = pywikibot.ItemPage(repo, item_id)
-    item.get()
-    result="Q0"
-    if (u'P1532' in item.claims):
-        nationalities=item.claims.get(u'P1532')
-        if len(nationalities)==1:
-           result=nationalities[0].getTarget().getID()
-        else:
-            for nationality in nationalities:
-                if ('P580' in nationality.qualifiers):
-                    begin_time = nationality.qualifiers['P580'][0].getTarget()
-                else:
-                    begin_time = pywikibot.WbTime(
-                    site=site, year=1000, month=1, day=1, precision='day')   
-                    
-                if ('P582' in nationality.qualifiers):
-                    end_time = nationality.qualifiers['P582'][0].getTarget()
-                    if end_time.month == 0:
-                        end_time.month = 12
-                        end_time.day = 31
-                else:
-                    end_time = pywikibot.WbTime(
-                    site=site, year=2100, month=1, day=1, precision='day')
-            
-                if (compare_dates(begin_time,time_of_race) == 2 or compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or compare_dates(end_time,time_of_race) == 0):
-                    result = nationality.getTarget().getID()
-                    break
-        
-    if result=="Q0":
-        if (u'P27' in item.claims):
-            nationalities=item.claims.get(u'P27')
+    try:
+        item = pywikibot.ItemPage(repo, item_id)
+        item.get()
+        result="Q0"
+        if (u'P1532' in item.claims):
+            nationalities=item.claims.get(u'P1532')
             if len(nationalities)==1:
                result=nationalities[0].getTarget().getID()
             else:
@@ -886,11 +861,37 @@ def get_nationality(pywikibot, repo, site, item_id, time_of_race):
                     if (compare_dates(begin_time,time_of_race) == 2 or compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or compare_dates(end_time,time_of_race) == 0):
                         result = nationality.getTarget().getID()
                         break
-    if  result=="Q15180": #USSR
-        print("USSR rider")
-        print(item_id)
-    return result
-    
+            
+        if result=="Q0":
+            if (u'P27' in item.claims):
+                nationalities=item.claims.get(u'P27')
+                if len(nationalities)==1:
+                   result=nationalities[0].getTarget().getID()
+                else:
+                    for nationality in nationalities:
+                        if ('P580' in nationality.qualifiers):
+                            begin_time = nationality.qualifiers['P580'][0].getTarget()
+                        else:
+                            begin_time = pywikibot.WbTime(
+                            site=site, year=1000, month=1, day=1, precision='day')   
+                        if ('P582' in nationality.qualifiers):
+                            end_time = nationality.qualifiers['P582'][0].getTarget()
+                            if end_time.month == 0:
+                                end_time.month = 12
+                                end_time.day = 31
+                        else:
+                            end_time = pywikibot.WbTime(
+                            site=site, year=2100, month=1, day=1, precision='day')
+                    
+                        if (compare_dates(begin_time,time_of_race) == 2 or compare_dates(begin_time,time_of_race) == 0) and (compare_dates(end_time,time_of_race) == 1 or compare_dates(end_time,time_of_race) == 0):
+                            result = nationality.getTarget().getID()
+                            break
+        if  result=="Q15180": #USSR
+            print("USSR rider")
+            print(item_id)
+        return result
+    except Exception as msg:
+            print(msg)    
  
 def get_race_begin(pywikibot, repo, item_id):
     item = pywikibot.ItemPage(repo, item_id)
@@ -1023,6 +1024,9 @@ def get_present_team(pywikibot, site, repo, id_rider, time_of_race):
         for this_team in allteams:
             if ('P580' in this_team.qualifiers):
                 begin_time = this_team.qualifiers['P580'][0].getTarget()
+            else:
+                begin_time = pywikibot.WbTime(
+                            site=site, year=1000, month=1, day=1, precision='day')   
             if ('P582' in this_team.qualifiers):
                 end_time = this_team.qualifiers['P582'][0].getTarget()
                 if end_time.month == 0:
