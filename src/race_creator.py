@@ -7,7 +7,7 @@ Created on Thu Jan  4 15:29:49 2018
 from .cycling_init_bot_low import (add_Qvalue, add_date, add_value, CIOtoIDsearch,
  get_country, get_class_WWT, define_article, create_present, link_year, 
  add_multiple_value, get_description, get_class_id, get_race_begin, get_end_date,
- get_class, get_year, date_finder, add_to_master
+ get_class, get_year, date_finder, add_to_master, get_race_name
  )
                                    
 from .calendar_list import calendaruciID, calendarWWTID, calendarUWTID
@@ -122,6 +122,8 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                     class_id=get_class(pywikibot, repo, present_id)
                 if year is None:
                     year=get_year(pywikibot, repo, present_id)
+                if race_name is None:
+                    race_name=get_race_name(pywikibot, repo, present_id)
             else:
                 create_stages=kwargs.get('create_stages')
                 create_main=True

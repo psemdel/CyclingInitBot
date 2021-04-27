@@ -284,6 +284,11 @@ def get_year(pywikibot, repo, present_id):
 
     return int(this_date.year)
 
+def get_race_name(pywikibot, repo, present_id):
+     item = pywikibot.ItemPage(repo, present_id)
+     item.get()
+     return get_label('fr', item)
+                   
 def get_date(pywikibot, repo, present_id):
     item = pywikibot.ItemPage(repo, present_id)
     item.get()
