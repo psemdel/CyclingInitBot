@@ -287,8 +287,13 @@ def get_year(pywikibot, repo, present_id):
 def get_race_name(pywikibot, repo, present_id):
      item = pywikibot.ItemPage(repo, present_id)
      item.get()
-     return get_label('fr', item)
-                   
+     label_raw=get_label('fr', item)
+     if label_raw[len(label_raw)-4:].isdigit():
+         label=label_raw[len(label_raw)-5:]
+     else:
+         label=label_raw
+     return label
+             
 def get_date(pywikibot, repo, present_id):
     item = pywikibot.ItemPage(repo, present_id)
     item.get()

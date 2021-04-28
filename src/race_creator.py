@@ -137,6 +137,7 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
             country_id=CIOtoIDsearch(team_table_femmes, countryCIO)
         else:
             country_id=countryCIO
+        print("country_id "+str(country_id))
 
         race_genre, race_name=define_article(race_name)
         
@@ -209,7 +210,7 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                                 lookforprevious=True
                             else:
                                 lookforprevious=False
-                                id_stage_previous="Q0"
+                                #id_stage_previous="Q0"
                         else:
                             lookforprevious=True
                             
@@ -223,7 +224,7 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                                 item_stage_previous=pywikibot.ItemPage(repo, id_stage_previous)
                                 item_stage_previous.get()
                                 add_Qvalue(pywikibot,repo,item_stage_previous,"P156",id_stage_present,u'link next')
-                        id_stage_previous=id_stage_present     
+                    id_stage_previous=id_stage_present     
                         
                 #Link to next
                 #Not required 
