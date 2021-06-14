@@ -289,7 +289,7 @@ def get_race_name(pywikibot, repo, present_id):
      item.get()
      label_raw=get_label('fr', item)
      if label_raw[len(label_raw)-4:].isdigit():
-         label=label_raw[len(label_raw)-5:]
+         label=label_raw[:len(label_raw)-5]
      else:
          label=label_raw
      return label

@@ -15,7 +15,7 @@ search_rider, define_article, get_class, get_present_team, CIOtoIDsearch,
 get_class_WWT, get_country, table_reader, compare_dates, get_year, checkid,
 checkprop, get_single_or_stage,excel_to_csv,bot_or_site, date_finder, search_team_by_code,
 float_to_int, IDtoCIOsearch, get_nationality, get_race_begin, get_end_date,
-search_team_by_code_man, is_it_a_teamseason)
+search_team_by_code_man, is_it_a_teamseason, get_race_name)
 from src import race_list
 from src import nation_team_table
 
@@ -55,7 +55,7 @@ class TestSearch(unittest.TestCase):
         result1, result2 = search_race('Sintos Women Tour', race_table,race_dic)
         self.assertEqual(result1, "Q0" )
         self.assertEqual(result2 , "")   
-        result1, result2 = search_race("Grand Prix International d'Isbergues", race_table,race_dic)
+        result1, result2 = search_race("Grand Prix International d'Isbergues", race_table,race_dic)
         self.assertEqual(result1, "Q56703296")
         self.assertEqual(result2 , "du ")
         result1, result2 = search_race("GP de Plouay - Lorient- Agglomération Trophée CERATIZIT", race_table,race_dic)
@@ -239,6 +239,10 @@ class TestSearch(unittest.TestCase):
         self.assertEqual( float_to_int(1149),1149)  
         self.assertEqual( float_to_int(''),0)  #exception management
         self.assertEqual( float_to_int(""),0)
+ 
+    def test_get_race_name(self):
+        res=get_race_name(pywikibot, repo, "Q104640102")   
+        self.assertEqual(res,"Tour féminin du Guatemala")
  
     def test_get_race_begin(self):
         race_begin=pywikibot.WbTime(site=site,year=2020, month=10, day=14, precision='day')    
