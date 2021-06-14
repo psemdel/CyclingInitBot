@@ -167,6 +167,7 @@ class TestSearch(unittest.TestCase):
     def test_get_country(self):
         self.assertEqual(get_country(pywikibot, repo, "Q57277539"), "Q31")
         self.assertEqual(get_country(pywikibot, repo, "Q75"), "Q0")
+        self.assertEqual(get_country(pywikibot, repo, "Q104640102"), "Q774")
      
     def test_get_year(self):
         self.assertEqual(get_year(pywikibot, repo, "Q57277539"),2019)

@@ -114,6 +114,8 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                 if countryCIO is None:
                     countryCIO=get_country(pywikibot, repo, present_id)
                     log.concat("country of stage race: " + str(countryCIO))
+                else:
+                    log.concat("country of stage race: " + str(countryCIO) + "was not None")
                 if race_begin is None:
                     race_begin=get_race_begin(pywikibot, repo, present_id)
                 if end_date is None:
