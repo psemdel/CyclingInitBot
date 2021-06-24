@@ -79,6 +79,7 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
     ##main starts here##
     try: 
         log=None
+        verbose=False
         class_id=None
         log=Log()
         mydescription={}
@@ -113,9 +114,11 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                 item.get() 
                 if countryCIO is None:
                     countryCIO=get_country(pywikibot, repo, present_id)
-                    log.concat("country of stage race: " + str(countryCIO))
+                    if verbose:
+                        log.concat("country of stage race: " + str(countryCIO))
                 else:
-                    log.concat("country of stage race: " + str(countryCIO) + "was not None")
+                   if verbose:
+                       log.concat("country of stage race: " + str(countryCIO) + "was not None")
                 if race_begin is None:
                     race_begin=get_race_begin(pywikibot, repo, present_id)
                 if end_date is None:
@@ -134,12 +137,13 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                 if year is None:
                     log.concat("year of the race not found")
                     return 10, log, "Q1"       
-                    
-        if isinstance(countryCIO, str):
-            country_id=CIOtoIDsearch(team_table_femmes, countryCIO)
-        else:
+           
+        if countryCIO[0]=="Q" and countryCIO[1].isnumeric():
             country_id=countryCIO
-        print("country_id "+str(country_id))
+        else:
+            country_id=CIOtoIDsearch(team_table_femmes, countryCIO)
+        if verbose: 
+            print("country_id "+str(country_id))
 
         race_genre, race_name=define_article(race_name)
         
@@ -220,7 +224,7 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                             #stage_label_previous=stage_label(ii-1, race_genre, race_name, year)
                             #does not work anymore as the search is not actualized often enough
                             #id_stage_previous=search_item(pywikibot,site,stage_label_previous['fr'])
-                            if (id_stage_previous!=u'Q0')and(id_stage_previous!=u'Q1'):  #no previous or several
+                            if (id_stage_previous!=u'Q0')and(id_stage_previous!=u'Q1'):  #no previous or al
                                 add_Qvalue(pywikibot,repo,item_stage,"P155",id_stage_previous,u'link previous') 
                                 #Link to the previous
                                 item_stage_previous=pywikibot.ItemPage(repo, id_stage_previous)
