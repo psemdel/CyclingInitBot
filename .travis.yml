@@ -8,6 +8,7 @@ install:
   - pip install -U setuptools
   - pip install pywikibot
   - pip install openpyxl
+  - pip install mwparserfromhell>=0.5.0
 # command to run tests
 branches:
     only:
