@@ -1061,7 +1061,7 @@ def teamCIOsearch(team_table, CIOcode):
             result = ii
             break
 
-    if result==0:
+    if result==0 and CIOcode!=u'AFG':
         print("Country code not found")
     return result
 

@@ -15,7 +15,7 @@ search_rider, define_article, get_class, get_present_team, CIOtoIDsearch,
 get_class_WWT, get_country, table_reader, compare_dates, get_year, checkid,
 checkprop, get_single_or_stage,excel_to_csv,bot_or_site, date_finder, search_team_by_code,
 float_to_int, IDtoCIOsearch, get_nationality, get_race_begin, get_end_date,
-search_team_by_code_man, is_it_a_teamseason, get_race_name)
+search_team_by_code_man, is_it_a_teamseason, get_race_name, teamCIOsearch)
 from src import race_list
 from src import nation_team_table
 
@@ -231,6 +231,14 @@ class TestSearch(unittest.TestCase):
 
     def test_bot_or_site(self):
         self.assertEqual(bot_or_site(),True)  
+        
+    def test_teamCIOsearch(self):
+        nation_table= nation_team_table.load()
+        
+        self.assertEqual(teamCIOsearch(nation_table,"AAA"),0)    
+        self.assertEqual(teamCIOsearch(nation_table,"AFG"),0)
+        self.assertEqual(teamCIOsearch(nation_table,"ALB"),1)
+        self.assertTrue(teamCIOsearch(nation_table,"MGL")!=0)
        
     def test_float_to_int(self):
         self.assertEqual( float_to_int('1149.67'),1149)  

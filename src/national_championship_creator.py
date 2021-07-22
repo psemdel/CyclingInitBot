@@ -122,7 +122,7 @@ def f(
                         str(year)
             id_allchamp = search_item(pywikibot, site, label)
             if (id_allchamp == u'Q0')or(id_allchamp == u'Q1'):
-                print(label+'not found')
+                print(label+' not found')
                 return 1
             else:
                 add_to_master(pywikibot,site,repo,id_race,id_allchamp)
@@ -222,6 +222,7 @@ def f(
         else:
             gender_dic=["woman"]
             
+           
         log=Log()    
         for m_or_w in gender_dic:
             log.concat( "championships creation for gender: " + m_or_w)

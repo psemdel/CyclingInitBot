@@ -200,6 +200,49 @@ class NationalTeam(unittest.TestCase):
         self.assertEqual(res_list_of_cyclists[9].national_team,False)
         self.assertEqual(res_list_of_cyclists[10].national_team,False)
         self.assertEqual(res_list_of_cyclists[11].national_team,False)
+ 
+    def test_find_national_team4(self):
+        man_or_woman=u'woman'
+        force_nation_team=False
+        time_of_race=pywikibot.WbTime(site=site,year=2015, month=8, day=27, precision='day')    
+        year=time_of_race.year
+        log=Log()
+        nation_table= nation_team_table.load()
+        result_dic={
+        'rank':[-1, 0, ''],
+        'last name':[-1, 1,''],
+        'first name':[-1, 2,''],
+        'name':[-1, 3,''],
+        'result':[-1, 4,'time'],  #startlist only with time
+        'points':[-1, 5, 'points'],
+        'team code':[-1, 7, ''],
+        'ecart':[1,6,'time'],  #always created
+        'bib':[-1,8,''] #dossard
+        }
+    
+        result_table, row_count, ecart=table_reader('National_team_tests2', result_dic,0,False)
+        result_table=sorted(result_table, key=lambda tup: int(tup[8]))
+        list_of_cyclists, all_riders_found, log, list_of_teams, all_teams_found=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, nosortkey=True)
+
+        res_list_of_cyclists, log=find_national_team(pywikibot,site,repo,list_of_cyclists, 
+                       result_table, result_dic, row_count, nation_table, 
+                      force_nation_team, year, log, man_or_woman,
+                       time_of_race)
+    
+        #FRA and BEL
+        self.assertEqual(res_list_of_cyclists[93].national_team,True)
+        self.assertEqual(res_list_of_cyclists[94].national_team,True)
+        self.assertEqual(res_list_of_cyclists[95].national_team,True)
+        self.assertEqual(res_list_of_cyclists[96].national_team,True)
+        self.assertEqual(res_list_of_cyclists[97].national_team,True)
+        self.assertEqual(res_list_of_cyclists[98].national_team,True)
+        self.assertEqual(res_list_of_cyclists[99].national_team,True)
+        self.assertEqual(res_list_of_cyclists[100].national_team,True)
+        self.assertEqual(res_list_of_cyclists[101].national_team,True)
+        self.assertEqual(res_list_of_cyclists[102].national_team,True)
+        self.assertEqual(res_list_of_cyclists[103].national_team,True)
+        self.assertEqual(res_list_of_cyclists[104].national_team,True)
+ 
         
 if __name__ == '__main__':
     unittest.main()

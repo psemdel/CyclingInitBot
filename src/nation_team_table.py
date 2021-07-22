@@ -462,6 +462,26 @@ def load():
     team_table[kk][30] =99643102
     team_table[kk][31] =99646846
     kk += 1
+    
+    team_table[kk][1] = u'Bosnie-Herzégovine'
+    team_table[kk][2] = u"de "
+    team_table[kk][3] = 225
+    team_table[kk][4] = 99628155
+    team_table[kk][5] =u'Bosnia and Herzegovina'
+    team_table[kk][6] = u"Bosnian"
+    team_table[kk][7] = u"BIH"
+    team_table[kk][8] = 2
+    team_table[kk][9] =16538096
+    team_table[kk][10] =107594981
+    team_table[kk][11] =107594992
+    team_table[kk][12] =27133448
+    team_table[kk][13] =27133611
+    team_table[kk][14] =99627935
+    team_table[kk][15] = u'Bosnia y Herzegovina'
+    team_table[kk][16] = u'bosnienne'
+    team_table[kk][17] = u'bosnien'
+    kk += 1
+
 
     team_table[kk][1] = u'Brésil'
     team_table[kk][2] = u"du "
@@ -903,7 +923,7 @@ def load():
     team_table[kk][1] = u'Érythrée'
     team_table[kk][2] = u"d'"
     team_table[kk][3] = 986
-    team_table[kk][4] = 0
+    team_table[kk][4] = 99631626
     team_table[kk][5] = u'Eritrea'
     team_table[kk][6] = u'Eritrean'
     team_table[kk][7] = u'ERI'
@@ -1325,6 +1345,10 @@ def load():
     team_table[kk][7] = u'ISL'
     team_table[kk][8] = 2
     team_table[kk][9] = 2803099
+    team_table[kk][10] =107309926
+    team_table[kk][11] =107309932
+    team_table[kk][13] =107289180
+
     team_table[kk][15] =u"Islandia"
     team_table[kk][16] = u"islandaise"
     team_table[kk][17] = u"islandais"
@@ -1621,8 +1645,10 @@ def load():
     team_table[kk][5] = u'Mongolia'
     team_table[kk][6] = u'Mongolian'
     team_table[kk][7] = u'MGL'
-    team_table[kk][8] = 3
+    team_table[kk][8] = 2
     team_table[kk][9] = 2955095
+    team_table[kk][10] = 107382723
+    team_table[kk][11] = 107382728
     team_table[kk][12] = 27056315
     team_table[kk][13] = 27056392
     team_table[kk][14] = 47494816
