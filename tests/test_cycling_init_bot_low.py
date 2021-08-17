@@ -261,8 +261,13 @@ class TestSearch(unittest.TestCase):
     def test_get_end_date(self):
         race_end=pywikibot.WbTime(site=site,year=2020, month=10, day=16, precision='day')    
         res=get_end_date(pywikibot, repo, "Q79137942")
-        self.assertEqual( res,race_end)  
-       
+        self.assertEqual( res,race_end) 
+         
+    def test_time_converter(self):
+        res=time_converter("03:38'05''")
+        self.assertEqual(res,(13085,False))
+        res=time_converter("03:38:05")
+        self.assertEqual(res,(13085,False))   
     def test_date_finder(self):
         #easy case
         first_stage=1

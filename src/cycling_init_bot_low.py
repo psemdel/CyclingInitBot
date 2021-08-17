@@ -365,6 +365,14 @@ def time_converter(this_input):
             this_input=this_input[1:]
             ecart=True
       
+        #if h then replace through :, if ' then replace through :
+        if this_input.find("h")!=-1:
+            this_input=this_input.replace("h",":")
+        if this_input.find("'")!=-1:
+            this_input=this_input.replace("'",":")   
+        if this_input.find("::")!=-1:
+            this_input=this_input.replace("::","")        
+            
         timesplit = this_input.split(":")
         
         if len(timesplit) == 3:
