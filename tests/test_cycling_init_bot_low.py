@@ -15,7 +15,8 @@ search_rider, define_article, get_class, get_present_team, CIOtoIDsearch,
 get_class_WWT, get_country, table_reader, compare_dates, get_year, checkid,
 checkprop, get_single_or_stage,excel_to_csv,bot_or_site, date_finder, search_team_by_code,
 float_to_int, IDtoCIOsearch, get_nationality, get_race_begin, get_end_date,
-search_team_by_code_man, is_it_a_teamseason, get_race_name, teamCIOsearch)
+search_team_by_code_man, is_it_a_teamseason, get_race_name, teamCIOsearch,
+time_converter)
 from src import race_list
 from src import nation_team_table
 

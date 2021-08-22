@@ -113,7 +113,7 @@ class NationalTeam(unittest.TestCase):
                        time_of_race)
     
         #NED makes problem
-        self.assertEqual(res_list_of_cyclists[9].national_team,True)
+        self.assertEqual(res_list_of_cyclists[9].national_team,True) #Fra then ITA
         self.assertEqual(res_list_of_cyclists[10].national_team,True)
         self.assertEqual(res_list_of_cyclists[11].national_team,True)
         self.assertEqual(res_list_of_cyclists[12].national_team,True)
@@ -144,7 +144,7 @@ class NationalTeam(unittest.TestCase):
         'bib':[-1,8,''] #dossard
         }
                 
-        force_nation_team=True
+        force_nation_team=True #Test force_nation_team
         result_table, row_count, ecart=table_reader('National_team_tests_orig', result_dic,0,False)
         result_table=sorted(result_table, key=lambda tup: int(tup[8]))
         list_of_cyclists, all_riders_found, log, list_of_teams, all_teams_found=cyclists_table_reader(pywikibot, site, repo, result_table,result_dic, nosortkey=True)
@@ -241,7 +241,7 @@ class NationalTeam(unittest.TestCase):
         self.assertEqual(res_list_of_cyclists[101].national_team,True)
         self.assertEqual(res_list_of_cyclists[102].national_team,True)
         self.assertEqual(res_list_of_cyclists[103].national_team,True)
-        self.assertEqual(res_list_of_cyclists[104].national_team,True)
+       # self.assertEqual(res_list_of_cyclists[104].national_team,True)
  
         
 if __name__ == '__main__':

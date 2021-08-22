@@ -81,6 +81,8 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
         if not force_nation_team:
             if result_table[ii][result_dic['bib'][1]]%10==1:
                         #insert last team
+                if verbose:
+                    print("all_same_team" + str(all_same_team))
                 if (national_team_detected and all_same_team<0):
                     print(u'national team detected '+IDtoCIOsearch(nation_table, noQ(national_team_nation)))
                     #insert the team
@@ -122,6 +124,8 @@ def find_national_team(pywikibot,site,repo,list_of_cyclists,
                 if proteam==u'reset':
                     if team!="Q1":
                         proteam=team
+                    else:
+                        all_same_team=all_same_team-1
                 else:
                     if team!='Q1' and proteam!=team: 
                         all_same_team=all_same_team-1
