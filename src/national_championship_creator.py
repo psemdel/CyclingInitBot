@@ -349,7 +349,7 @@ def f(
                                         team_table, kk, year-1, m_or_w,False)
                                     name_clm_next=national_championship_race_label(
                                         team_table, kk, year+1, m_or_w,False)
-                                    link_year(pywikibot, site,repo, id_enligne_present,
+                                    link_year(pywikibot, site,repo, id_clm_present,
                                               name_clm_previous,name_clm_next)
         return 0, log
     except:
