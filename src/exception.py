@@ -185,6 +185,15 @@ def list_of_team_code_exception():
     exception_table[kk][0] = u'DSM 2021'
     exception_table[kk][1] = u'Q104525447'   
     kk += 1      
+    exception_table[kk][0] = u'ARK 2021'
+    exception_table[kk][1] = u'Q104889619'   
+    kk += 1      
+    exception_table[kk][0] = u'CCM 2021'
+    exception_table[kk][1] = u'Q106474502'   
+    kk += 1     
+    exception_table[kk][0] = u'MCC 2021'
+    exception_table[kk][1] = u'Q105811484'   
+    kk += 1     
     
     final_table = [['' for x in range(2)] for y in range(kk)]
     final_table=exception_table[:kk]
@@ -231,7 +240,15 @@ def list_of_team_code_exception_man():
     exception_table[kk][0] = u'DSM 2021'
     exception_table[kk][1] = u'Q102248403'   
     kk += 1     
-    
+    exception_table[kk][0] = u'ARK 2021'
+    exception_table[kk][1] = u'Q104537408'   
+    kk += 1      
+    exception_table[kk][0] = u'CCM 2021'
+    exception_table[kk][1] = u'Q105410552'   
+    kk += 1     
+    exception_table[kk][0] = u'MCC 2021'
+    exception_table[kk][1] = u'Q105333983'   
+    kk += 1     
     
     final_table = [['' for x in range(2)] for y in range(kk)]
     final_table=exception_table[:kk]
