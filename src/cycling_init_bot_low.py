@@ -688,6 +688,7 @@ def search_item(pywikibot, site, search_string):
 
 def search_itemv2(pywikibot, site,  repo, search_string, rider_bool,code_bool, **kwargs): #For Team and rider
     from pywikibot.data import api
+
     
     if search_string!=0:
         if rider_bool:
@@ -728,10 +729,10 @@ def search_itemv2(pywikibot, site,  repo, search_string, rider_bool,code_bool, *
         wikidataSearchresult1 = wikidataSearchresult[0]
         temp_id  = wikidataSearchresult1['id'] 
         if force_disam==False:
-            result_id=temp_id
+            result_id=temp_id ##then we don't care, we just return the result
         else:
-            if disam(pywikibot, repo, temp_id):
-                result_id=temp_id
+            if disam(pywikibot, repo, temp_id): #it must be correct
+                result_id=temp_id 
             else:
                 result_id = u'Q0'
     else:
@@ -741,17 +742,13 @@ def search_itemv2(pywikibot, site,  repo, search_string, rider_bool,code_bool, *
             all_results = wikidata_entries['search']
             for result in all_results:
                 temp_id=result['id']
-                if disam(pywikibot, repo, temp_id):
-                    if force_disam==False:
-                        result_id=temp_id
-                        break
-                    else:
-                        candidate=candidate+1
-            if candidate==1:
-                result_id=temp_id
-            elif candidate>1:
+                if disam(pywikibot, repo, temp_id): #no force param here, as it must always be checked
+                    candidate=candidate+1
+                    result_id=temp_id
+            if candidate>1:
                 print("2 teams found for: " +ref_name)
-        
+                result_id = u'Q1'
+                
     return result_id
 
 def search_rider(pywikibot, site, repo,search_string, first_name, last_name):

@@ -42,18 +42,33 @@ def f(
     
     try:
         print("rider_fast_init")
+        verbose=True
         log=Log()
         mydescription=create_fr_description(CountryCIO,team_table,man_or_woman)
+        if verbose:
+            print("description ok")
         label = {}
         label['fr'] = name
         label['en'] = name
                 
         for lang in all_langs:
             label[lang] = label[u'fr']
+            
+        if verbose:
+            print("label ok")
     
         ## kkinit=teamCIOsearch(team_table, u'NAM')
         kk = teamCIOsearch(team_table, CountryCIO)
+        if verbose:
+            print("teamCIO ok")
+            print(pywikibot is None)
+            print(site is None)
+            print(repo is None)
+            print(name is None)
+            
         id_rider = search_rider(pywikibot, site, repo,name,'','')
+        if verbose:
+            print("search rider ok")
 
         if (id_rider == u'Q0'):  # no rider with this name
             id_rider = create_item(pywikibot, site, label)
