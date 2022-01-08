@@ -88,8 +88,18 @@ def list_of_rider_exception():
     exception_table[kk][1] = u'Q39885866'
     kk += 1
     
-    
-    
+    exception_table[kk][0] = u'Jefferson Cepeda'
+    exception_table[kk][1] = u'Q21093468'
+    kk += 1 
+    exception_table[kk][0] = u'Alexander Cepeda'
+    exception_table[kk][1] = u'Q62576160'
+    kk += 1 
+    exception_table[kk][0] = u'Jorge Montenegro'
+    exception_table[kk][1] = u'Q1703889'
+    kk += 1  
+    exception_table[kk][0] = u'Oscar Quiroz'
+    exception_table[kk][1] = u'Q107289338'
+    kk += 1   
     
     
     final_table = [['' for x in range(2)] for y in range(kk)]

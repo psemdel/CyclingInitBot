@@ -45,8 +45,7 @@ def f(
         verbose=True
         log=Log()
         mydescription=create_fr_description(CountryCIO,team_table,man_or_woman)
-        if verbose:
-            print("description ok")
+
         label = {}
         label['fr'] = name
         label['en'] = name
@@ -62,11 +61,13 @@ def f(
         if (id_rider == u'Q0'):  # no rider with this name
             #crash here
             id_rider = create_item(pywikibot, site, label)
-            
+            print(id_rider)
             log.concat("new id rider")
             log.concat(id_rider)
             item = pywikibot.ItemPage(repo, id_rider)
+            print(item)
             item.get()
+            print("get")
             
             item.editDescriptions(mydescription,
                                   summary=u'Setting/updating descriptions.')

@@ -15,6 +15,7 @@ from . import exception
 import csv 
 from openpyxl import load_workbook
 import os.path
+import time
 
 ### Functions that are used from several other functions ###
 
@@ -1098,16 +1099,14 @@ def IDtoCIOsearch(team_table, ID):
 # ==Create==
 def create_item(pywikibot, site, label_dict):
     try:
-        print("a")
         new_item = pywikibot.ItemPage(site)
-        print("b")
         new_item.editLabels(labels=label_dict, summary="Setting labels")
     # Add description here or in another function
+    
+        return new_item.getID()
     except Exception as msg:
+        print("create_item crash")
         print(msg)
-    
-    
-    return new_item.getID()
 
 def get_description(language, wikidataitem):
     if language in wikidataitem.descriptions:

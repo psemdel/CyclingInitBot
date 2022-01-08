@@ -68,6 +68,8 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(search_team_by_code(pywikibot, site, repo, "ASA 2020"),'Q74725122')
         self.assertEqual(search_team_by_code(pywikibot, site, repo, "TFS 2020"),'Q82315001')
         self.assertEqual(search_team_by_code(pywikibot, site, repo, "LSL 2020"),'Q74725666')
+        self.assertEqual(search_team_by_code(pywikibot, site, repo, "BTW 2021"),'Q105530407')
+        self.assertEqual(search_team_by_code(pywikibot, site, repo, "LSL 2021"),'Q105451626')
         
     def test_search_team_by_code_man(self):
         self.assertEqual(search_team_by_code_man(pywikibot, site, repo, "TFS 2020"),'Q78075353')
@@ -83,6 +85,7 @@ class TestSearch(unittest.TestCase):
         self.assertTrue(is_it_a_teamseason(pywikibot, repo, 'Q78075314'))
         self.assertTrue(is_it_a_teamseason(pywikibot, repo, 'Q82315001'))
         self.assertFalse(is_it_a_teamseason(pywikibot, repo, 'Q563737'))
+        self.assertFalse(is_it_a_teamseason(pywikibot, repo, 'Q27123005'))
 
     def test_other(self):
         self.assertEqual(search_item(pywikibot, site, 'Anna van der Breggen'),'Q563737')
