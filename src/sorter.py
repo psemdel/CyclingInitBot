@@ -204,6 +204,7 @@ def name_sorter(pywikibot, site, repo, time, team_id, property_number, test):
                             this_qual.setTarget(saved_qualifiers[qual])
                             claim.addQualifier(this_qual)
         return 0, log     
-    except:
+    except Exception as msg:
+        print(msg)
         log.concat("General Error in name sorter")
         return 10, log        
