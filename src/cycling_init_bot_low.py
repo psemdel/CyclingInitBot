@@ -746,7 +746,7 @@ def search_itemv2(pywikibot, site,  repo, search_string, rider_bool,code_bool, *
                     candidate=candidate+1
                     result_id=temp_id
             if candidate>1:
-                print("2 teams found for: " +ref_name)
+                print("2 items found for: " +ref_name)
                 result_id = u'Q1'
                 
     return result_id
@@ -1097,9 +1097,16 @@ def IDtoCIOsearch(team_table, ID):
 
 # ==Create==
 def create_item(pywikibot, site, label_dict):
-    new_item = pywikibot.ItemPage(site)
-    new_item.editLabels(labels=label_dict, summary="Setting labels")
+    try:
+        print("a")
+        new_item = pywikibot.ItemPage(site)
+        print("b")
+        new_item.editLabels(labels=label_dict, summary="Setting labels")
     # Add description here or in another function
+    except Exception as msg:
+        print(msg)
+    
+    
     return new_item.getID()
 
 def get_description(language, wikidataitem):
