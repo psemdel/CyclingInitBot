@@ -54,23 +54,13 @@ def f(
         for lang in all_langs:
             label[lang] = label[u'fr']
             
-        if verbose:
-            print("label ok")
-    
+   
         ## kkinit=teamCIOsearch(team_table, u'NAM')
         kk = teamCIOsearch(team_table, CountryCIO)
-        if verbose:
-            print("teamCIO ok")
-            print(pywikibot is None)
-            print(site is None)
-            print(repo is None)
-            print(name is None)
-            
         id_rider = search_rider(pywikibot, site, repo,name,'','')
-        if verbose:
-            print("search rider ok")
-
+            
         if (id_rider == u'Q0'):  # no rider with this name
+            #crash here
             id_rider = create_item(pywikibot, site, label)
             
             log.concat("new id rider")
