@@ -1099,8 +1099,8 @@ def IDtoCIOsearch(team_table, ID):
 # ==Create==
 def create_item(pywikibot, site, label_dict):
     try:
+        pywikibot.exception(tb=True)
         new_item = pywikibot.ItemPage(site)
-        time.sleep(5)
         new_item.editLabels(labels=label_dict, summary="Setting labels")
     # Add description here or in another function
     
