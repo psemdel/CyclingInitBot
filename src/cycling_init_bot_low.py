@@ -1108,6 +1108,7 @@ def create_item(pywikibot, site, label_dict):
     except Exception as msg:
         print("create_item crash")
         print(msg)
+        pywikibot.exception(msg)
 
 def get_description(language, wikidataitem):
     if language in wikidataitem.descriptions:

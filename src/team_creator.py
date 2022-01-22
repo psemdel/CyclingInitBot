@@ -18,7 +18,8 @@ def f(
         team_table,
         nation_table,
         team_dic,
-        year):
+        year,
+        **kwargs):
     
     def team_alias(team_table, kk, year, team_dic):
         # input
@@ -41,7 +42,8 @@ def f(
             year,
             id_master,
             id_present,
-            UCI_code
+            UCI_code,
+            category_id
             ):
         # No need for the table here
     
@@ -50,7 +52,10 @@ def f(
             add_value(pywikibot, repo, item, "P1998", UCI_code, u'UCI code')
        # else:
             #add_value(pywikibot, repo, item, 31, 26849121, u'Nature')
+        if category_id is not None:
+            add_multiple_value(pywikibot, repo, item, "P31", category_id, u'Category', 0)
         add_multiple_value(pywikibot, repo, item, "P31", "Q53534649", u'Season', 0)
+
         add_Qvalue(pywikibot, repo, item, "P641", "Q3609", u'cyclisme sur route')
     
         add_Qvalue(pywikibot, repo, item, "P17", country_code, u'country')
@@ -127,6 +132,7 @@ def f(
         kkinit = 1
         endkk=len(team_table)
         log=Log()
+        category_id=kwargs.get("category_id",None)
         
         if True:
             for kk in range(kkinit, endkk): 
@@ -151,7 +157,8 @@ def f(
                             year,
                             team_table[kk][team_dic['master']],
                             id_present,
-                            team_table[kk][team_dic['UCIcode']]
+                            team_table[kk][team_dic['UCIcode']],
+                            category_id
                             )
                          # Link the other to the new item
                         name_previous=team_label(team_table, kk, year-1)

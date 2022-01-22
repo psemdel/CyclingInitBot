@@ -61,13 +61,10 @@ def f(
         if (id_rider == u'Q0'):  # no rider with this name
             #crash here
             id_rider = create_item(pywikibot, site, label)
-            print(id_rider)
             log.concat("new id rider")
             log.concat(id_rider)
             item = pywikibot.ItemPage(repo, id_rider)
-            print(item)
             item.get()
-            print("get")
             
             item.editDescriptions(mydescription,
                                   summary=u'Setting/updating descriptions.')
