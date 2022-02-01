@@ -74,7 +74,7 @@ def load():
    
     raceTable[kk][1] = u'GP'
     raceTable[kk][2] = u"Eco-Struct"
-    raceTable[kk][3] = 104637749
+    raceTable[kk][3] = 79034830
     raceTable[kk][4] = u"du "
     kk += 1  
     
@@ -96,7 +96,6 @@ def load():
     raceTable[kk][4] = u"du "
     kk += 1   
     
-    
     raceTable[kk][1] = u'Santos Women'
     raceTable[kk][2] = u"Tour"
     raceTable[kk][3] = 22661614
@@ -117,7 +116,7 @@ def load():
     
     raceTable[kk][1] = u"Vuelta CV"
     raceTable[kk][2] = u"Feminas"
-    raceTable[kk][3] = 79030799
+    raceTable[kk][3] = 60965701
     raceTable[kk][4] = u"de la "
     kk += 1     
     
@@ -261,13 +260,25 @@ def load():
     raceTable[kk][3] = 1572063
     raceTable[kk][4] = u"du "
     kk += 1
+    
+    raceTable[kk][1] = u'Simac'
+    raceTable[kk][2] = u"Tour"
+    raceTable[kk][3] = 1572063
+    raceTable[kk][4] = u"du "
+    kk += 1  
 
     raceTable[kk][1] = u'GP'
     raceTable[kk][2] = u"Plouay"
     raceTable[kk][3] = 1110856
     raceTable[kk][4] = u"du "
     kk += 1
-
+    
+    raceTable[kk][1] = u'GP'
+    raceTable[kk][2] = u"Lorient Agglomération"
+    raceTable[kk][3] = 1110856
+    raceTable[kk][4] = u"du "
+    kk += 1    
+    
     raceTable[kk][1] = u'Picto'
     raceTable[kk][2] = u"Charentaise"
     raceTable[kk][3] = 61013883
@@ -282,6 +293,12 @@ def load():
 
     raceTable[kk][1] = u"Tour"
     raceTable[kk][2] = u"Norway"
+    raceTable[kk][3] = 17619325
+    raceTable[kk][4] = u"du "
+    kk += 1
+    
+    raceTable[kk][1] = u"Battle"
+    raceTable[kk][2] = u"North"
     raceTable[kk][3] = 17619325
     raceTable[kk][4] = u"du "
     kk += 1
@@ -345,6 +362,12 @@ def load():
     raceTable[kk][3] = 60882083
     raceTable[kk][4] = u"de la "
     kk += 1
+    
+    raceTable[kk][1] = u"Itzulia"
+    raceTable[kk][2] = u"Women"
+    raceTable[kk][3] =60882083
+    raceTable[kk][4] = u"de la "
+    kk += 1  
 
     raceTable[kk][1] = u"Erondegemse"
     raceTable[kk][2] = u"Pijl"
@@ -486,6 +509,13 @@ def load():
     raceTable[kk][3] = 42052559
     raceTable[kk][4] = u"des "
     kk += 1 
+    
+    raceTable[kk][1] = u"Classic"
+    raceTable[kk][2] = u"De Panne"
+    raceTable[kk][3] = 42052559
+    raceTable[kk][4] = u"des "
+    kk += 1   
+    
     
     raceTable[kk][1] = u"Gent"
     raceTable[kk][2] = u"Wevelgem"
@@ -1003,8 +1033,200 @@ def load():
     raceTable[kk][2] = u"Guangxi"
     raceTable[kk][3] =42394196
     raceTable[kk][4] = u"du "
+    kk += 1   
+    
+    raceTable[kk][1] = u"Bloeizone"
+    raceTable[kk][2] = u"Fryslan"
+    raceTable[kk][3] =110763940
+    raceTable[kk][4] = u"du "
     kk += 1     
-   
+    
+    raceTable[kk][1] = u"Trofeo"
+    raceTable[kk][2] = u"Oro in Euro"
+    raceTable[kk][3] =110764022
+    raceTable[kk][4] = u"du "
+    kk += 1    
+    
+    raceTable[kk][1] = u"Grand Prix"
+    raceTable[kk][2] = u"Mediterrennean"
+    raceTable[kk][3] =105811175
+    raceTable[kk][4] = u"du "
+    kk += 1     
+    
+    raceTable[kk][1] = u"GRAN PREMIO"
+    raceTable[kk][2] = u"LIBERAZIONE"
+    raceTable[kk][3] =3774541
+    raceTable[kk][4] = u"du "
+    kk += 1   
+    
+    raceTable[kk][1] = u"Leiedal"
+    raceTable[kk][2] = u"Koerse"
+    raceTable[kk][3] =110764040
+    raceTable[kk][4] = u"de la "
+    kk += 1  
+  
+    raceTable[kk][1] = u"Andalucia"
+    raceTable[kk][2] = u"Ruta Del Sol"
+    raceTable[kk][3] =110764063
+    raceTable[kk][4] = u"du "
+    kk += 1  
+
+    raceTable[kk][1] = u"Omloop"
+    raceTable[kk][2] = u"Kempen"
+    raceTable[kk][3] =110764076
+    raceTable[kk][4] = u"du "
+    kk += 1  
+
+    raceTable[kk][1] = u"Tour"
+    raceTable[kk][2] = u"Estonia"
+    raceTable[kk][3] =110764090
+    raceTable[kk][4] = u"du "
+    kk += 1 
+
+    raceTable[kk][1] = u"Kyiv"
+    raceTable[kk][2] = u"Cup"
+    raceTable[kk][3] =110764507
+    raceTable[kk][4] = u"de la "
+    kk += 1 
+    
+    raceTable[kk][1] = u"Kyiv"
+    raceTable[kk][2] = u"Green Race"
+    raceTable[kk][3] =110764558
+    raceTable[kk][4] = u"de la "
+    kk += 1 
+    
+    raceTable[kk][1] = u"Belgrade"
+    raceTable[kk][2] = u"Tour"
+    raceTable[kk][3] = 107233692
+    raceTable[kk][4] = u"du "
+    kk += 1 
+    
+    raceTable[kk][1] = u"Monica"
+    raceTable[kk][2] = u"Bandini"
+    raceTable[kk][3] = 110764703
+    raceTable[kk][4] = u"du "
+    kk += 1     
+    
+    raceTable[kk][1] = u"Alpes"
+    raceTable[kk][2] = u"Gresivaudan"
+    raceTable[kk][3] = 110764826
+    raceTable[kk][4] = u"de la "
+    kk += 1   
+
+    raceTable[kk][1] = u"GP"
+    raceTable[kk][2] = u"Schelkens"
+    raceTable[kk][3] = 110764947
+    raceTable[kk][4] = u"du "
+    kk += 1     
+
+    raceTable[kk][1] = u"Mont Ventoux"
+    raceTable[kk][2] = u"Challenges"
+    raceTable[kk][3] = 110322011
+    raceTable[kk][4] = u"du "
+    kk += 1  
+
+    raceTable[kk][1] = u"GP"
+    raceTable[kk][2] = u"Slovakia"
+    raceTable[kk][3] = 110765084
+    raceTable[kk][4] = u"du "
+    kk += 1 
+
+    raceTable[kk][1] = u"Visegrad"
+    raceTable[kk][2] = u"Hungary"
+    raceTable[kk][3] = 110765104
+    raceTable[kk][4] = u"du "
+    kk += 1    
+    
+    raceTable[kk][1] = u"Tour de France"
+    raceTable[kk][2] = u"Femmes"
+    raceTable[kk][3] = 1542952
+    raceTable[kk][4] = u"du "
+    kk += 1 
+    
+    raceTable[kk][1] = u"Anna Vasa"
+    raceTable[kk][2] = u"Race"
+    raceTable[kk][3] = 110765120
+    raceTable[kk][4] = u"de la "
+    kk += 1 
+
+    raceTable[kk][1] = u"Grand Prix"
+    raceTable[kk][2] = u"Kalmar"
+    raceTable[kk][3] = 110765135
+    raceTable[kk][4] = u"du "
+    kk += 1 
+    
+    raceTable[kk][1] = u"Grand Prix"
+    raceTable[kk][2] = u"Yahyalı"
+    raceTable[kk][3] = 110765155
+    raceTable[kk][4] = u"du "
+    kk += 1 
+ 
+    raceTable[kk][1] = u"Coupe d'Europe"
+    raceTable[kk][2] = u"Grimpeurs"
+    raceTable[kk][3] = 110765167
+    raceTable[kk][4] = u"de la "
+    kk += 1 
+
+    raceTable[kk][1] = u"Vuelta"
+    raceTable[kk][2] = u"Colombia"
+    raceTable[kk][3] = 27684043
+    raceTable[kk][4] = u"du "
+    kk += 1 
+
+    raceTable[kk][1] = u"GP"
+    raceTable[kk][2] = u"Yvonne Reynders"
+    raceTable[kk][3] = 110765321
+    raceTable[kk][4] = u"du "
+    kk += 1 
+    
+    raceTable[kk][1] = u"Grote Prijs"
+    raceTable[kk][2] = u"Yvonne Reynders"
+    raceTable[kk][3] = 110765321
+    raceTable[kk][4] = u"du "
+    kk += 1 
+
+    raceTable[kk][1] = u"La Route"
+    raceTable[kk][2] = u"Géantes"
+    raceTable[kk][3] = 110765379
+    raceTable[kk][4] = u"de "
+    kk += 1 
+    
+    raceTable[kk][1] = u"Grand Prix"
+    raceTable[kk][2] = u"Wallonie"
+    raceTable[kk][3] = 110765400
+    raceTable[kk][4] = u"du "
+    kk += 1     
+
+    raceTable[kk][1] = u"Tour"
+    raceTable[kk][2] = u"Semois"
+    raceTable[kk][3] = 79032472
+    raceTable[kk][4] = u"du "
+    kk += 1   
+    
+    raceTable[kk][1] = u"Binche"
+    raceTable[kk][2] = u"Chimay"
+    raceTable[kk][3] = 110765414
+    raceTable[kk][4] = u"du "
+    kk += 1
+      
+    raceTable[kk][1] = u"Syrian"
+    raceTable[kk][2] = u"Tour"
+    raceTable[kk][3] = 110765437
+    raceTable[kk][4] = u"du "
+    kk += 1 
+    
+    raceTable[kk][1] = u"Tour"
+    raceTable[kk][2] = u"Romandie"
+    raceTable[kk][3] = 110765449
+    raceTable[kk][4] = u"du "
+    kk += 1     
+    
+    raceTable[kk][1] = u"Travers"
+    raceTable[kk][2] = u"Hauts de France"
+    raceTable[kk][3] = 110765397
+    raceTable[kk][4] = u"d'"
+    kk += 1    
+
     final_table = [['' for x in range(5)] for y in range(kk)]
     final_table=raceTable[:kk]
     

@@ -21,7 +21,8 @@ def load():
         'Q1591132','Q2298207','Q665283','Q964517','Q1788621','Q1473640',
         'Q1429165','Q937636','Q47005682','Q27765666','Q22696468','Q18348936',
         'Q15831496','Q6425932','Q2466796','Q2466792','Q2933831','Q2933830',
-        'Q2933828','Q3650627','Q16154659'        ]
+        'Q2933828','Q3650627','Q16154659' ,'Q109975945','Q107093611',
+        'Q106203911']
     
     list_of_calendars_2018=['Q42317185', 'Q44497477','Q42204070','Q42199340','Q42202027',
           'Q42205000', 'Q41787783' , 'Q47005682']            
@@ -31,6 +32,7 @@ def load():
 #women
 def calendaruciID(year):
     calendar_dic={
+            "2022":"Q109975945",
             "2021":"Q103982710",
             "2020":"Q74127378",
             "2019":"Q57267790",
@@ -47,16 +49,20 @@ def calendaruciID(year):
             "2008":"Q2933828",
             "2007":"Q3650627",
             "2006":"Q16154659"
+            
+            
             }
     
     if year in calendar_dic:
         return calendar_dic[year]
     else:
+        print("UCI women calendar not found")
         return "Q0"
 
 #women
 def calendarWWTID(year): 
     calendar_dic={
+        "2022":"Q107093611",
         "2021":"Q101436794",
         "2020":"Q70443700",
         "2019":"Q57277246",
@@ -68,6 +74,7 @@ def calendarWWTID(year):
     if year in calendar_dic:
         return calendar_dic[year]
     else:
+        print("WWT calendar not found")
         return "Q0"
 
 #men
@@ -83,10 +90,12 @@ def calendarUWTID(year):
         "2018":"Q42317185",
         "2019":"Q56966729",
         "2020":"Q66739340",
-        "2021":"Q97926291"
+        "2021":"Q97926291",
+        "2022":"Q106203911"
         }
     
     if year in calendar_dic:
         return calendar_dic[year]
     else:
+        print("UWT calendar not found")
         return "Q0"
