@@ -43,7 +43,7 @@ def f(pywikibot, site, repo, time, team_table, test,
                 item_master = pywikibot.ItemPage(repo, id_master)
                 item_master.get()
                 #same form as in national_table
-                id_country=noQ(get_country(pywikibot, repo, id_master)) #else Q0
+                id_country=get_country(pywikibot, repo, id_master) #else Q0
                #     id_country=noQ(country_list[0].getTarget().getID())
      
                 master_name =get_label('fr', item_master)
@@ -51,7 +51,13 @@ def f(pywikibot, site, repo, time, team_table, test,
 
                 if result_table[kk][result_dic['date from'][1]] != 0:
                     start_date = result_table[kk][result_dic['date from'][1]]
-                    table_date = start_date.split("/")
+                    if "." in start_date:
+                        table_date = start_date.split(".")
+                    elif "/" in start_date:
+                        table_date = start_date.split("/")
+                    else:
+                        print("date separator not recognized, please check")
+                        return 10, log
                     year = int(table_date[2])
                     race_begin = pywikibot.WbTime(
                         site=site,
@@ -60,21 +66,20 @@ def f(pywikibot, site, repo, time, team_table, test,
                         day=int(table_date[0]),
                         precision='day')
                     single_race=get_single_or_stage(classe) 
-                    
+
                     id_previous = search_item(pywikibot, site, master_name + " " +str(year-1))
+                    edition_nr=''
+
                     if id_previous!=u'Q0' and id_previous!=u'Q1':
                         item_previous = pywikibot.ItemPage(repo,id_previous)
                         item_previous .get()
-                        edition_nr=''
                         if(u'P393' in item_previous.claims): #edition
                             edition_list = item_previous.claims.get(u'P393')
                             edition_nr=int(edition_list[0].getTarget())+1
-    
                     #note: country is a name which is not correct, make inherit the country
                     #note 2: get edition from last year
                     if single_race:
                         if not test:
-                           
                              status, log, res_id=race_creator.f(pywikibot,site,repo,time,
                                   team_table,
                                   master_name,
@@ -90,7 +95,13 @@ def f(pywikibot, site, repo, time, team_table, test,
                     else: #stage race
                         if result_table[kk][result_dic['date to'][1]] != 0:
                             end_date = result_table[kk][result_dic['date to'][1]]
-                            table_date = end_date.split("/")
+                            if "." in end_date:
+                                table_date = end_date.split(".")
+                            elif "/" in start_date:
+                                table_date = end_date.split("/")
+                            else:
+                                print("date separator not recognized, please check")
+                                return 10, log
                             stage_race_end = pywikibot.WbTime(
                                 site=site,
                                 year=int(table_date[2]),
