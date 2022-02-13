@@ -7,12 +7,12 @@ Created on Thu Jan  4 15:30:20 2018
 from .cycling_init_bot_low import (add_value, add_Qvalue, add_to_master, 
 search_item, teamCIOsearch, create_present, link_year)
 from .bot_log import Log
+import time
 
 def f(
         pywikibot,
         site,
         repo,
-        time,
         team_table,
         man_or_woman,
         option,
@@ -228,7 +228,7 @@ def f(
             log.concat( "championships creation for gender: " + m_or_w)
             for kk in range(kkinit, endkk):  
                 group = team_table[kk][8]
-                if group == 1 or group == 2:
+                if CC or (group == 1 or group == 2):
                     if CC:
                         id_master=team_table[kk][3]
                         country_code=0
@@ -263,11 +263,16 @@ def f(
                     log.concat( "championships creation for country: Q" + str(country_code))
                     
                     for year in range(start_year, end_year+1):
+                        print(year)
                         log.concat( "championships creation for year: " + str(year))    
                         # Create the championship
                         mylabel = {}
-                        mylabel = national_championship_label(team_table, kk, year,True)
-                        id_present, item=create_present(pywikibot, site,repo,time, mylabel)
+                        english=True
+                        if CC:
+                            english=False
+                        
+                        mylabel = national_championship_label(team_table, kk, year,english)
+                        id_present, item=create_present(pywikibot, site,repo, mylabel)
         
                         if id_present!='Q1':
                             res=national_championship_basic(
@@ -285,16 +290,13 @@ def f(
                                 log.concat(u'Code interrupted')
                                 return 10, log
                                 
-                            name_previous = national_championship_label(
-                                            team_table, kk, year-1, True)
-                            name_next = national_championship_label(
-                                                                team_table, kk, year+1,True)
-                            link_year(pywikibot, site,repo, id_present,name_previous,name_next)
+                            link_year(pywikibot, site,repo, id_present, year,id_master=id_master)
+
                             # Create the road race
                             if team_table[kk][index_road_race] != 0:
                                 mylabel_enligne =  national_championship_race_label(
                                         team_table, kk, year, m_or_w,True)
-                                id_enligne_present, item_enligne=create_present(pywikibot, site,repo,time,mylabel_enligne)
+                                id_enligne_present, item_enligne=create_present(pywikibot, site,repo,mylabel_enligne)
                                 
                                 if id_enligne_present!=u'Q1':
                                     res=national_championship_race_basic(
@@ -314,18 +316,13 @@ def f(
                                         log.concat(u'Course en ligne masculine/féminine de cyclisme sur route en ' + str(year)+' not found')
                                         log.concat(u'Code interrupted')
                                         return 10, log
-                                    name_enligne_previous=national_championship_race_label(
-                                        team_table, kk, year-1, m_or_w,True)
-                                    name_enligne_next=national_championship_race_label(
-                                        team_table, kk, year+1, m_or_w,True)
-                                    link_year(pywikibot, site,repo, id_enligne_present,
-                                              name_enligne_previous,name_enligne_next)
-                            
+                                    link_year(pywikibot, site,repo, id_enligne_present, year,id_master=team_table[kk][index_road_race])
+
                             # Create the Clm
                             if clm and team_table[kk][index_clm_race] != 0:
                                 mylabel_clm =  national_championship_race_label(
                                         team_table, kk, year, m_or_w,False)
-                                id_clm_present, item_clm=create_present(pywikibot, site,repo,time,mylabel_clm)
+                                id_clm_present, item_clm=create_present(pywikibot, site,repo,mylabel_clm)
         
                                 if id_clm_present!=u'Q1':
                                     res=national_championship_race_basic(
@@ -345,14 +342,12 @@ def f(
                                         log.concat(u'Contre-la-montre masculin/féminin de cyclisme sur route en ' + str(year)+' not found')
                                         log.concat(u'Code interrupted')
                                         return 10, log
-                                    name_clm_previous=national_championship_race_label(
-                                        team_table, kk, year-1, m_or_w,False)
-                                    name_clm_next=national_championship_race_label(
-                                        team_table, kk, year+1, m_or_w,False)
-                                    link_year(pywikibot, site,repo, id_clm_present,
-                                              name_clm_previous,name_clm_next)
+                                    link_year(pywikibot, site,repo, id_clm_present, year,id_master=team_table[kk][index_clm_race])
         return 0, log
+    except Exception as msg:
+        print(msg)
+        log.concat("General Error in national team creator")
+        return 10, log
     except:
         log.concat("General Error in national team creator")
         return 10, log
-

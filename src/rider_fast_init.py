@@ -18,7 +18,6 @@ def f(
         pywikibot,
         site,
         repo,
-        time,
         team_table,
         name,
         CountryCIO,
@@ -89,4 +88,6 @@ def f(
         print(msg)
         log.concat("General Error in rider_fast_init")
         return 10, log, "Q1"
-
+    except:
+        log.concat("General Error in rider_fast_init")
+        return 10, log, "Q1"

@@ -203,58 +203,54 @@ def compare_dates(date1, date2):
                 output = 0  # equal date
     return output
 
-def link_year(pywikibot, site,repo, present_id,arg1,arg2):
-    #arg1 = year or nameprev
-    #arg2 = name or namenext
-
-    if isinstance(arg1, str):
-        year_bool=False
-        nameprev=arg1
-        namenext=arg2        
-    elif isinstance(arg1, dict):
-        year_bool=False
-        nameprev=arg1['fr']
-        namenext=arg2['fr']
-    else:
-        year_bool=True
-        year=arg1
-        if isinstance(arg2, dict): #should be the case
-            name=arg2['fr']
-        else:
-            name=arg2
-    #previous or next
-    kk=-1
+def link_year(pywikibot, site,repo, present_id, year,**kwargs):
+    year_previous=int(year)-1
+    year_next=int(year)+1
+    id_master=kwargs.get("id_master", None)
+    id_previous=None
+    id_next=None
     
-    while kk<2:
-        mylabel_other={}
-        if year_bool:
-            mylabel_other['fr'] = name + " " + str(year + kk)
+    item = pywikibot.ItemPage(repo, present_id)
+    item.get()
+    
+    if id_master is None:
+        if (u'P5138' in item.claims):
+            id_master= item.claims.get(u'P5138')[0].getTarget().getID()
+        elif (u'P361' in item.claims):
+            id_master= item.claims.get(u'P361')[0].getTarget().getID()
         else:
-            if kk==-1:
-                mylabel_other['fr'] = nameprev
-            else:
-                mylabel_other['fr'] = namenext
-        id_other = search_item(pywikibot, site, mylabel_other['fr'])
-        if (id_other != u'Q0') and (id_other != u'Q1'):  # no previous or several
-            if kk==-1:
-                p1="P155"
-                suffix1='previous'
-                p2="P156"
-                suffix2='next'
-            else:
-                p2="P155"
-                suffix2='previous'
-                p1="P156"
-                suffix1='next'
-            item = pywikibot.ItemPage(repo, present_id)
-            item.get()
-            add_Qvalue(pywikibot, repo, item, p1, id_other, u'link '+suffix1)
-            item_other = pywikibot.ItemPage(repo, id_other)
-            item_other.get()
-            add_Qvalue(pywikibot, repo, item_other, p2, present_id, u'link '+suffix2)
-        kk=kk+2
+            return #no way to finish
+   
+    item_master = pywikibot.ItemPage(repo, id_master)
+    item_master.get()
+    
+    #look for next and previous
+    if (u'P527' in item_master.claims):
+        for claim in item_master.claims.get(u'P527'):
+            item_v=claim.getTarget()
+            v=item_v.getID()
+            item_v.get()
+            label=get_label('fr', item_v)
+            
+            if str(year_previous) in label:
+                id_previous=v
+                item_previous=item_v
+            elif str(year_next) in label:
+                id_next=v
+                item_next=item_v
 
-def create_present(pywikibot, site,repo,time, label):   
+    #link the whole
+    if kwargs.get("test",False):
+        return id_master, id_previous, id_next
+    else:
+        if id_previous:
+            add_Qvalue(pywikibot, repo, item, "P155", id_previous, u'link previous')
+            add_Qvalue(pywikibot, repo, item_previous, "P156", present_id, u'link next')
+        if id_next:
+            add_Qvalue(pywikibot, repo, item, "P156", id_next, u'link next')
+            add_Qvalue(pywikibot, repo, item_next, "P155", present_id, u'link previous')
+
+def create_present(pywikibot, site,repo, label):   
    present_id = search_item(pywikibot, site, label['fr'])
    
    if (present_id == u'Q0'):

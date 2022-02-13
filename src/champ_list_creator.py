@@ -10,7 +10,7 @@ import csv
 from .bot_log import Log
 from datetime import date
  
-def f(pywikibot,site,repo,time,man_or_woman,start_year, actualize):
+def f(pywikibot,site,repo,man_or_woman,start_year, actualize):
 
     def sub_findwinner(item_this_year,id_race,champ_table, result_dic, road_or_clm,ll):
           date_found=False

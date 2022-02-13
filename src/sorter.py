@@ -10,7 +10,7 @@ from .moo import Race, Cyclist, Team
 from .bot_log import Log
 
 #sort the victories by date
-def date_sorter(pywikibot, site, repo, time, team_id, property_number,test):
+def date_sorter(pywikibot, site, repo, team_id, property_number,test):
  
     #return the victories sorted by date
     def date_sort(list_of_victories, new_order):
@@ -43,6 +43,8 @@ def date_sorter(pywikibot, site, repo, time, team_id, property_number,test):
         prop=checkprop(property_number)
         if(prop in item.claims):
             list_of_comprend = item.claims.get(prop)
+        else:
+            print("property for date sorting not found")
         
         list_of_qualifiers=['P580','P585','P582']
         
@@ -119,7 +121,7 @@ def check_if_team(item):
                 team=True
     return team
             
-def name_sorter(pywikibot, site, repo, time, team_id, property_number, test):
+def name_sorter(pywikibot, site, repo, team_id, property_number, test):
     try:
         item = pywikibot.ItemPage(repo, team_id)
         item.get()
@@ -135,6 +137,8 @@ def name_sorter(pywikibot, site, repo, time, team_id, property_number, test):
         prop=checkprop(property_number)
         if(prop in item.claims):
             list_of_comprend = item.claims.get(prop)
+        else:
+            print("property for name sorting not found")
         if prop ==u"P1923":
             raceteam=True
     
@@ -207,4 +211,7 @@ def name_sorter(pywikibot, site, repo, time, team_id, property_number, test):
     except Exception as msg:
         print(msg)
         log.concat("General Error in name sorter")
-        return 10, log        
+        return 10, log   
+    except:     
+        log.concat("General Error in name sorter")
+        return 10, log   

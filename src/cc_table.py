@@ -28,8 +28,8 @@ def load():
     teamTable[kk][1] = u'Afrique'
     teamTable[kk][2] = u"d'"
     teamTable[kk][3] = 1771238
-    teamTable[kk][4] = 50064341
-    teamTable[kk][5] = 50063172
+    teamTable[kk][4] = 25400085
+    teamTable[kk][5] = 25400088
     teamTable[kk][6] = 23069702
     kk += 1
 

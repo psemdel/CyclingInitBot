@@ -39,7 +39,7 @@ def UCI_to_calendar_id(UCI, WWT, UWT, year, man_or_woman):
          calendar_id=None
     return calendar_id
 
-def f(pywikibot,site,repo,time,team_table_femmes,race_name,
+def f(pywikibot,site,repo,team_table_femmes,race_name,
                  single_race,man_or_woman,**kwargs):
     #optional: end_date, only_stages, create_stages, first_stage,  last_stage, stage_race_id
 
@@ -151,7 +151,7 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
             UCI, WWT, UWT=get_class_WWT(classe) #not required for stages, where classe is not defined
             mylabel={}
             mylabel[u'fr']=race_name + " " + str(year)
-            present_id, item=create_present(pywikibot, site,repo,time,mylabel)
+            present_id, item=create_present(pywikibot, site,repo,mylabel)
             
             if present_id!=u'Q1':
                 if get_description('fr',item)=='':
@@ -180,7 +180,7 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
                 if class_id:
                     add_multiple_value(pywikibot,repo,item,"P31", class_id,u'Class',0)
                 #link previous and next
-                link_year(pywikibot, site,repo,present_id,year,race_name)
+                link_year(pywikibot, site,repo, present_id, year,id_master=id_race_master)
                 #link to master
                 add_to_master(pywikibot,site,repo,present_id,id_race_master)
 
@@ -191,7 +191,7 @@ def f(pywikibot,site,repo,time,team_table_femmes,race_name,
             
             for ii in range(first_stage,last_stage+1):
                 stage_label_present=stage_label(ii, race_genre, race_name, year)
-                id_stage_present, item_stage=create_present(pywikibot, site,repo,time, stage_label_present)
+                id_stage_present, item_stage=create_present(pywikibot, site,repo,stage_label_present)
                 log.concat("id stage present "+id_stage_present)
                 
                 if id_stage_present!='Q1':

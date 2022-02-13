@@ -145,3 +145,6 @@ def f(
         print(msg)
         log.concat("General Error in UCI ranking")
         return 10, log        
+    except:
+        log.concat("General Error in UCI ranking")
+        return 10, log    
