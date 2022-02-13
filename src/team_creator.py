@@ -14,7 +14,6 @@ def f(
         pywikibot,
         site,
         repo,
-        time,
         team_table,
         nation_table,
         team_dic,
@@ -140,7 +139,7 @@ def f(
     
                     mylabel = {}
                     mylabel = team_label(team_table, kk, year)
-                    id_present, item=create_present(pywikibot, site,repo,time,mylabel)
+                    id_present, item=create_present(pywikibot, site,repo,mylabel)
                     
                     if id_present!=u'Q1':
                         log.concat("team id: " + id_present)
@@ -161,10 +160,12 @@ def f(
                             category_id
                             )
                          # Link the other to the new item
-                        name_previous=team_label(team_table, kk, year-1)
-                        name_next=team_label(team_table, kk, year+1)
-                        link_year(pywikibot, site,repo, id_present,name_previous[u'fr'],name_next[u'fr'])
+                        link_year(pywikibot, site,repo, id_present, year,id_master=team_table[kk][team_dic['master']])
         return 0, log, id_present
+    except Exception as msg:
+        print(msg)
+        log.concat("General Error in team creator")
+        return 10, log, "Q1"
     except:
         log.concat("General Error in team creator")
         return 10, log, "Q1"

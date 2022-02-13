@@ -5,7 +5,6 @@ Created on Wed Nov  1 14:12:10 2017
 @author: psemdel
 """
 
-import time
 import pywikibot
 from src import nation_team_table
 
@@ -25,52 +24,53 @@ def cycling_init_bot():
     if selector==0:
         from src import national_team_creator
         
-        man_or_woman=u'woman'
-        start_year=2021
-        end_year=2021
+        man_or_woman=u'man'
+        start_year=2022
+        end_year=2022
         #optional
-        country=u'BIH' #False #false is not
+        country=False #u'FRA'  #false is not
         
-        national_team_creator.f(pywikibot,site,repo,time,nation_table,
+        national_team_creator.f(pywikibot,site,repo,nation_table,
                                 man_or_woman,start_year,end_year,country=country)
     elif selector==1:
         from src import national_championship_creator
-        from src import cc_table
+        from data import cc_table
         #cc
         cc_table=cc_table.load()
         man_or_woman=u'both' #both
         option=u'clmon' #'clmoff'
-        start_year=2021
-        end_year=2021
+        start_year=2022
+        end_year=2022
         CC=True
-        national_championship_creator.f(pywikibot,site,repo,time,cc_table,
+        national_championship_creator.f(pywikibot,site,repo,cc_table,
                                     man_or_woman,option,start_year,end_year,CC)      
         
     elif selector==2:#
         #not cc
         from src import national_championship_creator
         
-        man_or_woman=u'woman'
-        option=u'clmoff' #'clmoff'
-        start_year=2015
-        end_year=2015
-        country=u'BIH'  #optional/False u'ESA'
+        man_or_woman=u'both'
+        option=u'clmon' #'clmoff'
+        start_year=2022
+        end_year=2022
+        country=False  #optional/False u'ESA'
         CC=False
-        national_championship_creator.f(pywikibot,site,repo,time,nation_table,
+        national_championship_creator.f(pywikibot,site,repo,nation_table,
                                     man_or_woman,option, start_year,end_year,CC,country=country)    
     elif selector==3: 
         from src import calendar_importer
-        from src import race_list
+        from data import race_list
         race_table, race_dic = race_list.load()
         test=False
         man_or_woman=u'woman'
-        filename='Calendar'
-        year=2021
+        filename='calendrier2022'
+        year=2022
         
-        calendar_importer.f(pywikibot, site, repo,time, nation_table, test, race_table, race_dic, man_or_woman, filename, year)
+        calendar_importer.f(pywikibot, site, repo,nation_table, test, race_table, race_dic, man_or_woman, filename, year)
     elif selector==4: 
         #more details in the table with activate and group
-        from src import team_creator, pro_team_table, amateur_team_table
+        from src import team_creator
+        from data import pro_team_table, amateur_team_table
         pro_or_amateur=1 #1 is pro
         year=2022
         prov=True
@@ -86,10 +86,10 @@ def cycling_init_bot():
         """
         if prov:
             team_table = [[0 for x in range(7)] for y in range(2)]
-            team_table[1][1] = u"Andy Schleck-CP NVST-Immo Losch"
-            team_table[1][2] = 61967168 #master
-            team_table[1][3] = u'LUX' #country
-            team_table[1][4] = u'ASC' #UCI code
+            team_table[1][1] = u"Colombia Tierra De Atletas-GW-Shimano"
+            team_table[1][2] = 110794483 #master
+            team_table[1][3] = u'COL' #country
+            team_table[1][4] = u'CTF' #UCI code
             team_table[1][5] = 2 #don't modify
             team_table[1][6] = 1 #don't modify
             _, team_dic=pro_team_table.load()
@@ -98,7 +98,7 @@ def cycling_init_bot():
                 team_table, team_dic=pro_team_table.load()
             else:
                 team_table, team_dic=amateur_team_table.load()
-        team_creator.f(pywikibot,site,repo,time,team_table,nation_table, team_dic,year,
+        team_creator.f(pywikibot,site,repo,team_table,nation_table, team_dic,year,
                        category_id=category_id)
     elif selector==5:   
         from src import sorter
@@ -107,18 +107,19 @@ def cycling_init_bot():
         prop="P527"
         test=False
         
-        sorter.name_sorter( pywikibot,site,repo,time,id_team, prop , test)
+        sorter.name_sorter( pywikibot,site,repo,id_team, prop , test)
     elif selector==6:
         from src import sorter
-        id_team=u'Q70443700'
+        id_team=u'Q107093611'
         # if victory:   property_number = 2522  # victoire
         # else:  #      property_number = 527  # comprend
-        prop="P2522"
-        test=True
+        prop="P527"
+        test=False
         
-        sorter.date_sorter(pywikibot,site,repo,time,id_team,prop,test )
+        sorter.date_sorter(pywikibot,site,repo,id_team,prop,test )
     elif selector==7:
         from src import race_creator
+        
         race_name=u"Watersley Womens Challenge"
         id_race_master=79032687
         create_stages=True
@@ -133,8 +134,7 @@ def cycling_init_bot():
         single_race=False
         man_or_woman=u'woman'
         
-        
-        race_creator.f(pywikibot,site,repo,time,
+        race_creator.f(pywikibot,site,repo,
                       nation_table,
                       race_name,
                       single_race,
@@ -153,6 +153,7 @@ def cycling_init_bot():
          
     elif selector==8:
          from src import race_creator
+         
          race_name=u"Binche-Chimay-Binche féminin"
          id_race_master=108914692
          year=2021
@@ -163,7 +164,7 @@ def cycling_init_bot():
          single_race=True
          man_or_woman=u'woman'
          
-         race_creator.f(pywikibot,site,repo,time,
+         race_creator.f(pywikibot,site,repo,
                 nation_table,
                 race_name,
                 single_race,
@@ -177,6 +178,7 @@ def cycling_init_bot():
          
     elif selector==9:
         from src import classification_importer
+        
         id_race='Q103982710'
         stage_or_general=6# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
@@ -191,6 +193,7 @@ def cycling_init_bot():
                                man_or_woman=man_or_woman)
     elif selector==10:
         from src import startlist_importer
+        
         id_race='Q104129401'
         prologue_or_final=2 #0=prologue, 1=final, 2=one day race
         chrono=False
@@ -203,18 +206,21 @@ def cycling_init_bot():
                                    force_nation_team)  
     elif selector==12:
         from src import rider_fast_init
+        
         name=u"Courtney Sherwell"
         countryCIO=u'AUS'
         man_or_woman=u'woman'
-        rider_fast_init.f(pywikibot,site,repo,time,nation_table, name,countryCIO,man_or_woman)
+        rider_fast_init.f(pywikibot,site,repo,nation_table, name,countryCIO,man_or_woman)
     elif selector==13:
         from src import champ_list_creator
+        
         man_or_woman=u'woman'
         actualize=True
         start_year=2021
-        champ_list_creator.f(pywikibot,site,repo,time,man_or_woman,start_year,actualize)
+        champ_list_creator.f(pywikibot,site,repo,man_or_woman,start_year,actualize)
     elif selector==14:  
         from src import uci_classification
+        
         man_or_woman=u'man'
         id_master_UCI=u'Q104218422'  #Q97367360
         year=u'2021'
@@ -226,6 +232,7 @@ def cycling_init_bot():
         uci_classification.f(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test,man_or_woman,UCIranking,bypass)
     elif selector==15:
         from src import cycling_init_bot_low as low
+        
         id_item=u'Q57267790'
         property_nummer="P3496"
         low.delete_property(pywikibot,repo,id_item,property_nummer)
@@ -241,7 +248,7 @@ def cycling_init_bot():
         #single_race=True
         man_or_woman=u'woman'
         
-        race_creator.f(pywikibot,site,repo,time,
+        race_creator.f(pywikibot,site,repo,
                       nation_table,
                       None,#race_name,
                       False, # single_race

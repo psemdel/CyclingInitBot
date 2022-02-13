@@ -12,7 +12,7 @@ from src import race_creator
 from .bot_log import Log
 
 # ==Initialisation==
-def f(pywikibot, site, repo, time, team_table, test, 
+def f(pywikibot, site, repo, team_table, test, 
       race_table, race_dic, man_or_woman, filename, year):
     #title in table, column in table, column in result_table
     result_dic={
@@ -80,7 +80,7 @@ def f(pywikibot, site, repo, time, team_table, test,
                     #note 2: get edition from last year
                     if single_race:
                         if not test:
-                             status, log, res_id=race_creator.f(pywikibot,site,repo,time,
+                             status, log, res_id=race_creator.f(pywikibot,site,repo,
                                   team_table,
                                   master_name,
                                   single_race,
@@ -110,7 +110,7 @@ def f(pywikibot, site, repo, time, team_table, test,
                                 precision='day')
 
                             if not test:
-                                status, log, res_id=race_creator.f(pywikibot,site,repo,time,
+                                status, log, res_id=race_creator.f(pywikibot,site,repo,
                                       team_table,
                                       master_name,
                                       single_race,

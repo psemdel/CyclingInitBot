@@ -16,14 +16,35 @@ get_class_WWT, get_country, table_reader, compare_dates, get_year, checkid,
 checkprop, get_single_or_stage,excel_to_csv,bot_or_site, date_finder, search_team_by_code,
 float_to_int, IDtoCIOsearch, get_nationality, get_race_begin, get_end_date,
 search_team_by_code_man, is_it_a_teamseason, get_race_name, teamCIOsearch,
-time_converter)
-from src import race_list
-from src import nation_team_table
+time_converter, link_year)
+from data import race_list, nation_team_table
+
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
 
 class TestSearch(unittest.TestCase):  
+    def test_link_year(self):
+        id_master, id_previous, id_next=link_year(pywikibot, site,repo, "Q110369548", 2022,test=True)
+        self.assertEqual(id_master,"Q1757136")
+        self.assertEqual(id_previous,"Q104523104")
+        self.assertEqual(id_next,None)
+        
+        id_master, id_previous, id_next=link_year(pywikibot, site,repo, "Q110369548", 2022,id_master="Q1757136",test=True)
+        self.assertEqual(id_master,"Q1757136")
+        self.assertEqual(id_previous,"Q104523104")
+        self.assertEqual(id_next,None)
+        
+        id_master, id_previous, id_next=link_year(pywikibot, site,repo, "Q104523104", 2021,test=True)
+        self.assertEqual(id_master,"Q1757136")
+        self.assertEqual(id_previous,"Q74725319")
+        self.assertEqual(id_next,"Q110369548")
+        
+        id_master, id_previous, id_next=link_year(pywikibot, site,repo, "Q105142737", 2021,test=True)
+        self.assertEqual(id_master,"Q17037135")
+        self.assertEqual(id_previous,"Q74725071")
+        self.assertEqual(id_next,"Q110794327")
+
     def test_get_nationality(self):
         this_date1=pywikibot.WbTime(site=site,year=2009, month=12, day=31, precision='day')    
         

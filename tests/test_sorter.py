@@ -20,8 +20,7 @@ import os
 from src.sorter import (check_if_team)
 
 from src.bot_log import Log
-from src import race_list
-from src import nation_team_table
+from data import race_list, nation_team_table
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()

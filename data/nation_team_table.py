@@ -309,11 +309,11 @@ def load():
     team_table[kk][1] = u'Bahamas'
     team_table[kk][2] = u"des "
     team_table[kk][3] = 778
-    team_table[kk][4] = 0
+    team_table[kk][4] = 1
     team_table[kk][5] = u'Bahamas'
     team_table[kk][6] = u'Bahamas'
     team_table[kk][7] = u'BAH'
-    team_table[kk][8] = 1
+    team_table[kk][8] = 2
     team_table[kk][9] = 16538203
     team_table[kk][10] = 66498425
     team_table[kk][11] = 66498528
@@ -452,7 +452,7 @@ def load():
     team_table[kk][11] = 66565582
     team_table[kk][12] = 24628140
     team_table[kk][13] = 24628162
-    team_table[kk][14] = 59759744
+    team_table[kk][14] = 99632636
     team_table[kk][15] = u'Bolivia'
     team_table[kk][16] =u'bolivienne'
     team_table[kk][16] =u'bolivien'
@@ -1301,6 +1301,7 @@ def load():
     team_table[kk][6] = u'Iraqi'
     team_table[kk][7] = u'IRQ'
     team_table[kk][8] = 2
+    team_table[kk][9] = 110786128
     team_table[kk][14] =99629590
     team_table[kk][15] = u'Irak'
     team_table[kk][16] =u'irakienne'
@@ -1348,7 +1349,6 @@ def load():
     team_table[kk][10] =107309926
     team_table[kk][11] =107309932
     team_table[kk][13] =107289180
-
     team_table[kk][15] =u"Islandia"
     team_table[kk][16] = u"islandaise"
     team_table[kk][17] = u"islandais"

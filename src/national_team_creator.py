@@ -7,14 +7,14 @@ Created on Thu Jan  4 15:28:39 2018
 from .cycling_init_bot_low import (add_Qvalue, add_value, get_description, get_alias,
 teamCIOsearch, create_present, link_year, add_multiple_value)
 from .bot_log import Log
-from .language_list import load 
-all_langs=load()
+from data import language_list
+all_langs=language_list.load()
+import time
 
 def f(
         pywikibot,
         site,
         repo,
-        time,
         team_table,
         man_or_woman,
         start_year,
@@ -187,13 +187,14 @@ def f(
                     year = ii
                     if team_table[kk][IndexTeam] == 0:
                         log.concat("master of the team not found, contact the Webmaster")
-                        return 10, log, "Q1"
+                        if country:
+                            return 10, log, "Q1"
                     else :
                         mylabel = {}
                         mylabel = national_team_label(
                             team_table, kk, year, man_or_woman)
                         
-                        id_present, item=create_present(pywikibot, site,repo,time,mylabel)
+                        id_present, item=create_present(pywikibot, site,repo,mylabel)
                         log.concat("national team created")
                         log.concat("team id: " + id_present)
                         if id_present!=u'Q1':
@@ -211,14 +212,8 @@ def f(
                                 team_table[kk][7])
                             time.sleep(1.0)
                         # Link the other to the new item
-    
-                            # Search previous
-                            mylabel_previous = national_team_label(
-                                team_table, kk, year-1, man_or_woman)
-                            mylabel_next = national_team_label(
-                                team_table, kk, year+1, man_or_woman)
-                            
-                            link_year(pywikibot, site,repo, id_present, mylabel_previous,mylabel_next)
+                            link_year(pywikibot, site,repo, id_present, year,id_master=team_table[kk][IndexTeam])
+
                         # link to master
                         if team_table[kk][IndexTeam] != 0:
                             item_master = pywikibot.ItemPage(
@@ -235,6 +230,7 @@ def f(
                                 0)
                             log.concat("national team added to master")
         return 0, log, id_present                   
-    except:
+    except Exception as msg:
+        print(msg)
         log.concat("General Error in national team creator")
         return 10, log, "Q1"
