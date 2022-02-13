@@ -8,9 +8,8 @@ Created on Sat Jan  6 15:38:42 2018
 #from moo import *
 #import exception
 
-
 from .moo import ThisName, Cyclist, Team, ThisCyclistName
-from . import exception 
+from data import exception 
 
 import csv 
 from openpyxl import load_workbook
@@ -437,21 +436,21 @@ def table_reader(filename,result_dic, startline, verbose):
      
         elif filename in local_saved_list:
             if bot:
-                filepathcsv="src/input/"+filename+".csv"
+                filepathcsv="input/"+filename+".csv"
             else:
-                filepathcsv="bot_src/src/input/"+filename+".csv"
+                filepathcsv="bot_src/input/"+filename+".csv"
             if os.path.isfile(filepathcsv)==False:
                 print("champ file detection failed!")
         elif bot: #by site not allowed other type
-            filepathcsv='src/input/'+filename+'.csv'
-            filepathxlsx='src/input/'+filename+'.xlsx'    
+            filepathcsv='input/'+filename+'.csv'
+            filepathxlsx='input/'+filename+'.xlsx'    
         
         if (filepathcsv is not None) and os.path.isfile(filepathcsv):
             filepath=filepathcsv
         elif (filepathxlsx is not None) and os.path.isfile(filepathxlsx):
             filename=filename[:(len(filename)-5)] #excel
             if bot:
-                destination='src/input/'+filename+'.csv'
+                destination='input/'+filename+'.csv'
             else:
                 destination='uploads/'+filename+'.csv'
             filepath=excel_to_csv(filepathxlsx,destination)

@@ -10,7 +10,7 @@ from .cycling_init_bot_low import (add_Qvalue, add_date, add_value, CIOtoIDsearc
  get_class, get_year, date_finder, add_to_master, get_race_name
  )
                                    
-from .calendar_list import calendaruciID, calendarWWTID, calendarUWTID
+from data.calendar_list import calendaruciID, calendarWWTID, calendarUWTID
 from .bot_log import Log
 
 

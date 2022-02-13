@@ -3,3 +3,7 @@
 *.pyc
 pywikibot
 champ2.csv
+user-password.py
+user-config.py
+tests/debug.py
+pywikibot.lwp

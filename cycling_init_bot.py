@@ -34,7 +34,7 @@ def cycling_init_bot():
                                 man_or_woman,start_year,end_year,country=country)
     elif selector==1:
         from src import national_championship_creator
-        from src import cc_table
+        from data import cc_table
         #cc
         cc_table=cc_table.load()
         man_or_woman=u'both' #both
@@ -59,7 +59,7 @@ def cycling_init_bot():
                                     man_or_woman,option, start_year,end_year,CC,country=country)    
     elif selector==3: 
         from src import calendar_importer
-        from src import race_list
+        from data import race_list
         race_table, race_dic = race_list.load()
         test=False
         man_or_woman=u'woman'
@@ -69,7 +69,8 @@ def cycling_init_bot():
         calendar_importer.f(pywikibot, site, repo,nation_table, test, race_table, race_dic, man_or_woman, filename, year)
     elif selector==4: 
         #more details in the table with activate and group
-        from src import team_creator, pro_team_table, amateur_team_table
+        from src import team_creator
+        from data import pro_team_table, amateur_team_table
         pro_or_amateur=1 #1 is pro
         year=2022
         prov=True
@@ -118,6 +119,7 @@ def cycling_init_bot():
         sorter.date_sorter(pywikibot,site,repo,id_team,prop,test )
     elif selector==7:
         from src import race_creator
+        
         race_name=u"Watersley Womens Challenge"
         id_race_master=79032687
         create_stages=True
@@ -131,7 +133,6 @@ def cycling_init_bot():
         edition_nr='1'
         single_race=False
         man_or_woman=u'woman'
-        
         
         race_creator.f(pywikibot,site,repo,
                       nation_table,
@@ -152,6 +153,7 @@ def cycling_init_bot():
          
     elif selector==8:
          from src import race_creator
+         
          race_name=u"Binche-Chimay-Binche féminin"
          id_race_master=108914692
          year=2021
@@ -176,6 +178,7 @@ def cycling_init_bot():
          
     elif selector==9:
         from src import classification_importer
+        
         id_race='Q103982710'
         stage_or_general=6# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, #5 team, #6 team ponts, #7 youth points
         #8 == sprints
@@ -190,6 +193,7 @@ def cycling_init_bot():
                                man_or_woman=man_or_woman)
     elif selector==10:
         from src import startlist_importer
+        
         id_race='Q104129401'
         prologue_or_final=2 #0=prologue, 1=final, 2=one day race
         chrono=False
@@ -202,18 +206,21 @@ def cycling_init_bot():
                                    force_nation_team)  
     elif selector==12:
         from src import rider_fast_init
+        
         name=u"Courtney Sherwell"
         countryCIO=u'AUS'
         man_or_woman=u'woman'
         rider_fast_init.f(pywikibot,site,repo,nation_table, name,countryCIO,man_or_woman)
     elif selector==13:
         from src import champ_list_creator
+        
         man_or_woman=u'woman'
         actualize=True
         start_year=2021
         champ_list_creator.f(pywikibot,site,repo,man_or_woman,start_year,actualize)
     elif selector==14:  
         from src import uci_classification
+        
         man_or_woman=u'man'
         id_master_UCI=u'Q104218422'  #Q97367360
         year=u'2021'
@@ -225,6 +232,7 @@ def cycling_init_bot():
         uci_classification.f(pywikibot,site,repo,year,id_master_UCI, filename,cleaner,test,man_or_woman,UCIranking,bypass)
     elif selector==15:
         from src import cycling_init_bot_low as low
+        
         id_item=u'Q57267790'
         property_nummer="P3496"
         low.delete_property(pywikibot,repo,id_item,property_nummer)

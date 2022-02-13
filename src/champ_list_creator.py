@@ -233,13 +233,13 @@ def f(pywikibot,site,repo,man_or_woman,start_year, actualize):
 
     #Road
     if man_or_woman=="woman":
-        filename='src/input/champ2.csv'
-        old_filename='src/input/champ.csv'
+        filename='input/champ2.csv'
+        old_filename='input/champ.csv'
         dic_worldconti=dic_road_race_women
         pattern="Course en ligne féminine aux"
     else:
-        filename='src/input/champ_man2.csv'
-        old_filename='src/input/champ_man.csv'
+        filename='input/champ_man2.csv'
+        old_filename='input/champ_man.csv'
         dic_worldconti=dic_road_race_men
         pattern="Course en ligne masculine aux"
         
@@ -250,13 +250,13 @@ def f(pywikibot,site,repo,man_or_woman,start_year, actualize):
     print("road scan finished")
     #Clm
     if man_or_woman=="woman":
-        filename='src/input/champ_clm2.csv'
-        old_filename='src/input/champ_clm.csv'
+        filename='input/champ_clm2.csv'
+        old_filename='input/champ_clm.csv'
         dic_worldconti=dic_clm_women
         pattern="Contre-la-montre féminin aux"
     else:
-        filename='src/input/champ_man_clm2.csv'
-        old_filename='src/input/champ_man_clm.csv'
+        filename='input/champ_man_clm2.csv'
+        old_filename='input/champ_man_clm.csv'
         dic_worldconti=dic_clm_men
         pattern="Contre-la-montre masculin aux"
         
