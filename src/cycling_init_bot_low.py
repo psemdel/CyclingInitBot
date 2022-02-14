@@ -10,7 +10,7 @@ Created on Sat Jan  6 15:38:42 2018
 
 
 from .moo import ThisName, Cyclist, Team, ThisCyclistName
-from src.data import exception 
+from .data import exception 
 
 import csv 
 from openpyxl import load_workbook

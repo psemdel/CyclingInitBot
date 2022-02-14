@@ -6,7 +6,7 @@ Created on Wed Nov  1 14:12:10 2017
 """
 
 import pywikibot
-from src import nation_team_table
+from src.data import nation_team_table
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()

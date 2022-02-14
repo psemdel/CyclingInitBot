@@ -7,7 +7,7 @@ Created on Thu Jan  4 15:28:39 2018
 from .cycling_init_bot_low import (add_Qvalue, add_value, get_description, get_alias,
 teamCIOsearch, create_present, link_year, add_multiple_value)
 from .bot_log import Log
-from data.language_list import load 
+from .data.language_list import load 
 all_langs=load()
 import time
 

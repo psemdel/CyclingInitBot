@@ -8,7 +8,6 @@ Created on Wed Nov 27 20:54:17 2019
 from .cycling_init_bot_low import (noQ, table_reader, search_race, search_item,
                                    get_single_or_stage, get_country, get_label)
 from src import race_creator
-#from .race_creator import f as rcf
 from .bot_log import Log
 
 # ==Initialisation==
