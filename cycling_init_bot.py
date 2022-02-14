@@ -6,7 +6,7 @@ Created on Wed Nov  1 14:12:10 2017
 """
 
 import pywikibot
-from src import nation_team_table
+from src.data import nation_team_table
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
@@ -34,7 +34,7 @@ def cycling_init_bot():
                                 man_or_woman,start_year,end_year,country=country)
     elif selector==1:
         from src import national_championship_creator
-        from src import cc_table
+        from src.data import cc_table
         #cc
         cc_table=cc_table.load()
         man_or_woman=u'both' #both
@@ -59,7 +59,7 @@ def cycling_init_bot():
                                     man_or_woman,option, start_year,end_year,CC,country=country)    
     elif selector==3: 
         from src import calendar_importer
-        from src import race_list
+        from src.data import race_list
         race_table, race_dic = race_list.load()
         test=False
         man_or_woman=u'woman'
@@ -69,7 +69,8 @@ def cycling_init_bot():
         calendar_importer.f(pywikibot, site, repo,nation_table, test, race_table, race_dic, man_or_woman, filename, year)
     elif selector==4: 
         #more details in the table with activate and group
-        from src import team_creator, pro_team_table, amateur_team_table
+        from src import team_creator
+        from src.data import pro_team_table, amateur_team_table
         pro_or_amateur=1 #1 is pro
         year=2022
         prov=True

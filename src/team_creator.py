@@ -7,7 +7,7 @@ from .cycling_init_bot_low import (add_multiple_value, add_value, add_Qvalue,
 add_to_master,
 get_description, get_alias, create_present, CIOtoIDsearch, link_year)                                  
 from .bot_log import Log
-from .language_list  import load 
+from .data.language_list  import load 
 all_langs=load()
 
 def f(
