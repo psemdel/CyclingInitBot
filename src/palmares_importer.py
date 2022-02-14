@@ -6,7 +6,7 @@ Created on Sun Feb 18 10:35:54 2018
 """
 from .cycling_init_bot_low import search_item, get_label, add_winner
                                   
-from data import exception 
+import exception 
 
 def f(pywikibot, site, repo, id_championship, test):
    # Q31271010
