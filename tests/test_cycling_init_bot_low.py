@@ -17,8 +17,7 @@ checkprop, get_single_or_stage,excel_to_csv,bot_or_site, date_finder, search_tea
 float_to_int, IDtoCIOsearch, get_nationality, get_race_begin, get_end_date,
 search_team_by_code_man, is_it_a_teamseason, get_race_name, teamCIOsearch,
 time_converter, link_year)
-from data import race_list, nation_team_table
-
+from src.data import race_list, nation_team_table
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()

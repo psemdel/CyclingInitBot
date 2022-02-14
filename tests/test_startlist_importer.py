@@ -15,7 +15,7 @@ from src.startlist_importer import (find_sortkey, search_item_national_team,
 
 from src.cycling_init_bot_low import (table_reader, cyclists_table_reader)
 from src.bot_log import Log
-from data import race_list, nation_team_table
+from src.data import race_list, nation_team_table
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()

@@ -11,7 +11,7 @@ from .cycling_init_bot_low import (search_rider,  teamCIOsearch, create_item,
                                    add_Qvalue)
 
 from .bot_log import Log
-from .language_list  import load 
+from data.language_list  import load 
 all_langs=load()
                              
 def f(
