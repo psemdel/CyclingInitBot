@@ -6,7 +6,7 @@ Created on Sun Feb 18 10:35:54 2018
 """
 from .cycling_init_bot_low import search_item, get_label, add_winner
                                   
-import exception 
+from data.exception import listOfException
 
 def f(pywikibot, site, repo, id_championship, test):
    # Q31271010
@@ -111,7 +111,7 @@ def f(pywikibot, site, repo, id_championship, test):
         counter = 0
         counterrepeat = 0
         table_of_winnersOut = table_of_winners
-        exception_table = exception.listOfException()
+        exception_table = listOfException()
     
         for ii in range(len(table_of_winners)):
             for jj in range(1, 4):
