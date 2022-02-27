@@ -6,6 +6,7 @@ Created on Thu Dec 19 20:35:53 2019
 @author: maxime
 """
 from .cycling_init_bot_low import get_label
+from .data import calendar_list
 import csv
 from .bot_log import Log
 from datetime import date
@@ -120,9 +121,10 @@ def f(pywikibot,site,repo,man_or_woman,start_year, actualize):
             log.concat(champ_table)  
             
         #Look in the national championships
-        for ii in range( start_year,EndYear):
-            log.concat(road_or_clm + " start year " + str(ii))
-            id_all_national=dic[ii]
+        for year in range( start_year,EndYear):
+            year=str(year)
+            log.concat(road_or_clm + " start year " + year)
+            id_all_national=dic[year]
             item_all_national =pywikibot.ItemPage(repo, id_all_national)
             item_all_national.get()
             
@@ -169,8 +171,8 @@ def f(pywikibot,site,repo,man_or_woman,start_year, actualize):
                         kk=kk+1
                     else:
                         is_empty=True
-                        for ii in range(len(row)):
-                            if row[ii]!='' and row[ii]!=0 and row[ii]!='0':
+                        for col in row:
+                            if col!='' and col!=0 and col!='0':
                                 is_empty=False
                         if is_empty:
                             break
@@ -197,22 +199,10 @@ def f(pywikibot,site,repo,man_or_woman,start_year, actualize):
         print("csv file " + filename + " written")
     ##Begin main function ##
     #Championnats nationaux de cyclisme sur route 
-    dic ={
-        2021 : 'Q104303043',  2020 : 'Q70655305', 2019 : 'Q60015262',   
-        2018 : 'Q43920899',   2017 : 'Q28005879', 2016 : 'Q22021840',
-		2015 : 'Q19296998',   2014 : 'Q15621925', 2013: 'Q3339162',
-		2012 : 'Q1333003',    2011 : 'Q1143844',  2010 : 'Q1568490',
-		2009 : 'Q263224',     2008 : 'Q826505',   2007 : 'Q640286',
-		2006 : 'Q492135',     2005 : 'Q1335357',  2004 : 'Q43286272',
-		2003 : 'Q43286289',   2002 : 'Q43286297', 2001 : 'Q43286309'
-	}
-    
-    #World champ, continental champs
-    dic_road_race_women =['Q934877','Q30894544','Q25400085','Q54315111','Q50061750','Q31271454']
-    dic_clm_women=['Q2630733','Q30894543','Q25400088','Q50062728','Q54314912','Q31271381']
-    dic_road_race_men =['Q13603535','Q30894537','Q23069702','Q23889479','Q22980916','Q85519571']
-    dic_clm_men=['Q2557477','Q30894535','Q23069708','Q22980937','Q23889469','Q85519577']
-    
+    dic =calendar_list.nationChampionshipMaster()
+    dic_road_race_women, dic_clm_women, dic_road_race_men, dic_clm_men=\
+         calendar_list.worldCCchampionships()
+
     result_dic={
     'Road champ':0,
     'Road day':1,

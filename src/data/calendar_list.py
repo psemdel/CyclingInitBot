@@ -99,3 +99,27 @@ def calendarUWTID(year):
     else:
         print("UWT calendar not found")
         return "Q0"
+    
+def nationChampionshipMaster():
+    #Championnats nationaux de cyclisme sur route 
+    dic ={
+        "2022" : 'Q110532956',
+        "2021" : 'Q104303043',  "2020" : 'Q70655305', "2019" : 'Q60015262',   
+        "2018" : 'Q43920899',   "2017" : 'Q28005879', "2016" : 'Q22021840',
+		"2015" : 'Q19296998',   "2014" : 'Q15621925', "2013": 'Q3339162',
+		"2012" : 'Q1333003',    "2011" : 'Q1143844',  "2010" : 'Q1568490',
+		"2009" : 'Q263224',     "2008" : 'Q826505',   "2007" : 'Q640286',
+		"2006" : 'Q492135',     "2005" : 'Q1335357',  "2004" : 'Q43286272',
+		"2003" : 'Q43286289',   "2002" : 'Q43286297', "2001" : 'Q43286309'
+	}
+    return dic
+    
+def worldCCchampionships(): 
+    
+    #World champ, continental champs
+    dic_road_race_women =['Q934877','Q30894544','Q25400085','Q54315111','Q50061750','Q31271454']
+    dic_clm_women=['Q2630733','Q30894543','Q25400088','Q50062728','Q54314912','Q31271381']
+    dic_road_race_men =['Q13603535','Q30894537','Q23069702','Q23889479','Q22980916','Q85519571']
+    dic_clm_men=['Q2557477','Q30894535','Q23069708','Q22980937','Q23889469','Q85519577']
+    
+    return dic_road_race_women, dic_clm_women, dic_road_race_men, dic_clm_men
