@@ -1,12 +1,12 @@
 language: python
 python:
-  - "3.7"
+  - "3.8"
 # command to install dependencies
 
 
 install:
   - pip install -U setuptools
-  - pip install pywikibot==6.6.5
+  - pip install pywikibot
   - pip install openpyxl
   - pip install mwparserfromhell>=0.5.0
 # command to run tests
