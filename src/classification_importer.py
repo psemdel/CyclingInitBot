@@ -228,7 +228,7 @@ def f(pywikibot,site,repo,general_or_stage, id_race,
                     else:
                        log.concat(str(result_table[ii][result_dic['name'][1]]) + ', ' +str(result_table[ii][result_dic['last name'][1]]))
                        log.concat(u'item not found, interrupted at row ' + str(ii))
-                       return 0
+                       return 0, log
             log.concat('result inserted')
             #fill startlist with DNF, HD and so on
             if there_is_a_startlist and general_or_stage==1:
