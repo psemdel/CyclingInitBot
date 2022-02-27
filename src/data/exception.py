@@ -101,6 +101,10 @@ def list_of_rider_exception():
     exception_table[kk][1] = u'Q107289338'
     kk += 1   
     
+    exception_table[kk][0] = u'Lisa Klein'
+    exception_table[kk][1] = u'Q15825971'
+    kk += 1   
+    
     
     final_table = [['' for x in range(2)] for y in range(kk)]
     final_table=exception_table[:kk]
