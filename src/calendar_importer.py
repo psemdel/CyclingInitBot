@@ -5,127 +5,114 @@ Created on Wed Nov 27 20:54:17 2019
 
 @author: maxime
 """
-from .cycling_init_bot_low import (noQ, table_reader, search_race, search_item,
-                                   get_single_or_stage, get_country, get_label)
-from src import race_creator
-from .bot_log import Log
+import pywikibot
+from .func import table_reader, get_single_or_stage    
+from .base import CyclingInitBot, PyItem, Search 
+from .race_creator import RaceCreator
 
-# ==Initialisation==
-def f(pywikibot, site, repo, team_table, test, 
-      race_table, race_dic, man_or_woman, filename, year):
-    #title in table, column in table, column in result_table
-    result_dic={
-            'date from':[-1, 0,''],
-            'date to':[-1, 1,''],
-            'name':[-1, 2,''],
-            'country':[-1, 3,''],
-            'class':[-1,4,'']
-            }
-    verbose=False
-    log=Log()
-
-    result_table, row_count, ecart_global=table_reader(filename,result_dic,1,verbose)
-    if verbose:
-        log.concat(result_table)
+class CalendarImporter(CyclingInitBot):
+    def __init__(self, filename, man_or_woman, year,**kwargs):
+        super().__init__(**kwargs)
+        self.filename=filename
+        self.man_or_woman=man_or_woman
+        self.verbose=False
         
-    for kk in range(row_count):
-        if result_table[kk][result_dic['name'][1]] != 0:
-            #read class
-            if result_table[kk][result_dic['class'][1]] != 0:
-                classe = result_table[kk][result_dic['class'][1]]
-
-            #look in the list of race available which one it is
-            id_master, master_genre =search_race(
-                result_table[kk][result_dic['name'][1]], race_table, race_dic)
+    def main(self):
+        #delete the first line of file
+        df, _,_,log=table_reader(self.filename,verbose=self.verbose)
+        self.log.concat(log)
+        if self.verbose:
+            self.log.concat(df)
             
-            if id_master != "Q0" and classe != 0:
-                item_master = pywikibot.ItemPage(repo, id_master)
-                item_master.get()
-                #same form as in national_table
-                id_country=get_country(pywikibot, repo, id_master) #else Q0
-               #     id_country=noQ(country_list[0].getTarget().getID())
-     
-                master_name =get_label('fr', item_master)
-               # item_master.labels["fr"]
+        for ii in range(len(df)):  
+            row=df.iloc[ii]
+            if 'Name' in row:
+                s=Search(row['Name'])
+                id_master, master_genre=s.race()
 
-                if result_table[kk][result_dic['date from'][1]] != 0:
-                    start_date = result_table[kk][result_dic['date from'][1]]
-                    if "." in start_date:
-                        table_date = start_date.split(".")
-                    elif "/" in start_date:
-                        table_date = start_date.split("/")
-                    else:
-                        print("date separator not recognized, please check")
-                        return 10, log
-                    year = int(table_date[2])
-                    race_begin = pywikibot.WbTime(
-                        site=site,
-                        year=int(table_date[2]),
-                        month=int(table_date[1]),
-                        day=int(table_date[0]),
-                        precision='day')
-                    single_race=get_single_or_stage(classe) 
+                if id_master != "Q0" and 'Class' in row:
+                    pyItem_master=PyItem(id=id_master)
+                    id_country=pyItem_master.get_country() 
+                    master_name =pyItem_master.get_label('fr')
+                    
+                    if 'Date From' in row:
+                        if "." in row['Date from']:
+                            table_date = row['Date From'].split(".")
+                        elif "/" in row['Date From']:
+                            table_date = row['Date From'].split("/")
+                        else:
+                            print("date separator not recognized, please check")
+                            return 10, self.log
+                        
+                        year = int(table_date[2])
+                        race_begin = pywikibot.WbTime(
+                            site=self.site,
+                            year=int(table_date[2]),
+                            month=int(table_date[1]),
+                            day=int(table_date[0]),
+                            precision='day')
+                        
+                        single_race=get_single_or_stage(row['Class']) 
+                        
+                        s2=Search( master_name + " " +str(year-1))
+                        id_previous =s2.simple()
+                        edition_nr=''
 
-                    id_previous = search_item(pywikibot, site, master_name + " " +str(year-1))
-                    edition_nr=''
+                        if id_previous not in ['Q0','Q1']:
+                            pyItem_previous=PyItem(id=id_previous)
 
-                    if id_previous!=u'Q0' and id_previous!=u'Q1':
-                        item_previous = pywikibot.ItemPage(repo,id_previous)
-                        item_previous .get()
-                        if(u'P393' in item_previous.claims): #edition
-                            edition_list = item_previous.claims.get(u'P393')
-                            edition_nr=int(edition_list[0].getTarget())+1
-                    #note: country is a name which is not correct, make inherit the country
-                    #note 2: get edition from last year
-                    if single_race:
-                        if not test:
-                             status, log, res_id=race_creator.f(pywikibot,site,repo,
-                                  team_table,
-                                  master_name,
-                                  single_race,
-                                  man_or_woman,
-                                  race_begin=race_begin,
-                                  edition_nr=edition_nr,
-                                  id_race_master=id_master,
-                                  countryCIO=id_country,
-                                  classe=classe,
-                                  year=year
-                                  )
-                    else: #stage race
-                        if result_table[kk][result_dic['date to'][1]] != 0:
-                            end_date = result_table[kk][result_dic['date to'][1]]
-                            if "." in end_date:
-                                table_date = end_date.split(".")
-                            elif "/" in start_date:
-                                table_date = end_date.split("/")
-                            else:
-                                print("date separator not recognized, please check")
-                                return 10, log
-                            stage_race_end = pywikibot.WbTime(
-                                site=site,
-                                year=int(table_date[2]),
-                                month=int(table_date[1]),
-                                day=int(table_date[0]),
-                                precision='day')
-
-                            if not test:
-                                status, log, res_id=race_creator.f(pywikibot,site,repo,
-                                      team_table,
-                                      master_name,
-                                      single_race,
-                                      man_or_woman,
-                                      race_begin=race_begin,
-                                      edition_nr=edition_nr,
-                                      id_race_master=id_master,
-                                      countryCIO=id_country,
-                                      classe=classe,
-                                      end_date=stage_race_end,
-                                      only_stages=False,
-                                      create_stages=False,
-                                      year=year
-                                      )
-
-            elif classe != "CN" and classe != "CC" and classe !="CRT":
-                log.concat(result_table[kk][2])
-                log.concat("race not found")
-    return 0, log   
+                            if(u'P393' in pyItem_previous.item.claims): #edition
+                                edition_list = pyItem_previous.item.claims.get(u'P393')
+                                edition_nr=int(edition_list[0].getTarget())+1
+                        #note: country is a name which is not correct, make inherit the country
+                        #note 2: get edition from last year
+                        if single_race:
+                            if not self.test:
+                                 raceCreator=RaceCreator(
+                                     race_name= master_name,
+                                     single_race=single_race,
+                                     man_or_woman=self.man_or_woman,
+                                     race_begin=race_begin,
+                                     edition_nr=edition_nr,
+                                     id_race_master=id_master,
+                                     countryCIO=id_country,
+                                     classe=row['Class'],
+                                     year=year
+                                     )                               
+                        else: #stage race
+                            if 'Date To' in row:
+                                if "." in row['Date To']:
+                                    table_date = row['Date To'].split(".")
+                                elif "/" in row['Date To']:
+                                    table_date = row['Date To'].split("/")
+                                else:
+                                    print("date separator not recognized, please check")
+                                    return 10, self.log
+                                
+                                stage_race_end = pywikibot.WbTime(
+                                    site=self.site,
+                                    year=int(table_date[2]),
+                                    month=int(table_date[1]),
+                                    day=int(table_date[0]),
+                                    precision='day')
+    
+                                if not self.test:
+                                    raceCreator=RaceCreator(
+                                          race_name= master_name,
+                                          single_race=single_race,
+                                          man_or_woman=self.man_or_woman,
+                                          race_begin=race_begin,
+                                          edition_nr=edition_nr,
+                                          id_race_master=id_master,
+                                          countryCIO=id_country,
+                                          classe=row['Class'],
+                                          end_date=stage_race_end,
+                                          only_stages=False,
+                                          create_stages=False,
+                                          year=year
+                                          )
+                        status, log, res_id=raceCreator.main()
+                elif row['Class'] != "CN" and row['Class'] != "CC" and row['Class'] !="CRT":
+                    log.concat(row['Name'])
+                    log.concat("race not found")
+        return 0, self.log   

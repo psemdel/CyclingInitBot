@@ -4,214 +4,151 @@ Created on Sat Jan  6 11:48:04 2018
 
 @author: psemdel
 """
-from .cycling_init_bot_low import (delete_value, add_multiple_value, compare_dates,
-get_label, checkprop)
-from .moo import Race, Cyclist, Team
-from .bot_log import Log
-
+import pywikibot
+import sys
+from .base import CyclingInitBot, Race, PyItem, Team, Cyclist
 #sort the victories by date
-def date_sorter(pywikibot, site, repo, team_id, property_number,test):
- 
-    #return the victories sorted by date
-    def date_sort(list_of_victories, new_order):
-        iimax = len(new_order) - 1
+
+class DateSorter(CyclingInitBot):
+    def __init__(self,team_id, prop,**kwargs):
+        super().__init__(**kwargs)
+        self.team=PyItem(id=team_id)
+        self.prop=prop
+    
+    def main(self):
+        try:
+            self.listo = []
+
+            if(self.prop in self.team.item.claims):
+                list_of_comprend = self.team.item.claims.get(self.prop)
+            else:
+                print("property for date sorting not found")
+            
+            for e in list_of_comprend: #ii needed below
+                race=Race(None,None,id=e.getTarget().getID())
+                if race.date is None:
+                    self.log.concat(race.get_labels('fr') + ' has no date')
+                self.listo.append(race)
+
+            self.new_order = [ii for ii in range(len(list_of_comprend))]
+            old_order = self.new_order.copy()
+        
+            self.date_sort()
+            order_ok=True
+            
+            if not self.test:
+                for ii, e in enumerate(self.new_order):
+                    if e != old_order[ii]: #change only from the moment it differs, afterwards everything must be ordered
+                        order_ok=False
+                    if not order_ok:
+                        key = e
+                        
+                self.team.delete_value(self.prop,self.listo[key].id,'race for sorting')
+                self.team.add_values(self.prop,self.listo[key].id,'race for sorting',True)
+
+            return 0, self.log     
+        except:
+            self.log.concat("General Error in date sorter")
+            return 10, self.log            
+        
+    def date_sort(self):
+        iimax = len(self.new_order) - 1
         for ii in range(iimax - 1):
             jjmax = iimax - ii
             table_sorted = True
             for jj in range(jjmax):
-                victoire1 = list_of_victories[new_order[jj]]
-                victoire2 = list_of_victories[new_order[jj + 1]]
+                victoire1 = self.listo[self.new_order[jj]]
+                victoire2 = self.listo[self.new_order[jj + 1]]
                 date1 = victoire1.date
                 date2 = victoire2.date
-                comparisonTemp = compare_dates(date1, date2)
-                if comparisonTemp == 1:  # bad order
-                    temp = new_order[jj]
-                    new_order[jj] = new_order[jj + 1]
-                    new_order[jj + 1] = temp
+                if date1.toTimestamp() > date2.toTimestamp():  # bad order
+                    temp = self.new_order[jj]
+                    self.new_order[jj] = self.new_order[jj + 1]
+                    self.new_order[jj + 1] = temp
                     table_sorted = False
             if table_sorted:
                 break
-        return new_order
-    
-    try:
-        log=Log()
-        item = pywikibot.ItemPage(repo, team_id)
-        item.get()
-        
-        list_of_races = []
-    
-        prop=checkprop(property_number)
-        if(prop in item.claims):
-            list_of_comprend = item.claims.get(prop)
-        else:
-            print("property for date sorting not found")
-        
-        list_of_qualifiers=['P580','P585','P582']
-        
-        for ii in range(len(list_of_comprend)): #ii needed below
-            this_item = list_of_comprend[ii].getTarget()
-            this_item.get()
-            
-            done=False
-            
-            for qual in list_of_qualifiers:
-                if qual in this_item.claims: 
-                     claim_temp = this_item.claims[qual]
-                     this_item_date = claim_temp[0].getTarget()
-                     done=True
-                     break
-                 
-            if done==False:
-                log.concat(this_item.labels['fr'] + u' has no date')
-                return 0
-            else:
-                this_race=Race(ii, this_item.labels['fr'], this_item.getID(),this_item_date)
-                list_of_races.append(this_race)
-    
-        new_order = [x for x in range(len(list_of_comprend))]
-        old_order = [x for x in range(len(list_of_comprend))]
-    
-        new_order = date_sort(list_of_races, new_order)
-        log.concat(new_order)
-        order_ok=True
-        
-        if not test:
-            for ii in range(len(new_order)):
-                if new_order[ii] != old_order[ii]: #change only from the moment it differs, afterwards everything must be ordered
-                    order_ok=False
-                if not order_ok:
-                    key = new_order[ii]
-                    id_item =  list_of_races[key].id_item
-            
-                    delete_value(
-                        pywikibot,
-                        repo,
-                        item,
-                        property_number,
-                        id_item,
-                        'race for sorting')
-                    add_multiple_value(
-                        pywikibot,
-                        repo,
-                        item,
-                        property_number,
-                        id_item,
-                        'race for sorting',
-                        1)
-        return 0, log     
-    except:
-        log.concat("General Error in date sorter")
-        return 10, log        
+        self.log.concat(self.new_order)
 
 #sort the family name of cyclists
-def check_if_team(item):
-    list_of_team_cat = [
-    "Q6154783", "Q20638319", "Q382927", "Q1756006", 
-    "Q23726798", "Q20738667", "Q28492441", "Q20639848", 
-    "Q20639847", "Q20652655", "Q20653563", "Q20653564",
-    "Q20653566", "Q2466826", "Q26849121", "Q78464255", 
-    "Q80425135", "Q53534649", "Q2466826"
-    ]
-    
-    team=False
-    if u'P31' in item.claims:
-        list_of_comprend = item.claims.get(u'P31')
-        for e in list_of_comprend:
-            if e.getTarget().getID() in list_of_team_cat:
-                team=True
-    return team
-            
-def name_sorter(pywikibot, site, repo, team_id, property_number, test):
-    try:
-        item = pywikibot.ItemPage(repo, team_id)
-        item.get()
-    
-        list_of_objects = []
-        list_of_names = []
-
-        log=Log()
-        team=check_if_team(item)
-        raceteam=False
-    
-        # Read the list of racers and correct their name
-        prop=checkprop(property_number)
-        if(prop in item.claims):
-            list_of_comprend = item.claims.get(prop)
-        else:
-            print("property for name sorting not found")
-        if prop ==u"P1923":
-            raceteam=True
-    
-        list_of_names = [[u'' for x in range(2)] for y in range(len(list_of_comprend))]
+class NameSorter(CyclingInitBot):
+    def __init__(self,team_id, prop,**kwargs):
+        super().__init__(**kwargs)
+        self.team=PyItem(id=team_id)
+        self.prop=prop     
         
-        for ii in range(len(list_of_comprend)):
-            this_item = list_of_comprend[ii].getTarget()
-            this_item.get()
-            this_label=get_label('fr', this_item)
-            if raceteam:
-                teamdate=''
-                this_object=Team(ii, this_label, this_item.getID(),teamdate,site=site, pywikibot=pywikibot)
-            elif team:
-                this_object=Cyclist(ii, this_label, this_item.getID())
+    def check_if_team(self):
+        list_of_team_cat = [
+        "Q6154783", "Q20638319", "Q382927", "Q1756006", 
+        "Q23726798", "Q20738667", "Q28492441", "Q20639848", 
+        "Q20639847", "Q20652655", "Q20653563", "Q20653564",
+        "Q20653566", "Q2466826", "Q26849121", "Q78464255", 
+        "Q80425135", "Q53534649", "Q2466826"
+        ]
+        
+        team=False
+        if u'P31' in self.team.item.claims:
+            list_of_comprend = self.team.item.claims.get(u'P31')
+            for e in list_of_comprend:
+                if e.getTarget().getID() in list_of_team_cat:
+                    team=True
+        return team
+        
+    def main(self):
+        try:
+            if(self.prop in self.team.item.claims):
+                list_of_comprend = self.team.item.claims.get(self.prop)
             else:
-                this_object=Race(ii, this_label, this_item.getID(),'',site=site, pywikibot=pywikibot)
-                
-            list_of_objects.append(this_object)
+                print("property for name sorting not found")
+            dic = {}
+            #list_of_names = [['' for x in range(2)] for y in list_of_comprend]
+            list_of_names=[]
+            
+            for e in list_of_comprend:
+                if self.prop =="P1923":
+                    o=Team(id=e.getTarget().getID())
+                elif self.check_if_team():
+                    o=Cyclist(id=e.getTarget().getID())
+                else:
+                    o=Race(id=e.getTarget().getID())
     
-            list_of_names[ii][0]=ii #remember original place
-            list_of_names[ii][1]=this_object.sortkey
-        
-        sorted_names = sorted(list_of_names, key=lambda tup: tup[1])    
-        log.concat('sorted list :')
-        log.concat(sorted_names)
-        order_ok=True
-        
-        list_of_qualifiers=['P580','P582']
-            
-        saved_qualifiers={}
-        # delete done later
-        if not test:
-            for ii in range(len(sorted_names)):
-                if sorted_names[ii] != list_of_names[ii]: #change only from the moment it differs, afterwards everything must be ordered
-                    order_ok=False
-                if not order_ok:
-                    key = sorted_names[ii][0]
-                    id_item =list_of_objects[key].id_item
-                    # delete the old one
-                    allclaims = item.claims[prop]
-                    claim = allclaims[0]
-            
-                    # Save the qualifiers
-                    for qual in list_of_qualifiers:
-                        if qual in claim.qualifiers:
+                dic[o.sortkey]=o
+              #  list_of_objects.append(o)
+                list_of_names.append(o.sortkey) #sortkey is generate automatically
+                
+            sorted_names = sorted(list_of_names, key=lambda tup: tup[0])    
+            self.log.concat('sorted list :')
+            self.log.concat(sorted_names)
+            order_ok=True
+
+            if not self.test:
+                for ii, name in enumerate(sorted_names):
+                    if name != list_of_names[ii]: #change only from the moment it differs, afterwards everything must be ordered
+                        order_ok=False
+                    if not order_ok:
+                        claim = self.team.item.claims[self.prop][0]
+                
+                        # Save the qualifiers
+                        saved_qualifiers={}
+                        for qual in claim.qualifiers:
                             saved_qualifiers[qual]=claim.qualifiers[qual][0].getTarget()
-                    
-                    delete_value(
-                        pywikibot,
-                        repo,
-                        item,
-                        property_number,
-                        id_item,
-                        'rider for sorting')
-                    add_multiple_value(
-                        pywikibot,
-                        repo,
-                        item,
-                        property_number,
-                        id_item,
-                        'rider for sorting',
-                        1)
-            
-                    for qual in list_of_qualifiers: 
-                        if qual in saved_qualifiers:
-                            this_qual = pywikibot.page.Claim(site, qual, isQualifier=True)
+                        
+                        self.team.delete_value(self.prop,dic[name].id,'rider for sorting')
+                        self.team.add_values(self.prop,dic[name].id,'rider for sorting',True)
+
+                        for qual in saved_qualifiers:
+                            this_qual = pywikibot.page.Claim(self.site, qual, isQualifier=True)
                             this_qual.setTarget(saved_qualifiers[qual])
-                            claim.addQualifier(this_qual)
-        return 0, log     
-    except Exception as msg:
-        print(msg)
-        log.concat("General Error in name sorter")
-        return 10, log   
-    except:     
-        log.concat("General Error in name sorter")
-        return 10, log   
+                            claim.addQualifier(this_qual) 
+            
+            return 0, self.log     
+        except Exception as msg:
+            _, _, exc_tb = sys.exc_info()
+            print("line " + str(exc_tb.tb_lineno))
+            print(msg)
+            self.log.concat("General Error in name sorter")
+            return 10, self.log   
+        except:     
+            self.log.concat("General Error in name sorter")
+            return 10, self.log   
+

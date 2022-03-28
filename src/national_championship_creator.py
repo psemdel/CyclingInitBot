@@ -4,350 +4,229 @@ Created on Thu Jan  4 15:30:20 2018
 
 @author: maxime delzenne
 """
-from .cycling_init_bot_low import (add_value, add_Qvalue, add_to_master, 
-search_item, teamCIOsearch, create_present, link_year)
-from .bot_log import Log
-import time
+import pywikibot
+from .base import CyclingInitBot, PyItem, create_item, Search
+from .data import cc_table
 
-def f(
-        pywikibot,
-        site,
-        repo,
-        team_table,
-        man_or_woman,
-        option,
-        start_year,
-        end_year,
-        CC, 
-        **kwargs):
-    
-    def national_championship_basic(
-        pywikibot,
-        repo,
-        item,
-        site,
-        id_master,
-        year,
-        country_code,
-        id_present,
-        CC):
-    
-        add_Qvalue(pywikibot, repo, item, "P31", id_master, u'Nature')
-        add_Qvalue(pywikibot, repo, item, "P641", "Q3609", u'cyclisme sur route')
-        add_to_master(pywikibot,site,repo,id_present,id_master)
+class NationalChampionshipCreator(CyclingInitBot):
+    def __init__(self,man_or_woman,option, start_year,end_year,CC,**kwargs):
+        super().__init__(**kwargs)
         
-        if CC==False:
-            id_allchamp = search_item(
-                pywikibot,
-                site,
-                u'Championnats nationaux de cyclisme sur route en ' +
-                str(year))
-            if (id_allchamp == u'Q0')or(id_allchamp == u'Q1'):  
-                print(u'Championnats nationaux de cyclisme sur route en ' +
-                str(year)+' not found')
+        self.CC=CC
+        self.country=kwargs.get('country',False)
+        self.start_year=start_year
+        self.end_year=end_year
+        
+        if option == 'clmoff':
+            self.clm = False
+        else:
+            self.clm = True
+
+        if man_or_woman in ["woman","man","womanU","manU","womanJ","manJ"]:
+            self.gender_list=[man_or_woman]
+        elif man_or_woman == u"both":   
+            self.gender_list=["woman","man"]    
+        elif man_or_woman == u"all": 
+            self.gender_list=["woman","man","womanU","manU","womanJ","manJ"]    
+        else:
+            self.gender_list=["woman"]   
+
+        if CC:
+            self.race_dic={
+            "man":{"road race":"Road race man",
+                   "clm":"Clm man"                     
+                   },
+            "woman":{"road race":"Road race woman",
+                   "clm":"Clm woman"                       
+                   }
+            }
+        else:
+            self.race_dic={
+            "man":{"road race":"Road race man",
+                   "clm":"Clm man"                     
+                   },
+            "woman":{"road race":"Road race woman",
+                   "clm":"Clm woman"                       
+                   },
+            "manU":{"road race":"Road race man U23",
+                   "clm":"Clm man U23"                     
+                   },
+            "womanU":{"road race":"Road race woman U23",
+                   "clm":"Clm woman U23"                       
+                   },               
+            "manJ":{"road race":"Road race man U19",
+                   "clm":"Clm man U19"                     
+                   },
+            "womanJ":{"road race":"Road race woman U19",
+                   "clm":"Clm woman U19"                       
+                   },
+            }
+ 
+    def main(self):
+        try:
+            if self.CC:
+                for _, e in cc_table.load():
+                    self.sub_function(None,e)
+                #load CC table
+            if self.country:
+                if self.country not in self.nation_table:
+                    self.log.concat("master of the team not found, contact the Webmaster")
+                    return 10, self.log
+            
+                self.sub_function(self.country,self.nation_table[self.country])
+            else:
+                for countryCIO, e in self.nation_table:
+                    if e["group"] in [1,2]:
+                        self.sub_function(countryCIO,e)
+                    
+            return 0, self.log
+        except Exception as msg:
+            print(msg)
+            self.log.concat("General Error in national team creator")
+            return 10, self.log
+        except:
+            self.log.concat("General Error in national team creator")
+            return 10, self.log  
+        
+    def national_championship_basic(self,countryCIO,year):
+        self.pyNatChamp.add_value("P31", self.id_NatChampMaster, u'Nature')
+        self.pyNatChamp.add_value("P641", "Q3609", u'cyclisme sur route')
+        
+        pyItem_master=PyItem(id=self.id_NatChampMaster)
+        pyItem_master.add_value("P527",self.pyNatChamp.id,'add new year')
+
+        if not self.CC:        
+            s=Search('Championnats nationaux de cyclisme sur route en ' +  str(year))
+            id_allchamp = s.simple()
+            if (id_allchamp == u'Q0') or (id_allchamp == u'Q1'):  
+                self.log.concat(u'Championnats nationaux de cyclisme sur route en ' + str(year)+' not found')
+                print(u'Championnats nationaux de cyclisme sur route en ' + str(year)+' not found')
                 return 1
             else:
-                add_Qvalue(pywikibot, repo, item, "P361", id_allchamp, u'part of')
-                add_to_master(pywikibot,site,repo,id_present,id_allchamp)
-            add_Qvalue(pywikibot, repo, item, "P17", country_code, u'country')
+                self.pyNatChamp.add_value("P361", id_allchamp, u'part of')
+                pyItem_allchamp=PyItem(id=id_allchamp)
+                pyItem_allchamp.add_value("P527",self.pyNatChamp.id,'add new year')
+            self.pyNatChamp.add_value("P17", countryCIO, u'country')
+            
+        self.pyNatChamp.link_year(year,id_master=self.id_NatChampMaster)            
         return 0
+    
+    def national_championship_race_label(self, e, year,m_or_w,enligne):
+       dic_adj_enligne = {"man":'masculine',
+                          'woman':'féminine',
+                          'manU':'masculine espoirs',
+                          'womanU':'féminine espoirs',
+                          'manJ':'masculine juniors',
+                          'womanJ':'féminine juniors'    
+                          }
+       dic_adj_clm=      {"man":'masculin',
+                          'woman':'féminin',
+                          'manU':'masculin espoirs',
+                          'womanU':'féminin espoirs',
+                          'manJ':'masculin juniors',
+                          'womanJ':'féminin juniors'    
+                          }
+       
+       if enligne:
+           firstword=u"Course en ligne "
+           adj=dic_adj_enligne[m_or_w]
+       else:
+           firstword= u"Contre-la-montre "
+           adj=dic_adj_clm[m_or_w]
+           
+       return {'fr': firstword + adj + " aux championnats " + e["genre"]+\
+               e["name fr"] + " de cyclisme sur route " + str(year)
+              }
 
-    def national_championship_race_basic(
-            pywikibot,
-            repo,
-            item,
-            site,
-            id_champ,
-            id_master,
-            country_code,
-            year,
-            id_race,
-            enligne, 
-            CC,
-            man_or_woman):
-        
-        add_Qvalue(pywikibot, repo, item, "P31", id_master, u'Nature')
-        add_Qvalue(pywikibot, repo, item, "P641", "Q3609", u'cyclisme sur route')
-        add_to_master(pywikibot,site,repo,id_race,id_master)
-        add_to_master(pywikibot,site,repo,id_race,id_champ)
-        
-        if(u'P585' not in item.claims):
-            claim = pywikibot.Claim(repo, u'P585')  # date
+    def national_championship_race_basic(self,pyItem,id_race,year,m_or_w,enligne,countryCIO): #id_race is for instance course en ligne...without year
+            pyItem.add_value("P31", self.pyNatChamp.id, 'Nature')
+            pyItem.add_value("P641", "Q3609", 'cyclisme sur route')
+            self.pyNatChamp.add_value("P527",pyItem.id,'add new year')
+            pyItem.add_value("P361", id_race, u'part of')
+            
+            pyItemRace=PyItem(id=id_race)
+            pyItemRace.add_value("P527",pyItem.id,'add new year')
+
             date = pywikibot.WbTime(
-                site=site,
+                site=self.site,
                 year=year,
                 month=1,
                 day=1,
                 precision='day')
-            claim.setTarget(date)
-            item.addClaim(claim, summary=u'Adding date')
-        
-        Addc = 1
-        list_of_nature = item.claims.get(u'P31')
-    
-        if CC:
-            if id_master == 934877 or id_master == 2630733:
-                item_to_add = pywikibot.ItemPage(repo, u'Q23015458')  # CDM
-            else:
-                item_to_add = pywikibot.ItemPage(repo, u'Q22231118')  # CC
-        else:
-            item_to_add = pywikibot.ItemPage(repo, u'Q22231119')  # CN
-        
-        for ii in range(len(list_of_nature)):
-            if list_of_nature[ii].getTarget() == item_to_add:  # Already there
-                Addc = 0
-                print('Item already in the Master list')
-    
-        if Addc == 1:
-            claim = pywikibot.Claim(repo, u'P31')
-            target = item_to_add  # pywikibot.ItemPage(repo, u'Q22231119')
-            claim.setTarget(target)
-            item.addClaim(claim, summary=u'Adding CN')
-    
-    
-        if CC==False:
-            if man_or_woman==u"woman":
-                if enligne:
-                    label = u'Course en ligne féminine aux championnats nationaux de cyclisme sur route ' + \
-                        str(year)
+            pyItem.add_value('P585',date,'Adding date',date=True)
+            pyItem.link_year(year,id_master=id_race)   
+            
+            if self.CC:
+                if self.pyNatChamp.id in ["Q934877","Q2630733"]:
+                    item_to_add = 'Q23015458'  # CDM
                 else:
-                    label = u'Contre-la-montre féminin aux championnats nationaux de cyclisme sur route ' + \
-                        str(year)
+                    item_to_add = 'Q22231118'  # CC
             else:
-                if enligne:
-                    label = u'Course en ligne masculine aux championnats nationaux de cyclisme sur route ' + \
-                        str(year)
-                else:
-                    label = u'Contre-la-montre masculin aux championnats nationaux de cyclisme sur route ' + \
-                        str(year)
-            id_allchamp = search_item(pywikibot, site, label)
-            if (id_allchamp == u'Q0')or(id_allchamp == u'Q1'):
-                print(label+' not found')
-                return 1
+                item_to_add = 'Q22231119' # CN
+
+            pyItem.add_value("P31",item_to_add,'Adding CN')
+            
+            if enligne:
+                dic ={'woman': "Course en ligne féminine",
+                      'man': "Course en ligne masculine"
+                             }     
             else:
-                add_to_master(pywikibot,site,repo,id_race,id_allchamp)
-        
-            add_Qvalue(pywikibot, repo, item, "P361", id_champ, u'part of')
-            add_Qvalue(pywikibot, repo, item, "P17", country_code, u'country')
-        return 0
-        
-    def national_championship_label(team_table, kk, year, english):
-        # input
-        country_fr = team_table[kk][1]
-        genre_fr = team_table[kk][2]
-    
-        # declaration
-        mylabel = {}
-        label_part1_fr = u"Championnats"
-        label_part2_fr = u"de cyclisme sur route"
-        mylabel[u'fr'] = label_part1_fr + " " + genre_fr + \
-            country_fr + " " + label_part2_fr + " " + str(year)
-    
-        if english!=False:
-            countryadj_en = team_table[kk][6]
-            label_part2_en = u"National Road Race Championships"
-            mylabel[u'en'] = str(year) + " " + countryadj_en + " " + label_part2_en
-        return mylabel
-    
-    def national_championship_race_label(team_table, kk, year, man_or_woman,enligne):
-        # input
-        country_fr = team_table[kk][1]
-        genre_fr = team_table[kk][2]
-        
-        if enligne:
-            firstword=u"Course en ligne "
-            if man_or_woman == u'man':
-                adj = u'masculine'
-            elif man_or_woman == u'woman':
-                adj = u'féminine'
-            elif man_or_woman == u'manU':
-                adj = u'masculine espoirs'
-            elif man_or_woman == u'womanU':
-                adj = u'féminine espoirs'    
-            elif man_or_woman == u'manJ':
-                adj = u'masculine juniors'
-            elif man_or_woman == u'womanJ':
-                adj = u'féminine juniors'    
-        else:
-            firstword= u"Contre-la-montre "
-            if man_or_woman == u'man':
-                adj = u'masculin'
-            elif man_or_woman == u'woman':
-                adj = u'féminin'
-            elif man_or_woman == u'manU':
-                adj = u'masculin espoirs'
-            elif man_or_woman == u'womanU':
-                adj = u'féminin espoirs'    
-            elif man_or_woman == u'manJ':
-                adj = u'masculin juniors'
-            elif man_or_woman == u'womanJ':
-                adj = u'féminin juniors'        
+                dic ={'woman': "Contre-la-montre féminin",
+                      'man': "Contre-la-montre masculin"
+                     }  
+
+            if not self.CC:
+                pyItem.add_value("P17", countryCIO, u'country')
                 
-        # declaration
-        mylabel = {}
-        
-        label_part1_fr =  firstword + adj + " aux championnats"
-        label_part2_fr = u"de cyclisme sur route"
-        mylabel[u'fr'] = label_part1_fr + " " + genre_fr + \
-            country_fr + " " + label_part2_fr + " " + str(year)
-        return mylabel
-    
-    #Main function
-    try:
-        if CC:
-            kkinit =1
-            endkk= len(team_table)
-        else:
-            country=kwargs.get('country',False)
-            if country:
-                kkinit = teamCIOsearch(team_table, country)
-                endkk = kkinit+1
-            else:
-                kkinit =1
-                endkk= len(team_table)
+                s=Search(dic[m_or_w]+" aux championnats nationaux de cyclisme sur route " + str(year))
+                id_allchamp = s.simple()
+                pyItem_allchamp=PyItem(id=id_allchamp)
+                
+                if (id_allchamp == u'Q0')or(id_allchamp == u'Q1'):
+                    self.log(dic[m_or_w]+' not found')
+                    print(dic[m_or_w]+' not found')
+                    return 1
+                else:
+                    pyItem_allchamp=PyItem(id=id_allchamp)
+                    pyItem_allchamp.add_value("P527",pyItem.id,'add new year')
+            return 0
+
+    def sub_function(self, countryCIO, e):
+        for m_or_w in self.gender_list:    
+            self.log.concat( "championships creation for gender: " + m_or_w)
+            self.id_NatChampMaster=e["National championship master"]
             
-        if option == 'clmoff':
-            clm = False
-        else:
-            clm = True
-        
-        gender_dic=["woman","man","womanU","manU","womanJ","manJ"] 
-        
-        if man_or_woman in gender_dic:
-            gender_dic=[man_or_woman]
-        elif man_or_woman == u"both":   
-            gender_dic=["woman","man"]    
-        elif man_or_woman == u"all": 
-            gender_dic=["woman","man","womanU","manU","womanJ","manJ"]    
-        else:
-            gender_dic=["woman"]
-            
-           
-        log=Log()    
-        for m_or_w in gender_dic:
-            log.concat( "championships creation for gender: " + m_or_w)
-            for kk in range(kkinit, endkk):  
-                group = team_table[kk][8]
-                if CC or (group == 1 or group == 2):
-                    if CC:
-                        id_master=team_table[kk][3]
-                        country_code=0
-                        if m_or_w == u"man":
-                            index_road_race= 6
-                            index_clm_race= 7
-                        elif m_or_w==u"woman":
-                            index_road_race= 4
-                            index_clm_race= 5
-                    else:
-                        id_master=team_table[kk][9]
-                        country_code= team_table[kk][3]
-                        if m_or_w == u"man":
-                            index_road_race= 12
-                            index_clm_race= 13
-                        elif m_or_w==u"woman":
-                            index_road_race= 10
-                            index_clm_race= 11
-                        elif m_or_w==u"womanU":
-                            index_road_race= 18
-                            index_clm_race= 19
-                        elif m_or_w==u"womanJ":    
-                            index_road_race= 20
-                            index_clm_race= 21
-                        elif m_or_w==u"manU":
-                            index_road_race= 22
-                            index_clm_race= 23
-                        elif m_or_w==u"manJ":
-                            index_road_race= 24
-                            index_clm_race= 25
-                    
-                    log.concat( "championships creation for country: Q" + str(country_code))
-                    
-                    for year in range(start_year, end_year+1):
-                        print(year)
-                        log.concat( "championships creation for year: " + str(year))    
-                        # Create the championship
-                        mylabel = {}
-                        english=True
-                        if CC:
-                            english=False
+            for year in range(self.start_year, self.end_year+1):
+                self.log.concat( "championships creation for year: " + str(year))
+                mylabel={"fr": "Championnats " + e["genre"] + e["country"] + \
+                        " de cyclisme sur route " + str(year)
+                }
+                if not self.CC: #no english for CC
+                    mylabel[u'en'] = str(year) + " " + e["adj en"] + " National Road Race Championships"
+                self.pyNatChamp=create_item(mylabel)
+                
+                ##create championship
+                if self.pyNatChamp.id!='Q1': 
+                    r=self.national_championship_race_basic(countryCIO,year)
+                    if r==1:
+                        self.log.concat(u'Code interrupted')
+                        return 10, self.log
+                
+                for k in ["road race","clm"]:
+                    key= self.race_dic[m_or_w][k]
+                    if key in e:
+                        mylabel_race =self.national_championship_race_label(e, year,m_or_w,k=="road race")
+                        pyItemRace=create_item(mylabel_race)
                         
-                        mylabel = national_championship_label(team_table, kk, year,english)
-                        id_present, item=create_present(pywikibot, site,repo, mylabel)
-        
-                        if id_present!='Q1':
-                            res=national_championship_basic(
-                                pywikibot,
-                                repo,
-                                item,
-                                site,
-                                id_master, #champ of one country
-                                year,
-                                country_code,
-                                id_present,
-                                CC)
-                            if res==1:
-                                log.concat(u'Championnats nationaux de cyclisme sur route en ' + str(year)+' not found')
-                                log.concat(u'Code interrupted')
-                                return 10, log
-                                
-                            link_year(pywikibot, site,repo, id_present, year,id_master=id_master)
+                        if self.pyItemEnLigne.id!='Q1':
+                            r=self.national_championship_race_basic(
+                                 pyItemRace,
+                                 e[key],
+                                 year,
+                                 m_or_w,
+                                 k=="road race",
+                                 countryCIO)
+                            if r==1:
+                                self.log.concat(u'Code interrupted')
+                                return 10, self.log
 
-                            # Create the road race
-                            if team_table[kk][index_road_race] != 0:
-                                mylabel_enligne =  national_championship_race_label(
-                                        team_table, kk, year, m_or_w,True)
-                                id_enligne_present, item_enligne=create_present(pywikibot, site,repo,mylabel_enligne)
-                                
-                                if id_enligne_present!=u'Q1':
-                                    res=national_championship_race_basic(
-                                        pywikibot,
-                                        repo,
-                                        item_enligne,
-                                        site,
-                                        id_present,
-                                        team_table[kk][index_road_race],
-                                        country_code,
-                                        year,
-                                        id_enligne_present,
-                                        True, 
-                                        CC,
-                                        m_or_w)
-                                    if res==1:
-                                        log.concat(u'Course en ligne masculine/féminine de cyclisme sur route en ' + str(year)+' not found')
-                                        log.concat(u'Code interrupted')
-                                        return 10, log
-                                    link_year(pywikibot, site,repo, id_enligne_present, year,id_master=team_table[kk][index_road_race])
-
-                            # Create the Clm
-                            if clm and team_table[kk][index_clm_race] != 0:
-                                mylabel_clm =  national_championship_race_label(
-                                        team_table, kk, year, m_or_w,False)
-                                id_clm_present, item_clm=create_present(pywikibot, site,repo,mylabel_clm)
-        
-                                if id_clm_present!=u'Q1':
-                                    res=national_championship_race_basic(
-                                        pywikibot,
-                                        repo,
-                                        item_clm,
-                                        site,
-                                        id_present,
-                                        team_table[kk][index_clm_race],
-                                        country_code,
-                                        year,
-                                        id_clm_present,
-                                        False, 
-                                        CC,
-                                        m_or_w)
-                                    if res==1:
-                                        log.concat(u'Contre-la-montre masculin/féminin de cyclisme sur route en ' + str(year)+' not found')
-                                        log.concat(u'Code interrupted')
-                                        return 10, log
-                                    link_year(pywikibot, site,repo, id_clm_present, year,id_master=team_table[kk][index_clm_race])
-        return 0, log
-    except Exception as msg:
-        print(msg)
-        log.concat("General Error in national team creator")
-        return 10, log
-    except:
-        log.concat("General Error in national team creator")
-        return 10, log

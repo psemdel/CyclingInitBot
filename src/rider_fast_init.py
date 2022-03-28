@@ -5,89 +5,58 @@ Created on Tue Dec 17 23:05:33 2019
 
 @author: maxime
 """
-#from  import cycling_init_bot_low
-#from Bot import cycling_init_bot_low
-from .cycling_init_bot_low import (search_rider,  teamCIOsearch, create_item, 
-                                   add_Qvalue)
+from .base import CyclingInitBot, create_item
 
-from .bot_log import Log
-from .data.language_list  import load 
-all_langs=load()
-                             
-def f(
-        pywikibot,
-        site,
-        repo,
-        team_table,
-        name,
-        CountryCIO,
-        man_or_woman):
-    
-    def create_fr_description(CountryCIO,team_table,man_or_woman):
-        mydescription = {}
-        adj=u''
-        for ii in range(len(team_table)):
-            if team_table[ii][7] == CountryCIO:
-                if man_or_woman==u'man':
-                    adj = team_table[ii][17]
-                else:
-                    adj = team_table[ii][16]
-                break
-        if man_or_woman==u'man':
-            mydescription['fr'] = 'coureur cycliste ' + adj
-        else:   
-            mydescription['fr'] = 'coureuse cycliste ' + adj
-        return mydescription
-    
-    try:
-        print("rider_fast_init")
-        verbose=True
-        log=Log()
-        mydescription=create_fr_description(CountryCIO,team_table,man_or_woman)
+class RiderFastInit(CyclingInitBot):
+    def __init__(self,name, countryCIO, man_or_woman, **kwargs):
+        super().__init__(**kwargs)
+        self.countryCIO=countryCIO
+        self.man_or_woman=man_or_woman
+        self.label = {}
 
-        label = {}
-        label['fr'] = name
-        label['en'] = name
-                
-        for lang in all_langs:
-            label[lang] = label[u'fr']
-            
-   
-        ## kkinit=teamCIOsearch(team_table, u'NAM')
-        kk = teamCIOsearch(team_table, CountryCIO)
-        id_rider = search_rider(pywikibot, site, repo,name,'','')
-            
-        if (id_rider == u'Q0'):  # no rider with this name
-            #crash here
-            id_rider = create_item(pywikibot, site, label)
-            log.concat("new id rider")
-            log.concat(id_rider)
-            item = pywikibot.ItemPage(repo, id_rider)
-            item.get()
-            
-            item.editDescriptions(mydescription,
-                                  summary=u'Setting/updating descriptions.')
-            add_Qvalue(pywikibot, repo, item, "P31", "Q5", u'nature')
-            if man_or_woman==u'man':
-                add_Qvalue(pywikibot, repo, item, "P21", "Q6581097", u'genre')
-            else:
-                add_Qvalue(pywikibot, repo, item, "P21", "Q6581072", u'genre')
-            add_Qvalue(
-                pywikibot,
-                repo,
-                item,
-                "P27",
-                team_table[kk][3],
-                u'nationality')
-            add_Qvalue(pywikibot, repo, item, "P106", "Q2309784", u'cyclist')
+        #same name for all latin languages
+        for lang in self.all_langs:
+            self.label[lang] = name
+        
+    def create_fr_description(self):
+        if self.man_or_woman==u'man':
+            mydescription={'fr': 'coureur cycliste '+\
+                                        self.nation_table[self.countryCIO]['adj fr man'] or ''}
         else:
-            log.concat("AlreadyThere with id " +id_rider)
-            return 1, log, "Q1"
-        return 0, log, id_rider
-    except Exception as msg:
-        print(msg)
-        log.concat("General Error in rider_fast_init")
-        return 10, log, "Q1"
-    except:
-        log.concat("General Error in rider_fast_init")
-        return 10, log, "Q1"
+            mydescription={'fr': 'coureuse cycliste '+\
+                                        self.nation_table[self.countryCIO]['adj fr woman'] or ''}
+        self.pyItem.item.editDescriptions(mydescription,
+                              summary=u'Setting/updating descriptions.')
+
+    def main(self):
+        try:
+            print("rider_fast_init")
+        
+            self.pyItem=create_item(self.label)
+            if self.pyItem is not None:
+                self.log.concat("rider id: "+ self.pyItem.id)
+                self.create_fr_description()
+                
+                self.pyItem.add_value("P31", "Q5", u'nature')
+                
+                if self.man_or_woman==u'man':
+                    genre="Q6581072"
+                else:
+                    genre="Q6581097"
+                self.pyItem.add_value("P21", genre, u'genre')
+                self.pyItem.add_value("P27",
+                                       self.nation_table[self.countryCIO]["country"], 
+                                       u'nationality')
+                self.pyItem.add_value("P106", "Q2309784", u'cyclist')
+            else:
+                self.log.concat("AlreadyThere several instance of this item")
+                return 1, self.log, "Q1"
+            return 0, self.log, self.pyItem.id
+        
+        except Exception as msg:
+            print(msg)
+            self.log.concat("General Error in rider_fast_init")
+            return 10, self.log, "Q1"
+        except:
+            self.log.concat("General Error in rider_fast_init")
+            return 10, self.log, "Q1"

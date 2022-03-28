@@ -3,169 +3,80 @@ Created on Thu Jan  4 15:28:39 2018
 
 @author: psemdel
 """
-from .cycling_init_bot_low import (add_multiple_value, add_value, add_Qvalue,
-add_to_master,
-get_description, get_alias, create_present, CIOtoIDsearch, link_year)                                  
-from .bot_log import Log
-from .data.language_list  import load 
-all_langs=load()
+import pywikibot
+from .base import CyclingInitBot, PyItem, create_item
 
-def f(
-        pywikibot,
-        site,
-        repo,
-        team_table,
-        nation_table,
-        team_dic,
-        year,
-        **kwargs):
-    
-    def team_alias(team_table, kk, year, team_dic):
-        # input
-        alias = {}
-        if team_table[kk][team_dic['UCIcode']] != u'':
-            alias['fr'] = [team_table[kk][team_dic['UCIcode']] + u" " + str(year)]  # UCI code + year
-            alias['en'] =  alias['fr']
-            for lang in all_langs:
-                alias[lang] = alias[u'fr']
-            
-        return alias
-
-    def team_basic(
-            pywikibot,
-            repo,
-            item,
-            siteIn,
-            team_name,
-            country_code,
-            year,
-            id_master,
-            id_present,
-            UCI_code,
-            category_id
-            ):
-        # No need for the table here
-    
-        if UCI_code != u"":
-            #add_value(pywikibot, repo, item, 31, 2466826, u'Nature')
-            add_value(pywikibot, repo, item, "P1998", UCI_code, u'UCI code')
-       # else:
-            #add_value(pywikibot, repo, item, 31, 26849121, u'Nature')
-        if category_id is not None:
-            add_multiple_value(pywikibot, repo, item, "P31", category_id, u'Category', 0)
-        add_multiple_value(pywikibot, repo, item, "P31", "Q53534649", u'Season', 0)
-
-        add_Qvalue(pywikibot, repo, item, "P641", "Q3609", u'cyclisme sur route')
-    
-        add_Qvalue(pywikibot, repo, item, "P17", country_code, u'country')
-        add_Qvalue(pywikibot, repo, item, "P361", id_master, u'part of')
-        add_Qvalue(pywikibot, repo, item, "P5138", id_master, u'part of')
-        add_to_master(pywikibot,site,repo,id_present,id_master)
-    
-        if(u'P580' not in item.claims):
-            claim = pywikibot.Claim(repo, u'P580')  # date de début
-            startdate = pywikibot.WbTime(
-                site=siteIn,
-                year=year,
-                month=1,
-                day=1,
-                precision='day')
-            claim.setTarget(startdate)
-            item.addClaim(claim, summary=u'Adding starting date')
-    
-        if(u'P582' not in item.claims):
-            claim = pywikibot.Claim(repo, u'P582')  # date de fin
-            enddate = pywikibot.WbTime(
-                site=siteIn,
-                year=year,
-                month=12,
-                day=31,
-                precision='day')
-            claim.setTarget(enddate)
-            item.addClaim(claim, summary=u'Adding ending date')
-    
-        if(u'P1448' not in item.claims):
-            claim = pywikibot.Claim(repo, u'P1448')  # nom officiel
-            official_name = pywikibot.WbMonolingualText(
-                text=team_name, language='fr')
-            claim.setTarget(official_name)
-            item.addClaim(claim, summary=u'Adding official name')
-    
-    
-    def team_intro(item, team_table, kk, year, team_dic):
-        item.get()
-        if get_description('fr', item) == '':
-            mydescription = team_description(team_table, kk, year)
-            item.editDescriptions(mydescription,
-                                  summary=u'Setting/updating descriptions.')
-    
-        if get_alias('fr', item) == '':
-            myalias = team_alias(team_table, kk, year, team_dic)
-            item.editAliases(aliases=myalias, summary=u'Setting Aliases')
-    
-    def team_label(team_table, kk, year):
-        # declaration
-        mylabel = {}
-    
-        # Teamlabel_fr
-        mylabel[u'fr'] = team_table[kk][1] + " " + str(year)
-        mylabel[u'en'] = mylabel[u'fr']
+class TeamCreator(CyclingInitBot):
+    def __init__(self,name,id_master,countryCIO,UCIcode,year,**kwargs):
+        super().__init__()
+        self.name=name
+        self.id_master=id_master
+        self.countryCIO=countryCIO
+        self.UCIcode=UCIcode
+        self.year=year
+        self.category_id=kwargs.get("category_id",None)
+        self.label={}
+        self.alias={}
         
-        for lang in all_langs:
-            mylabel[lang] = mylabel[u'fr']
-        # Teamlabel_en
-        return mylabel
-    
-    def team_description(team_table, kk, year):
-        # declaration
-        mydescription = {}
-    
-        # mydescription_fr
-        description_part1_fr = u'Saison'
-        description_part2_fr = u"de l'équipe cycliste"
-        mydescription[u'fr'] = description_part1_fr + " " + \
-            str(year) + " " + description_part2_fr + " " + team_table[kk][1]
-        return mydescription
-    
-    try:
-        kkinit = 1
-        endkk=len(team_table)
-        log=Log()
-        category_id=kwargs.get("category_id",None)
+        for lang in self.all_langs:
+            self.label[lang] = self.name + " " + str(self.year)
+            self.alias[lang] = self.UCIcode + " "   + str(self.year)
         
-        if True:
-            for kk in range(kkinit, endkk): 
-                if team_table[kk][team_dic['active']] == 1:
+    def main(self):
+        try:
+            pyItem=create_item(self.label)
+            if pyItem is not None:
+                self.log.concat("team id: "+ pyItem.id)
+                description={'fr':'Saison ' + str(self.year) +" de l'équipe cycliste" + self.name}
+                pyItem.item.editDescriptions(description,
+                                      summary='Setting/updating descriptions.')
+                
+                if pyItem.item.get_alias('fr')=='':
+                    pyItem.item.editAliases(aliases=self.alias, summary='Setting Aliases')
+                
+                if self.UCIcode:
+                    pyItem.add_value( "P1998", self.UCIcode, 'UCI code',noId=True)
+                
+                if self.category_id:
+                    pyItem.add_values("P31", self.category_id, 'Category', False)
+                pyItem.add_values("P31", "Q53534649", 'Season', False)
+                pyItem.add_value("P641", "Q3609", 'cyclisme sur route')
+                pyItem.add_value("P17", self.countryCIO, 'country')
+                pyItem.add_value("P361", self.id_master, 'part of')
+                pyItem.add_value("P5138", self.id_master, 'part of')
+                pyItem_master=PyItem(id=self.id_master)
+                pyItem_master.add_value("P527",pyItem.id,'new season')
+                
+                start_date = pywikibot.WbTime(
+                    site=self.site,
+                    year=self.year,
+                    month=1,
+                    day=1,
+                    precision='day')
+                end_date = pywikibot.WbTime(
+                    site=self.site,
+                    year=self.year,
+                    month=12,
+                    day=31,
+                    precision='day')
+                
+                pyItem.add_value("P580",start_date,'Adding starting date',date=True)
+                pyItem.add_value("P582",end_date,'Adding ending date',date=True)
+                
+                official_name = pywikibot.WbMonolingualText(text=self.name, language='fr')
+                pyItem.add_value('P1448',official_name,'Adding official name',noId=True)
+                pyItem.link_year(self.year,id_master=self.id_master)
+
+            return 0, self.log, pyItem.id
+        except Exception as msg:
+            print(msg)
+            self.log.concat("General Error in team creator")
+            return 10, self.log, "Q1"
+        except:
+            self.log.concat("General Error in team creator")
+            return 10, self.log, "Q1"
     
-                    mylabel = {}
-                    mylabel = team_label(team_table, kk, year)
-                    id_present, item=create_present(pywikibot, site,repo,mylabel)
-                    
-                    if id_present!=u'Q1':
-                        log.concat("team id: " + id_present)
-                        team_intro(item, team_table, kk, year, team_dic)
-                        team_basic(
-                            pywikibot,
-                            repo,
-                            item,
-                            site,
-                            team_table[kk][team_dic['name']],
-                            CIOtoIDsearch(
-                                nation_table,
-                                team_table[kk][team_dic['country']]),
-                            year,
-                            team_table[kk][team_dic['master']],
-                            id_present,
-                            team_table[kk][team_dic['UCIcode']],
-                            category_id
-                            )
-                         # Link the other to the new item
-                        link_year(pywikibot, site,repo, id_present, year,id_master=team_table[kk][team_dic['master']])
-        return 0, log, id_present
-    except Exception as msg:
-        print(msg)
-        log.concat("General Error in team creator")
-        return 10, log, "Q1"
-    except:
-        log.concat("General Error in team creator")
-        return 10, log, "Q1"
+
+    
+
+
