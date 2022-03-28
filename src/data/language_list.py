@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 def load():
-    #no fr and en  managed already
-    return ["aa", "ab", "ace", "aeb-latn", "af", "ak", "aln", 
+
+    return [ "fr", "en",
+            "aa", "ab", "ace", "aeb-latn", "af", "ak", "aln", 
             "an", "ang", "arn", 
             "ary", "arz", "ast", "atj", 
             "av", "avk", "ay", "az",  

@@ -5,527 +5,485 @@ Created on Thu Jan  4 13:23:59 2018
 @author: maxime delzenne
 """
 
-
 def load():
-    # For Europa
-    team_table = [[0 for x in range(40)] for y in range(200)]
+    dic={}
 
-    # Item 1 = Country name fr
-    # Item 2 = genre
-    # Item 3= Element of the country
-    # Item 4= Element of the master for the team women
-    # Item 5= Country name en
-    # Item 6= Country adjective en
-    # Item 7= CIO code
-    # Item 8= Importance group of the country
-    # Item 9= National championship master
-    # item 10= Road race woman
-    # item 11= Clm woman
-    # item 12 = Road race man
-    # item 13 = Clm man
-    # item 14= Element of the master for the team men
-    # item 15= Country name es
-    # item 16= fr adjective for women
-    # item 17= fr adjective for men
-    # item 18= Road race woman U23
-    # item 19= Clm woman U23
-    # item 20= Road race woman junior
-    # item 21= Clm woman junior
-    # item 22 = Road race man U23
-    # item 23 = Clm man U23
-    # item 24 = Road race man junior
-    # item 25 = Clm man junior
-    # item 26 = es article (normally nothing)
-    # item 27 = Element of the master for the team women U23
-    # item 28 = Element of the master for the team men U23
-    # item 29 = Element of the master for the team women U19
-    # item 30 = Element of the master for the team men U19
-    # item 31 = Element of the master for the team all categories
-    kk = 0
-
-    team_table[kk][1] = u'Afghanistan'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 889
-    team_table[kk][4] = 43092098
-    team_table[kk][5] = u'Afghanistan'
-    team_table[kk][6] = u'Afghan'
-    team_table[kk][7] = u'AFG'
-    team_table[kk][8] = 3
-    team_table[kk][15] =u"Afganistán"
-    team_table[kk][16] =u'afghane'
-    team_table[kk][17] =u'afghan'
-    kk += 1
-
-    team_table[kk][1] = u'Albanie'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 222
-    team_table[kk][4] = 42606434
-    team_table[kk][5] = u'Albania'
-    team_table[kk][6] = u'Albanian'
-    team_table[kk][7] = u'ALB'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 2954296
-    team_table[kk][14] = 35541706
-    team_table[kk][15] = u'Albania'
-    team_table[kk][16] =u'albanaise'
-    team_table[kk][17] =u'albanais'
-    team_table[kk][27] =99642457
-    team_table[kk][28] =99641920
-    team_table[kk][29] =99646155
-    team_table[kk][30] =99642902
-    team_table[kk][31] =99646695
-    kk += 1
-
-    team_table[kk][1] = u'Algérie'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 262
-    team_table[kk][4] = 43092189
-    team_table[kk][5] = u'Algeria'
-    team_table[kk][6] = u'Algerian'
-    team_table[kk][7] = u'ALG'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 2954297
-    team_table[kk][10] = 66082905
-    team_table[kk][11] = 66082384
-    team_table[kk][14] = 22106643
-    team_table[kk][15] = u'Argelia'
-    team_table[kk][16] =u'algérienne'
-    team_table[kk][17] =u'algérien'
-    team_table[kk][27] =99642513
-    team_table[kk][28] =99641855
-    team_table[kk][29] =99646211
-    team_table[kk][30] =99642961
-    team_table[kk][31] =86989084
-    kk += 1
-
-    team_table[kk][1] = u'Andorre'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 228
-    team_table[kk][4] = 42606593
-    team_table[kk][5] = u'Andorra'
-    team_table[kk][6] = u'Andorran'
-    team_table[kk][7] = u'AND'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 16538033
-    team_table[kk][15] = u'Andorra'
-    team_table[kk][16] =u'andorrane'
-    team_table[kk][17] =u'andorran'
-    team_table[kk][27] =99642458
-    team_table[kk][28] =99641851
-    team_table[kk][29] =99646156
-    team_table[kk][30] =99642905
-    team_table[kk][31] =99646696
-    kk += 1
-
-    team_table[kk][1] = u'Angola'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 916
-    team_table[kk][4] = 43092443
-    team_table[kk][5] = u'Angola'
-    team_table[kk][6] = u'Angolan'
-    team_table[kk][7] = u'ANG'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 16538037
-    team_table[kk][15] = u"Angola"
-    team_table[kk][16] =u'angolaise'
-    team_table[kk][17] =u'angolaise'
-    team_table[kk][27] =99642514
-    team_table[kk][28] =99641998
-    team_table[kk][29] =99646212
-    team_table[kk][30] =99642962
-    team_table[kk][31] =99646749
-    kk += 1
-
-    team_table[kk][1] = u'Antigua-et-Barbuda'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 781
-    team_table[kk][4] = 43092555
-    team_table[kk][5] = u'Antigua and Barbuda'
-    team_table[kk][6] = u'Antiguan'
-    team_table[kk][7] = u'ANT'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 16538040
-    team_table[kk][10] = 66380104
-    team_table[kk][11] = 66427071
-    team_table[kk][15] = u'Antigua y Barbuda'
-    team_table[kk][16] =u'antiguayenne'
-    team_table[kk][17] =u'antiguayen'
-    team_table[kk][27] =99642580
-    team_table[kk][28] =99642054
-    team_table[kk][29] =99646269
-    team_table[kk][30] =99643031
-    team_table[kk][31] =99646838
-    kk += 1
-
-    team_table[kk][1] = u'Argentine'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 414
-    team_table[kk][4] = 43092731
-    team_table[kk][5] = u'Argentina'
-    team_table[kk][6] = u'Argentinian'
-    team_table[kk][7] = u'ARG'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2954341
-    team_table[kk][10] = 51332671
-    team_table[kk][11] = 51332630
-    team_table[kk][12] = 66250756
-    team_table[kk][14] = 22132070
-    team_table[kk][15] = u'Argentina'
-    team_table[kk][16] =u'argentine'
-    team_table[kk][17] =u'argentin'
-    team_table[kk][27] =99642582
-    team_table[kk][28] =99642055
-    team_table[kk][29] =99646270
-    team_table[kk][30] =99643038
-    team_table[kk][31] =86989065
-    kk += 1
-
-    team_table[kk][1] = u'Arménie'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 399
-    team_table[kk][4] = 42606750
-    team_table[kk][5] = u'Armenia'
-    team_table[kk][6] = u'Armenian'
-    team_table[kk][7] = u'ARM'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 104294064
-    team_table[kk][15] = u"Armenia"
-    team_table[kk][16] =u'arménienne'
-    team_table[kk][17] =u'arménien'
-    team_table[kk][27] =99642459
-    team_table[kk][28] =99641921
-    team_table[kk][29] =99646157
-    team_table[kk][30] =99642906
-    team_table[kk][31] =99646697
-    kk += 1
-
-    team_table[kk][1] = u'Aruba'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 21203
-    team_table[kk][4] = 43092811
-    team_table[kk][5] = u'Aruba'
-    team_table[kk][6] = u'Aruban'
-    team_table[kk][7] = u'ARU'
-    team_table[kk][8] = 3
-    team_table[kk][9] =17174286
-    team_table[kk][15] = u'Aruba'
-    team_table[kk][16] =u'arubaine'
-    team_table[kk][17] =u'arubain'
-    team_table[kk][27] =99642583
-    team_table[kk][28] =99642056
-    team_table[kk][29] =99646271
-    team_table[kk][30] =99643050
-    team_table[kk][31] =99646839
-    kk += 1
-
-    team_table[kk][1] = u'Samoa américaines'
-    team_table[kk][2] = u"des "
-    team_table[kk][3] = 16641
-    team_table[kk][4] = 43092975
-    team_table[kk][5] = u'American Samoa'
-    team_table[kk][6] = u'American Samoan'
-    team_table[kk][7] = u'ASA' 
-    team_table[kk][8] = 3
-    team_table[kk][14] =99630811
-    team_table[kk][15] =u"Samoa Estadounidense"
-    team_table[kk][16] =u'samoa'
-    team_table[kk][17] =u'samoa'
-    team_table[kk][27] =99642584
-    team_table[kk][28] =99642057
-    team_table[kk][29] =99646272
-    team_table[kk][30] =99643060
-    team_table[kk][31] =99646840
-    kk += 1
-
-    team_table[kk][1] = u'Australie'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 408
-    team_table[kk][4] = 26433717
-    team_table[kk][5] = u'Australia'
-    team_table[kk][6] = u'Australian'
-    team_table[kk][7] = u'AUS'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2564187
-    team_table[kk][10] = 29051258
-    team_table[kk][11] = 29043254
-    team_table[kk][12] = 22284173
-    team_table[kk][13] = 22284183
-    team_table[kk][14] = 22679815
-    team_table[kk][15] = u'Australia'
-    team_table[kk][16] =u'australienne'
-    team_table[kk][17] =u'australien'
-    team_table[kk][27] = 99642404
-    team_table[kk][28] = 23925801
-    team_table[kk][29] = 99646094
-    team_table[kk][30] = 99642845
-    team_table[kk][31] = 86921302 
-    kk += 1
-
-    team_table[kk][1] = u'Autriche'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 40
-    team_table[kk][4] = 34679945
-    team_table[kk][5] = u'Austria'
-    team_table[kk][6] = u'Austrian'
-    team_table[kk][7] = u'AUT'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129495
-    team_table[kk][10] = 31094517
-    team_table[kk][11] = 31093255
-    team_table[kk][12] = 30967435
-    team_table[kk][13] = 31023710
-    team_table[kk][14] = 33888063
-    team_table[kk][15] = u'Austria'
-    team_table[kk][16] =u'autrichienne'
-    team_table[kk][17] =u'autrichien'
-    team_table[kk][27] =99642460
-    team_table[kk][28] =34684633
-    team_table[kk][29] =99646158
-    team_table[kk][30] =99642907
-    team_table[kk][31] =99646698
-    kk += 1
-
-    team_table[kk][1] = u'Azerbaïdjan'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 227
-    team_table[kk][4] = 42609988
-    team_table[kk][5] = u'Azerbaijan'
-    team_table[kk][6] = u'Azerbaijani'
-    team_table[kk][7] = u'AZE'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 16538054
-    team_table[kk][10] = 43286638
-    team_table[kk][11] = 43286663
-    team_table[kk][15] = u'Azerbaiyán'
-    team_table[kk][16] =u'azerbaijani'
-    team_table[kk][17] =u'azerbaijani'
-    team_table[kk][27] =99642461
-    team_table[kk][28] =99641922
-    team_table[kk][29] =99646159
-    team_table[kk][30] =99642908
-    team_table[kk][31] =99646699
-    kk += 1
-
-    team_table[kk][1] = u'Bahamas'
-    team_table[kk][2] = u"des "
-    team_table[kk][3] = 778
-    team_table[kk][4] = 1
-    team_table[kk][5] = u'Bahamas'
-    team_table[kk][6] = u'Bahamas'
-    team_table[kk][7] = u'BAH'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 16538203
-    team_table[kk][10] = 66498425
-    team_table[kk][11] = 66498528
-    team_table[kk][15] = u'Bahamas'
-    team_table[kk][16] =u'bahamienne'
-    team_table[kk][17] =u'bahamien'
-    team_table[kk][27] =99642585
-    team_table[kk][28] =99642058
-    team_table[kk][29] =99646273
-    team_table[kk][30] =99643070
-    team_table[kk][31] =99646841
-    kk += 1
-
-    team_table[kk][1] = u'Barbade'
-    team_table[kk][2] = u"de la "
-    team_table[kk][3] = 244
-    team_table[kk][4] = 99544980
-    team_table[kk][5] = u'Barbados'
-    team_table[kk][6] = u'Barbados'
-    team_table[kk][7] = u'BAR'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 56301263
-    team_table[kk][10] = 0
-    team_table[kk][11] = 0
-    team_table[kk][15] = u'Barbados'
-    team_table[kk][16] =u'barbadienne'
-    team_table[kk][17] =u'barbadien'
-    team_table[kk][27] =99642420
-    team_table[kk][28] =99642059
-    team_table[kk][29] =99646113
-    team_table[kk][30] =99642861
-    team_table[kk][31] =99646843
-    kk += 1
-
- 
-    team_table[kk][1] = u'Bahreïn'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 398
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Bahrain'
-    team_table[kk][6] = u'Bahrain'
-    team_table[kk][7] = u'BRN'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 21028787
-    team_table[kk][10] = 0
-    team_table[kk][11] = 0
-    team_table[kk][15] = u'Baréin'
-    team_table[kk][16] =u'bahreïnienne'
-    team_table[kk][17] =u'bahreïnien'
-    team_table[kk][27] =99642624
-    team_table[kk][28] =99641881
-    team_table[kk][29] =99646314
-    team_table[kk][30] =99643240
-    team_table[kk][31] =99646662
-    kk += 1   
-
-    team_table[kk][1] = u'Belgique'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 31
-    team_table[kk][4] = 30744085
-    team_table[kk][5] = u'Belgium'
-    team_table[kk][6] = u'Belgian'
-    team_table[kk][7] = u'BEL'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 1424329
-    team_table[kk][10] = 30332924
-    team_table[kk][11] = 29642128
-    team_table[kk][12] = 24617852
-    team_table[kk][13] = 24618030
-    team_table[kk][14] = 28498921
-    team_table[kk][15] = u'Bélgica'
-    team_table[kk][16] =u'belge'
-    team_table[kk][17] =u'belge'
-    team_table[kk][27] =99642462
-    team_table[kk][28] =33888069
-    team_table[kk][29] =99646160
-    team_table[kk][30] =99642909
-    team_table[kk][31] =86916217
-    kk += 1
-
-    team_table[kk][1] = u'Belize'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 242
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Belize'
-    team_table[kk][6] = u'Belizean'
-    team_table[kk][7] = u'BIZ'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 16538226
-    team_table[kk][10] = 50404774
-    team_table[kk][11] = 50404789
-    team_table[kk][15] = u'Belice'
-    team_table[kk][16] =u'bélisienne'
-    team_table[kk][17] =u'bélisien'
-    team_table[kk][27] =99642587
-    team_table[kk][28] =99641861
-    team_table[kk][29] =99646275
-    team_table[kk][30] =99643093
-    team_table[kk][31] =99646845
-    kk += 1
-
-    team_table[kk][1] = u'Biélorussie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 184
-    team_table[kk][4] = 43286756
-    team_table[kk][5] = u'Belarus'
-    team_table[kk][6] = u'Belarusian'
-    team_table[kk][7] = u'BLR'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2954798
-    team_table[kk][10] = 31271624
-    team_table[kk][11] = 31271615
-    team_table[kk][12] = 27043944
-    team_table[kk][13] = 27043945
-    team_table[kk][14] = 33505306
-    team_table[kk][15] = u'Bielorrusia'
-    team_table[kk][16] =u'biélorusse'
-    team_table[kk][17] =u'biélorusse'
-    team_table[kk][27] =99642463
-    team_table[kk][28] =55686916
-    team_table[kk][29] =99646161
-    team_table[kk][30] =99642910
-    team_table[kk][31] =99646702
-    kk += 1
-
-    team_table[kk][1] = u'Bolivie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 750
-    team_table[kk][4] = 43306939
-    team_table[kk][5] = u'Bolivia'
-    team_table[kk][6] = u'Bolivian'
-    team_table[kk][7] = u'BOL'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2954793
-    team_table[kk][10] = 66565514
-    team_table[kk][11] = 66565582
-    team_table[kk][12] = 24628140
-    team_table[kk][13] = 24628162
-    team_table[kk][14] = 99632636
-    team_table[kk][15] = u'Bolivia'
-    team_table[kk][16] =u'bolivienne'
-    team_table[kk][16] =u'bolivien'
-    team_table[kk][27] =99642588
-    team_table[kk][28] =99642061
-    team_table[kk][29] =99646276
-    team_table[kk][30] =99643102
-    team_table[kk][31] =99646846
-    kk += 1
+    dic['AFG']={
+        "name fr":'Afghanistan',
+        "name en":'Afghanistan',
+        "name es":"Afganistán",
+        "adj fr woman": 'afghane',
+        "adj fr man": 'afghan',
+        "adj en":'Afghan',
+        "genre": "d'",
+        "group":3,
+        "country":"Q889",
+        "team woman":"Q43092098",
+        }
     
-    team_table[kk][1] = u'Bosnie-Herzégovine'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 225
-    team_table[kk][4] = 99628155
-    team_table[kk][5] =u'Bosnia and Herzegovina'
-    team_table[kk][6] = u"Bosnian"
-    team_table[kk][7] = u"BIH"
-    team_table[kk][8] = 2
-    team_table[kk][9] =16538096
-    team_table[kk][10] =107594981
-    team_table[kk][11] =107594992
-    team_table[kk][12] =27133448
-    team_table[kk][13] =27133611
-    team_table[kk][14] =99627935
-    team_table[kk][15] = u'Bosnia y Herzegovina'
-    team_table[kk][16] = u'bosnienne'
-    team_table[kk][17] = u'bosnien'
-    kk += 1
+    dic['ALB']={
+        "name fr":'Albanie',
+        "name en":'Albania',
+        "name es":'Albania',
+        "adj fr woman": 'albanaise',
+        "adj fr man": 'albanais',
+        "adj en":'Albanian',
+        "genre": "d'",
+        "group":2,
+        "country":"Q222",
+        "National championship master":"Q2954296",
+        "team woman":"Q42606434",
+        "team man":"Q35541706",
+        "team woman U23":"Q99642457",
+        "team man U23":"Q99641920",
+        "team woman U19":"Q99646155",
+        "team man U19":"Q99646695",       
+        "team all":"Q99646695"
+        }
 
+    dic['ALG']={
+        "name fr":'Algérie',
+        "name en":'Algeria',
+        "name es":'Argelia',
+        "adj fr woman": 'algérienne',
+        "adj fr man": 'algérien',
+        "adj en":'Algerian',
+        "genre": "d'",
+        "group":2,
+        "country":"Q262",
+        "National championship master":"Q2954297",
+        "team woman":"Q43092189",
+        "team man":"Q22106643",
+        "team woman U23":"Q99642513",
+        "team man U23":"Q99641855",
+        "team woman U19":"Q99646211",
+        "team man U19":"Q99642961",       
+        "team all":"Q86989084",
+        "Road race woman":"Q66082905",
+        "Clm woman":"Q66082384",
+        }
+    
+    dic['AND']={
+        "name fr":'Andorre',
+        "name en":'Andorra',
+        "name es":'Andorra',
+        "adj fr woman": 'andorrane',
+        "adj fr man": 'andorran',
+        "adj en":'Andorran',
+        "genre": "d'",
+        "group":2,
+        "country":"Q228",
+        "National championship master":"Q16538033",
+        "team woman":"Q42606593",
+        "team woman U23":"Q99642458",
+        "team man U23":"Q99641851",
+        "team woman U19":"Q99646156",
+        "team man U19":"Q99642905",       
+        "team all":"Q99646696",
+        }
+    
+    dic['ANG']={
+        "name fr":'Angola',
+        "name en":'Angola',
+        "name es":'Angola',
+        "adj fr woman": 'angolaise',
+        "adj fr man": 'angolais',
+        "adj en":'Angolan',
+        "genre": "d'",
+        "group":3,
+        "country":"Q916",
+        "National championship master":"Q16538037",
+        "team woman":"Q43092443",
+        "team woman U23":"Q99642514",
+        "team man U23":"Q99641998",
+        "team woman U19":"Q99646212",
+        "team man U19":"Q99642962",       
+        "team all":"Q99646749",
+        }
+    
+    dic['ANT']={
+        "name fr":'Antigua-et-Barbuda',
+        "name en":'Antigua and Barbuda',
+        "name es":'Antigua y Barbuda',
+        "adj fr woman": 'antiguayenne',
+        "adj fr man": 'antiguayen',
+        "adj en":'Antiguan',
+        "genre": "d'",
+        "group":1,
+        "country":"Q781",
+        "National championship master":"Q16538040",
+        "team woman":"Q43092555",
+        "team woman U23":"Q99642580",
+        "team man U23":"Q99642054",
+        "team woman U19":"Q99646269",
+        "team man U19":"Q99643031",       
+        "team all":"Q99646838",
+        "Road race woman":"Q66380104",
+        "Clm woman":"Q66427071",
+        }
 
-    team_table[kk][1] = u'Brésil'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 155
-    team_table[kk][4] = 43288916
-    team_table[kk][5] = u'Brazil'
-    team_table[kk][6] = u'Brazilian'
-    team_table[kk][7] = u'BRA'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955205
-    team_table[kk][10] = 43288961
-    team_table[kk][11] = 43288988
-    team_table[kk][12] = 27056312
-    team_table[kk][13] = 27056389
-    team_table[kk][14] = 22132071
-    team_table[kk][15] = u'Brasil'
-    team_table[kk][16] =u'brésilienne'
-    team_table[kk][17] =u'brésilien'
-    team_table[kk][27] =99642589
-    team_table[kk][28] =99642062
-    team_table[kk][29] =99646277
-    team_table[kk][30] =99643111
-    team_table[kk][31] =86989067
-    kk += 1
+    dic['ARG']={
+        "name fr":'Argentine',
+        "name en":'Argentina',
+        "name es":'Argentina',
+        "adj fr woman": 'argentine',
+        "adj fr man": 'argentin',
+        "adj en":'Argentinian',
+        "genre": "d'",
+        "group":1,
+        "country":"Q414",
+        "National championship master":"Q2954341",
+        "team woman":"Q43092731",
+        "team man":"Q22132070",
+        "team woman U23":"Q99642582",
+        "team man U23":"Q99642055",
+        "team woman U19":"Q99646270",
+        "team man U19":"Q99643038",       
+        "team all":"Q86989065",
+        "Road race woman":"Q51332671",
+        "Clm woman":"Q51332630",
+        "Road race man":"Q66250756",
+        }
 
-    team_table[kk][1] = u'Bulgarie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 219
-    team_table[kk][4] = 43306952
-    team_table[kk][5] = u'Bulgaria'
-    team_table[kk][6] = u'Bulgarian'
-    team_table[kk][7] = u'BUL'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 2954795
-    team_table[kk][14] =33888075
-    team_table[kk][15] =u"Bulgaria"
-    team_table[kk][16] =u'bulgare'
-    team_table[kk][17] =u'bulgare'
-    team_table[kk][27] =99642464
-    team_table[kk][28] =99641925
-    team_table[kk][29] =99646162
-    team_table[kk][30] =99642911
-    team_table[kk][31] =99646703
-    kk += 1
+    dic['ARM']={
+        "name fr":'Arménie',
+        "name en":'Armenia',
+        "name es":"Armenia",
+        "adj fr woman": 'arménienne',
+        "adj fr man": 'arménien',
+        "adj en":'Armenian',
+        "genre": "d'",
+        "group":3,
+        "country":"Q399",
+        "National championship master":"Q104294064",
+        "team woman":"Q42606750",
+        "team woman U23":"Q99642459",
+        "team man U23":"Q99641921",
+        "team woman U19":"Q99646157",
+        "team man U19":"Q99642906",       
+        "team all":"Q99646697",
+        }
+
+    
+    dic['ARU']={
+        "name fr":'Aruba',
+        "name en":'Aruba',
+        "name es":'Aruba',
+        "adj fr woman": 'arubaine',
+        "adj fr man": 'arubain',
+        "adj en":'Aruban',
+        "genre": "d'",
+        "group":3,
+        "country":"Q21203",
+        "National championship master":"Q17174286",
+        "team woman":"Q43092811",
+        "team woman U23":"Q99642583",
+        "team man U23":"Q99642056",
+        "team woman U19":"Q99646271",
+        "team man U19":"Q99643050",       
+        "team all":"Q99646839",
+        }
+    
+    dic['ASA']={
+        "name fr":'Samoa américaines',
+        "name en":'American Samoa',
+        "name es":"Samoa Estadounidense",
+        "adj fr woman": 'samoa',
+        "adj fr man": 'samoa',
+        "adj en":'American Samoan',
+        "genre": "d'",
+        "group":3,
+        "country":"Q16641",
+        "National championship master":"Q99630811",
+        "team woman":"Q43092731",
+        "team man":"Q99630811",
+        "team woman U23":"Q99642584",
+        "team man U23":"Q99642057",
+        "team woman U19":"Q99646272",
+        "team man U19":"Q99643060",       
+        "team all":"Q99646840",
+        }
+    
+    dic['AUS']={
+        "name fr":'Australie',
+        "name en":'Australia',
+        "name es":'Australia',
+        "adj fr woman":'australienne',
+        "adj fr man": 'australien',
+        "adj en":'Australian',
+        "genre": "d'",
+        "group":1,
+        "country":"Q408",
+        "National championship master":"Q2564187",
+        "team woman":"Q26433717",
+        "team man":"Q22679815",
+        "team woman U23":"Q99642404",
+        "team man U23":"Q23925801",
+        "team woman U19":"Q99646094",
+        "team man U19":"Q99642845",       
+        "team all":"Q86921302",
+        "Road race woman":"Q29051258",
+        "Clm woman":"Q29043254",
+        "Road race man":"Q22284173",
+        "Clm man":"Q22284183",
+        }
+    
+    dic['AUT']={
+        "name fr":'Autriche',
+        "name en":'Austria',
+        "name es":'Austria',
+        "adj fr woman":'autrichienne',
+        "adj fr man": 'autrichien',
+        "adj en":'Austrian',
+        "genre": "d'",
+        "group":1,
+        "country":"Q40",
+        "National championship master":"Q129495",
+        "team woman":"Q34679945",
+        "team man":"Q33888063",
+        "team woman U23":"Q99642460",
+        "team man U23":"Q34684633",
+        "team woman U19":"Q99646158",
+        "team man U19":"Q99642907",       
+        "team all":"Q99646698",
+        "Road race woman":"Q31094517",
+        "Clm woman":"Q31093255",
+        "Road race man":"Q30967435",
+        "Clm man":"Q33888063",
+        }
+    
+    dic['AZE']={
+        "name fr":'Azerbaïdjan',
+        "name en":'Azerbaijan',
+        "name es":'Azerbaiyán',
+        "adj fr woman":'azerbaijani',
+        "adj fr man": 'azerbaijani',
+        "adj en":'Azerbaijani',
+        "genre": "d'",
+        "group":1,
+        "country":"Q227",
+        "National championship master":"Q16538054",
+        "team woman":"Q42609988",
+        "team woman U23":"Q99642461",
+        "team man U23":"Q99641922",
+        "team woman U19":"Q99646159",
+        "team man U19":"Q99642908",       
+        "team all":"Q99646699",
+        "Road race woman":"Q43286638",
+        "Clm woman":"Q43286663",
+        }
+    
+    dic['BAH']={
+        "name fr":'Bahamas',
+        "name en":'Bahamas',
+        "name es":'Bahamas',
+        "adj fr woman":'bahamienne',
+        "adj fr man": 'bahamien',
+        "adj en":'Bahamas',
+        "genre": "des ",
+        "group":2,
+        "country":"Q778",
+        "National championship master":"Q16538203",
+        "team woman U23":"Q99642585",
+        "team man U23":"Q99641922",
+        "team woman U19":"Q99646273",
+        "team man U19":"Q99643070",       
+        "team all":"99646841",
+        "Road race woman":"Q66498425",
+        "Clm woman":"Q66498528",
+        }
+    
+    dic['BAR']={
+        "name fr":'Barbade',
+        "name en":'Barbados',
+        "name es":'Barbados',
+        "adj fr woman":'barbadienne',
+        "adj fr man": 'barbadien',
+        "adj en":'Barbados',
+        "genre": "de la ",
+        "group":2,
+        "country":"Q244",
+        "National championship master":"Q56301263",
+        "team woman":"Q99544980",
+        "team woman U23":"Q99642420",
+        "team man U23":"Q99642059",
+        "team woman U19":"Q99646113",
+        "team man U19":"Q99642861",       
+        "team all":"Q99646843",
+        }
+    
+    dic['BRN']={
+        "name fr":'Bahreïn',
+        "name en":'Bahrain',
+        "name es":'Baréin',
+        "adj fr woman":'bahreïnienne',
+        "adj fr man": 'bahreïnien',
+        "adj en":'Bahrain',
+        "genre": "du ",
+        "group":3,
+        "country":"Q398",
+        "National championship master":"Q21028787",
+        "team woman U23":"Q99642624",
+        "team man U23":"Q99641881",
+        "team woman U19":"Q99646314",
+        "team man U19":"Q99643240",       
+        "team all":"Q99646662",
+        }
+    
+    dic['BEL']={
+        "name fr":'Belgique',
+        "name en":'Belgium',
+        "name es":'Bélgica',
+        "adj fr woman":'belge',
+        "adj fr man": 'belge',
+        "adj en":'Belgian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q31",
+        "National championship master":"Q1424329",
+        "team woman":"Q30744085",
+        "team man":"Q28498921",
+        "team woman U23":"Q99642462",
+        "team man U23":"Q33888069",
+        "team woman U19":"Q99646160",
+        "team man U19":"Q99642909",       
+        "team all":"Q86916217",
+        "Road race woman":"Q30332924",
+        "Clm woman":"Q29642128",
+        "Road race man":"Q24617852",
+        "Clm man":"Q24618030",
+        }
+
+    dic['BIZ']={
+        "name fr":'Belize',
+        "name en":'Belize',
+        "name es":'Belice',
+        "adj fr woman":'bélisienne',
+        "adj fr man": 'bélisien',
+        "adj en":'Belizean',
+        "genre": "du ",
+        "group":1,
+        "country":"Q242",
+        "National championship master":"Q16538226",
+        "team woman U23":"Q99642587",
+        "team man U23":"Q99641861",
+        "team woman U19":"Q99646275",
+        "team man U19":"Q99643093",       
+        "team all":"Q99646845",
+        "Road race woman":"Q50404774",
+        "Clm woman":"Q50404789",
+        }
+    
+    dic['BLR']={
+        "name fr":'Biélorussie',
+        "name en":'Belarus',
+        "name es":'Bielorrusia',
+        "adj fr woman":'biélorusse',
+        "adj fr man": 'biélorusse',
+        "adj en":'Belarusian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q184",
+        "National championship master":"Q2954798",
+        "team woman":"Q43286756",
+        "team man":"Q33505306",
+        "team woman U23":"Q99642463",
+        "team man U23":"Q55686916",
+        "team woman U19":"Q99646161",
+        "team man U19":"Q99642910",       
+        "team all":"Q99646702",
+        "Road race woman":"Q31271624",
+        "Clm woman":"Q31271615",
+        "Road race man":"Q27043944",
+        "Clm man":"Q27043945",
+        }
+
+    dic['BOL']={
+        "name fr":'Bolivie',
+        "name en":'Bolivia',
+        "name es":'Bolivia',
+        "adj fr woman":'bolivienne',
+        "adj fr man": 'bolivien',
+        "adj en":'Bolivian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q750",
+        "National championship master":"Q2954793",
+        "team woman":"Q43306939",
+        "team man":"Q99632636",
+        "team woman U23":"Q99642588",
+        "team man U23":"Q99642061",
+        "team woman U19":"Q99646276",
+        "team man U19":"Q99643102",       
+        "team all":"Q99646846",
+        "Road race woman":"Q66565514",
+        "Clm woman":"Q66565582",
+        "Road race man":"Q24628140",
+        "Clm man":"Q24628162",
+        }
+    
+    dic['BIH']={
+        "name fr":'Bosnie-Herzégovine',
+        "name en":'Bosnia and Herzegovina',
+        "name es":'Bosnia y Herzegovina',
+        "adj fr woman":'bosnienne',
+        "adj fr man": 'bosnien',
+        "adj en":'Bolivian',
+        "genre": "de ",
+        "group":2,
+        "country":"Q225",
+        "National championship master":"Q16538096",
+        "team woman":"Q99628155",
+        "team man":"Q99627935",
+        "Road race woman":"Q107594981",
+        "Clm woman":"Q107594992",
+        "Road race man":"Q27133448",
+        "Clm man":"Q27133611",
+        }
+
+    dic['BRA']={
+        "name fr":'Brésil',
+        "name en":'Brazil',
+        "name es":'Brasil',
+        "adj fr woman":'brésilienne',
+        "adj fr man": 'brésilien',
+        "adj en":'Brazilian',
+        "genre": "du ",
+        "group":1,
+        "country":"Q155",
+        "National championship master":"Q2955205",
+        "team woman":"Q43288916",
+        "team man":"Q22132071",
+        "team woman U23":"Q99642589",
+        "team man U23":"Q99642062",
+        "team woman U19":"Q99646277",
+        "team man U19":"Q99643111",       
+        "team all":"Q86989067",
+        "Road race woman":"Q43288961",
+        "Clm woman":"Q43288988",
+        "Road race man":"Q27056312",
+        "Clm man":"Q27056389",
+        }
+        
+    dic['BUL']={
+        "name fr":'Bulgarie',
+        "name en":'Bulgaria',
+        "name es":"Bulgaria",
+        "adj fr woman":'bulgare',
+        "adj fr man": 'bulgare',
+        "adj en":'Bulgarian',
+        "genre": "de ",
+        "group":2,
+        "country":"Q219",
+        "National championship master":"Q2954795",
+        "team woman":"Q43306952",
+        "team man":"Q33888075",
+        "team woman U23":"Q99642464",
+        "team man U23":"Q99641925",
+        "team woman U19":"Q99646162",
+        "team man U19":"Q99642911",       
+        "team all":"Q99646703",
+        }
 
     #BDI
     #Burundi
@@ -541,1571 +499,1562 @@ def load():
     
     #CAF
     #Centrafrique
-
-    team_table[kk][1] = u'Canada'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 16
-    team_table[kk][4] = 33505760
-    team_table[kk][5] = u'Canada'
-    team_table[kk][6] = u'Canadian'
-    team_table[kk][7] = u'CAN'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955203
-    team_table[kk][10] = 31096609
-    team_table[kk][11] = 31096001
-    team_table[kk][12] = 62024698
-    team_table[kk][14] = 20967103
-    team_table[kk][15] = u'Canadá'
-    team_table[kk][16] =u'canadienne'
-    team_table[kk][17] =u'canadien'
-    team_table[kk][27] =99642590
-    team_table[kk][28] =55686942
-    team_table[kk][29] =99646278
-    team_table[kk][30] =99643119
-    team_table[kk][31] =86989069
-    kk += 1
+    
+    dic['CAN']={
+        "name fr":'Canada',
+        "name en":'Canada',
+        "name es":'Canadá',
+        "adj fr woman":'canadienne',
+        "adj fr man": 'canadien',
+        "adj en":'Canadian',
+        "genre": "du ",
+        "group":1,
+        "country":"Q16",
+        "National championship master":"Q2955203",
+        "team woman":"Q33505760",
+        "team man":"Q20967103",
+        "team woman U23":"Q99642590",
+        "team man U23":"Q55686942",
+        "team woman U19":"Q99646278",
+        "team man U19":"Q99643119",       
+        "team all":"Q86989069",
+        "Road race woman":"Q31096609",
+        "Clm woman":"Q31096001",
+        "Road race man":"Q62024698",
+        }
     
     #CGO
     #Congo
 
-    team_table[kk][1] = u'Chili'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 298
-    team_table[kk][4] = 43306977
-    team_table[kk][5] = u'Chili'
-    team_table[kk][6] = u'Chilean'
-    team_table[kk][7] = u'CHI'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955202
-    team_table[kk][10] = 31271587
-    team_table[kk][11] = 51332422
-    team_table[kk][12] = 26960669
-    team_table[kk][13] = 26960674
-    team_table[kk][14] = 22132069
-    team_table[kk][15] = u'Chile'
-    team_table[kk][16] =u'chilienne'
-    team_table[kk][17] =u'chilien'
-    team_table[kk][27] =99642592
-    team_table[kk][28] =99642065
-    team_table[kk][29] =99646281
-    team_table[kk][30] =99643126
-    team_table[kk][31] =86991484
-    kk += 1
-
-    team_table[kk][1] = u'Chine'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 148
-    team_table[kk][4] = 43093449
-    team_table[kk][5] = u'China'
-    team_table[kk][6] = u'Chinese'
-    team_table[kk][7] = u'CHN'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2954796
-    team_table[kk][10] = 43286408
-    team_table[kk][11] = 43286449
-    team_table[kk][14] = 62994986
-    team_table[kk][15] = u'China'
-    team_table[kk][16] =u'chinoise'
-    team_table[kk][17] =u'chinois'
-    team_table[kk][27] =99642626
-    team_table[kk][28] =99641884
-    team_table[kk][29] =99646316
-    team_table[kk][30] =99643264
-    team_table[kk][31] =86991495
-    kk += 1
+    dic['CHI']={
+        "name fr":'Chili',
+        "name en":'Chili',
+        "name es":'Chile',
+        "adj fr woman":'chilienne',
+        "adj fr man": 'chilien',
+        "adj en":'Chilean',
+        "genre": "du ",
+        "group":1,
+        "country":"Q155",
+        "National championship master":"Q2955202",
+        "team woman":"Q43306977",
+        "team man":"Q22132069",
+        "team woman U23":"Q99642592",
+        "team man U23":"Q99642065",
+        "team woman U19":"Q99646281",
+        "team man U19":"Q99643126",       
+        "team all":"Q86991484",
+        "Road race woman":"Q31271587",
+        "Clm woman":"Q51332422",
+        "Road race man":"Q26960669",
+        "Clm man":"Q26960674",
+        }
+        
+    dic['CHN']={
+        "name fr":'Chine',
+        "name en":'China',
+        "name es":'China',
+        "adj fr woman":'chinoise',
+        "adj fr man": 'chinois',
+        "adj en":'Chinese',
+        "genre": "de ",
+        "group":1,
+        "country":"Q148",
+        "National championship master":"Q2954796",
+        "team woman":"Q43093449",
+        "team man":"Q62994986",
+        "team woman U23":"Q99642626",
+        "team man U23":"Q99641884",
+        "team woman U19":"Q99646316",
+        "team man U19":"Q99643264",       
+        "team all":"Q86991495",
+        "Road race woman":"Q43286408",
+        "Clm woman":"Q43286449",
+        }    
     
     #COK
     #Îles Cook
 
-    team_table[kk][1] = u'Colombie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 739
-    team_table[kk][4] = 33893444
-    team_table[kk][5] = u'Colombia'
-    team_table[kk][6] = u'Colombian'
-    team_table[kk][7] = u'COL'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2954810
-    team_table[kk][10] = 43307022
-    team_table[kk][11] = 43307035
-    team_table[kk][12] = 22951216
-    team_table[kk][13] = 5147941
-    team_table[kk][14] = 33893440
-    team_table[kk][15] = u'Colombia'
-    team_table[kk][16] =u'colombienne'
-    team_table[kk][17] =u'colombien'
-    team_table[kk][27] =99642593
-    team_table[kk][28] =33893448
-    team_table[kk][29] =99646282
-    team_table[kk][30] =99643127
-    team_table[kk][31] =86989071
-    kk += 1
+    dic['COL']={
+        "name fr":'Colombie',
+        "name en":'Colombia',
+        "name es":'Colombia',
+        "adj fr woman":'colombienne',
+        "adj fr man": 'colombien',
+        "adj en":'Colombian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q739",
+        "National championship master":"Q2955202",
+        "team woman":"Q33893444",
+        "team man":"Q33893440",
+        "team woman U23":"Q99642593",
+        "team man U23":"Q33893448",
+        "team woman U19":"Q99646282",
+        "team man U19":"Q99643127",       
+        "team all":"Q86989071",
+        "Road race woman":"Q43307022",
+        "Clm woman":"Q43307035",
+        "Road race man":"Q22951216",
+        "Clm man":"Q5147941",
+        }
 
-    team_table[kk][1] = u'Corée du Sud'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 884
-    team_table[kk][4] = 33994521
-    team_table[kk][5] = u'South Korea'
-    team_table[kk][6] = u'South Korean'
-    team_table[kk][7] = u'KOR'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 16538109
-    team_table[kk][10] = 66370867
-    team_table[kk][11] = 66370873
-    team_table[kk][14] = 50549608
-    team_table[kk][15] = u'Corea del Sur'
-    team_table[kk][16] =u'sud-coréenne'
-    team_table[kk][17] =u'sud-coréen'
-    team_table[kk][27] =99642433
-    team_table[kk][28] =99641893
-    team_table[kk][29] =99646128
-    team_table[kk][30] =99642876
-    team_table[kk][31] =86991486
-    kk += 1
+    dic['KOR']={
+        "name fr":'Corée du Sud',
+        "name en":'South Korea',
+        "name es":'Corea del Sur',
+        "adj fr woman":'sud-coréenne',
+        "adj fr man": 'sud-coréen',
+        "adj en":'South Korean',
+        "genre": "de ",
+        "group":1,
+        "country":"Q884",
+        "National championship master":"Q16538109",
+        "team woman":"Q33994521",
+        "team man":"Q50549608",
+        "team woman U23":"Q99642433",
+        "team man U23":"Q99641893",
+        "team woman U19":"Q99646128",
+        "team man U19":"Q99642876",       
+        "team all":"Q86991486",
+        "Road race woman":"Q66370867",
+        "Clm woman":"Q66370873",
+        }
+        
+    dic['CRC']={
+        "name fr":'Costa Rica',
+        "name en":'Costa Rica',
+        "name es":'Costa Rica',
+        "adj fr woman":'costa ricaine',
+        "adj fr man": 'costa ricain',
+        "adj en":'Costa Rican',
+        "genre": "de ",
+        "group":1,
+        "country":"Q800",
+        "National championship master":"Q2955204",
+        "team woman":"Q43307054",
+        "team man":"Q22132072",
+        "team woman U23":"Q99642594",
+        "team man U23":"Q99642066",
+        "team woman U19":"Q99646283",
+        "team man U19":"Q99643134",       
+        "team all":"Q86991483",
+        "Road race woman":"Q33081164",
+        "Clm woman":"Q33081846",
+        "Road race man":"Q27048382",
+        "Clm man":"Q27048383",
+        }
 
-    team_table[kk][1] = u'Costa Rica'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 800
-    team_table[kk][4] = 43307054
-    team_table[kk][5] = u'Costa Rica'
-    team_table[kk][6] = u'Costa Rican'
-    team_table[kk][7] = u'CRC'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955204
-    team_table[kk][10] = 33081164
-    team_table[kk][11] = 33081846
-    team_table[kk][12] = 27048382
-    team_table[kk][13] = 27048383
-    team_table[kk][14] = 22132072
-    team_table[kk][15] = u'Costa Rica'
-    team_table[kk][16] =u'costa ricaine'
-    team_table[kk][17] =u'costa ricain'
-    team_table[kk][27] =99642594
-    team_table[kk][28] =99642066
-    team_table[kk][29] =99646283
-    team_table[kk][30] =99643134
-    team_table[kk][31] =86991483
-    kk += 1
-    
-    team_table[kk][1] = u'Croatie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 224
-    team_table[kk][4] = 43307086
-    team_table[kk][5] = u'Croatia'
-    team_table[kk][6] = u'Croatian'
-    team_table[kk][7] = u'CRO'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2954807
-    team_table[kk][10] = 30349395
-    team_table[kk][11] = 30349411
-    team_table[kk][12] = 27133468
-    team_table[kk][13] = 27133626
-    team_table[kk][14] = 52277506
-    team_table[kk][15] = u'Croacia'
-    team_table[kk][16] =u'croate'
-    team_table[kk][17] =u'croate'
-    team_table[kk][27] =99642465
-    team_table[kk][28] =99641926
-    team_table[kk][29] =99646163
-    team_table[kk][30] =99642912
-    team_table[kk][31] =99646704
-    kk += 1
+    dic['CRO']={
+        "name fr":'Croatie',
+        "name en":'Croatia',
+        "name es":'Croacia',
+        "adj fr woman":'croate',
+        "adj fr man": 'croate',
+        "adj en":'Croatian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q224",
+        "National championship master":"Q2954807",
+        "team woman":"Q43307086",
+        "team man":"Q52277506",
+        "team woman U23":"Q99642465",
+        "team man U23":"Q99641926",
+        "team woman U19":"Q99646163",
+        "team man U19":"Q99642912",       
+        "team all":"Q99646704",
+        "Road race woman":"Q30349395",
+        "Clm woman":"Q30349411",
+        "Road race man":"Q27133468",
+        "Clm man":"Q27133626",
+        }
 
-    team_table[kk][1] = u'Cuba'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 241
-    team_table[kk][4] = 43307111
-    team_table[kk][5] = u'Cuba'
-    team_table[kk][6] = u'Cuban'
-    team_table[kk][7] = u'CUB'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2954801
-    team_table[kk][10] = 30512013
-    team_table[kk][11] = 30511620
-    team_table[kk][12] = 26971246
-    team_table[kk][13] = 26971248
-    team_table[kk][14] = 22132094
-    team_table[kk][15] = u'Cuba'
-    team_table[kk][16] = u'cubaine'
-    team_table[kk][17] = u'cubain'
-    team_table[kk][27] =99642595
-    team_table[kk][28] =99642067
-    team_table[kk][29] =99646284
-    team_table[kk][30] =99643136
-    team_table[kk][31] =99646847
-    kk += 1
+    dic['CUB']={
+        "name fr":'Cuba',
+        "name en":'Cuba',
+        "name es":'Cuba',
+        "adj fr woman":'cubaine',
+        "adj fr man": 'cubain',
+        "adj en":'Cuban',
+        "genre": "de ",
+        "group":1,
+        "country":"Q241",
+        "National championship master":"Q2954801",
+        "team woman":"Q43307111",
+        "team man":"Q22132094",
+        "team woman U23":"Q99642595",
+        "team man U23":"Q99642067",
+        "team woman U19":"Q99646284",
+        "team man U19":"Q99643136",       
+        "team all":"Q99646847",
+        "Road race woman":"Q30512013",
+        "Clm woman":"Q30511620",
+        "Road race man":"Q26971246",
+        "Clm man":"Q26971248",
+        }
 
-    team_table[kk][1] = u'Chypre'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 229
-    team_table[kk][4] = 53869566
-    team_table[kk][5] = u'Cyprus'
-    team_table[kk][6] = u'Cypriot'
-    team_table[kk][7] = u'CYP'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2954799
-    team_table[kk][10] = 53869580
-    team_table[kk][11] = 53869589
-    team_table[kk][12] = 24621530
-    team_table[kk][13] = 24621627
-    team_table[kk][15] = u'Chipre'
-    team_table[kk][16] = u'chypriote'
-    team_table[kk][17] = u'chypriote'
-    team_table[kk][27] =99642466
-    team_table[kk][28] =99641927
-    team_table[kk][29] =99646164
-    team_table[kk][30] =99642913
-    team_table[kk][31] =99646705
-    kk += 1
+    dic['CYP']={
+        "name fr":'Chypre',
+        "name en":'Cyprus',
+        "name es":'Chipre',
+        "adj fr woman":'chypriote',
+        "adj fr man": 'chypriote',
+        "adj en":'Cypriot',
+        "genre": "de ",
+        "group":1,
+        "country":"Q229",
+        "National championship master":"Q2954799",
+        "team woman":"Q53869566",
+        "team woman U23":"Q99642466",
+        "team man U23":"Q99641927",
+        "team woman U19":"Q99646164",
+        "team man U19":"Q99642913",       
+        "team all":"Q99646705",
+        "Road race woman":"Q53869580",
+        "Clm woman":"Q53869589",
+        "Road race man":"Q24621530",
+        "Clm man":"Q24621627",
+        }
 
-    team_table[kk][1] = u'République tchèque'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 213
-    team_table[kk][4] = 33895512
-    team_table[kk][5] = u'Czech Republic'
-    team_table[kk][6] = u'Czech'
-    team_table[kk][7] = u'CZE'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955107
-    team_table[kk][10] = 31505332
-    team_table[kk][11] = 31506358
-    team_table[kk][12] = 27048391
-    team_table[kk][13] = 27793536
-    team_table[kk][14] = 33895509
-    team_table[kk][15] = u'República Checa'
-    team_table[kk][16] = u'tchèque'
-    team_table[kk][17] = u'tchèque'
-    team_table[kk][27] =99642467
-    team_table[kk][28] =55686962
-    team_table[kk][29] =99646165
-    team_table[kk][30] =99642914
-    team_table[kk][31] =99646637
-    kk += 1
+    dic['CZE']={
+        "name fr":'République tchèque',
+        "name en":'Czech Republic',
+        "name es":'República Checa',
+        "adj fr woman":'tchèque',
+        "adj fr man": 'tchèque',
+        "adj en":'Czech',
+        "genre": "de ",
+        "group":1,
+        "country":"Q213",
+        "National championship master":"Q2955107",
+        "team woman":"Q33895512",
+        "team man":"Q33895509",
+        "team woman U23":"Q99642467",
+        "team man U23":"Q55686962",
+        "team woman U19":"Q99646165",
+        "team man U19":"Q99642914",       
+        "team all":"Q99646637",
+        "Road race woman":"Q31505332",
+        "Clm woman":"Q31506358",
+        "Road race man":"Q27048391",
+        "Clm man":"Q27793536",
+        }
 
-    team_table[kk][1] = u'Danemark'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 35
-    team_table[kk][4] = 33510054
-    team_table[kk][5] = u'Denmark'
-    team_table[kk][6] = u'Danish'
-    team_table[kk][7] = u'DEN'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129483
-    team_table[kk][10] = 30349364
-    team_table[kk][11] = 30349371
-    team_table[kk][12] = 27048399
-    team_table[kk][13] = 27048400
-    team_table[kk][14] = 20751948
-    team_table[kk][15] = u'Dinamarca'
-    team_table[kk][16] = u'danoise'
-    team_table[kk][17] = u'danois'
-    team_table[kk][27] =99642468
-    team_table[kk][28] =24716211
-    team_table[kk][29] =99646166
-    team_table[kk][30] =99642915
-    team_table[kk][31] =86916474
-    kk += 1
+    dic['DEN']={
+        "name fr":'Danemark',
+        "name en":'Denmark',
+        "name es":'Dinamarca',
+        "adj fr woman":'danoise',
+        "adj fr man": 'danois',
+        "adj en":'Danish',
+        "genre": "du ",
+        "group":1,
+        "country":"Q35",
+        "National championship master":"Q129483",
+        "team woman":"Q33510054",
+        "team man":"Q20751948",
+        "team woman U23":"Q99642468",
+        "team man U23":"Q24716211",
+        "team woman U19":"Q99646166",
+        "team man U19":"Q99642915",       
+        "team all":"Q86916474",
+        "Road race woman":"Q30349364",
+        "Clm woman":"Q30349371",
+        "Road race man":"Q27048399",
+        "Clm man":"Q27048400",
+        }
 
-    team_table[kk][1] = u'République dominicaine'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 786
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Dominican Republic'
-    team_table[kk][6] = u'Dominican Republic'
-    team_table[kk][7] = u'DOM'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955101
-    team_table[kk][10] = 71014194
-    team_table[kk][11] = 71014269
-    team_table[kk][12] = 27681895
-    team_table[kk][13] = 27793536
-    team_table[kk][15] = u'República Dominicana'
-    team_table[kk][16] =u'dominicaine'
-    team_table[kk][17] =u'dominicain'
-    team_table[kk][27] =99642597
-    team_table[kk][28] =99642070
-    team_table[kk][29] =99646286
-    team_table[kk][30] =99643144
-    team_table[kk][31] =99646850
-    kk += 1
+    dic['DOM']={
+        "name fr":'République dominicaine',
+        "name en":'Dominican Republic',
+        "name es":'República Dominicana',
+        "adj fr woman":'dominicaine',
+        "adj fr man": 'dominicain',
+        "adj en":'Dominican Republic',
+        "genre": "de ",
+        "group":1,
+        "country":"Q786",
+        "National championship master":"Q2955101",
+        "team woman U23":"Q99642597",
+        "team man U23":"Q99642070",
+        "team woman U19":"Q99646286",
+        "team man U19":"Q99643144",       
+        "team all":"Q99646850",
+        "Road race woman":"Q71014194",
+        "Clm woman":"Q71014269",
+        "Road race man":"Q27681895",
+        "Clm man":"Q27793536",
+        }
 
-    team_table[kk][1] = u'Équateur'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 736
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Ecuador'
-    team_table[kk][6] = u'Ecuadorian'
-    team_table[kk][7] = u'ECU'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 16538087
-    team_table[kk][10] = 64706798
-    team_table[kk][11] = 64706802
-    team_table[kk][14] = 60638587
-    team_table[kk][15] = u'Ecuador'
-    team_table[kk][16] =u'équatorienne'
-    team_table[kk][17] =u'équatorien'
-    team_table[kk][27] =99642598
-    team_table[kk][28] =55709187
-    team_table[kk][29] =99646287
-    team_table[kk][30] =99643146
-    team_table[kk][31] =86989074
-    kk += 1
+    dic['ECU']={
+        "name fr":'Équateur',
+        "name en":'Ecuador',
+        "name es":'Ecuador',
+        "adj fr woman":'équatorienne',
+        "adj fr man": 'équatorien',
+        "adj en":'Ecuadorian',
+        "genre": "d'",
+        "group":1,
+        "country":"Q736",
+        "National championship master":"Q16538087",
+        "team man":"Q60638587",
+        "team woman U23":"Q99642598",
+        "team man U23":"Q55709187",
+        "team woman U19":"Q99646287",
+        "team man U19":"Q99643146",       
+        "team all":"Q86989074",
+        "Road race woman":"Q64706798",
+        "Clm woman":"Q64706802",
+        }
+        
+    dic['EGY']={
+        "name fr":'Égypte',
+        "name en":'Egypt',
+        "name es":'Egipto',
+        "adj fr woman":'égyptienne',
+        "adj fr man": 'égyptien',
+        "adj en":'Egyptian',
+        "genre": "d'",
+        "group":3,
+        "country":"Q79",
+        "National championship master":"Q2954780",
+        "team woman":"Q99631625",
+        "team man":"Q22337787",
+        "team woman U23":"Q99642529",
+        "team man U23":"Q99642011",
+        "team woman U19":"Q99646226",
+        "team man U19":"Q99642975",       
+        "team all":"Q86989090",
+        "Road race man":"QQ24050002",
+        }
 
-    team_table[kk][1] = u'Égypte'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 79
-    team_table[kk][4] = 99631625
-    team_table[kk][5] = u'Egypt'
-    team_table[kk][6] = u'Egyptian'
-    team_table[kk][7] = u'EGY'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 2954780
-    team_table[kk][12] = 24050002
-    team_table[kk][14] = 22337787
-    team_table[kk][15] = u'Egipto'
-    team_table[kk][16] =u'égyptienne'
-    team_table[kk][17] =u'égyptien'
-    team_table[kk][27] =99642529
-    team_table[kk][28] =99642011
-    team_table[kk][29] =99646226
-    team_table[kk][30] =99642975
-    team_table[kk][31] =86989090
-    kk += 1
+    dic['ESA']={
+        "name fr":'Salvador',
+        "name en":'El Salvador',
+        "name es":'El Salvador',
+        "adj fr woman":'salvadorienne',
+        "adj fr man": 'salvadorien',
+        "adj en":'Salvadoran',
+        "genre": "du ",
+        "group":1,
+        "country":"Q792",
+        "National championship master":"Q16538271",
+        "team woman":"Q43744686",
+        "team man":"Q20751948",
+        "team woman U23":"Q99642599",
+        "team man U23":"Q99642071",
+        "team woman U19":"Q99646288",
+        "team man U19":"Q99643147",       
+        "team all":"Q99646851",
+        "Road race woman":"Q43744865",
+        "Clm woman":"Q43744788",
+        "Road race man":"Q27681898",
+        "Clm man":"Q27793496",
+        }
+        
+    dic['ESP']={
+        "name fr":'Espagne',
+        "name en":'Spain',
+        "name es":'España',
+        "adj fr woman":'espagnole',
+        "adj fr man": 'espagnol',
+        "adj en":'Spanish',
+        "genre": "d'",
+        "group":1,
+        "country":"Q29",
+        "National championship master":"Q129656",
+        "team woman":"Q30753078",
+        "team man":"Q21868414",
+        "team woman U23":"Q99642469",
+        "team man U23":"Q21885968",
+        "team woman U19":"Q99646167",
+        "team man U19":"Q99642916",       
+        "team all":"Q86915746",
+        "Road race woman":"Q31271605",
+        "Clm woman":"Q31271315",
+        "Road race man":"Q27055629",
+        "Clm man":"Q27055699",
+        }    
+ 
+    dic['ERI']={
+        "name fr":'Érythrée',
+        "name en":'Eritrea',
+        "name es":'Eritrea',
+        "adj fr woman":'érythréenne',
+        "adj fr man": 'érythréen',
+        "adj en":'Eritrean',
+        "genre": "d'",
+        "group":1,
+        "country":"Q986",
+        "National championship master":"Q2954781",
+        "team woman":"Q99631626",
+        "team man":"Q22107353",
+        "team woman U23":"Q99642530",
+        "team man U23":"Q55686991",
+        "team woman U19":"Q99646227",
+        "team man U19":"Q99642976",       
+        "team all":"Q86989093",
+        }  
 
-
-    team_table[kk][1] = u'Salvador'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 792
-    team_table[kk][4] = 43744686
-    team_table[kk][5] = u'El Salvador'
-    team_table[kk][6] = u'Salvadoran'
-    team_table[kk][7] = u'ESA'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 16538271
-    team_table[kk][10] = 43744865
-    team_table[kk][11] = 43744788
-    team_table[kk][12] = 27681898
-    team_table[kk][13] = 27793496
-    team_table[kk][15] = u'El Salvador'
-    team_table[kk][16] =u'salvadorienne'
-    team_table[kk][17] =u'salvadorien'
-    team_table[kk][27] =99642599
-    team_table[kk][28] =99642071
-    team_table[kk][29] =99646288
-    team_table[kk][30] =99643147
-    team_table[kk][31] =99646851
-    kk += 1
-
-    team_table[kk][1] = u'Espagne'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 29
-    team_table[kk][4] = 30753078
-    team_table[kk][5] = u'Spain'
-    team_table[kk][6] = u'Spanish'
-    team_table[kk][7] = u'ESP'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129656
-    team_table[kk][10] = 31271605
-    team_table[kk][11] = 31271315
-    team_table[kk][12] = 27055629
-    team_table[kk][13] = 27055699
-    team_table[kk][14] = 21868414
-    team_table[kk][15] = u'España'
-    team_table[kk][16] =u'espagnole'
-    team_table[kk][17] =u'espagnol'
-    team_table[kk][27] =99642469
-    team_table[kk][28] =21885968
-    team_table[kk][29] =99646167
-    team_table[kk][30] =99642916
-    team_table[kk][31] =86915746
-    kk += 1
-    
-    team_table[kk][1] = u'Érythrée'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 986
-    team_table[kk][4] = 99631626
-    team_table[kk][5] = u'Eritrea'
-    team_table[kk][6] = u'Eritrean'
-    team_table[kk][7] = u'ERI'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2954781
-    team_table[kk][14] = 22107353
-    team_table[kk][15] = u'Eritrea'
-    team_table[kk][16] =u'érythréenne'
-    team_table[kk][17] =u'érythréen'
-    team_table[kk][27] =99642530
-    team_table[kk][28] =55686991
-    team_table[kk][29] =99646227
-    team_table[kk][30] =99642976
-    team_table[kk][31] =86989093
-    kk += 1
-
-    team_table[kk][1] = u'Estonie'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 191
-    team_table[kk][4] = 33987947
-    team_table[kk][5] = u'Estonia'
-    team_table[kk][6] = u'Estonian'
-    team_table[kk][7] = u'EST'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129594
-    team_table[kk][10] = 43745198
-    team_table[kk][11] = 43745136
-    team_table[kk][12] = 26976092
-    team_table[kk][13] = 26976108
-    team_table[kk][14] = 20738688
-    team_table[kk][15] = u'Estonia'
-    team_table[kk][16] =u'estonienne'
-    team_table[kk][17] =u'estonien'
-    team_table[kk][27] =99642470
-    team_table[kk][28] =26829117
-    team_table[kk][29] =99646168
-    team_table[kk][30] =99642917
-    team_table[kk][31] =99646706
-    kk += 1
-    
-    team_table[kk][1] = u'Éthiopie'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 115
-    team_table[kk][4] = 99601830
-    team_table[kk][5] = u"Ethiopia"
-    team_table[kk][6] = u"Ethiopian"
-    team_table[kk][7] = u'ETH'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 16538092
-    team_table[kk][14] = 22114621  
-    team_table[kk][15] = u'Etiopía'
-    team_table[kk][16] =u'éthiopienne'
-    team_table[kk][17] =u'éthiopien' 
-    team_table[kk][27] =99642532
-    team_table[kk][28] =99642013
-    team_table[kk][29] =99646228
-    team_table[kk][30] =99642977
-    team_table[kk][31] =86991482
-    kk += 1
+    dic['EST']={
+        "name fr":'Estonie',
+        "name en":'Estonia',
+        "name es":'Estonia',
+        "adj fr woman":'estonienne',
+        "adj fr man": 'estonien',
+        "adj en":'Estonian',
+        "genre": "d'",
+        "group":1,
+        "country":"Q191",
+        "National championship master":"Q129594",
+        "team woman":"Q30753078",
+        "team man":"Q20738688",
+        "team woman U23":"Q99642470",
+        "team man U23":"Q26829117",
+        "team woman U19":"Q99646168",
+        "team man U19":"Q99642917",       
+        "team all":"Q99646706",
+        "Road race woman":"Q43745198",
+        "Clm woman":"Q43745136",
+        "Road race man":"Q26976092",
+        "Clm man":"Q26976108",
+        }
+        
+    dic['ETH']={
+        "name fr":'Éthiopie',
+        "name en":"Ethiopia",
+        "name es":'Etiopía',
+        "adj fr woman":'éthiopienne',
+        "adj fr man": 'éthiopien' ,
+        "adj en":"Ethiopian",
+        "genre": "d'",
+        "group":2,
+        "country":"Q115",
+        "National championship master":"Q16538092",
+        "team woman":"Q99601830",
+        "team man":"Q22114621",
+        "team woman U23":"Q99642532",
+        "team man U23":"Q99642013",
+        "team woman U19":"Q99646228",
+        "team man U19":"Q99642977",       
+        "team all":"Q86991482",
+        }
     
     #FIJ
     #Fiji
        
+    dic['FIN']={
+        "name fr":'Finlande',
+        "name en":'Finland',
+        "name es":'Finlandia',
+        "adj fr woman":'finlandaise',
+        "adj fr man": 'finlandais',
+        "adj en":'Finnish',
+        "genre": "de ",
+        "group":1,
+        "country":"Q33",
+        "National championship master":"Q129570",
+        "team woman":"Q33987956",
+        "team man":"Q33987951",
+        "team woman U23":"Q99642471",
+        "team man U23":"Q99641929",
+        "team woman U19":"Q99646169",
+        "team man U19":"Q99642918",       
+        "team all":"Q99646708",
+        "Road race woman":"Q30332239",
+        "Clm woman":"Q30332311",
+        "Road race man":"Q26985335",
+        "Clm man":"Q26985336",
+        }   
 
-    team_table[kk][1] = u'Finlande'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 33
-    team_table[kk][4] = 33987956
-    team_table[kk][5] = u'Finland'
-    team_table[kk][6] = u'Finnish'
-    team_table[kk][7] = u'FIN'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129570
-    team_table[kk][10] = 30332239
-    team_table[kk][11] = 30332311
-    team_table[kk][12] = 26985335
-    team_table[kk][13] = 26985336
-    team_table[kk][14] = 33987951
-    team_table[kk][15] = u'Finlandia'
-    team_table[kk][16] =u'finlandaise'
-    team_table[kk][17] =u'finlandais'
-    team_table[kk][27] =99642471
-    team_table[kk][28] =99641929
-    team_table[kk][29] =99646169
-    team_table[kk][30] =99642918
-    team_table[kk][31] =99646708
-    kk += 1
-
-    team_table[kk][1] = u'France'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 142
-    team_table[kk][4] = 26215309
-    team_table[kk][5] = u'France'
-    team_table[kk][6] = u'French'
-    team_table[kk][7] = u'FRA'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 32435
-    team_table[kk][10] = 30332844
-    team_table[kk][11] = 30332806
-    team_table[kk][12] = 27048419
-    team_table[kk][13] = 27048421
-    team_table[kk][14] = 3590019
-    team_table[kk][15] = u'Francia'
-    team_table[kk][16] =u'française'
-    team_table[kk][17] =u'français'
-    team_table[kk][27] =99642472
-    team_table[kk][28] =17577069
-    team_table[kk][29] =99646170
-    team_table[kk][30] =99642919
-    team_table[kk][31] =86916365
-    kk += 1
+    dic['FRA']={
+        "name fr":'France',
+        "name en":'France',
+        "name es":'Francia',
+        "adj fr woman":'française',
+        "adj fr man": 'français',
+        "adj en":'French',
+        "genre": "de ",
+        "group":1,
+        "country":"Q142",
+        "National championship master":"Q32435",
+        "team woman":"Q26215309",
+        "team man":"Q3590019",
+        "team woman U23":"Q99642472",
+        "team man U23":"Q17577069",
+        "team woman U19":"Q99646170",
+        "team man U19":"Q99642919",       
+        "team all":"Q86916365",
+        "Road race woman":"Q30332844",
+        "Clm woman":"Q30332806",
+        "Road race man":"Q27048419",
+        "Clm man":"Q27048421",
+        }   
     
     #FSM
     #Micronésie francaise
 
-    team_table[kk][1] = u'Grande-Bretagne'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 145
-    team_table[kk][4] = 28840624
-    team_table[kk][5] = u'Great Britain'
-    team_table[kk][6] = u'British'
-    team_table[kk][7] = u'GBR'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 619439
-    team_table[kk][10] = 30349468
-    team_table[kk][11] = 30349480
-    team_table[kk][12] = 27043957
-    team_table[kk][13] = 27043958
-    team_table[kk][14] = 20942881
-    team_table[kk][15] = u'Gran Bretaña'
-    team_table[kk][16] =u'britannique'
-    team_table[kk][17] =u'britannique'
-    team_table[kk][27] =99642410
-    team_table[kk][28] =21886077
-    team_table[kk][29] =99646103
-    team_table[kk][30] =99642851
-    team_table[kk][31] =87069530
-    kk += 1
+    dic['GBR']={
+        "name fr":'Grande-Bretagne',
+        "name en":'Great Britain',
+        "name es":'Gran Bretaña',
+        "adj fr woman":'britannique',
+        "adj fr man": 'britannique',
+        "adj en":'British',
+        "genre": "de ",
+        "group":1,
+        "country":"Q145",
+        "National championship master":"Q619439",
+        "team woman":"Q28840624",
+        "team man":"Q20942881",
+        "team woman U23":"Q99642410",
+        "team man U23":"Q21886077",
+        "team woman U19":"Q99646103",
+        "team man U19":"Q99642851",       
+        "team all":"Q87069530",
+        "Road race woman":"Q30349468",
+        "Clm woman":"Q30349480",
+        "Road race man":"Q27043957",
+        "Clm man":"Q27043958",
+    } 
 
-    team_table[kk][1] = u'Georgie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 230
-    team_table[kk][4] = 99628156
-    team_table[kk][5] = u'Georgia'
-    team_table[kk][6] = u'Georgian'
-    team_table[kk][7] = u'GEO'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 2955088
-    team_table[kk][12] = 27230608
-    team_table[kk][13] = 27235636
-    team_table[kk][14] = 99627938
-    team_table[kk][15] = u'Georgia'
-    team_table[kk][16] =u'georgienne'
-    team_table[kk][17] =u'georgien'
-    team_table[kk][27] =99642473
-    team_table[kk][28] =99641931
-    team_table[kk][29] =99646171
-    team_table[kk][30] =99642920
-    team_table[kk][31] =99646709
-    kk += 1
+    dic['GEO']={
+        "name fr":'Georgie',
+        "name en":'Georgia',
+        "name es":'Georgia',
+        "adj fr woman":'georgienne',
+        "adj fr man": 'georgien',
+        "adj en":'Georgian',
+        "genre": "de ",
+        "group":3,
+        "country":"Q230",
+        "National championship master":"Q2955088",
+        "team woman":"Q99628156",
+        "team man":"Q99627938",
+        "team woman U23":"Q99642473",
+        "team man U23":"Q99641931",
+        "team woman U19":"Q99646171",
+        "team man U19":"Q99642920",       
+        "team all":"Q99646709",
+        "Road race man":"Q27230608",
+        "Clm man":"Q27235636",
+    } 
 
+    dic['GER']={
+        "name fr":'Allemagne',
+        "name en":'Germany',
+        "name es":'Alemania',
+        "adj fr woman":'allemande',
+        "adj fr man": 'allemand',
+        "adj en":'German',
+        "genre": "d'",
+        "group":1,
+        "country":"Q183",
+        "National championship master":"Q80798",
+        "team woman":"Q33512923",
+        "team man":"Q24053193",
+        "team woman U23":"Q99642474",
+        "team man U23":"Q33512925",
+        "team woman U19":"Q99646172",
+        "team man U19":"Q99642921",       
+        "team all":"Q86916088",
+        "Road race woman":"Q30332737",
+        "Clm woman":"Q30332699",
+        "Road race man":"Q27055631",
+        "Clm man":"Q27055700",
+    } 
 
-    team_table[kk][1] = u'Allemagne'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 183
-    team_table[kk][4] = 33512923
-    team_table[kk][5] = u'Germany'
-    team_table[kk][6] = u'German'
-    team_table[kk][7] = u'GER'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 80798
-    team_table[kk][10] = 30332737
-    team_table[kk][11] = 30332699
-    team_table[kk][12] = 27055631
-    team_table[kk][13] = 27055700
-    team_table[kk][14] = 24053193
-    team_table[kk][15] = u'Alemania'
-    team_table[kk][16] =u'allemande'
-    team_table[kk][17] =u'allemand'
-    team_table[kk][27] =99642474
-    team_table[kk][28] =33512925
-    team_table[kk][29] =99646172
-    team_table[kk][30] =99642921
-    team_table[kk][31] =86916088
-    kk += 1
+    dic['GRE']={
+        "name fr":'Grèce',
+        "name en":'Greece',
+        "name es":'Grecia',
+        "adj fr woman":'grecque',
+        "adj fr man": 'grec',
+        "adj en":'Greek',
+        "genre": "de ",
+        "group":1,
+        "country":"Q41",
+        "National championship master":"Q2955090",
+        "team man":"Q20738687",
+        "team woman U23":"Q99642475",
+        "team man U23":"Q99641852",
+        "team woman U19":"Q99646173",
+        "team man U19":"Q99642922",       
+        "team all":"Q99646710",
+        "Road race woman":"Q55221006",
+        "Clm woman":"Q55220999",
+        "Road race man":"Q27133456",
+        "Clm man":"Q27133617",
+    } 
 
-    team_table[kk][1] = u'Grèce'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 41
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Greece'
-    team_table[kk][6] = u'Greek'
-    team_table[kk][7] = u'GRE'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955090
-    team_table[kk][10] = 55221006
-    team_table[kk][11] = 55220999
-    team_table[kk][12] = 27133456
-    team_table[kk][13] = 27133617
-    team_table[kk][14] = 20738687
-    team_table[kk][15] = u'Grecia'
-    team_table[kk][16] =u'grecque'
-    team_table[kk][17] =u'grec'
-    team_table[kk][27] =99642475
-    team_table[kk][28] =99641852
-    team_table[kk][29] =99646173
-    team_table[kk][30] =99642922
-    team_table[kk][31] =99646710
-    kk += 1
-
-    team_table[kk][1] = u'Guatemala'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 774
-    team_table[kk][4] = 43775548
-    team_table[kk][5] = u'Guatemala'
-    team_table[kk][6] = u'Guatemalan'
-    team_table[kk][7] = u'GUA'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 17624434
-    team_table[kk][10] = 33082364
-    team_table[kk][11] = 33082393
-    team_table[kk][12] = 26973043
-    team_table[kk][13] = 26973044
-    team_table[kk][15] = u'Guatemala'
-    team_table[kk][16] = u'guatémaltèque'
-    team_table[kk][17] = u'guatémaltèque'
-    team_table[kk][27] =99642601
-    team_table[kk][28] =99642073
-    team_table[kk][29] =99646290
-    team_table[kk][30] =99643155
-    team_table[kk][31] =99646854
-    kk += 1
+    dic['GUA']={
+        "name fr":'Guatemala',
+        "name en":'Guatemala',
+        "name es":'Guatemala',
+        "adj fr woman":'guatémaltèque',
+        "adj fr man": 'guatémaltèque',
+        "adj en":'Guatemalan',
+        "genre": "du ",
+        "group":1,
+        "country":"Q774",
+        "National championship master":"Q17624434",
+        "team woman":"Q43775548",
+        "team woman U23":"Q99642601",
+        "team man U23":"Q99642073",
+        "team woman U19":"Q99646290",
+        "team man U19":"Q99643155",       
+        "team all":"Q99646854",
+        "Road race woman":"Q33082364",
+        "Clm woman":"Q33082393",
+        "Road race man":"Q26973043",
+        "Clm man":"Q26973044",
+    } 
     
     #GUM
     #Guam
   
-    team_table[kk][1] = u'Honduras'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 783
-    team_table[kk][4] = 99632801
-    team_table[kk][5] = u'Honduras'
-    team_table[kk][6] = u'Honduran'
-    team_table[kk][7] = u'HON'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 16538248
-    team_table[kk][14] =63386010
-    team_table[kk][15] = u'Honduras'
-    team_table[kk][16] = u'hondurienne'
-    team_table[kk][17] = u'hondurien'
-    team_table[kk][27] =99642604
-    team_table[kk][28] =99642076
-    team_table[kk][29] =99646293
-    team_table[kk][30] =99643159
-    team_table[kk][31] =99646857
-    kk += 1
+    dic['HON']={
+        "name fr":'Honduras',
+        "name en":'Honduras',
+        "name es":'Honduras',
+        "adj fr woman":'hondurienne',
+        "adj fr man": 'hondurien',
+        "adj en":'Honduran',
+        "genre": "du ",
+        "group":3,
+        "country":"Q783",
+        "National championship master":"Q16538248",
+        "team woman":"Q99632801",
+        "team man":"Q63386010",
+        "team woman U23":"Q99642604",
+        "team man U23":"Q99642076",
+        "team woman U19":"Q99646293",
+        "team man U19":"Q99643159",       
+        "team all":"Q99646857",
+    } 
+  
+    dic['HKG']={
+        "name fr":'Hong Kong',
+        "name en":'Hong Kong',
+        "name es":'Hong Kong',
+        "adj fr woman":'hong kongaise',
+        "adj fr man": 'hong kongais',
+        "adj en":'Hong Kong',
+        "genre": "de ",
+        "group":1,
+        "country":"Q8646",
+        "National championship master":"Q16538163",
+        "team woman":"Q33989289",
+        "team man":"Q22981024",
+        "team woman U23":"Q99642627",
+        "team man U23":"Q99641885",
+        "team woman U19":"Q99646317",
+        "team man U19":"Q99643286",       
+        "team all":"Q86989108",
+        "Road race woman":"Q43775863",
+        "Clm woman":"Q43775943",
+        "Road race man":"Q26834056",
+        "Clm man":"Q26834055",
+    } 
 
-    team_table[kk][1] = u'Hong Kong'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 8646
-    team_table[kk][4] = 33989289
-    team_table[kk][5] = u'Hong Kong'
-    team_table[kk][6] = u'Hong Kong'
-    team_table[kk][7] = u'HKG'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 16538163
-    team_table[kk][10] = 43775863
-    team_table[kk][11] = 43775943
-    team_table[kk][12] = 26834056
-    team_table[kk][13] = 26834055
-    team_table[kk][14] = 22981024
-    team_table[kk][15] = u'Hong Kong'
-    team_table[kk][16] =u'hong kongaise'
-    team_table[kk][17] =u'hong kongais'
-    team_table[kk][27] =99642627
-    team_table[kk][28] =99641885
-    team_table[kk][29] =99646317
-    team_table[kk][30] =99643286
-    team_table[kk][31] =86989108
-    kk += 1
-
-    team_table[kk][1] = u'Hongrie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 28
-    team_table[kk][4] = 43776079
-    team_table[kk][5] = u'Hungary'
-    team_table[kk][6] = u'Hungarian'
-    team_table[kk][7] = u'HUN'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955089
-    team_table[kk][10] = 32161692
-    team_table[kk][11] = 32163348
-    team_table[kk][12] = 27043924
-    team_table[kk][13] = 27043925
-    team_table[kk][14] = 20738686
-    team_table[kk][15] = u'Hungría'
-    team_table[kk][16] =u'hongroise'
-    team_table[kk][17] =u'hongrois'
-    team_table[kk][27] =99642476
-    team_table[kk][28] =95121687
-    team_table[kk][29] =99646174
-    team_table[kk][30] =99642923
-    team_table[kk][31] =99646711
-    kk += 1
+    dic['HUN']={
+        "name fr":'Hongrie',
+        "name en":'Hungary',
+        "name es":'Hungría',
+        "adj fr woman":'hongroise',
+        "adj fr man": 'hongrois',
+        "adj en":'Hungarian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q28",
+        "National championship master":"Q2955089",
+        "team woman":"Q43776079",
+        "team man":"Q20738686",
+        "team woman U23":"Q99642476",
+        "team man U23":"Q95121687",
+        "team woman U19":"Q99646174",
+        "team man U19":"Q99642923",       
+        "team all":"Q99646711",
+        "Road race woman":"Q32161692",
+        "Clm woman":"Q32163348",
+        "Road race man":"Q27043924",
+        "Clm man":"Q20738686",
+    } 
     
-    team_table[kk][1] = u'Indonésie'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 252
-    team_table[kk][4] = 99630248
-    team_table[kk][5] = u'Indonesia'
-    team_table[kk][6] = u'Indonesian'
-    team_table[kk][7] = u'INA'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 16538081
-    team_table[kk][14] = 47494811
-    team_table[kk][15] = u'Indonesia'
-    team_table[kk][16] =u'indonésienne'
-    team_table[kk][17] =u'indonésien'
-    team_table[kk][27] =99642425
-    team_table[kk][28] =99641886
-    team_table[kk][29] =99646118
-    team_table[kk][30] =99642866
-    team_table[kk][31] =99646667
-    kk += 1    
-
-    team_table[kk][1] = u'Inde'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 668
-    team_table[kk][4] = 99630250
-    team_table[kk][5] = u'India'
-    team_table[kk][6] = u'Indian'
-    team_table[kk][7] = u'IND'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 16538079
-    team_table[kk][14] =99629588
-    team_table[kk][15] = u'India'
-    team_table[kk][16] =u'indienne'
-    team_table[kk][17] =u'indien'
-    team_table[kk][27] =99642426
-    team_table[kk][28] =99641887
-    team_table[kk][29] =99646119
-    team_table[kk][30] =99642867
-    team_table[kk][31] =99646668
-    kk += 1
-
-
-    team_table[kk][1] = u'Iran'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 794
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Iran'
-    team_table[kk][6] = u'Iranian'
-    team_table[kk][7] = u'IRI'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 2912687
-    team_table[kk][10] = 55995447
-    team_table[kk][11] = 55995576
-    team_table[kk][12] = 24050070
-    team_table[kk][13] = 24050074
-    team_table[kk][14] =83295978
-    team_table[kk][15] = u'Irán'
-    team_table[kk][16] =u'iranienne'
-    team_table[kk][17] =u'iranien'
-    team_table[kk][27] =99642427
-    team_table[kk][28] =99641848
-    team_table[kk][29] =99646121
-    team_table[kk][30] =99642869
-    team_table[kk][31] =86989063
-    kk += 1
+    dic['INA']={
+        "name fr":'Indonésie',
+        "name en":'Indonesia',
+        "name es":'Indonesia',
+        "adj fr woman":'indonésienne',
+        "adj fr man": 'indonésien',
+        "adj en":'Indonesian',
+        "genre": "d'",
+        "group":3,
+        "country":"Q252",
+        "National championship master":"Q16538081",
+        "team woman":"Q99630248",
+        "team man":"Q47494811",
+        "team woman U23":"Q99642425",
+        "team man U23":"Q99641886",
+        "team woman U19":"Q99646118",
+        "team man U19":"Q99642866",       
+        "team all":"Q99646667",
+    } 
     
-    team_table[kk][1] = u'Irak'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 796
-    team_table[kk][4] = 99630252
-    team_table[kk][5] = u'Iraq'
-    team_table[kk][6] = u'Iraqi'
-    team_table[kk][7] = u'IRQ'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 110786128
-    team_table[kk][14] =99629590
-    team_table[kk][15] = u'Irak'
-    team_table[kk][16] =u'irakienne'
-    team_table[kk][17] =u'irakien'
-    team_table[kk][27] =99642428
-    team_table[kk][28] =99641888
-    team_table[kk][29] =99646122
-    team_table[kk][30] =99642870
-    team_table[kk][31] =99646669
-    kk += 1
+    dic['IND']={
+        "name fr":'Inde',
+        "name en":'India',
+        "name es":'India',
+        "adj fr woman":'indienne',
+        "adj fr man": 'indien',
+        "adj en":'Indian',
+        "genre": "d'",
+        "group":3,
+        "country":"Q668",
+        "National championship master":"Q16538079",
+        "team woman":"Q99630250",
+        "team man":"Q99629588",
+        "team woman U23":"Q99642426",
+        "team man U23":"Q99641887",
+        "team woman U19":"Q99646119",
+        "team man U19":"Q99642867",       
+        "team all":"Q99646668",
+    } 
+     
+    dic['IRI']={
+        "name fr":'Iran',
+        "name en":'Iran',
+        "name es":'Irán',
+        "adj fr woman":'iranienne',
+        "adj fr man": 'iranien',
+        "adj en":'Iranian',
+        "genre": "d'",
+        "group":2,
+        "country":"Q794",
+        "National championship master":"Q2912687",
+        "team woman":"Q43776079",
+        "team man":"Q20738686",
+        "team woman U23":"Q99642427",
+        "team man U23":"Q99641848",
+        "team woman U19":"Q99646121",
+        "team man U19":"Q99642869",       
+        "team all":"Q86989063",
+        "Road race woman":"Q55995447",
+        "Clm woman":"Q55995576",
+        "Road race man":"Q24050070",
+        "Clm man":"Q24050074",
+    } 
+
+    dic['IRQ']={
+        "name fr":'Irak',
+        "name en":'Iraq',
+        "name es":'Irak',
+        "adj fr woman":'irakienne',
+        "adj fr man": 'irakien',
+        "adj en":'Iraqi',
+        "genre": "d'",
+        "group":2,
+        "country":"Q796",
+        "National championship master":"Q110786128",
+        "team woman":"Q99630252",
+        "team man":"Q99629590",
+        "team woman U23":"Q99642428",
+        "team man U23":"Q99641888",
+        "team woman U19":"Q99646122",
+        "team man U19":"Q99642870",       
+        "team all":"Q99646669",
+    } 
+
+    dic['IRL']={
+        "name fr":'Irlande',
+        "name en":'Irland',
+        "name es":'Irlanda',
+        "adj fr woman":'irlandaise',
+        "adj fr man": 'irlandais',
+        "adj en":'Irish',
+        "genre": "d'",
+        "group":1,
+        "country":"Q27",
+        "National championship master":"Q13580466",
+        "team woman":"Q43776389",
+        "team man":"Q34675814",
+        "team woman U23":"Q99642477",
+        "team man U23":"Q55689976",
+        "team woman U19":"Q99646175",
+        "team man U19":"Q99642924",       
+        "team all":"Q99646712",
+        "Road race woman":"Q33083546",
+        "Clm woman":"Q33083817",
+        "Road race man":"Q27048374",
+        "Clm man":"Q27048375",
+    } 
+
+    dic['ISL']={
+        "name fr":'Islande',
+        "name en":"Iceland",
+        "name es":"Islandia",
+        "adj fr woman":"islandaise",
+        "adj fr man": "islandais",
+        "adj en":"Iceland",
+        "genre": "d'",
+        "group":2,
+        "country":"Q189",
+        "National championship master":"Q2803099",
+        "team woman":"Q99545212",
+        "team woman U23":"Q99642478",
+        "team man U23":"Q99641934",
+        "team woman U19":"Q99646176",
+        "team man U19":"Q99642925",       
+        "team all":"Q99646714",
+        "Road race woman":"Q107309926",
+        "Clm woman":"Q107309932",
+        "Clm man":"Q107289180",
+    } 
     
-    team_table[kk][1] = u'Irlande'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 27
-    team_table[kk][4] = 43776389
-    team_table[kk][5] = u'Irland'
-    team_table[kk][6] = u'Irish'
-    team_table[kk][7] = u'IRL'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 13580466
-    team_table[kk][10] = 33083546
-    team_table[kk][11] = 33083817
-    team_table[kk][12] = 27048374
-    team_table[kk][13] = 27048375
-    team_table[kk][14] = 34675814
-    team_table[kk][15] = u'Irlanda'
-    team_table[kk][16] =u'irlandaise'
-    team_table[kk][17] =u'irlandais'
-    team_table[kk][27] =99642477
-    team_table[kk][28] =55689976
-    team_table[kk][29] =99646175
-    team_table[kk][30] =99642924
-    team_table[kk][31] =99646712
-    kk += 1
+    dic['ISR']={
+        "name fr":'Israel',
+        "name en":'Israel',
+        "name es":'Israel',
+        "adj fr woman":'israélienne',
+        "adj fr man":'israélien',
+        "adj en":'Israel',
+        "genre": "d'",
+        "group":1,
+        "country":"Q801",
+        "National championship master":"Q2954766",
+        "team woman":"Q33989947",
+        "team woman U23":"Q99642479",
+        "team man U23":"Q99641935",
+        "team woman U19":"Q99646177",
+        "team man U19":"Q99642926",       
+        "team all":"Q99646715",
+        "Road race woman":"Q30349213",
+        "Clm woman":"Q30349222",
+        "Road race man":"Q26972921",
+        "Clm man":"Q26972922",
+    } 
     
-    team_table[kk][1] = u'Islande'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 189
-    team_table[kk][4] = 99545212
-    team_table[kk][5] = u"Iceland"
-    team_table[kk][6] = u"Iceland"
-    team_table[kk][7] = u'ISL'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 2803099
-    team_table[kk][10] =107309926
-    team_table[kk][11] =107309932
-    team_table[kk][13] =107289180
-    team_table[kk][15] =u"Islandia"
-    team_table[kk][16] = u"islandaise"
-    team_table[kk][17] = u"islandais"
-    team_table[kk][27] =99642478
-    team_table[kk][28] =99641934
-    team_table[kk][29] =99646176
-    team_table[kk][30] =99642925
-    team_table[kk][31] =99646714
-    kk += 1
+    dic['ITA']={
+        "name fr":'Italie',
+        "name en":'Italia',
+        "name es":'Italia',
+        "adj fr woman":'italienne',
+        "adj fr man":'italien',
+        "adj en":'Italian',
+        "genre": "d'",
+        "group":1,
+        "country":"Q38",
+        "National championship master":"Q32213",
+        "team woman":"Q33514038",
+        "team man":"Q3873620",
+        "team woman U23":"Q99642480",
+        "team man U23":"Q33514040",
+        "team woman U19":"Q99646178",
+        "team man U19":"Q99642927",       
+        "team all":"Q86915745",
+        "Road race woman":"Q30332988",
+        "Clm woman":"Q30333018",
+        "Road race man":"Q27043324",
+        "Clm man":"Q27043325",
+    } 
 
-    team_table[kk][1] = u'Israel'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 801
-    team_table[kk][4] = 33989947
-    team_table[kk][5] = u'Israel'
-    team_table[kk][6] = u'Israel'
-    team_table[kk][7] = u'ISR'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2954766
-    team_table[kk][10] = 30349213
-    team_table[kk][11] = 30349222
-    team_table[kk][12] = 26972921
-    team_table[kk][13] = 26972922
-    team_table[kk][15] = u'Israel'
-    team_table[kk][16] =u'israélienne'
-    team_table[kk][17] =u'israélien'
-    team_table[kk][27] =99642479
-    team_table[kk][28] =99641935
-    team_table[kk][29] =99646177
-    team_table[kk][30] =99642926
-    team_table[kk][31] =99646715
-    kk += 1
+    dic['JPN']={   # CIO is JAP
+        "name fr":'Japon',
+        "name en":'Japan',
+        "name es":'Japón',
+        "adj fr woman":'japonaise',
+        "adj fr man":'japonais',
+        "adj en":'Japanese',
+        "genre": "du ",
+        "group":1,
+        "country":"Q17",
+        "National championship master":"Q80646",
+        "team woman":"Q33994132",
+        "team man":"Q33993739",
+        "team woman U23":"Q99642430",
+        "team man U23":"Q55687013",
+        "team woman U19":"Q99646124",
+        "team man U19":"Q99642873",       
+        "team all":"Q86989112",
+        "Road race woman":"Q30557308",
+        "Clm woman":"Q30557246",
+        "Road race man":"Q27056303",
+        "Clm man":"Q27056383",
+    } 
 
-    team_table[kk][1] = u'Italie'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 38
-    team_table[kk][4] = 33514038
-    team_table[kk][5] = u'Italia'
-    team_table[kk][6] = u'Italian'
-    team_table[kk][7] = u'ITA'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 32213
-    team_table[kk][10] = 30332988
-    team_table[kk][11] = 30333018
-    team_table[kk][12] = 27043324
-    team_table[kk][13] = 27043325
-    team_table[kk][14] = 3873620
-    team_table[kk][15] = u'Italia'
-    team_table[kk][16] =u'italienne'
-    team_table[kk][17] =u'italien'
-    team_table[kk][27] =99642480
-    team_table[kk][28] =33514040
-    team_table[kk][29] =99646178
-    team_table[kk][30] =99642927
-    team_table[kk][31] =86915745
-    kk += 1
-
-    team_table[kk][1] = u'Japon'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 17
-    team_table[kk][4] = 33994132
-    team_table[kk][5] = u'Japan'
-    team_table[kk][6] = u'Japanese'
-    team_table[kk][7] = u'JPN'  # CIO is JAP
-    team_table[kk][8] = 1
-    team_table[kk][9] = 80646
-    team_table[kk][10] = 30557308
-    team_table[kk][11] = 30557246
-    team_table[kk][12] = 27056303
-    team_table[kk][13] = 27056383
-    team_table[kk][14] = 33993739
-    team_table[kk][15] = u'Japón'
-    team_table[kk][16] =u'japonaise'
-    team_table[kk][17] =u'japonais'
-    team_table[kk][27] =99642430
-    team_table[kk][28] =55687013
-    team_table[kk][29] =99646124
-    team_table[kk][30] =99642873
-    team_table[kk][31] =86989112
-    kk += 1
-
-    team_table[kk][1] = u'Kazakhstan'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 232
-    team_table[kk][4] = 43094028
-    team_table[kk][5] = u'Kazakhstan'
-    team_table[kk][6] = u'Kazakhstani'
-    team_table[kk][7] = u'KAZ'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 689090
-    team_table[kk][10] = 31510394
-    team_table[kk][11] = 31529645
-    team_table[kk][12] = 27042502
-    team_table[kk][13] = 27042506
-    team_table[kk][14] = 20738685
-    team_table[kk][15] = u'Kazajistán'
-    team_table[kk][16] =u'Kazakhe'
-    team_table[kk][17] =u'Kazakhe'
-    team_table[kk][27] =99642431
-    team_table[kk][28] =55687030
-    team_table[kk][29] =99646126
-    team_table[kk][30] =99642874
-    team_table[kk][31] =86989115
-    kk += 1
+    dic['KAZ']={   
+        "name fr":'Kazakhstan',
+        "name en":'Kazakhstan',
+        "name es":'Kazajistán',
+        "adj fr woman":'Kazakhe',
+        "adj fr man":'Kazakhe',
+        "adj en":'Kazakhstani',
+        "genre": "du ",
+        "group":1,
+        "country":"Q232",
+        "National championship master":"Q689090",
+        "team woman":"Q43094028",
+        "team man":"Q20738685",
+        "team woman U23":"Q99642431",
+        "team man U23":"Q55687030",
+        "team woman U19":"Q99646126",
+        "team man U19":"Q99642874",       
+        "team all":"Q86989115",
+        "Road race woman":"Q31510394",
+        "Clm woman":"Q31529645",
+        "Road race man":"Q27042502",
+        "Clm man":"Q27042506",
+    } 
     
-    team_table[kk][1] = u'Arabie Saoudite'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 851
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Saudi Arabia'
-    team_table[kk][6] = u'Saudi Arabian'
-    team_table[kk][7] = u'KSA'
-    team_table[kk][8] = 3
-    team_table[kk][9] =16538044
-    team_table[kk][14] =22337809
-    team_table[kk][15] = u'Arabia Saudita'
-    team_table[kk][16] =u'saoudienne'
-    team_table[kk][17] =u'saoudien'
-    team_table[kk][27] =99642434
-    team_table[kk][28] =99641894
-    team_table[kk][29] =99646129
-    team_table[kk][30] =99642877
-    team_table[kk][31] =99646634
-    kk += 1
+    dic['KSA']={   
+        "name fr":'Arabie Saoudite',
+        "name en":'Saudi Arabia',
+        "name es":'Arabia Saudita',
+        "adj fr woman":'saoudienne',
+        "adj fr man":'saoudien',
+        "adj en":'Saudi Arabian',
+        "genre": "d'",
+        "group":3,
+        "country":"Q851",
+        "National championship master":"Q16538044",
+        "team man":"Q22337809",
+        "team woman U23":"Q99642434",
+        "team man U23":"Q99641894",
+        "team woman U19":"Q99646129",
+        "team man U19":"Q99642877",       
+        "team all":"Q99646634",
+    } 
     
+    dic['LAT']={
+        "name fr":'Lettonie',
+        "name en":'Latvia',
+        "name es":'Letonia',
+        "adj fr woman":'lettonienne',
+        "adj fr man":'lettonien',
+        "adj en":'Latvian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q211",
+        "National championship master":"Q32213",
+        "team woman":"Q44192852",
+        "team man":"Q35541046",
+        "team woman U23":"Q99642482",
+        "team man U23":"Q33996116",
+        "team woman U19":"Q99646180",
+        "team man U19":"Q99642929",       
+        "team all":"Q99646717",
+        "Road race woman":"Q30556990",
+        "Clm woman":"Q30556121",
+        "Road race man":"Q27042790",
+        "Clm man":"Q17319607",
+    } 
 
-    team_table[kk][1] = u'Lettonie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 211
-    team_table[kk][4] = 44192852
-    team_table[kk][5] = u'Latvia'
-    team_table[kk][6] = u'Latvian'
-    team_table[kk][7] = u'LAT'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 1983791
-    team_table[kk][10] = 30556990
-    team_table[kk][11] = 30556121
-    team_table[kk][12] = 27042790
-    team_table[kk][13] = 17319607
-    team_table[kk][14] = 35541046
-    team_table[kk][15] = u'Letonia'
-    team_table[kk][16] =u'lettonienne'
-    team_table[kk][17] =u'lettonien'
-    team_table[kk][27] =99642482
-    team_table[kk][28] =33996116
-    team_table[kk][29] =99646180
-    team_table[kk][30] =99642929
-    team_table[kk][31] =99646717
-    kk += 1
+    dic['LTU']={
+        "name fr":'Lituanie',
+        "name en":'Lithuania',
+        "name es":'Lituania',
+        "adj fr woman":'lituanienne',
+        "adj fr man":'lituanien',
+        "adj en":'Lithuanian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q37",
+        "National championship master":"Q129523",
+        "team woman":"Q33996970",
+        "team man":"Q33996653",
+        "team woman U23":"Q99642483",
+        "team man U23":"Q99641940",
+        "team woman U19":"Q99646181",
+        "team man U19":"Q99642930",       
+        "team all":"Q99646718",
+        "Road race woman":"Q32604159",
+        "Clm woman":"Q32603438",
+        "Road race man":"Q27133451",
+        "Clm man":"Q27133615",
+    } 
 
-    team_table[kk][1] = u'Lituanie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 37
-    team_table[kk][4] = 33996970
-    team_table[kk][5] = u'Lithuania'
-    team_table[kk][6] = u'Lithuanian'
-    team_table[kk][7] = u'LTU'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129523
-    team_table[kk][10] = 32604159
-    team_table[kk][11] = 32603438
-    team_table[kk][12] = 27133451
-    team_table[kk][13] = 27133615
-    team_table[kk][14] = 33996653
-    team_table[kk][15] = u'Lituania'
-    team_table[kk][16] =u'lituanienne'
-    team_table[kk][17] =u'lituanien'
-    team_table[kk][27] =99642483
-    team_table[kk][28] =99641940
-    team_table[kk][29] =99646181
-    team_table[kk][30] =99642930
-    team_table[kk][31] =99646718
-    kk += 1
+    dic['LUX']={
+        "name fr":'Luxembourg',
+        "name en":'Luxembourg',
+        "name es":'Luxemburgo',
+        "adj fr woman":'luxembourgeoise',
+        "adj fr man":'luxembourgeois',
+        "adj en":'Luxembourgish',
+        "genre": "du ",
+        "group":1,
+        "country":"Q32",
+        "National championship master":"Q129589",
+        "team woman":"Q33514339",
+        "team man":"Q36097360",
+        "team woman U23":"Q99642484",
+        "team man U23":"Q55687049",
+        "team woman U19":"Q99646182",
+        "team man U19":"Q99642931",       
+        "team all":"Q99646719",
+        "Road race woman":"Q30557561",
+        "Clm woman":"Q30557504",
+        "Road race man":"Q27056305",
+        "Clm man":"Q17005940",
+    } 
+    
+    dic['MAS']={
+        "name fr":'Malaisie',
+        "name en":'Malaysia',
+        "name es":'Malasia',
+        "adj fr woman":'malaisienne',
+        "adj fr man":'malaisien',
+        "adj en":'Malaysian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q833",
+        "National championship master":"Q2955092",
+        "team woman":"Q33998830",
+        "team man":"Q23799155",
+        "team woman U23":"Q99642438",
+        "team man U23":"Q99641849",
+        "team woman U19":"Q99646133",
+        "team man U19":"Q99642881",       
+        "team all":"Q86989117",
+        "Road race woman":"Q44193897",
+        "Clm woman":"Q44193874",
+        "Road race man":"Q24731826",
+        "Clm man":"Q24731829",
+    }
+    
+    dic['MAR']={
+        "name fr":'Maroc',
+        "name en":'Morocco',
+        "name es":'Marruecos',
+        "adj fr woman":'marocaine',
+        "adj fr man":'marocain',
+        "adj en":'Moroccan',
+        "genre": "du ",
+        "group":1,
+        "country":"Q1028",
+        "National championship master":"Q2955209",
+        "team woman":"Q99631646",
+        "team man":"Q3590711",
+        "team woman U23":"Q99642545",
+        "team man U23":"Q55686886",
+        "team woman U19":"Q99646242",
+        "team man U19":"Q99642989",       
+        "team all":"Q86989098",
+        "Road race woman":"Q65965631",
+        "Clm woman":"Q65965633",
+    }
+    
+    dic['MEX']={
+        "name fr":'Mexique',
+        "name en":'Mexico',
+        "name es":'México',
+        "adj fr woman":'mexicaine',
+        "adj fr man":'mexicain',
+        "adj en":'Mexican',
+        "genre": "du ",
+        "group":1,
+        "country":"Q96",
+        "National championship master":"Q114396",
+        "team woman":"Q33999133",
+        "team man":"Q22132096",
+        "team woman U23":"Q99642608",
+        "team man U23":"Q99641864",
+        "team woman U19":"Q99646297",
+        "team man U19":"Q99643176",       
+        "team all":"Q99646862",
+        "Road race woman":"Q45083519",
+        "Clm woman":"Q45083601",
+        "Road race man":"Q27230607",
+        "Clm man":"Q27235634",
+    }
 
-    team_table[kk][1] = u'Luxembourg'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 32
-    team_table[kk][4] = 33514339
-    team_table[kk][5] = u'Luxembourg'
-    team_table[kk][6] = u'Luxembourgish'
-    team_table[kk][7] = u'LUX'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129589
-    team_table[kk][10] = 30557561
-    team_table[kk][11] = 30557504
-    team_table[kk][12] = 27056305
-    team_table[kk][13] = 17005940
-    team_table[kk][14] = 36097360
-    team_table[kk][15] = u'Luxemburgo'
-    team_table[kk][16] =u'luxembourgeoise'
-    team_table[kk][17] =u'luxembourgeois'
-    team_table[kk][27] =99642484
-    team_table[kk][28] =55687049
-    team_table[kk][29] =99646182
-    team_table[kk][30] =99642931
-    team_table[kk][31] =99646719
-    kk += 1
+    dic['MKD']={
+        "name fr":'Macédoine du Nord',
+        "name en":'North Macedonia',
+        "name es":'Macedonia del Norte',
+        "adj fr woman":'macédonienne',
+        "adj fr man":'macédonien',
+        "adj en":'Macedonian',
+        "genre": "du ",
+        "group":3,
+        "country":"Q221",
+        "National championship master":"Q16538171",
+        "team woman":"Q99628164",
+        "team man":"Q22132096",
+        "team woman U23":"Q99642486",
+        "team man U23":"Q99641951",
+        "team woman U19":"Q99646184",
+        "team man U19":"Q99642933",       
+        "team all":"Q99646721",
+        "Road race woman":"Q64624273",
+        "Clm woman":"Q64624304",
+    }
 
-    team_table[kk][1] = u'Malaisie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 833
-    team_table[kk][4] = 33998830
-    team_table[kk][5] = u'Malaysia'
-    team_table[kk][6] = u'Malaysian'
-    team_table[kk][7] = u'MAS'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955092
-    team_table[kk][10] = 44193897
-    team_table[kk][11] = 44193874
-    team_table[kk][12] = 24731826
-    team_table[kk][13] = 24731829
-    team_table[kk][14] = 23799155
-    team_table[kk][15] = u'Malasia'
-    team_table[kk][16] =u'malaisienne'
-    team_table[kk][17] =u'malaisien'
-    team_table[kk][27] =99642438
-    team_table[kk][28] =99641849
-    team_table[kk][29] =99646133
-    team_table[kk][30] =99642881
-    team_table[kk][31] =86989117
-    kk += 1
+    dic['MGL']={
+        "name fr":'Mongolie',
+        "name en":'Mongolia',
+        "name es":'Mongolia',
+        "adj fr woman":'mongole',
+        "adj fr man":'mongol',
+        "adj en":'Mongolian',
+        "genre": "de ",
+        "group":2,
+        "country":"Q711",
+        "National championship master":"Q2955095",
+        "team woman":"Q99628164",
+        "team man":"Q47494816",
+        "team woman U23":"Q99642439",
+        "team man U23":"Q22981033",
+        "team woman U19":"Q99646134",
+        "team man U19":"Q99642882",       
+        "team all":"Q99646676",
+        "Road race woman":"Q107382723",
+        "Clm woman":"Q107382728",
+        "Road race man":"Q27056315",
+        "Clm man":"Q27056392",
+    }
 
-    team_table[kk][1] = u'Maroc'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 1028
-    team_table[kk][4] = 99631646
-    team_table[kk][5] = u'Morocco'
-    team_table[kk][6] = u'Moroccan'
-    team_table[kk][7] = u'MAR'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955209
-    team_table[kk][10] = 65965631
-    team_table[kk][11] = 65965633
-    team_table[kk][14] = 3590711
-    team_table[kk][15] = u'Marruecos'
-    team_table[kk][16] =u'marocaine'
-    team_table[kk][17] =u'marocain'
-    team_table[kk][27] =99642545
-    team_table[kk][28] =55686886
-    team_table[kk][29] =99646242
-    team_table[kk][30] =99642989
-    team_table[kk][31] =86989098
-    kk += 1
+    dic['MRI']={
+        "name fr":'Maurice',
+        "name en":'Mauritius',
+        "name es":'Mauricio',
+        "adj fr woman":'mauricienne',
+        "adj fr man":'mauricien',
+        "adj en":'Mauritian',
+        "genre": "de ",
+        "group":2,
+        "country":"Q1027",
+        "National championship master":"Q2955095",
+        "team woman":"Q45083741",
+        "team woman U23":"Q99642549",
+        "team man U23":"Q99642031",
+        "team woman U19":"Q99646246",
+        "team man U19":"Q99642993",       
+        "team all":"Q99646809",
+        "Road race woman":"Q45083914",
+        "Clm woman":"Q45083963",
+    }
 
-    team_table[kk][1] = u'Mexique'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 96
-    team_table[kk][4] = 33999133
-    team_table[kk][5] = u'Mexico'
-    team_table[kk][6] = u'Mexican'
-    team_table[kk][7] = u'MEX'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 114396
-    team_table[kk][10] = 45083519
-    team_table[kk][11] = 45083601
-    team_table[kk][12] = 27230607
-    team_table[kk][13] = 27235634
-    team_table[kk][14] = 22132096
-    team_table[kk][15] = u'México'
-    team_table[kk][16] =u'mexicaine'
-    team_table[kk][17] =u'mexicain'
-    team_table[kk][27] =99642608
-    team_table[kk][28] =99641864
-    team_table[kk][29] =99646297
-    team_table[kk][30] =99643176
-    team_table[kk][31] =99646862
-    kk += 1
-
-    team_table[kk][1] = u'Macédoine du Nord'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 221
-    team_table[kk][4] = 99628164
-    team_table[kk][5] = u'North Macedonia'
-    team_table[kk][6] = u'Macedonian'
-    team_table[kk][7] = u'MKD'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 16538171
-    team_table[kk][10] = 64624273
-    team_table[kk][11] = 64624304
-    team_table[kk][15] = u'Macedonia del Norte'
-    team_table[kk][16] =u'macédonienne'
-    team_table[kk][17] =u'macédonien'
-    team_table[kk][27] =99642486
-    team_table[kk][28] =99641951
-    team_table[kk][29] =99646184
-    team_table[kk][30] =99642933
-    team_table[kk][31] =99646721
-    kk += 1
-
-    team_table[kk][1] = u'Mongolie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 711
-    team_table[kk][4] = 99628164
-    team_table[kk][5] = u'Mongolia'
-    team_table[kk][6] = u'Mongolian'
-    team_table[kk][7] = u'MGL'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 2955095
-    team_table[kk][10] = 107382723
-    team_table[kk][11] = 107382728
-    team_table[kk][12] = 27056315
-    team_table[kk][13] = 27056392
-    team_table[kk][14] = 47494816
-    team_table[kk][15] = u'Mongolia'
-    team_table[kk][16] =u'mongole'
-    team_table[kk][17] =u'mongol'
-    team_table[kk][27] =99642439
-    team_table[kk][28] =22981033
-    team_table[kk][29] =99646134
-    team_table[kk][30] =99642882
-    team_table[kk][31] =99646676
-    kk += 1
-
-    team_table[kk][1] = u'Maurice'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 1027
-    team_table[kk][4] = 45083741
-    team_table[kk][5] = u'Mauritius'
-    team_table[kk][6] = u'Mauritian'
-    team_table[kk][7] = u'MRI'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 17354260
-    team_table[kk][10] = 45083914
-    team_table[kk][11] = 45083963
-    team_table[kk][15] = u'Mauricio'
-    team_table[kk][16] =u'mauricienne'
-    team_table[kk][17] =u'mauricien'
-    team_table[kk][27] =99642549
-    team_table[kk][28] =99642031
-    team_table[kk][29] =99646246
-    team_table[kk][30] =99642993
-    team_table[kk][31] =99646809
-    kk += 1
 
     #MHL
     #île Marshall
 
+    dic['NAM']={
+        "name fr":'Namibie',
+        "name en":'Namibia',
+        "name es":'Namibia',
+        "adj fr woman":'namibienne',
+        "adj fr man":'namibien',
+        "adj en":'Namibian',
+        "genre": "de ",
+        "group":2,
+        "country":"Q1030",
+        "National championship master":"Q1826259",
+        "team woman":"Q48648460",
+        "team man":"Q68475079",
+        "team woman U23":"Q99642551",
+        "team man U23":"Q99642033",
+        "team woman U19":"Q99646248",
+        "team man U19":"Q99642995",       
+        "team all":"Q86989101",
+        "Road race woman":"Q31271492",
+        "Clm woman":"Q31271499",
+        "Road race man":"Q22680990",
+        "Clm man":"Q22680998",
+    }
 
-    team_table[kk][1] = u'Namibie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 1030
-    team_table[kk][4] = 48648460
-    team_table[kk][5] = u'Namibia'
-    team_table[kk][6] = u'Namibian'
-    team_table[kk][7] = u'NAM'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 1826259
-    team_table[kk][10] = 31271492
-    team_table[kk][11] = 31271499
-    team_table[kk][12] = 22680990
-    team_table[kk][13] = 22680998
-    team_table[kk][14] = 68475079
-    team_table[kk][15] = u'Namibia'
-    team_table[kk][16] =u'namibienne'
-    team_table[kk][17] =u'namibien'
-    team_table[kk][27] =99642551
-    team_table[kk][28] =99642033
-    team_table[kk][29] =99646248
-    team_table[kk][30] =99642995
-    team_table[kk][31] =86989101
-    kk += 1
+    dic['NCA']={
+        "name fr":'Nicaragua',
+        "name en":'Nicaragua',
+        "name es":'Nicaragua',
+        "adj fr woman":'nicaraguayenne',
+        "adj fr man":'nicaraguayen',
+        "adj en":'Nicaragua',
+        "genre": "du ",
+        "group":3,
+        "country":"Q811",
+        "National championship master":"Q17624443",
+        "team woman":"Q99632806",
+        "team man":"Q99632649",
+        "team woman U23":"Q99642609",
+        "team man U23":"Q99642081",
+        "team woman U19":"Q99646299",
+        "team man U19":"Q99643178",       
+        "team all":"Q99646648",
+    }  
+
+    dic['NED']={
+        "name fr":'Pays-Bas',
+        "name en":'Netherland',
+        "name es":'Países Bajos',
+        "adj fr woman":'néerlandaise',
+        "adj fr man":'néerlandais',
+        "adj en":'Netherlands',
+        "genre": "des ",
+        "genre es": 'los',
+        "group":1,
+        "country":"Q29999",
+        "National championship master":"Q2726103",
+        "team woman":"Q27701263",
+        "team man":"Q30748556",
+        "team woman U23":"Q99642490",
+        "team man U23":"Q26960601",
+        "team woman U19":"Q99646188",
+        "team man U19":"Q99642937",       
+        "team all":"Q86915747",
+        "Road race woman":"Q30333102",
+        "Clm woman":"Q30333137",
+        "Road race man":"Q27043353",
+        "Clm man":"Q3754388",
+    }
     
-    team_table[kk][1] = u'Nicaragua'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 811
-    team_table[kk][4] = 99632806
-    team_table[kk][5] = u'Nicaragua'
-    team_table[kk][6] = u'Nicaragua'
-    team_table[kk][7] = u'NCA'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 17624443
-    team_table[kk][14] =99632649
-    team_table[kk][15] = u'Nicaragua'
-    team_table[kk][16] = u'nicaraguayenne'
-    team_table[kk][17] = u'nicaraguayen'
-    team_table[kk][27] =99642609
-    team_table[kk][28] =99642081
-    team_table[kk][29] =99646299
-    team_table[kk][30] =99643178
-    team_table[kk][31] =99646648
-    kk += 1
-    
-
-    team_table[kk][1] = u'Pays-Bas'
-    team_table[kk][2] = u"des "
-    team_table[kk][3] = 29999
-    team_table[kk][4] = 27701263
-    team_table[kk][5] = u'Netherland'
-    team_table[kk][6] = u'Netherlands'
-    team_table[kk][7] = u'NED'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2726103
-    team_table[kk][10] = 30333102
-    team_table[kk][11] = 30333137
-    team_table[kk][12] = 27043353
-    team_table[kk][13] = 3754388
-    team_table[kk][14] = 30748556
-    team_table[kk][15] = u'Países Bajos'
-    team_table[kk][16] =u'néerlandaise'
-    team_table[kk][17] =u'néerlandais'
-    team_table[kk][26] = u'los'
-    team_table[kk][27] =99642490
-    team_table[kk][28] =26960601
-    team_table[kk][29] =99646188
-    team_table[kk][30] =99642937
-    team_table[kk][31] =86915747
-    kk += 1
-
-    team_table[kk][1] = u'Norvège'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 20
-    team_table[kk][4] = 33517532
-    team_table[kk][5] = u'Norway'
-    team_table[kk][6] = u'Norwegian'
-    team_table[kk][7] = u'NOR'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129519
-    team_table[kk][10] = 31271010
-    team_table[kk][11] = 31271024
-    team_table[kk][12] = 27048408
-    team_table[kk][13] = 27048410
-    team_table[kk][14] = 33517530
-    team_table[kk][15] = u'Noruega'
-    team_table[kk][16] =u'norvégienne'
-    team_table[kk][17] =u'norvégien'
-    team_table[kk][27] =99642491
-    team_table[kk][28] =21009644
-    team_table[kk][29] =54556014
-    team_table[kk][30] =54556013
-    team_table[kk][31] =16581623
-    kk += 1
+    dic['NOR']={
+        "name fr":'Norvège',
+        "name en":'Norway',
+        "name es":'Noruega',
+        "adj fr woman":'norvégienne',
+        "adj fr man":'norvégien',
+        "adj en":'Norwegian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q20",
+        "National championship master":"Q129519",
+        "team woman":"Q33517532",
+        "team man":"Q33517530",
+        "team woman U23":"Q99642491",
+        "team man U23":"Q21009644",
+        "team woman U19":"Q54556014",
+        "team man U19":"Q54556013",       
+        "team all":"Q16581623",
+        "Road race woman":"Q31271010",
+        "Clm woman":"Q31271024",
+        "Road race man":"Q27048408",
+        "Clm man":"Q27048410",
+    }
     
     #NRU
     #Nauru
-
-    team_table[kk][1] = u'Nouvelle-Zélande'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 664
-    team_table[kk][4] = 45084426
-    team_table[kk][5] = u'New Zealand'
-    team_table[kk][6] = u'New Zealand'
-    team_table[kk][7] = u'NZL'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2057790
-    team_table[kk][10] = 29061811
-    team_table[kk][11] = 45084575
-    team_table[kk][12] = 22303186
-    team_table[kk][13] = 22303252
-    team_table[kk][14] = 22679621
-    team_table[kk][15] = u'Nueva Zelanda'
-    team_table[kk][16] =u'néo-zélandaise'
-    team_table[kk][17] =u'néo-zélandaise'
-    team_table[kk][27] =99642508
-    team_table[kk][28] =99641992
-    team_table[kk][29] =99646206
-    team_table[kk][30] =99642956
-    team_table[kk][31] =86921303
-    kk += 1
+    
+    dic['NZL']={
+        "name fr":'Nouvelle-Zélande',
+        "name en":'New Zealand',
+        "name es":'Nueva Zelanda',
+        "adj fr woman":'néo-zélandaise',
+        "adj fr man":'néo-zélandaise',
+        "adj en":'New Zealand',
+        "genre": "de ",
+        "group":1,
+        "country":"Q664",
+        "National championship master":"Q2057790",
+        "team woman":"Q45084426",
+        "team man":"Q22679621",
+        "team woman U23":"Q99642508",
+        "team man U23":"Q99641992",
+        "team woman U19":"Q99646206",
+        "team man U19":"Q99642956",       
+        "team all":"Q86921303",
+        "Road race woman":"Q29061811",
+        "Clm woman":"Q45084575",
+        "Road race man":"Q22303186",
+        "Clm man":"Q22303252",
+    }
     
     #PLW
     #Palau
-    team_table[kk][1] = u'Pakistan'
-    team_table[kk][2] = u'du '
-    team_table[kk][3] = 843
-    team_table[kk][4] = 99630267
-    team_table[kk][5] = u'Pakistan'
-    team_table[kk][6] = u'Panamanian'
-    team_table[kk][7] = u'PAK'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 2955213
-    team_table[kk][14] = 99629602
-    team_table[kk][15] = u'Pakistán'
-    team_table[kk][16] =u'pakistanaise'
-    team_table[kk][17] =u'pakistanais'
-    team_table[kk][27] =99642407
-    team_table[kk][28] =99641903
-    team_table[kk][29] =99646097
-    team_table[kk][30] =99642848
-    team_table[kk][31] =99646681
-    kk += 1
+    
+    dic['PAK']={
+        "name fr":'Pakistan',
+        "name en":'Pakistan',
+        "name es":'Pakistán',
+        "adj fr woman":'pakistanaise',
+        "adj fr man":'pakistanais',
+        "adj en":'Pakistan',
+        "genre": 'du ',
+        "group":3,
+        "country":"Q843",
+        "National championship master":"Q2955213",
+        "team woman":"Q99630267",
+        "team man":"Q99629602",
+        "team woman U23":"Q99642407",
+        "team man U23":"Q99641903",
+        "team woman U19":"Q99646097",
+        "team man U19":"Q99642848",       
+        "team all":"Q99646681",
+        "Road race woman":"Q29061811",
+        "Clm woman":"Q45084575",
+        "Road race man":"Q22303186",
+        "Clm man":"Q22303252",
+    }
 
+    dic['PAN']={
+        "name fr":'Panama',
+        "name en":'Panama',
+        "name es":'Panamá',
+        "adj fr woman":'panaméenne',
+        "adj fr man":'Panamanian',
+        "adj en":'Panamanian',
+        "genre": 'du ',
+        "group":2,
+        "country":"Q804",
+        "National championship master":"Q2057790",
+        "team woman U23":"Q99642610",
+        "team man U23":"Q99641845",
+        "team woman U19":"Q99646300",
+        "team man U19":"Q99643179",       
+        "team all":"Q99646649",
+        "Road race woman":"Q64691906",
+        "Clm woman":"Q64691912",
+    }
 
+    dic['PAR']={
+        "name fr":'Paraguay',
+        "name en":'Paraguay',
+        "name es":'Paraguay',
+        "adj fr woman":'paraguayenne',
+        "adj fr man":'paraguayen',
+        "adj en":'Paraguayan',
+        "genre": "du ",
+        "group":2,
+        "country":"Q733",
+        "National championship master":"Q2955211",
+        "team woman":"Q55791200",
+        "team woman U23":"Q99642611",
+        "team man U23":"Q99641865",
+        "team woman U19":"Q99646301",
+        "team man U19":"Q99643181",       
+        "team all":"Q99646631",
+        "Road race woman":"Q55791222",
+        "Clm woman":"Q55791233",
+    }
 
-    team_table[kk][1] = u'Panama'
-    team_table[kk][2] = u'du '
-    team_table[kk][3] = 804
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Panama'
-    team_table[kk][6] = u'Panamanian'
-    team_table[kk][7] = u'PAN'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 2955212
-    team_table[kk][10] = 64691906
-    team_table[kk][11] = 64691912
-    team_table[kk][15] = u'Panamá'
-    team_table[kk][16] =u'panaméenne'
-    team_table[kk][17] =u'panaméen'
-    team_table[kk][27] =99642610
-    team_table[kk][28] =99641845
-    team_table[kk][29] =99646300
-    team_table[kk][30] =99643179
-    team_table[kk][31] =99646649
-    kk += 1
+    dic['PER']={
+        "name fr":'Pérou',
+        "name en":'Peru',
+        "name es":'Perú',
+        "adj fr woman":'péruvienne',
+        "adj fr man":'péruvien',
+        "adj en":'Peruvian',
+        "genre": "du ",
+        "group":2,
+        "country":"Q419",
+        "National championship master":"Q2955214",
+        "team man":"Q55392222",
+        "team woman U23":"Q99642612",
+        "team man U23":"Q99641866",
+        "team woman U19":"Q99646302",
+        "team man U19":"Q99643184",       
+        "team all":"Q99646650",
+        "Road race woman":"Q70008153",
+        "Clm woman":"Q70008310",
+    }
 
-    team_table[kk][1] = u'Paraguay'
-    team_table[kk][2] = u'du '
-    team_table[kk][3] = 733
-    team_table[kk][4] = 55791200
-    team_table[kk][5] = u'Paraguay'
-    team_table[kk][6] = u'Paraguayan'
-    team_table[kk][7] = u'PAR'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 2955211
-    team_table[kk][10] = 55791222
-    team_table[kk][11] = 55791233
-    team_table[kk][15] = u'Paraguay'
-    team_table[kk][16] =u'paraguayenne'
-    team_table[kk][17] =u'paraguayen'
-    team_table[kk][27] =99642611
-    team_table[kk][28] =99641865
-    team_table[kk][29] =99646301
-    team_table[kk][30] =99643181
-    team_table[kk][31] =99646631
-    kk += 1
+    dic['PHI']={ # CIO is PHL
+        "name fr":'Philippines',
+        "name en":'Philippines',
+        "name es":'Filipinas',
+        "adj fr woman":'philippine',
+        "adj fr man":'philippin',
+        "adj en":'Philippines',
+        "genre": "des ",
+        "group":3,
+        "country":"Q928",
+        "National championship master":"Q16538206",
+        "team woman":"Q42394736",
+        "team man":"Q64705562",
+        "team woman U23":"Q99642443",
+        "team man U23":"Q99641904",
+        "team woman U19":"Q99646138",
+        "team man U19":"Q99642886",       
+        "team all":"Q99646682",
+        "Road race woman":"Q55808632",
+        "Clm woman":"Q55808642",
+    }
 
-    team_table[kk][1] = u'Pérou'
-    team_table[kk][2] = u'du '
-    team_table[kk][3] = 419
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Peru'
-    team_table[kk][6] = u'Peruvian'
-    team_table[kk][7] = u'PER'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 2955214
-    team_table[kk][10] = 70008153
-    team_table[kk][11] = 70008310
-    team_table[kk][14] = 55392222
-    team_table[kk][15] = u'Perú'
-    team_table[kk][16] =u'péruvienne'
-    team_table[kk][17] =u'péruvien'
-    team_table[kk][27] =99642612
-    team_table[kk][28] =99641866
-    team_table[kk][29] =99646302
-    team_table[kk][30] =99643184
-    team_table[kk][31] =99646650
-    kk += 1
+    dic['POL']={
+        "name fr":'Pologne',
+        "name en":'Poland',
+        "name es":'Polonia',
+        "adj fr woman":'polonaise',
+        "adj fr man":'polonais',
+        "adj en":'Polish',
+        "genre": "de ",
+        "group":1,
+        "country":"Q36",
+        "National championship master":"Q2439460",
+        "team woman":"Q33538045",
+        "team man":"Q20746360",
+        "team woman U23":"Q99642492",
+        "team man U23":"Q55687070",
+        "team woman U19":"Q99646189",
+        "team man U19":"Q99642938",       
+        "team all":"Q87069532",
+        "Road race woman":"Q31276622",
+        "Clm woman":"Q30456396",
+        "Road race man":"Q27042375",
+        "Clm man":"Q27042376",
+    }
 
-    team_table[kk][1] = u'Philippines'
-    team_table[kk][2] = u"des "
-    team_table[kk][3] = 928
-    team_table[kk][4] = 42394736
-    team_table[kk][5] = u'Philippines'
-    team_table[kk][6] = u'Philippines'
-    team_table[kk][7] = u'PHI'  # CIO is PHL
-    team_table[kk][8] = 3
-    team_table[kk][9] = 16538206
-    team_table[kk][10] = 55808632
-    team_table[kk][11] = 55808642
-    team_table[kk][14] = 64705562
-    team_table[kk][15] = u'Filipinas'
-    team_table[kk][16] =u'philippine'
-    team_table[kk][17] =u'philippin'
-    team_table[kk][27] =99642443
-    team_table[kk][28] =99641904
-    team_table[kk][29] =99646138
-    team_table[kk][30] =99642886
-    team_table[kk][31] =99646682
-    kk += 1
+    dic['POR']={
+        "name fr":'Portugal',
+        "name en":'Portugal',
+        "name es":'Portugal',
+        "adj fr woman":'portugaise',
+        "adj fr man":'portugais',
+        "adj en":'Portuguese',
+        "genre": "du ",
+        "group":1,
+        "country":"Q45",
+        "National championship master":"Q2955216",
+        "team woman":"Q45084767",
+        "team man":"Q30748902",
+        "team woman U23":"Q99642412",
+        "team man U23":"Q41323205",
+        "team woman U19":"Q99646189",
+        "team man U19":"Q99642938",       
+        "team all":"Q87069532",
+        "Road race woman":"Q45084873",
+        "Clm woman":"Q45084954",
+        "Road race man":"Q27133460",
+        "Clm man":"Q27133620",
+    }
 
-    team_table[kk][1] = u'Pologne'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 36
-    team_table[kk][4] = 33538045
-    team_table[kk][5] = u'Poland'
-    team_table[kk][6] = u'Polish'
-    team_table[kk][7] = u'POL'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2439460
-    team_table[kk][10] = 31276622
-    team_table[kk][11] = 30456396
-    team_table[kk][12] = 27042375
-    team_table[kk][13] = 27042376
-    team_table[kk][14] = 20746360
-    team_table[kk][15] = u'Polonia'
-    team_table[kk][16] =u'polonaise'
-    team_table[kk][17] =u'polonais'
-    team_table[kk][27] =99642492
-    team_table[kk][28] =55687070
-    team_table[kk][29] =99646189
-    team_table[kk][30] =99642938
-    team_table[kk][31] =87069532
-    kk += 1
+    dic['PUR']={
+        "name fr":'Porto Rico',
+        "name en":'Puerto Rico',
+        "name es":'Puerto Rico',
+        "adj fr woman":'porto ricaine',
+        "adj fr man":'porto ricain',
+        "adj en":'Puerto Rican',
+        "genre": "de ",
+        "group":2,
+        "country":"Q1183",
+        "National championship master":"Q17624398",
+        "team woman U23":"Q99642613",
+        "team man U23":"Q99641867",
+        "team woman U19":"Q99646303",
+        "team man U19":"Q99643189",       
+        "team all":"Q99646651",
+        "Road race woman":"Q55185809",
+        "Clm woman":"Q55185811",
+    }
 
-    team_table[kk][1] = u'Portugal'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 45
-    team_table[kk][4] = 45084767
-    team_table[kk][5] = u'Portugal'
-    team_table[kk][6] = u'Portuguese'
-    team_table[kk][7] = u'POR'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955216
-    team_table[kk][10] = 45084873
-    team_table[kk][11] = 45084954
-    team_table[kk][12] = 27133460
-    team_table[kk][13] = 27133620
-    team_table[kk][14] = 30748902
-    team_table[kk][15] = u'Portugal'
-    team_table[kk][16] =u'portugaise'
-    team_table[kk][17] =u'portugais'
-    team_table[kk][27] =99642412
-    team_table[kk][28] =41323205
-    team_table[kk][29] =99646189
-    team_table[kk][30] =99642938
-    team_table[kk][31] =87069532
-    kk += 1
+    dic['ROM']={ # CIO is ROU
+        "name fr":'Roumanie',
+        "name en":'Romania',
+        "name es":'Rumania',
+        "adj fr woman":'roumaine',
+        "adj fr man":'roumain',
+        "adj en":'Romanian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q218",
+        "National championship master":"Q2955100",
+        "team woman":"Q42394605",
+        "team man":"Q21344467",
+        "team woman U23":"Q99642493",
+        "team man U23":"Q99641966",
+        "team woman U19":"Q99646105",
+        "team man U19":"Q99642853",       
+        "team all":"Q99646726",
+        "Road race woman":"Q32609249",
+        "Clm woman":"Q32611136",
+        "Road race man":"Q27133465",
+        "Clm man":"Q27133623",
+    }
 
-    team_table[kk][1] = u'Porto Rico'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 1183
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Puerto Rico'
-    team_table[kk][6] = u'Puerto Rican'
-    team_table[kk][7] = u'PUR'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 17624398
-    team_table[kk][10] = 55185809
-    team_table[kk][11] = 55185811
-    team_table[kk][15] = u'Puerto Rico'
-    team_table[kk][16] =u'porto ricaine'
-    team_table[kk][17] =u'porto ricain'
-    team_table[kk][27] =99642613
-    team_table[kk][28] =99641867
-    team_table[kk][29] =99646303
-    team_table[kk][30] =99643189
-    team_table[kk][31] =99646651
-    kk += 1
+    dic['RSA']={ 
+        "name fr":'Afrique du Sud',
+        "name en":'South Africa',
+        "name es":'Sudáfrica',
+        "adj fr woman":'sud-africaine',
+        "adj fr man":'sud-africain',
+        "adj en":'South African',
+        "genre": "d'",
+        "group":1,
+        "country":"Q258",
+        "National championship master":"Q129547",
+        "team woman":"Q43094142",
+        "team man":"Q34002786",
+        "team woman U23":"Q99642554",
+        "team man U23":"Q55687121",
+        "team woman U19":"Q99646251",
+        "team man U19":"Q99642998",       
+        "team all":"Q86989061",
+        "Road race woman":"Q43286073",
+        "Clm woman":"Q29034408",
+        "Road race man":"Q22680842",
+        "Clm man":"Q22680863",
+    }
 
-    team_table[kk][1] = u'Roumanie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 218
-    team_table[kk][4] = 42394605
-    team_table[kk][5] = u'Romania'
-    team_table[kk][6] = u'Romanian'
-    team_table[kk][7] = u'ROM'  # CIO is ROU
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955100
-    team_table[kk][10] = 32609249
-    team_table[kk][11] = 32611136
-    team_table[kk][12] = 27133465
-    team_table[kk][13] = 27133623
-    team_table[kk][14] = 21344467
-    team_table[kk][15] = u'Rumania'
-    team_table[kk][16] =u'roumaine'
-    team_table[kk][17] =u'roumain'
-    team_table[kk][27] =99642493
-    team_table[kk][28] =99641966
-    team_table[kk][29] =99646105
-    team_table[kk][30] =99642853
-    team_table[kk][31] =99646726
-    kk += 1
-
-    team_table[kk][1] = u'Afrique du Sud'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 258
-    team_table[kk][4] = 43094142
-    team_table[kk][5] = u'South Africa'
-    team_table[kk][6] = u'South African'
-    team_table[kk][7] = u'RSA'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129547
-    team_table[kk][10] = 43286073
-    team_table[kk][11] = 29034408
-    team_table[kk][12] = 22680842
-    team_table[kk][13] = 22680863
-    team_table[kk][14] = 34002786
-    team_table[kk][15] = u'Sudáfrica'
-    team_table[kk][16] =u'sud-africaine'
-    team_table[kk][17] =u'sud-africain'
-    team_table[kk][27] =99642554
-    team_table[kk][28] =55687121
-    team_table[kk][29] =99646251
-    team_table[kk][30] =99642998
-    team_table[kk][31] =86989061
-    kk += 1
-
-    team_table[kk][1] = u'Russie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 159
-    team_table[kk][4] = 33538048
-    team_table[kk][5] = u'Russia'
-    team_table[kk][6] = u'Russian'
-    team_table[kk][7] = u'RUS'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129553
-    team_table[kk][10] = 31271644
-    team_table[kk][11] = 31272638
-    team_table[kk][12] = 27230606
-    team_table[kk][13] = 7382088
-    team_table[kk][14] = 22947092
-    team_table[kk][15] = u'Rusia'
-    team_table[kk][16] =u'russe'
-    team_table[kk][17] =u'russe'
-    team_table[kk][27] =99642494
-    team_table[kk][28] =20893960
-    team_table[kk][29] =99646191
-    team_table[kk][30] =99642940
-    team_table[kk][31] =86914909
-    kk += 1
-
-    team_table[kk][1] = u'Rwanda'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 1037
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Rwanda'
-    team_table[kk][6] = u'Rwandan'
-    team_table[kk][7] = u'RWA'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 16538267
-    team_table[kk][10] = 55185740
-    team_table[kk][11] = 55185725
-    team_table[kk][12] = 27230610
-    team_table[kk][13] = 27235638
-    team_table[kk][14] = 22114626
-    team_table[kk][15] = u'Ruanda'
-    team_table[kk][16] =u'rwandaise'
-    team_table[kk][17] =u'rwandais'
-    team_table[kk][27] =99642555
-    team_table[kk][28] =55709155
-    team_table[kk][29] =99646252
-    team_table[kk][30] =99642999
-    team_table[kk][31] =86989103
-    kk += 1
-
-    team_table[kk][1] = u'Slovénie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 215
-    team_table[kk][4] = 43093898
-    team_table[kk][5] = u'Slovenia'
-    team_table[kk][6] = u'Slovenian'
-    team_table[kk][7] = u'SLO'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129650
-    team_table[kk][10] = 30332625
-    team_table[kk][11] = 30332486
-    team_table[kk][12] = 26972715
-    team_table[kk][13] = 26972716
-    team_table[kk][14] = 34005528
-    team_table[kk][15] = u'Eslovenia'
-    team_table[kk][16] =u'slovène'
-    team_table[kk][17] =u'slovène'
-    team_table[kk][27] =99642496
-    team_table[kk][28] =26934082
-    team_table[kk][29] =99646193
-    team_table[kk][30] =99642942
-    team_table[kk][31] =86990347
-    kk += 1
+    dic['RUS']={ 
+        "name fr":'Russie',
+        "name en":'Russia',
+        "name es":'Rusia',
+        "adj fr woman":'russe',
+        "adj fr man":'russe',
+        "adj en":'Russian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q159",
+        "National championship master":"Q129553",
+        "team woman":"Q33538048",
+        "team man":"Q22947092",
+        "team woman U23":"Q99642494",
+        "team man U23":"Q20893960",
+        "team woman U19":"Q99646191",
+        "team man U19":"Q99642940",       
+        "team all":"Q86914909",
+        "Road race woman":"Q31271644",
+        "Clm woman":"Q31272638",
+        "Road race man":"Q27230606",
+        "Clm man":"Q7382088",
+    }
+    
+    dic['RWA']={ 
+        "name fr":'Rwanda',
+        "name en":'Rwanda',
+        "name es":'Ruanda',
+        "adj fr woman":'rwandaise',
+        "adj fr man":'rwandais',
+        "adj en":'Rwandan',
+        "genre": "du ",
+        "group":1,
+        "country":"Q1037",
+        "National championship master":"Q16538267",
+        "team man":"Q22114626",
+        "team woman U23":"Q99642555",
+        "team man U23":"Q55709155",
+        "team woman U19":"Q99646252",
+        "team man U19":"Q99642999",       
+        "team all":"Q86989103",
+        "Road race woman":"Q55185740",
+        "Clm woman":"Q55185725",
+        "Road race man":"Q27230610",
+        "Clm man":"Q27235638",
+    }
+    
+    dic['SLO']={ 
+        "name fr":'Slovénie',
+        "name en":'Slovenia',
+        "name es":'Eslovenia',
+        "adj fr woman":'slovène',
+        "adj fr man":'slovène',
+        "adj en":'Slovenian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q215",
+        "National championship master":"Q129650",
+        "team woman":"Q43093898",
+        "team man":"Q34005528",
+        "team woman U23":"Q99642496",
+        "team man U23":"Q26934082",
+        "team woman U19":"Q99646193",
+        "team man U19":"Q99642942",       
+        "team all":"Q86990347",
+        "Road race woman":"Q30332625",
+        "Clm woman":"Q30332486",
+        "Road race man":"Q26972715",
+        "Clm man":"Q26972716",
+    }
     
     #SOL
     #île Solomon
@@ -2113,395 +2062,388 @@ def load():
     #SMR 
     #Saint Marin
 
-    team_table[kk][1] = u'Serbie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 403
-    team_table[kk][4] = 45171131
-    team_table[kk][5] = u'Serbia'
-    team_table[kk][6] = u'Serbian'
-    team_table[kk][7] = u'SRB'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955114
-    team_table[kk][10] = 31298588
-    team_table[kk][11] = 31300263
-    team_table[kk][14] = 34008444
-    team_table[kk][15] = u'Serbia'
-    team_table[kk][16] =u'serbe'
-    team_table[kk][17] =u'serbe'
-    team_table[kk][27] =99642495
-    team_table[kk][28] =99641968
-    team_table[kk][29] =99646192
-    team_table[kk][30] =99642941
-    team_table[kk][31] =99646727
-    kk += 1
+    dic['SRB']={ 
+        "name fr":'Serbie',
+        "name en":'Serbia',
+        "name es":'Serbia',
+        "adj fr woman":'serbe',
+        "adj fr man":'serbe',
+        "adj en":'Serbian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q403",
+        "National championship master":"Q2955114",
+        "team woman":"Q45171131",
+        "team man":"Q34008444",
+        "team woman U23":"Q99642495",
+        "team man U23":"Q99641968",
+        "team woman U19":"Q99646192",
+        "team man U19":"Q99642941",       
+        "team all":"Q99646727",
+        "Road race woman":"Q31298588",
+        "Clm woman":"Q31300263",
+    }
 
-    team_table[kk][1] = u'Singapour'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 334
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Singapore'
-    team_table[kk][6] = u'Singaporean'
-    team_table[kk][7] = u'SGP'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 16538191
-    team_table[kk][10] = 65179486
-    team_table[kk][11] = 65179447
-    team_table[kk][12] = 24718413
-    team_table[kk][13] = 24718416
-    team_table[kk][15] = u'Singapur'
-    team_table[kk][16] =u'singapourienne'
-    team_table[kk][17] =u'singapourien'
-    team_table[kk][27] =99642448
-    team_table[kk][28] =99641850
-    team_table[kk][29] =99646143
-    team_table[kk][30] =99642892
-    team_table[kk][31] =99646686
-    kk += 1
+    dic['SGP']={ 
+        "name fr":'Singapour',
+        "name en":'Singapore',
+        "name es":'Singapur',
+        "adj fr woman":'singapourienne',
+        "adj fr man":'singapourien',
+        "adj en":'Singaporean',
+        "genre": "de ",
+        "group":1,
+        "country":"Q334",
+        "National championship master":"Q16538191",
+        "team woman U23":"Q99642448",
+        "team man U23":"Q99641850",
+        "team woman U19":"Q99646143",
+        "team man U19":"Q99642892",       
+        "team all":"Q99646686",
+        "Road race woman":"Q65179486",
+        "Clm woman":"Q65179447",
+        "Road race man":"Q24718413",
+        "Clm man":"Q24718416",
+    }
 
-    team_table[kk][1] = u'Suisse'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 39
-    team_table[kk][4] = 30744089
-    team_table[kk][5] = u'Switzerland'
-    team_table[kk][6] = u'Swiss'
-    team_table[kk][7] = u'SUI'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129576
-    team_table[kk][10] = 31092105
-    team_table[kk][11] = 30584268
-    team_table[kk][12] = 3754283
-    team_table[kk][13] = 27043341
-    team_table[kk][14] = 21083219
-    team_table[kk][15] = u'Suiza'
-    team_table[kk][16] =u'suisse'
-    team_table[kk][17] =u'suisse'
-    team_table[kk][27] =99642499
-    team_table[kk][28] =26945043
-    team_table[kk][29] =99646196
-    team_table[kk][30] =99642946
-    team_table[kk][31] =99646729
-    kk += 1
+    dic['SUI']={ 
+        "name fr":'Suisse',
+        "name en":'Switzerland',
+        "name es":'Suiza',
+        "adj fr woman":'suisse',
+        "adj fr man":'suisse',
+        "adj en":'Swiss',
+        "genre": "de ",
+        "group":1,
+        "country":"Q39",
+        "National championship master":"Q129576",
+        "team woman":"Q30744089",
+        "team man":"Q21083219",
+        "team woman U23":"Q99642499",
+        "team man U23":"Q26945043",
+        "team woman U19":"Q99646196",
+        "team man U19":"Q99642946",       
+        "team all":"Q99646729",
+        "Road race woman":"Q31092105",
+        "Clm woman":"Q30584268",
+        "Road race man":"Q3754283",
+        "Clm man":"Q27043341",
+    }
 
-    team_table[kk][1] = u'Slovaquie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 214
-    team_table[kk][4] = 45171391
-    team_table[kk][5] = u'Slovakia'
-    team_table[kk][6] = u'Slovakian'
-    team_table[kk][7] = u'SVK'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 129586
-    team_table[kk][10] = 45171831
-    team_table[kk][11] = 45171898
-    team_table[kk][12] = 27230604
-    team_table[kk][13] = 27230443
-    team_table[kk][14] = 34008912
-    team_table[kk][15] = u'Eslovaquia'
-    team_table[kk][16] =u'slovaque'
-    team_table[kk][17] =u'slovaque'
-    team_table[kk][27] =99642500
-    team_table[kk][28] =99641979
-    team_table[kk][29] =99646197
-    team_table[kk][30] =99642947
-    team_table[kk][31] =99646730
-    kk += 1
+    dic['SVK']={ 
+        "name fr":'Slovaquie',
+        "name en":'Slovakia',
+        "name es":'Eslovaquia',
+        "adj fr woman":'slovaque',
+        "adj fr man":'slovaque',
+        "adj en":'Slovakian',
+        "genre": "de ",
+        "group":1,
+        "country":"Q214",
+        "National championship master":"Q129576",
+        "team woman":"Q45171391",
+        "team man":"Q34008912",
+        "team woman U23":"Q99642500",
+        "team man U23":"Q99641979",
+        "team woman U19":"Q99646197",
+        "team man U19":"Q99642947",       
+        "team all":"Q99646730",
+        "Road race woman":"Q45171831",
+        "Clm woman":"Q45171898",
+        "Road race man":"Q27230604",
+        "Clm man":"Q27230443",
+    }
 
-    team_table[kk][1] = u'Suède'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 34
-    team_table[kk][4] = 33539201
-    team_table[kk][5] = u'Sweden'
-    team_table[kk][6] = u'Swedish'
-    team_table[kk][7] = u'SWE'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2465478
-    team_table[kk][10] = 30349432
-    team_table[kk][11] = 30349441
-    team_table[kk][12] = 27043932
-    team_table[kk][13] = 27043933
-    team_table[kk][14] = 40877574
-    team_table[kk][15] = u'Suecia'
-    team_table[kk][16] =u'suédoise'
-    team_table[kk][17] =u'suédois'
-    team_table[kk][27] =99642501
-    team_table[kk][28] =99641981
-    team_table[kk][29] =99646198
-    team_table[kk][30] =99642948
-    team_table[kk][31] =99646731
-    kk += 1
+    dic['SWE']={ 
+        "name fr":'Suède',
+        "name en":'Sweden',
+        "name es":'Suecia',
+        "adj fr woman":'suédoise',
+        "adj fr man":'suédois',
+        "adj en":'Swedish',
+        "genre": "de ",
+        "group":1,
+        "country":"Q34",
+        "National championship master":"Q2465478",
+        "team woman":"Q33539201",
+        "team man":"Q40877574",
+        "team woman U23":"Q99642501",
+        "team man U23":"Q99641981",
+        "team woman U19":"Q99646198",
+        "team man U19":"Q99642948",       
+        "team all":"Q99646731",
+        "Road race woman":"Q30349432",
+        "Clm woman":"Q30349441",
+        "Road race man":"Q27043932",
+        "Clm man":"Q27043933",
+    }
     
     #TGA
     #Tonga
-
-    team_table[kk][1] = u'Thaïlande'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 869
-    team_table[kk][4] = 34009293
-    team_table[kk][5] = u'Thaïland'
-    team_table[kk][6] = u'Thailandese'
-    team_table[kk][7] = u'THA'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 17624418
-    team_table[kk][10] = 60883855
-    team_table[kk][11] = 60883940
-    team_table[kk][14] = 50549558
-    team_table[kk][15] = u'Tailandia'
-    team_table[kk][16] =u'thaïlandaise'
-    team_table[kk][17] =u'thaïlandais'
-    team_table[kk][27] =99642450
-    team_table[kk][28] =99641911
-    team_table[kk][29] =99646145
-    team_table[kk][30] =99642895
-    team_table[kk][31] =99646689
-    kk += 1
-
-    team_table[kk][1] = u'Taïwan'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 865
-    team_table[kk][4] = 33539648
-    team_table[kk][5] = u'Taiwan'
-    team_table[kk][6] = u'Taiwanese'
-    team_table[kk][7] = u'TPE'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 17624413
-    team_table[kk][10] = 45172237
-    team_table[kk][11] = 45172232
-    team_table[kk][14] = 23933204
-    team_table[kk][15] = u'Taiwan'
-    team_table[kk][16] =u'taïwanaise'
-    team_table[kk][17] =u'taïwanais'
-    team_table[kk][27] =99642453
-    team_table[kk][28] =99641915
-    team_table[kk][29] =99646148
-    team_table[kk][30] =99642898
-    team_table[kk][31] =99646693
-    kk += 1
     
-    team_table[kk][1] = u'Trinité-et-Tobago'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 754
-    team_table[kk][4] = 68357560
-    team_table[kk][5] = u'Trinidad and Tobago'
-    team_table[kk][6] = u'Trinidad and Tobago'
-    team_table[kk][7] = u'TTO'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 17624423
-    team_table[kk][15] = u"Trinidad y Tobago"
-    team_table[kk][16] =u'trinidadienne'
-    team_table[kk][17] =u'trinidadien'
-    team_table[kk][27] =99642616
-    team_table[kk][28] =99641873
-    team_table[kk][29] =99646306
-    team_table[kk][30] =99643193
-    team_table[kk][31] =99646656
-    kk += 1
+    dic['THA']={ 
+        "name fr":'Thaïlande',
+        "name en":'Thaïland',
+        "name es":'Tailandia',
+        "adj fr woman":'thaïlandaise',
+        "adj fr man":'thaïlandais',
+        "adj en":'Thailandese',
+        "genre": "de ",
+        "group":1,
+        "country":"Q869",
+        "National championship master":"Q17624418",
+        "team woman":"Q33539201",
+        "team man":"Q50549558",
+        "team woman U23":"Q99642450",
+        "team man U23":"Q99641911",
+        "team woman U19":"Q99646145",
+        "team man U19":"Q99642895",       
+        "team all":"Q99646689",
+        "Road race woman":"Q60883855",
+        "Clm woman":"Q60883940",
+    }
 
-    team_table[kk][1] = u'Turquie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 43
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Turkey'
-    team_table[kk][6] = u'Turkish'
-    team_table[kk][7] = u'TUR'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 24960050
-    team_table[kk][12] = 27230611
-    team_table[kk][13] = 27235639
-    team_table[kk][14] = 41768233
-    team_table[kk][15] = u'Turquía'
-    team_table[kk][16] =u'turque'
-    team_table[kk][17] =u'turc'
-    team_table[kk][27] =99642502
-    team_table[kk][28] =99641985
-    team_table[kk][29] =99646199
-    team_table[kk][30] =99642949
-    team_table[kk][31] =99646732
-    kk += 1
+    dic['TPE']={ 
+        "name fr":'Taïwan',
+        "name en":'Taiwan',
+        "name es":'Taiwan',
+        "adj fr woman":'taïwanaise',
+        "adj fr man":'taïwanais',
+        "adj en":'Taiwanese',
+        "genre": "de ",
+        "group":1,
+        "country":"Q865",
+        "National championship master":"Q17624413",
+        "team woman":"Q33539648",
+        "team man":"Q23933204",
+        "team woman U23":"Q99642453",
+        "team man U23":"Q99641915",
+        "team woman U19":"Q99646148",
+        "team man U19":"Q99642898",       
+        "team all":"Q99646693",
+        "Road race woman":"Q45172237",
+        "Clm woman":"Q45172232",
+    }
 
-    team_table[kk][1] = u'Tunisie'
-    team_table[kk][2] = u"de "
-    team_table[kk][3] = 948
-    team_table[kk][4] = 0
-    team_table[kk][5] = u'Tunisia'
-    team_table[kk][6] = u'Tunisian'
-    team_table[kk][7] = u'TUN'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955183
-    team_table[kk][10] = 65371835
-    team_table[kk][11] = 65372007
-    team_table[kk][12] = 24733085
-    team_table[kk][13] = 24733090
-    team_table[kk][14] = 22337817
-    team_table[kk][15] = u'Túnez'
-    team_table[kk][16] =u'tunisienne'
-    team_table[kk][17] =u'tunisien'
-    team_table[kk][27] =99642569
-    team_table[kk][28] =99642047
-    team_table[kk][29] =99646262
-    team_table[kk][30] =99643010
-    team_table[kk][31] =86989105
-    kk += 1
+    dic['TTO']={ 
+        "name fr":'Trinité-et-Tobago',
+        "name en":'Trinidad and Tobago',
+        "name es":"Trinidad y Tobago",
+        "adj fr woman":'trinidadienne',
+        "adj fr man":'trinidadien',
+        "adj en":'Trinidad and Tobago',
+        "genre": "de ",
+        "group":2,
+        "country":"Q754",
+        "National championship master":"Q17624423",
+        "team woman":"Q68357560",
+        "team woman U23":"Q99642616",
+        "team man U23":"Q99641873",
+        "team woman U19":"Q99646306",
+        "team man U19":"Q99643193",       
+        "team all":"Q99646656",
+        "Road race woman":"Q45172237",
+        "Clm woman":"Q45172232",
+    }
+
+    dic['TUR']={ 
+        "name fr":'Turquie',
+        "name en":'Turkey',
+        "name es":'Turquía',
+        "adj fr woman":'turque',
+        "adj fr man":'turc',
+        "adj en":'Turkish',
+        "genre": "de ",
+        "group":2,
+        "country":"Q43",
+        "National championship master":"Q24960050",
+        "team man":"Q41768233",
+        "team woman U23":"Q99642502",
+        "team man U23":"Q99641985",
+        "team woman U19":"Q99646199",
+        "team man U19":"Q99642949",       
+        "team all":"Q99646732",
+        "Road race man":"Q27230611",
+        "Clm man":"Q27235639",
+    }
+
+    dic['TUN']={ 
+        "name fr":'Tunisie',
+        "name en":'Tunisia',
+        "name es":'Túnez',
+        "adj fr woman":'tunisienne',
+        "adj fr man":'tunisien',
+        "adj en":'Tunisian',
+        "genre": "de ",
+        "group":2,
+        "country":"Q948",
+        "National championship master":"Q2955183",
+        "team man":"Q22337817",
+        "team woman U23":"Q99642569",
+        "team man U23":"Q99642047",
+        "team woman U19":"Q99646262",
+        "team man U19":"Q99643010",       
+        "team all":"Q86989105",
+        "Road race woman":"Q65371835",
+        "Clm woman":"Q65372007",
+        "Road race man":"Q24733085",
+        "Clm man":"Q24733090",
+    }
+
     
     #TUV
     #Tuvulu
 
-    team_table[kk][1] = u'Uruguay'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 77
-    team_table[kk][4] = 99632816
-    team_table[kk][5] = u'Uruguay'
-    team_table[kk][6] = u'Uruguay'
-    team_table[kk][7] = u'URU'
-    team_table[kk][8] = 2
-    team_table[kk][9] = 17624381
-    team_table[kk][14] = 22132099
-    team_table[kk][15] = u'Uruguay'
-    team_table[kk][16] =u'uruguayenne'
-    team_table[kk][17] =u'uruguayen'
-    team_table[kk][27] =99642617
-    team_table[kk][28] =99641874
-    team_table[kk][29] =99646307
-    team_table[kk][30] =99643200
-    team_table[kk][31] =99646657
-    kk += 1
+    dic['URU']={ 
+        "name fr":'Uruguay',
+        "name en":'Uruguay',
+        "name es":'Uruguay',
+        "adj fr woman":'uruguayenne',
+        "adj fr man":'uruguayen',
+        "adj en":'Uruguay',
+        "genre": "d'",
+        "group":2,
+        "country":"Q77",
+        "National championship master":"Q17624381",
+        "team woman":"Q99632816",
+        "team man":"Q22132099",
+        "team woman U23":"Q99642617",
+        "team man U23":"Q99641874",
+        "team woman U19":"Q99646307",
+        "team man U19":"Q99643200",       
+        "team all":"Q99646657",
+    }
 
-
-
-    team_table[kk][1] = u'Ukraine'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 212
-    team_table[kk][4] = 34010555
-    team_table[kk][5] = u'Ukraine'
-    team_table[kk][6] = u'Ukrainian'
-    team_table[kk][7] = u'UKR'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2057230
-    team_table[kk][10] = 30577809
-    team_table[kk][11] = 30577837
-    team_table[kk][12] = 27055624
-    team_table[kk][13] = 27055696
-    team_table[kk][14] = 64449994
-    team_table[kk][15] = u'Ucrania'
-    team_table[kk][16] =u'ukrainienne'
-    team_table[kk][17] =u'ukrainien'
-    team_table[kk][27] =99642633
-    team_table[kk][28] =41800653
-    team_table[kk][29] =99646200
-    team_table[kk][30] =99642950
-    team_table[kk][31] =99646734
-    kk += 1
+    dic['UKR']={
+        "name fr":'Ukraine',
+        "name en":'Ukraine',
+        "name es":'Ucrania',
+        "adj fr woman":'ukrainienne',
+        "adj fr man": 'ukrainien',
+        "adj en":'Ukrainian',
+        "genre": "d'",
+        "group":1,
+        "country":"Q212",
+        "National championship master":"Q2057230",
+        "team woman":"Q34010555",
+        "team man":"Q64449994",
+        "team woman U23":"Q99642633",
+        "team man U23":"Q41800653",
+        "team woman U19":"Q99646200",
+        "team man U19":"Q99642950",       
+        "team all":"Q99646734",
+        "Road race woman":"Q30577809",
+        "Clm woman":"Q30577837",
+        "Road race man":"Q27055624",
+        "Clm man":"Q27055696",
+        }
     
-    team_table[kk][1] = u'Ouzbékistan'
-    team_table[kk][2] = u"d'"
-    team_table[kk][3] = 265
-    team_table[kk][4] =99601832
-    team_table[kk][5] = u"Uzbekistan"
-    team_table[kk][6] = u"Uzbekistan"
-    team_table[kk][7] = u'UZB'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2954773
-    team_table[kk][10] = 101252474
-    team_table[kk][11] = 101252489
-    team_table[kk][14] = 34011051
-    team_table[kk][15] = u"Uzbekistán"
-    team_table[kk][16] = u"ouzbeke"
-    team_table[kk][17] = u"ouzbek"
-    team_table[kk][27] =99642455
-    team_table[kk][28] =99641917
-    team_table[kk][29] =99646152
-    team_table[kk][30] =99642900
-    team_table[kk][31] =86989119
-    kk += 1
+    dic['UZB']={
+        "name fr":'Ouzbékistan',
+        "name en":"Uzbekistan",
+        "name es":"Uzbekistán",
+        "adj fr woman":"ouzbeke",
+        "adj fr man": "ouzbek",
+        "adj en":"Uzbekistan",
+        "genre": "d'",
+        "group":1,
+        "country":"Q265",
+        "National championship master":"Q2954773",
+        "team woman":"Q99601832",
+        "team man":"Q34011051",
+        "team woman U23":"Q99642455",
+        "team man U23":"Q99641917",
+        "team woman U19":"Q99646152",
+        "team man U19":"Q99642900",       
+        "team all":"Q86989119",
+        "Road race woman":"Q101252474",
+        "Clm woman":"Q101252489",
+        }
 
-    team_table[kk][1] = u'États-Unis'
-    team_table[kk][2] = u"des "
-    team_table[kk][3] = 30
-    team_table[kk][4] = 28869552
-    team_table[kk][5] = u'United States'
-    team_table[kk][6] = u'United States'
-    team_table[kk][7] = u'USA'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955199
-    team_table[kk][10] = 30349499
-    team_table[kk][11] = 30349507
-    team_table[kk][12] = 24731406
-    team_table[kk][13] = 24731482
-    team_table[kk][14] = 7892551
-    team_table[kk][15] = u'Estados Unidos'
-    team_table[kk][16] =u'américaine'
-    team_table[kk][17] =u'américain'
-    team_table[kk][27] =99642618
-    team_table[kk][28] =20823508
-    team_table[kk][29] =99646308
-    team_table[kk][30] =99643202
-    team_table[kk][31] =86989077
-    kk += 1
+    dic['USA']={
+        "name fr":'États-Unis',
+        "name en":'United States',
+        "name es":'Estados Unidos',
+        "adj fr woman":'américaine',
+        "adj fr man": 'américain',
+        "adj en":'American',
+        "genre": "des ",
+        "group":1,
+        "country":"Q30",
+        "National championship master":"Q2955199",
+        "team woman":"Q28869552",
+        "team man":"Q23926756",
+        "team woman U23":"Q99642618",
+        "team man U23":"Q20823508",
+        "team woman U19":"Q99646308",
+        "team man U19":"Q99643202",       
+        "team all":"Q86989077",
+        "Road race woman":"Q30349499",
+        "Clm woman":"Q30349507",
+        "Road race man":"Q24731406",
+        "Clm man":"Q24731482",
+        }
     
     #VAN
     #Vanuatu
-
-    team_table[kk][1] = u'Venezuela'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 717
-    team_table[kk][4] = 45173072
-    team_table[kk][5] = u'Venezuela'
-    team_table[kk][6] = u'Venezuelan'
-    team_table[kk][7] = u'VEN'
-    team_table[kk][8] = 1
-    team_table[kk][9] = 2955217
-    team_table[kk][10] = 45172931
-    team_table[kk][11] = 45172978
-    team_table[kk][12] = 27056308
-    team_table[kk][13] = 27056386
-    team_table[kk][14] = 23926756
-    team_table[kk][15] = u'Venezuela'
-    team_table[kk][16] =u'vénézuelienne'
-    team_table[kk][17] =u'vénézuelien'
-    team_table[kk][27] =99642619
-    team_table[kk][28] =99641876
-    team_table[kk][29] =99646309
-    team_table[kk][30] =99643203
-    team_table[kk][31] =86989079
-    kk += 1
+    dic['VEN']={
+        "name fr":'Venezuela',
+        "name en":'Venezuela',
+        "name es":'Venezuela',
+        "adj fr woman":'vénézuelienne',
+        "adj fr man": 'vénézuelien',
+        "adj en":'Venezuelan',
+        "genre": "du ",
+        "group":1,
+        "country":"Q717",
+        "National championship master":"Q2955217",
+        "team woman":"Q45173072",
+        "team man":"Q23926756",
+        "team woman U23":"Q99642619",
+        "team man U23":"Q99641876",
+        "team woman U19":"Q99646309",
+        "team man U19":"Q99643203",       
+        "team all":"Q86989079",
+        "Road race woman":"Q45172931",
+        "Clm woman":"Q45172978",
+        "Road race man":"Q27056308",
+        "Clm man":"Q27056386",
+        }
     
-    team_table[kk][1] = u'Viêt Nam'
-    team_table[kk][2] = u"du "
-    team_table[kk][3] = 881
-    team_table[kk][4] = 99630239
-    team_table[kk][5] = u'Vietnam'
-    team_table[kk][6] = u'Vietnamese'
-    team_table[kk][7] = u'VIE'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 17354277
-    team_table[kk][14] = 99629622
-    team_table[kk][15] = u'Vietnam'
-    team_table[kk][16] =u'vietnamienne'
-    team_table[kk][17] =u'vietnamien'
-    team_table[kk][27] =99642456
-    team_table[kk][28] =99641919
-    team_table[kk][29] =99646153
-    team_table[kk][30] =99642901
-    team_table[kk][31] =99646636
-    kk += 1
+    dic['VIE']={
+        "name fr":'Viêt Nam',
+        "name en":'Vietnam',
+        "name es":'Vietnam',
+        "adj fr woman":'vietnamienne',
+        "adj fr man": 'vietnamien',
+        "adj en":'Vietnamese',
+        "genre": "du ",
+        "group":3,
+        "country":"Q881",
+        "National championship master":"Q17354277",
+        "team woman":"Q99630239",
+        "team man":"Q99629622",
+        "team woman U23":"Q99642456",
+        "team man U23":"Q99641919",
+        "team woman U19":"Q99646153",
+        "team man U19":"Q99642901",       
+        "team all":"Q99646636",
+        }
     
-    team_table[kk][1] = u'URSS' 
-    team_table[kk][2] = u"de l'"
-    team_table[kk][3] = 15180
-    team_table[kk][4] = 99646551
-    team_table[kk][5] = u'USSR'
-    team_table[kk][6] = u'Soviet'
-    team_table[kk][7] = u'URS'
-    team_table[kk][8] = 3
-    team_table[kk][9] = 0
-    team_table[kk][14] =3589617
-    team_table[kk][27] =99646559
-    team_table[kk][28] =99646556
-    team_table[kk][29] =99646543
-    team_table[kk][30] =99646538
-    team_table[kk][31] =99646737
-    kk += 1
+    dic['URS']={
+        "name fr":'URSS' ,
+        "name en":'USSR',
+        "name es":'',
+        "adj en":'Soviet',
+        "genre": "de l'",
+        "group":3,
+        "country":"Q15180",
+        "team woman":"Q99646551",
+        "team woman U23":"Q99646559",
+        "team man U23":"Q99646556",
+        "team woman U19":"Q99646543",
+        "team man U19":"Q99646538",       
+        "team all":"Q99646737",
+        }
 
-    final_table = [['' for x in range(40)] for y in range(kk)]
-    final_table=team_table[:kk]
-
-    return final_table
+    return dic
