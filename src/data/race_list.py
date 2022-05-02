@@ -7,565 +7,987 @@ Created on Fri Dec  6 13:15:59 2019
 """
 
 def load():
-    raceTable = [[0 for x in range(5)] for y in range(1000)]
-
-    # 1: part 1 of the name
-    # 2: part 2 of the name
-    # 3: master
-    # 4: genre
-    
-    race_dic={
-        'name1':1,
-        'name2':2,
-        'master':3,
-        'genre':4,
+    dic={}
+    dic["Trois vallées varésines féminines"]={
+        'names':['Valli',"Varesine"],
+        'master':"Q104637824",
+        "genre":"des "
         }
-    
-
-    kk = 1
-    
-    raceTable[kk][1] = u'Valli'
-    raceTable[kk][2] = u"Varesine"
-    raceTable[kk][3] = 104637824
-    raceTable[kk][4] = u"des "
-    kk += 1 
-  
-    raceTable[kk][1] = u'Tour'
-    raceTable[kk][2] = u"Suisse"
-    raceTable[kk][3] = 104637798
-    raceTable[kk][4] = u"du "
-    kk += 1   
-    
-    raceTable[kk][1] = u'Delta'
-    raceTable[kk][2] = u"Road Race"
-    raceTable[kk][3] = 28232668
-    raceTable[kk][4] = u"de la "
-    kk += 1 
-    
-    raceTable[kk][1] = u'Vårgårda'
-    raceTable[kk][2] = u"TTT"
-    raceTable[kk][3] = 26266060
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u'Vårgårda'
-    raceTable[kk][2] = u"RR"
-    raceTable[kk][3] = 26266059
-    raceTable[kk][4] = u"de la "
-    kk += 1  
-    
-    raceTable[kk][1] = u'Paris'
-    raceTable[kk][2] = u"Roubaix"
-    raceTable[kk][3] = 96053083
-    raceTable[kk][4] = u"de "
-    kk += 1     
-    
-    raceTable[kk][1] = u'Scheldeprijs'
-    raceTable[kk][2] = u""
-    raceTable[kk][3] = 104637738
-    raceTable[kk][4] = u"du "
-    kk += 1     
-    
-    raceTable[kk][1] = u'Grand Prix'
-    raceTable[kk][2] = u"Chambéry"
-    raceTable[kk][3] = 16763629
-    raceTable[kk][4] = u"du "
-    kk += 1  
-   
-    raceTable[kk][1] = u'GP'
-    raceTable[kk][2] = u"Eco-Struct"
-    raceTable[kk][3] = 79034830
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u'GP'
-    raceTable[kk][2] = u"Oetingen"
-    raceTable[kk][3] = 104637723
-    raceTable[kk][4] = u"du "
-    kk += 1  
-   
-    raceTable[kk][1] = u'Tour'
-    raceTable[kk][2] = u"Zhoushan"
-    raceTable[kk][3] = 13362122
-    raceTable[kk][4] = u"du "
-    kk += 1   
-    
-    raceTable[kk][1] = u'Tour'
-    raceTable[kk][2] = u"Wenzhou"
-    raceTable[kk][3] = 104637782
-    raceTable[kk][4] = u"du "
-    kk += 1   
-    
-    raceTable[kk][1] = u'Santos Women'
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] = 22661614
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    raceTable[kk][1] = u'GP'
-    raceTable[kk][2] = u"Belek"
-    raceTable[kk][3] = 78487585
-    raceTable[kk][4] = u"du "
-    kk += 1    
-
-    raceTable[kk][1] = u"Race"
-    raceTable[kk][2] = u"Torquay"
-    raceTable[kk][3] = 78655433
-    raceTable[kk][4] = u"de la "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Vuelta CV"
-    raceTable[kk][2] = u"Feminas"
-    raceTable[kk][3] = 60965701
-    raceTable[kk][4] = u"de la "
-    kk += 1     
-    
-    raceTable[kk][1] = u"Vuelta"
-    raceTable[kk][2] = u"Castellon"
-    raceTable[kk][3] = 79030956
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Manavgat"
-    raceTable[kk][3] = 79031111
-    raceTable[kk][4] = u"du "
-    kk += 1   
-   
-
-    raceTable[kk][1] = u"Dubai"
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] = 78657185
-    raceTable[kk][4] = u"du "
-    kk += 1  
-
-    raceTable[kk][1] = u'Strade'
-    raceTable[kk][2] = u"Bianche"
-    raceTable[kk][3] = 19605976
-    raceTable[kk][4] = u"des "
-    kk += 1
-
-    raceTable[kk][1] = u'Gran Premio'
-    raceTable[kk][2] = u"ICODER"
-    raceTable[kk][3] = 57966675
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Vuelta'
-    raceTable[kk][2] = u"Costa Rica"
-    raceTable[kk][3] = 16960754
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Chrono'
-    raceTable[kk][2] = u"Nations"
-    raceTable[kk][3] = 41944204
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Tour'
-    raceTable[kk][2] = u"Nanxijiang"
-    raceTable[kk][3] = 71731311
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Gran Premio'
-    raceTable[kk][2] = u"Beghelli"
-    raceTable[kk][3] = 27031552
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Giro'
-    raceTable[kk][2] = u"Emilia"
-    raceTable[kk][3] = 22008975
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Grand Prix'
-    raceTable[kk][2] = u"Isbergues"
-    raceTable[kk][3] = 56703296
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Giro'
-    raceTable[kk][2] = u"Marche "
-    raceTable[kk][3] = 68029340
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Tour'
-    raceTable[kk][2] = u"Ardèche"
-    raceTable[kk][3] = 1729875
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Madrid'
-    raceTable[kk][2] = u"Vuelta"
-    raceTable[kk][3] = 21030967
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u'Challenge'
-    raceTable[kk][2] = u"Vuelta"
-    raceTable[kk][3] = 21030967
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-
-    raceTable[kk][1] = u'Ladies'
-    raceTable[kk][2] = u"Belgium"
-    raceTable[kk][3] = 6685041
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    raceTable[kk][1] = u'Lotto'
-    raceTable[kk][2] = u"Belgium Tour"
-    raceTable[kk][3] = 6685041
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-
-    raceTable[kk][1] = u'Scenic Avenue'
-    raceTable[kk][2] = u"Race I"
-    raceTable[kk][3] = 67205061
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u'Scenic Avenue'
-    raceTable[kk][2] = u"Race I"
-    raceTable[kk][3] = 67205154
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u'Chrono'
-    raceTable[kk][2] = u"Champenois"
-    raceTable[kk][3] = 1088090
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Féminine'
-    raceTable[kk][2] = u"Fourmies"
-    raceTable[kk][3] = 61013887
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Giro'
-    raceTable[kk][2] = u"Toscana"
-    raceTable[kk][3] = 369183
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u'Boels'
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] = 1572063
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    raceTable[kk][1] = u'Simac'
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] = 1572063
-    raceTable[kk][4] = u"du "
-    kk += 1  
-
-    raceTable[kk][1] = u'GP'
-    raceTable[kk][2] = u"Plouay"
-    raceTable[kk][3] = 1110856
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    raceTable[kk][1] = u'GP'
-    raceTable[kk][2] = u"Lorient Agglomération"
-    raceTable[kk][3] = 1110856
-    raceTable[kk][4] = u"du "
-    kk += 1    
-    
-    raceTable[kk][1] = u'Picto'
-    raceTable[kk][2] = u"Charentaise"
-    raceTable[kk][3] = 61013883
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u"Colorado"
-    raceTable[kk][2] = u"Classic"
-    raceTable[kk][3] = 66777548
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Norway"
-    raceTable[kk][3] = 17619325
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    raceTable[kk][1] = u"Battle"
-    raceTable[kk][2] = u"North"
-    raceTable[kk][3] = 17619325
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u"Vårgårda"
-    raceTable[kk][2] = u"RR"
-    raceTable[kk][3] = 26266059
-    raceTable[kk][4] = u"de l'"
-    kk += 1
-
-    raceTable[kk][1] = u"Vårgårda"
-    raceTable[kk][2] = u"TTT"
-    raceTable[kk][3] = 26266060
-    raceTable[kk][4] = u"de l'"
-    kk += 1
-
-    raceTable[kk][1] = u"Périgord"
-    raceTable[kk][2] = u"Ladies"
-    raceTable[kk][3] = 61013879
-    raceTable[kk][4] = u"de la "
-    kk += 1
-    
-    raceTable[kk][1] = u"Flanders"
-    raceTable[kk][2] = u"De Vuyst"
-    raceTable[kk][3] = 47044489
-    raceTable[kk][4] = u"de la "
-    kk += 1
-    
-    raceTable[kk][1] = u"MerXem"
-    raceTable[kk][2] = u"Classic"
-    raceTable[kk][3] = 61013876
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u"Vuelta"
-    raceTable[kk][2] = u"Tica"
-    raceTable[kk][3] = 66385803
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u"Women"
-    raceTable[kk][2] = u"Scotland"
-    raceTable[kk][3] = 60964473
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u"Clásica"
-    raceTable[kk][2] = u"506"
-    raceTable[kk][3] = 66250138
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u"Clásica"
-    raceTable[kk][2] = u"Esencial"
-    raceTable[kk][3] = 66309379
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u"San"
-    raceTable[kk][2] = u"Sebastian"
-    raceTable[kk][3] = 60882083
-    raceTable[kk][4] = u"de la "
-    kk += 1
-    
-    raceTable[kk][1] = u"Itzulia"
-    raceTable[kk][2] = u"Women"
-    raceTable[kk][3] =60882083
-    raceTable[kk][4] = u"de la "
-    kk += 1  
-
-    raceTable[kk][1] = u"Erondegemse"
-    raceTable[kk][2] = u"Pijl"
-    raceTable[kk][3] = 16974973
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u"RideLondon"
-    raceTable[kk][2] = u"Classique"
-    raceTable[kk][3] = 26143122
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u"Kreiz"
-    raceTable[kk][2] = u"Breizh"
-    raceTable[kk][3] = 55754205
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u"Clasica"
-    raceTable[kk][2] = u"Navarra"
-    raceTable[kk][3] = 66076050
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u"Classics"
-    raceTable[kk][2] = u"Navarra"
-    raceTable[kk][3] = 66076050
-    raceTable[kk][4] = u"de la "
-    kk += 1
-
-    raceTable[kk][1] = u"Nafarroako"
-    raceTable[kk][2] = u"Klasikoa"
-    raceTable[kk][3] = 66015725
-    raceTable[kk][4] = u"de la "
-    kk += 1
-    
-    raceTable[kk][1] = u"Nafarroako"
-    raceTable[kk][2] = u"Classics"
-    raceTable[kk][3] = 66015725
-    raceTable[kk][4] = u"de la "
-    kk += 1
-    
-    raceTable[kk][1] = u"BeNe"
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] = 16911866
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-    raceTable[kk][1] = u"Baloise"
-    raceTable[kk][2] = u"Ladies Tour"
-    raceTable[kk][3] = 16911866
-    raceTable[kk][4] = u"du "
-    kk += 1
-
-
-    raceTable[kk][1] = u"La Course"
-    raceTable[kk][2] = u"Tour de France"
-    raceTable[kk][3] = 17348758
-    raceTable[kk][4] = u"de "
-    kk += 1    
-
-    raceTable[kk][1] = u"Tour de Feminin"
-    raceTable[kk][2] = u"cenu"
-    raceTable[kk][3] = 1463076
-    raceTable[kk][4] = u"du "
-    kk += 1   
-  
-    raceTable[kk][1] = u"Tour de Feminin"
-    raceTable[kk][2] = u""
-    raceTable[kk][3] = 1463076
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Sparkassen"
-    raceTable[kk][2] = u"Giro"
-    raceTable[kk][3] = 75628179
-    raceTable[kk][4] = u"du "
-    kk += 1    
-   
-    
-    raceTable[kk][1] = u"Giro"
-    raceTable[kk][2] = u"Italia"
-    raceTable[kk][3] = 1526999
-    raceTable[kk][4] = u"du "
-    kk += 1   
-    
-    raceTable[kk][1] = u"Chrono"
-    raceTable[kk][2] = u"Armstrong"
-    raceTable[kk][3] = 55523189
-    raceTable[kk][4] = u"du "
-    kk += 1 
-
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Thailand"
-    raceTable[kk][3] = 17063894
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    
-    raceTable[kk][1] = u"Omloop"
-    raceTable[kk][2] = u"Het Nieuwsblad"
-    raceTable[kk][3] = 2973966
-    raceTable[kk][4] = u"du "
-    kk += 1   
-
-    raceTable[kk][1] = u"Samyn"
-    raceTable[kk][2] = u"Dames"
-    raceTable[kk][3] = 13060354
-    raceTable[kk][4] = u" "
-    kk += 1     
- 
-    raceTable[kk][1] = u"Omloop"
-    raceTable[kk][2] = u"Hageland"
-    raceTable[kk][3] = 3882248
-    raceTable[kk][4] = u"de l'"
-    kk += 1  
-
-    raceTable[kk][1] = u"Drentse"
-    raceTable[kk][2] = u"Acht"
-    raceTable[kk][3] = 28938662
-    raceTable[kk][4] = u"du "
-    kk += 1      
-    
-    raceTable[kk][1] = u"Ronde"
-    raceTable[kk][2] = u"Drenthe"
-    raceTable[kk][3] = 23015336
-    raceTable[kk][4] = u"du "
-    kk += 1     
-    
-    raceTable[kk][1] = u"Trofeo"
-    raceTable[kk][2] = u"Binda"
-    raceTable[kk][3] = 641769
-    raceTable[kk][4] = u"du "
-    kk += 1    
-
-    raceTable[kk][1] = u"Driedaagse"
-    raceTable[kk][2] = u"De Panne"
-    raceTable[kk][3] = 42052559
-    raceTable[kk][4] = u"des "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Classic"
-    raceTable[kk][2] = u"De Panne"
-    raceTable[kk][3] = 42052559
-    raceTable[kk][4] = u"des "
-    kk += 1   
-    
-    
-    raceTable[kk][1] = u"Gent"
-    raceTable[kk][2] = u"Wevelgem"
-    raceTable[kk][3] = 19828524
-    raceTable[kk][4] = u"de "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Dwars"
-    raceTable[kk][2] = u"Vlaanderen"
-    raceTable[kk][3] = 28872927
-    raceTable[kk][4] = u"d'"
-    kk += 1 
-             
-    raceTable[kk][1] = u"Ronde"
-    raceTable[kk][2] = u"Vlaanderen"
-    raceTable[kk][3] = 1637189
-    raceTable[kk][4] = u"du "
-    kk += 1 
-
-    raceTable[kk][1] = u"Diamond"
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] = 17064522
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"White"
-    raceTable[kk][2] = u"Spot"
-    raceTable[kk][3] = 28232668
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"V4 Ladies"
-    raceTable[kk][2] = u"Pannonhalma"
-    raceTable[kk][3] = 61003351
-    raceTable[kk][4] = u"de la "
-    kk += 1 
-
-    raceTable[kk][1] = u"V4 Ladies"
-    raceTable[kk][2] = u"Zalaegerszeg"
-    raceTable[kk][3] = 61004019
-    raceTable[kk][4] = u"de la "
-    kk += 1     
-
-
-    raceTable[kk][1] = u"OVO Energy Women"
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] = 16679864
-    raceTable[kk][4] = u" "
-    kk += 1 
- 
+    dic["Tour de Suisse féminin"]={
+        'names':['Tour',"Suisse"],
+        'master':"Q104637798",
+        "genre":"du "
+        }
+    dic["Tour de Delta féminin"]={
+        'names':['Delta',"Road Race"],
+        'master':"Q28232668",
+        "genre":"de la "
+        }
+    dic["Santos Women's Tour"]={
+        'names':['Santos Women',"Tour"],
+        'master':"Q22661614",
+        "genre":"du "
+        }  
+    dic["Contre-la-montre par équipes de l'Open de Suède Vårgårda"]={
+        'names':['Vårgårda',"TTT"],
+        'master':"Q26266060",
+        "genre":"du "
+        }  
+    dic["Course en ligne de l'Open de Suède Vårgårda"]={
+        'names':['Vårgårda',"RR"],
+        'master':"Q26266059",
+        "genre":"de la "
+        }  
+    dic["Paris Roubaix"]={
+        'names':['Paris',"Roubaix"],
+        'master':"Q96053083",
+        "genre":"de "
+        } 
+    dic["Grand Prix de l'Escaut féminin"]={
+        'names':['Scheldeprijs'],
+        'master':"Q104637738",
+        "genre":"du "
+        } 
+    dic["Grand Prix d'Isbergues féminin"]={
+        'names':['Grand Prix',"Isbergues"],
+        'master':"Q56703296",
+        "genre":"du "
+        }     
+    dic["Ceratizit Challenge by La Vuelta"]={
+        'names':['Madrid',"Vuelta"],
+        'master':"Q21030967",
+        "genre":"de la "
+        }     
+    dic["Ceratizit Challenge by La Vuelta2"]={
+        'names':['Challenge',"Vuelta"],
+        'master':"Q21030967",
+        "genre":"de la "
+        }    
+    dic["Grand Prix de Plouay féminin"]={
+        'names':['GP',"Plouay"],
+        'master':"Q1110856",
+        "genre":"du "
+        }   
+    dic["Grand Prix de Plouay féminin2"]={
+        'names':['GP',"Lorient Agglomération"],
+        'master':"Q1110856",
+        "genre":"du "
+        }   
+    dic["Grand Prix de Chambéry"]={
+        'names':['Grand Prix',"Chambéry"],
+        'master':"Q16763629",
+        "genre":"du "
+        }   
+    dic["Grote Prijs Euromat"]={
+        'names':['GP',"Eco-Struct"],
+        'master':"Q79034830",
+        "genre":"du "
+        }      
+    dic["Grote Prijs Euromat2"]={
+        'names':["Grote Prijs","Euromat"],
+        'master':"Q79034830",
+        "genre":"du "
+        }
+    dic["Grote Prijs Euromat3"]={
+        'names':["Grand Prix","Eco-Struct"],
+        'master':"Q79034830",
+        "genre":"du "
+        }        
+    dic["GP Oetingen"]={
+        'names':['GP',"Oetingen"],
+        'master':"Q104637723",
+        "genre":"du "
+        }   
+    dic["Grand Prix Belek"]={
+        'names':['GP',"Belek"],
+        'master':"Q78487585",
+        "genre":"du "
+        }      
+    dic["Grand Prix Cham-Hagendorn"]={
+        'names':['GP',"Cham-Hagendorn"],
+        'master':"Q29983421",
+        "genre":"du "
+        }  
+    dic["Grand Prix Mazda Schelkens"]={
+        'names':['GP',"Schelkens"],
+        'master':"Q110764947",
+        "genre":"du "
+        }
+    dic["Visegrad 4 Bicycle Race - GP Slovakia (Women)"]={
+        'names':['GP',"Slovakia"],
+        'master':"Q110765084",
+        "genre":"du "
+        }    
+    dic["GP Yvonne Reynders"]={
+        'names':['GP',"Yvonne Reynders"],
+        'master':"Q110765321",
+        "genre":"du "
+        }  
+    dic["Grand Prix Manavgat Side (Women)"]={
+        'names':["Grand Prix","Manavgat"],
+        'master':"Q79031111",
+        "genre":"du "
+        }  
+    dic["Grand Prix cycliste de Gatineau"]={
+        'names':["Grand Prix","Gatineau"],
+        'master':"Q3775093",
+        "genre":"du "
+        }  
+    dic["Grand Prix cycliste de Gatineau2"]={
+        'names':["Tour","Gatineau"],
+        'master':"Q3775093",
+        "genre":"du "
+        } 
+    dic["Grand Prix du Morbihan Féminin"]={
+        'names':["Grand Prix","Plumelec"],
+        'master':"Q16982488",
+        "genre":"du "
+        }  
+    dic["Grand Prix du Morbihan Féminin2"]={
+        'names':["Grand Prix","Morbihan"],
+        'master':"Q16982488",
+        "genre":"du "
+        } 
+    dic["Grand Prix international de Dottignies"]={
+        'names':["Grand Prix","Dottignies"],
+        'master':"Q3774953",
+        "genre":"du "
+        } 
+    dic["Grand Prix Velo Alanya"]={
+        'names':["Grand Prix","Velo Alanya"],
+        'master':"Q47531313",
+        "genre":"du "
+        }     
+    dic["Grand Prix Alanya féminin"]={
+        'names':["Grand Prix","Alanya"],
+        'master':"Q60965348",
+        "genre":"du "
+        }  
+    dic["Grand Prix Cappadocia"]={
+        'names':["Grand Prix","Cappadocia"],
+        'master':"Q79031829",
+        "genre":"du "
+        } 
+    dic["Grand Prix Develi féminines"]={
+        'names':["Grand Prix","Develi"],
+        'master':"Q79031767",
+        "genre":"du "
+        }     
+    dic["Grand Prix Central Anatolia"]={
+        'names':["Grand Prix","Central Anatolia"],
+        'master':"Q79032793",
+        "genre":"du "
+        }      
+    dic["Grand Prix Kayseri"]={
+        'names':["Grand Prix","Kayseri"],
+        'master':"Q79031695",
+        "genre":"du "
+        }    
+    dic["Grand Prix Erciyes"]={
+        'names':["Grand Prix Erciyes"],
+        'master':"Q79032136",
+        "genre":"du "
+        } 
+    dic["Grand Prix Velo Erciyes féminine"]={
+        'names':["Grand Prix","Velo Erciyes"],
+        'master':"Q79033022",
+        "genre":"du "
+        }  
+    dic["Grand Prix Mount Erciyes 2200 mt"]={
+        'names':["Grand Prix","Mount Erciyes"],
+        'master':"Q79033120",
+        "genre":"du "
+        }  
+    dic["Grand Prix World's Best High Altitude"]={
+        'names':["Grand Prix","High Altitude"],
+        'master':"Q79033205",
+        "genre":"du "
+        }  
+    dic["Grand Prix World's Best High Altitude"]={
+        'names':["Grand Prix","High Altitude"],
+        'master':"Q79033205",
+        "genre":"du "
+        }         
+    dic["Grand Prix Gazipaşa féminin"]={
+        'names':["Grand Prix","Gazipasa"],
+        'master':"Q60965049",
+        "genre":"du "
+        }  
+    dic["Grand Prix Beerens"]={
+        'names':["Grand Prix","Beerens"],
+        'master':"Q77559206",
+        "genre":"du "
+        }    
+    dic["Grand Prix Beerens2"]={
+        'names':["Grote prijs","Beerens"],
+        'master':"Q77559206",
+        "genre":"du "
+        }
+    dic["Grand Prix Mediterrennean"]={
+        'names':["Grand Prix","Mediterrennean"],
+        'master':"Q105811175",
+        "genre":"du "
+        }     
+    dic["Grand Prix Kalmar (Women)"]={
+        'names':["Grand Prix","Kalmar"],
+        'master':"Q110765135",
+        "genre":"du "
+        }  
+    dic["Grand Prix Yahyalı"]={
+        'names':["Grand Prix","Yahyalı"],
+        'master':"Q110765155",
+        "genre":"du "
+        }  
+    dic["Grisette Grand Prix de Wallonie"]={
+        'names':["Grand Prix","Wallonie"],
+        'master':"Q110765400",
+        "genre":"du "
+        }  
+    dic["Grand Prix ICODER"]={
+        'names':['Gran Premio',"ICODER"],
+        'master':"Q57966675",
+        "genre":"du "
+        }    
+    dic["Grand Prix Bruno Beghelli féminin"]={
+        'names':['Gran Premio',"Beghelli"],
+        'master':"Q57966675",
+        "genre":"du "
+        }        
+    dic["Grand Prix du Comité Olympique National féminin"]={
+        'names':['Gran Premio',"Comite Olimpico"],
+        'master':"Q57967831",
+        "genre":"du "
+        }   
+    dic["GP Liberazione"]={
+        'names':['Gran Premio',"Liberazione"],
+        'master':"Q3774541",
+        "genre":"du "
+        }   
+    dic["GP Yvonne Reynders"]={
+        'names':["Grote Prijs","Yvonne Reynders"],
+        'master':"Q110765321",
+        "genre":"du "
+        }       
+    dic["Tour d'Occitanie"]={
+        'names':["Tour","Occitanie"],
+        'master':"Q79032374",
+        "genre":"du "
+        }   
+    dic["Tour de l'île de Zhoushan II"]={
+        'names':["Tour","Zhoushan"],
+        'master':"Q13362122",
+        "genre":"du "
+        }      
+    dic["Tour de l'île de Zhoushan II 2"]={
+        'names':["Island II","Zhoushan"],
+        'master':"Q13362122",
+        "genre":"du "
+        }     
+    dic["Tour du Wenzhou féminin"]={
+        'names':["Tour","Wenzhou"],
+        'master':"Q104637782",
+        "genre":"du "
+        }  
+    dic["Dubai Women's Tour"]={
+        'names':["Tour","Dubai"],
+        'master':"Q78657185",
+        "genre":"du "
+        }     
+    dic["Tour du Nanxijiang"]={
+        'names':["Tour","Nanxijiang"],
+        'master':"Q71731311",
+        "genre":"du "
+        }   
+    dic["Tour de l'Ardèche"]={
+        'names':["Tour","Ardèche"],
+        'master':"Q1729875",
+        "genre":"du "
+        } 
+    dic["The Women's Tour"]={
+        'names':["Tour","OVO Energy Women"],
+        'master':"Q16679864",
+        "genre":"du "
+        }     
+    dic["Tour de Belgique féminin"]={
+        'names':["Belgium Tour",'Lotto'],
+        'master':"Q6685041",
+        "genre":"du "
+        }     
+    dic["Tour de Belgique féminin2"]={
+        'names':["Belgium",'Ladies'],
+        'master':"Q6685041",
+        "genre":"du "
+        }     
+    dic["Simac Ladies Tour"]={
+        'names':["Tour",'Boels'],
+        'master':"Q1572063",
+        "genre":"du "
+        }   
+    dic["Simac Ladies Tour2"]={
+        'names':["Tour",'Simac'],
+        'master':"Q1572063",
+        "genre":"du "
+        }   
+    dic["Battle of the North"]={
+        'names':["Tour","Norway"],
+        'master':"Q17619325",
+        "genre":"du "
+        }  
+    dic["Battle of the North2"]={
+        'names':["Battle","North"],
+        'master':"Q17619325",
+        "genre":"du "
+        }  
+    dic["Baloise Ladies Tour"]={
+        'names':["Tour","BeNe"],
+        'master':"Q16911866",
+        "genre":"du "
+        }  
+    dic["Baloise Ladies Tour2"]={
+        'names':["Ladies Tour","Baloise"],
+        'master':"Q16911866",
+        "genre":"du "
+        }  
+    dic["Tour de Feminin - O cenu Ceskeho Svycarska"]={
+        'names':["Tour de Feminin","cenu"],
+        'master':"Q1463076",
+        "genre":"du "
+        }      
+    dic["Tour de Feminin - O cenu Ceskeho Svycarska2"]={
+        'names':["Tour de Feminin",""],
+        'master':"Q1463076",
+        "genre":"du "
+        }   
+    dic["Tour de Thuringe féminin"]={
+        'names':["Tour","Thüringen"],
+        'master':"Q314687",
+        "genre":"du "
+        } 
+    dic["Tour de Taiyuan féminin"]={
+        'names':["Tour","Taiyuan"],
+        'master':"Q61003704",
+        "genre":"du "
+        } 
+    dic["Tour de Yorkshire féminin"]={
+        'names':["Tour","Yorkshire"],
+        'master':"Q24009981",
+        "genre":"du "
+        }  
+    dic["Tour de l'île de Chongming"]={
+        'names':["Tour","Chongming"],
+        'master':"Q15666441",
+        "genre":"du "
+        }      
+    dic["Tour d'Uppsala"]={
+        'names':["Tour","Uppsala"],
+        'master':"Q52456674",
+        "genre":"du "
+        }      
+    dic["Tour de Thaïlande féminin"]={
+        'names':["Tour","Thailand"],
+        'master':"Q17063894",
+        "genre":"du "
+        }      
+    dic["Diamond Tour"]={
+        'names':["Tour","Diamond"],
+        'master':"Q17064522",
+        "genre":"du "
+        } 
+    dic["Tour de Bretagne féminin"]={
+        'names':["Tour","Bretagne"],
+        'master':"Q1628953",
+        "genre":"du "
+        } 
+    dic["Tour du Venezuela féminin II"]={
+        'names':["Tour","Venezuela 2"],
+        'master':"Q63976580",
+        "genre":"du "
+        } 
+    dic["Tour of the Gila Women"]={
+        'names':["Tour","Gila"],
+        'master':"Q29054378",
+        "genre":"du "
+        } 
+    dic["Tour d'Arava"]={
+        'names':["Tour","Arava"],
+        'master':"Q61003023",
+        "genre":"du "
+        }     
+    dic["Womens Herald Sun Tour"]={
+        'names':["Tour","Herald Sun"],
+        'master':"Q47509863",
+        "genre":"du "
+        }  
+    dic["Tour de Malaisie féminin"]={
+        'names':["Tour","Malaysia"],
+        'master':"Q79033337",
+        "genre":"du "
+        }     
+    dic["Tour du Guangxi féminin"]={
+        'names':["Tour","Guangxi"],
+        'master':"Q42394196",
+        "genre":"du "
+        }   
+    dic["Belgrade GP Woman Tour"]={
+        'names':["Tour","Belgrade"],
+        'master':"Q107233692",
+        "genre":"du "
+        }       
+    dic["Tour d'Estonie féminin"]={
+        'names':["Tour","Estonia"],
+        'master':"Q110764090",
+        "genre":"du "
+        }  
+    dic["Tour de France Femmes"]={
+        'names':["Tour de France","Femmes"],
+        'master':"Q1542952",
+        "genre":"du "
+        }  
+    dic["Trophée des Grimpeuses"]={
+        'names':["Tour","Semois"],
+        'master':"Q79032472",
+        "genre":"du "
+        }   
+    dic["Trophée des Grimpeuses2"]={
+        'names':["Trophée","Grimpeuses"],
+        'master':"Q79032472",
+        "genre":"du "
+        }      
+    dic["International Syrian Tour"]={
+        'names':["Tour","Syrian"],
+        'master':"Q110765437",
+        "genre":"du "
+        }       
+    dic["Tour de Romandie féminin"]={
+        'names':["Tour","Romandie"],
+        'master':"Q110765449",
+        "genre":"du "
+        }     
+    dic["Tour d'Émilie féminin"]={
+        'names':['Giro',"Emilia"],
+        'master':"Q22008975",
+        "genre":"du "
+        }  
+    dic["Giro delle Marche in Rosa"]={
+        'names':['Giro',"Marche"],
+        'master':"Q68029340",
+        "genre":"du "
+        }      
+    dic["Tour de Toscane féminin-Mémorial Michela Fanini"]={
+        'names':['Giro',"Toscana"],
+        'master':"Q68029340",
+        "genre":"du "
+        }     
+    dic["Tour de Bochum féminin"]={
+        'names':['Giro',"Sparkassen"],
+        'master':"Q75628179",
+        "genre":"du "
+        }  
+    dic["Tour d'Italie féminin"]={
+        'names':['Giro',"Italia"],
+        'master':"Q1526999",
+        "genre":"du "
+        }
+    dic["Tour de Castellón féminin"]={
+        'names':["Vuelta","Castellon"],
+        'master':"Q79030956",
+        "genre":"du "
+        }
+    dic["Tour de la Communauté valencienne féminin"]={
+        'names':["Vuelta CV","Feminas"],
+        'master':"Q60965701",
+        "genre":"du "
+        }    
+    dic["Tour du Costa Rica féminin"]={
+        'names':['Vuelta',"Costa Rica"],
+        'master':"Q16960754",
+        "genre":"du "
+        }        
+    dic["Vuelta Tica Internacional"]={
+        'names':['Vuelta',"Tica"],
+        'master':"Q66385803",
+        "genre":"de la "
+        } 
+    dic["Tour féminin du Guatemala"]={
+        'names':['Vuelta',"Guatemala"],
+        'master':"Q55739408",
+        "genre":"du "
+        } 
+    dic["Tour de Burgos féminin"]={
+        'names':['Vuelta',"Burgos"],
+        'master':"Q60963675",
+        "genre":"du "
+        }     
+    dic["Tour de Colombie féminin"]={
+        'names':['Vuelta',"Colombia"],
+        'master':"Q27684043",
+        "genre":"du "
+        }        
+    dic["Race Torquay"]={
+        'names':["Race","Torquay"],
+        'master':"Q78655433",
+        "genre":"de la "
+        }
+    dic["Horizon Park Race"]={
+        'names':["Race","Horizon Park"],
+        'master':"Q30051111",
+        "genre":"de la "
+        }
+    dic["Joe Martin Stage Race Women"]={
+        'names':["Race","Joe Martin"],
+        'master':"Q29060753",
+        "genre":"de la "
+        }
+    dic["Chabany Race Women"]={
+        'names':["Race","Chabany"],
+        'master':"Q79031524",
+        "genre":"de la "
+        }
+    dic["Cadel Evans Great Ocean Road Race Women"]={
+        'names':["Race","Cadel Evans"],
+        'master':"Q28536664",
+        "genre":"de la "
+        }
+    dic["Kyiv Green Race"]={
+        'names':["Green Race","Kyiv"],
+        'master':"Q110764558",
+        "genre":"de la "
+        }
+    dic["Anna Vasa Race"]={
+        'names':["Race","Anna Vasa"],
+        'master':"Q110765120",
+        "genre":"de la "
+        }
+    dic["Scenic Avenue International Race I"]={
+        'names':['Scenic Avenue',"Race I"],
+        'master':"Q67205061",
+        "genre":"de la "
+        }
+    dic["Scenic Avenue International Race II"]={
+        'names':['Scenic Avenue',"Race II"],
+        'master':"Q67205154",
+        "genre":"de la "
+        }  
+    dic["Chrono des Nations-Les Herbiers-Vendée féminin"]={
+        'names':['Chrono',"Nations"],
+        'master':"Q41944204",
+        "genre":"du "
+        }
+    dic["Chrono champenois"]={
+        'names':['Chrono',"Champenois"],
+        'master':"Q1088090",
+        "genre":"du "
+        }    
+    dic["Chrono Kristin Armstrong (féminin)"]={
+        'names':['Chrono',"Armstrong"],
+        'master':"Q55523189",
+        "genre":"du "
+        }  
+    dic["VR Women ITT"]={
+        'names':["VR Women","ITT"],
+        'master':"Q30051105",
+        "genre":"du "
+        }
+    dic["Chrono Gatineau"]={
+        'names':['Chrono',"Gatineau"],
+        'master':"Q1088102",
+        "genre":"du "
+        }  
+    dic["Ljubljana-Domzale-Ljubljana TT"]={
+        'names':["Ljubljana","TT"],
+        'master':"Q17099191",
+        "genre":"du "
+        }
+    dic["Scorpions' Pass TT"]={
+        'names':["Scorpions","ITT"],
+        'master':"Q61002924",
+        "genre":"du "
+        }    
+    dic["Circuit Het Nieuwsblad féminin"]={
+        'names':["Omloop","Het Nieuwsblad"],
+        'master':"Q2973966",
+        "genre":"du "
+        }   
+    dic["Omloop van het Hageland"]={
+        'names':["Omloop","Hageland"],
+        'master':"Q3882248",
+        "genre":"de l'"
+        }   
+    dic["Omloop van de IJsseldelta"]={
+        'names':["Omloop","IJsseldelta"],
+        'master':"Q23843462",
+        "genre":"de l'"
+        }  
+    dic["Circuit de Borsele"]={
+        'names':["Omloop","Borsele"],
+        'master':"Q2973988",
+        "genre":"du "
+        } 
+    dic["Circuit du Westhoek-Mémorial Stive Vermaut"]={
+        'names':["Omloop","Westhoek"],
+        'master':"Q50281020",
+        "genre":"du "
+        } 
+    dic["Omloop der Kempen Ladies"]={
+        'names':["Omloop","Kempen"],
+        'master':"Q110764076",
+        "genre":"du "
+        } 
+    dic["Colorado Classic Women"]={
+        'names':["Classic","Colorado"],
+        'master':"Q66777548",
+        "genre":"de la "
+        } 
+    dic["MerXem Classic"]={
+        'names':["Classic","MerXem"],
+        'master':"Q61013876",
+        "genre":"de la "
+        } 
+    dic["RideLondon-Classique"]={
+        'names':["Classique","RideLondon"],
+        'master':"Q26143122",
+        "genre":"de la "
+        }     
+    dic["Clasica Femenina Navarra"]={
+        'names':["Classics","Navarra"],
+        'master':"Q66076050",
+        "genre":"de la "
+        }        
+    dic["Emakumeen Nafarroako Klasikoa"]={
+        'names':["Klasikoa","Nafarroako"],
+        'master':"Q66015725",
+        "genre":"de la "
+        }         
+    dic["Emakumeen Nafarroako Klasikoa2"]={
+        'names':["Classics","Nafarroako"],
+        'master':"Q66015725",
+        "genre":"de la "
+        }  
+    dic["Classic Bruges-La Panne féminine"]={
+        'names':["Classic","De Panne"],
+        'master':"Q42052559",
+        "genre":"de la "
+        }  
+    dic["Veenendaal Veenendaal Classic féminine"]={
+        'names':["Classic","Veenendaal"],
+        'master':"Q56257178",
+        "genre":"de la "
+        } 
+    dic["La Classique Morbihan"]={
+        'names':["Classique","Morbihan"],
+        'master':"Q24262795",
+        "genre":"de la "
+        } 
+    dic["Winston-Salem Cycling Classic Women"]={
+        'names':["Classic","Winston Salem"],
+        'master':"Q16987217",
+        "genre":"de la "
+        }    
+    dic["Clasica Femenina Navarra"]={
+        'names':["Clasica","Navarra"],
+        'master':"Q66076050",
+        "genre":"de la "
+        }  
+    dic["Clasica CRC 506"]={
+        'names':["Clásica","506"],
+        'master':"Q66250138",
+        "genre":"de la "
+        }  
+    dic["Clasica Esencial Costa Rica"]={
+        'names':["Clásica","Esencial"],
+        'master':"Q66309379",
+        "genre":"de la "
+        }  
+    dic["Horizon Park Race"]={
+        'names':["Kievskaya","Challenge"],
+        'master':"Q30051111",
+        "genre":"de la "
+        }      
+    dic["Gran Premio Ciudad de Eibar"]={
+        'names':["Ciudad","Eibar"],
+        'master':"Q79032029",
+        "genre":"du "
+        } 
+    dic["Binche Chimay Binche pour Dames"]={
+        'names':["Binche","Chimay"],
+        'master':"Q110765414",
+        "genre":"du "
+        } 
+    dic["La course by Le Tour de France"]={
+        'names':["La Course","Tour de France"],
+        'master':"Q17348758",
+        "genre":"de "
+        } 
+    dic["Strade Bianche féminines"]={
+        'names':['Strade',"Bianche"],
+        'master':"Q19605976",
+        "genre":"des "
+        } 
+    dic["Grand Prix de Fourmies féminin"]={
+        'names':['Féminine',"Fourmies"],
+        'master':"Q61013887",
+        "genre":"du "
+        } 
+    dic["Grand Prix de Fourmies féminin"]={
+        'names':['Féminine',"Fourmies"],
+        'master':"Q61013887",
+        "genre":"de la "
+        } 
+    dic["La Picto-Charentaise"]={
+        'names':['Picto',"Charentaise"],
+        'master':"Q61013883",
+        "genre":"de la "
+        } 
+    dic["La Périgord Ladies"]={
+        'names':["Périgord","Ladies"],
+        'master':"Q61013879",
+        "genre":"de la "
+        } 
+    dic["Flanders Ladies Classic-Sofie De Vuyst"]={
+        'names':["Flanders","De Vuyst"],
+        'master':"Q47044489",
+        "genre":"de la "
+        } 
+    dic["Tour d'Écosse féminin"]={
+        'names':["Women","Scotland"],
+        'master':"Q60964473",
+        "genre":"du "
+        } 
+    dic["Classique de Saint-Sébastien féminine"]={
+        'names':["San","Sebastian"],
+        'master':"Q60882083",
+        "genre":"de la "
+        } 
+    dic["Classique de Saint-Sébastien féminine2"]={
+        'names':["Itzulia","Women"],
+        'master':"Q60882083",
+        "genre":"de la "
+        } 
+    dic["Erondegemse Pijl"]={
+        'names':["Erondegemse","Pijl"],
+        'master':"Q60882083",
+        "genre":"de l'"
+        } 
+    dic["Kreiz Breizh Elites Dames"]={
+        'names':["Kreiz","Breizh"],
+        'master':"Q55754205",
+        "genre":"du "
+        } 
+    dic["Le Samyn des Dames"]={
+        'names':["Samyn","Dames"],
+        'master':"Q13060354",
+        "genre":"du "
+        } 
+    dic["Drentse 8"]={
+        'names':["Drentse","Acht"],
+        'master':"Q28938662",
+        "genre":"du "
+        } 
+    dic["Tour de Drenthe féminin"]={
+        'names':["Ronde","Drenthe"],
+        'master':"Q28938662",
+        "genre":"du "
+        } 
+    dic["Trofeo Alfredo Binda-Comune di Cittiglio"]={
+        'names':["Trofeo","Binda"],
+        'master':"Q641769",
+        "genre":"du "
+        } 
+    dic["Classic Bruges-La Panne féminine"]={
+        'names':["Driedaagse","De Panne"],
+        'master':"Q42052559",
+        "genre":"de la "
+        } 
+    dic["Gand-Wevelgem féminin"]={
+        'names':["Gent","Wevelgem"],
+        'master':"Q19828524",
+        "genre":"de "
+        }     
+    dic["À travers les Flandres féminin"]={
+        'names':["Dwars","Vlaanderen"],
+        'master':"Q28872927",
+        "genre":"d'"
+        }   
+    dic["Tour des Flandres féminin"]={
+        'names':["Ronde","Vlaanderen"],
+        'master':"Q1637189",
+        "genre":"du "
+        }   
+    dic["Tour de Delta féminin"]={
+        'names':["White","Spot"],
+        'master':"Q1637189",
+        "genre":"du "
+        }       
+    dic["V4 Ladies Series Pannonhalma"]={
+        'names':["V4 Ladies","Pannonhalma"],
+        'master':"Q61003351",
+        "genre":"de la "
+        }   
+    dic["V4 Ladies Series Restart Zalaegerszeg"]={
+        'names':["V4 Ladies","Zalaegerszeg"],
+        'master':"Q61004019",
+        "genre":"de la "
+        }   
+    dic["Dwars door de Westhoek"]={
+        'names':["Dwars","Westhoek"],
+        'master':"Q3716807",
+        "genre":"de "
+        }   
+    dic["Iurreta-Emakumeen Bira"]={
+        'names':["Emakumeen","Bira"],
+        'master':"Q1334580",
+        "genre":"de l'"
+        }    
+    dic["Kiev Olimpic Ring Women Race"]={
+        'names':["Kiev Olimpic","Ring"],
+        'master':"Q61013868",
+        "genre":"du "
+        } 
+    dic["Trofee Maarten Wynants"]={
+        'names':["Trofee","Maarten Wynants"],
+        'master':"Q22008927",
+        "genre":"du "
+        } 
+    dic["Liège-Bastogne-Liège féminin"]={
+        'names':["Liège","Bastogne"],
+        'master':"Q27538455",
+        "genre":"de "
+        } 
+    dic["Durango-Durango Emakumeen Saria"]={
+        'names':["Durango","Saria"],
+        'master':"Q3716453",
+        "genre":"de la "
+        } 
+    dic["Grand Prix Elsy Jacobs"]={
+        'names':["Elsy","Jacobs"],
+        'master':"Q2364254",
+        "genre":"du "
+        }     
+    dic["Gracia Orlova"]={
+        'names':["Gracia"],
+        'master':"Q1332724",
+        "genre":"du "
+        }     
+    dic["Flèche wallonne féminine"]={
+        'names':["Flèche","Wallonne"],
+        'master':"Q508838",
+        "genre":"de la "
+        }   
+    dic["Amstel Gold Race féminine"]={
+        'names':["Amstel","Gold"],
+        'master':"Q3614690",
+        "genre":"de l'"
+        }   
+    dic["Flèche brabançonne féminine"]={
+        'names':["Brabantse","Pijl"],
+        'master':"Q51717210",
+        "genre":"de la "
+        }       
+    dic["Bloeizone Fryslân Tour"]={
+        'names':["Healthy","Ageing"],
+        'master':"Q1341486",
+        "genre":"du"
+        }  
+    dic["Bloeizone Fryslân Tour2"]={
+        'names':["Bloeizone","Fryslan"],
+        'master':"Q1341486",
+        "genre":"du"
+        } 
+    dic["Aphrodite's Sanctuary Cycling Race"]={
+        'names':["Aphrodite","Sanctuary"],
+        'master':"Q61014201",
+        "genre":"de l'"
+        }   
+    dic["Aphrodite Cycling Race ITT"]={
+        'names':["Aphrodite","Time"],
+        'master':"Q62577415",
+        "genre":"de l'"
+        }      
+    dic["Nokere Koerse voor Dames"]={
+        'names':["Nokere","Koerse"],
+        'master':"Q60821013",
+        "genre":"de la "
+        }  
+    dic["Semaine cycliste valencienne"]={
+        'names':["Setmana","Valenciana"],
+        'master':"Q28752781",
+        "genre":"de la "
+        }      
+    dic["Watersley Womens Challenge"]={
+        'names':["Watersley","Challenge"],
+        'master':"Q79032687",
+        "genre":"du"
+        }        
+    dic["Gravel and Tar La Femme"]={
+        'names':["Gravel","Tar"],
+        'master':"Q60642923",
+        "genre":"du"
+        }      
+    dic["Ronde de Mouscron"]={
+        'names':["Ronde","Mouscron"],
+        'master':"Q77558798",
+        "genre":"de la "
+        }  
+    dic["2-Districtenpijl"]={
+        'names':["Districtenpijl"],
+        'master':"Q77559070",
+        "genre":"de la "
+        }     
+    dic["Trofeo Oro in Euro"]={
+        'names':["Trofeo","Oro in Euro"],
+        'master':"Q110492068",
+        "genre":"du "
+        }
+    dic["Leiedal Koerse"]={
+        'names':["Leiedal","Koerse"],
+        'master':"Q110764040",
+        "genre":"de la "
+        }
+    dic["Tour d'Andalousie féminin"]={
+        'names':["Andalucia","Ruta Del Sol"],
+        'master':"Q110764063",
+        "genre":"du "
+        }    
+    dic["Kyiv Cup Women"]={
+        'names':["Kyiv","Cup"],
+        'master':"Q110764507",
+        "genre":"de la "
+        }      
+    dic["Memorial Monica Bandini"]={
+        'names':["Monica","Bandini"],
+        'master':"Q110764703",
+        "genre":"du "
+        } 
+    dic["Alpes Gresivaudan Classic"]={
+        'names':["Alpes","Gresivaudan"],
+        'master':"Q110764826",
+        "genre":"de la "
+        }   
+    dic["Mont Ventoux Dénivelé Challenges (femme)"]={
+        'names':["Mont Ventoux","Challenges"],
+        'master':"Q110322011",
+        "genre":"du "
+        }  
+    dic["Visegrad 4 Ladies Series - Hungary"]={
+        'names':["Visegrad","Hungary"],
+        'master':"Q110765104",
+        "genre":"du "
+        }  
+    dic["Coupe d'Europe des Grimpeurs"]={
+        'names':["Coupe d'Europe","Grimpeurs"],
+        'master':"Q110765167",
+        "genre":"de la "
+        }      
+    dic["La Route des Géantes"]={
+        'names':["La Route","Géantes"],
+        'master':"Q110765379",
+        "genre":"de "
+        }     
+    dic["A Travers les Hauts de France"]={
+        'names':["Travers","Hauts de France"],
+        'master':"Q110765397",
+        "genre":"d'"
+        }       
  #too dangerous!!   
     
    # raceTable[kk][1] = u"Women's Tour"
@@ -573,661 +995,5 @@ def load():
    # raceTable[kk][3] = 16679864
   #  raceTable[kk][4] = u" "
  #   kk += 1 
-    
-    raceTable[kk][1] = u"Dwars"
-    raceTable[kk][2] = u"Westhoek"
-    raceTable[kk][3] = 3716807
-    raceTable[kk][4] = u"de "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Vuelta"
-    raceTable[kk][2] = u"Guatemala"
-    raceTable[kk][3] = 55739408
-    raceTable[kk][4] = u"du "
-    kk += 1 
-
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Bretagne"
-    raceTable[kk][3] =1628953
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Veenendaal"
-    raceTable[kk][2] = u"Classic"
-    raceTable[kk][3] =56257178
-    raceTable[kk][4] = u"de la "
-    kk += 1    
-    
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Euromat"
-    raceTable[kk][3] =79034830
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    raceTable[kk][1] = u"Grote Prijs"
-    raceTable[kk][2] = u"Euromat"
-    raceTable[kk][3] =79034830
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    
-    raceTable[kk][1] = u"Horizon Park"
-    raceTable[kk][2] = u"Race"
-    raceTable[kk][3] =30051111
-    raceTable[kk][4] = u"de la "
-    kk += 1    
-
-    raceTable[kk][1] = u"Kievskaya"
-    raceTable[kk][2] = u"Challenge"
-    raceTable[kk][3] =30051111
-    raceTable[kk][4] = u"de la "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Omloop"
-    raceTable[kk][2] = u"IJsseldelta"
-    raceTable[kk][3] =23843462
-    raceTable[kk][4] = u"de l'"
-    kk += 1 
-    
-    
-
-    raceTable[kk][1] = u"Chrono"
-    raceTable[kk][2] = u"Gatineau"
-    raceTable[kk][3] =1088102
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Gatineau"
-    raceTable[kk][3] =3775093
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Gatineau"
-    raceTable[kk][3] =3775093
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Ljubljana"
-    raceTable[kk][2] = u"TT"
-    raceTable[kk][3] =17099191
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Thüringen"
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] =314687
-    raceTable[kk][4] = u"du "
-    kk += 1 
-
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Plumelec"
-    raceTable[kk][3] =16982488
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Morbihan"
-    raceTable[kk][3] =16982488
-    raceTable[kk][4] = u"du "
-    kk += 1     
-    
-    
-    raceTable[kk][1] = u"Classique"
-    raceTable[kk][2] = u"Morbihan"
-    raceTable[kk][3] =24262795
-    raceTable[kk][4] = u"de la "
-    kk += 1    
-    
-    raceTable[kk][1] = u"Winston Salem"
-    raceTable[kk][2] = u"Classic"
-    raceTable[kk][3] =16987217
-    raceTable[kk][4] = u"de la "
-    kk += 1      
-    
-    raceTable[kk][1] = u"VR Women"
-    raceTable[kk][2] = u"ITT"
-    raceTable[kk][3] =30051105
-    raceTable[kk][4] = u"du "
-    kk += 1      
-
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Taiyuan"
-    raceTable[kk][3] =61003704
-    raceTable[kk][4] = u"du "
-    kk += 1 
-
-    raceTable[kk][1] = u"GP"
-    raceTable[kk][2] = u"Cham-Hagendorn"
-    raceTable[kk][3] =29983421
-    raceTable[kk][4] = u"du "
-    kk += 1 
-
-    raceTable[kk][1] = u"Emakumeen"
-    raceTable[kk][2] = u"Bira"
-    raceTable[kk][3] =1334580
-    raceTable[kk][4] = u"de l'"
-    kk += 1 
-    
-    raceTable[kk][1] = u"Kiev Olimpic"
-    raceTable[kk][2] = u"Ring"
-    raceTable[kk][3] =61013868
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Trofee"
-    raceTable[kk][2] = u"Maarten Wynants"
-    raceTable[kk][3] =22008927
-    raceTable[kk][4] = u"du "
-    kk += 1     
-    
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Chongming"
-    raceTable[kk][3] =15666441
-    raceTable[kk][4] = u"du "
-    kk += 1    
-
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Uppsala"
-    raceTable[kk][3] =52456674
-    raceTable[kk][4] = u"du "
-    kk += 1    
-
-    raceTable[kk][1] = u"Liège"
-    raceTable[kk][2] = u"Bastogne"
-    raceTable[kk][3] =27538455
-    raceTable[kk][4] = u"de "
-    kk += 1 
-
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Yorkshire"
-    raceTable[kk][3] =24009981
-    raceTable[kk][4] = u"du "
-    kk += 1     
-
-    raceTable[kk][1] = u"Island II"
-    raceTable[kk][2] = u"Zhoushan"
-    raceTable[kk][3] =13362122
-    raceTable[kk][4] = u"du "
-    kk += 1     
-
-    raceTable[kk][1] = u"Durango"
-    raceTable[kk][2] = u"Saria"
-    raceTable[kk][3] =3716453
-    raceTable[kk][4] = u"de la "
-    kk += 1     
-
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Venezuela 2"
-    raceTable[kk][3] =63976580
-    raceTable[kk][4] = u"du "
-    kk += 1  
-
-    raceTable[kk][1] = u"Vuelta"
-    raceTable[kk][2] = u"Burgos"
-    raceTable[kk][3] =60963675
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Elsy"
-    raceTable[kk][2] = u"Jacobs"
-    raceTable[kk][3] =2364254
-    raceTable[kk][4] = u"du "
-    kk += 1    
-  
-    raceTable[kk][1] = u"Gracia"
-    raceTable[kk][2] = u"Gracia"
-    raceTable[kk][3] =1332724
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Gila"
-    raceTable[kk][3] =29054378
-    raceTable[kk][4] = u"du "
-    kk += 1    
-    
-    raceTable[kk][1] = u"Omloop"
-    raceTable[kk][2] = u"Borsele"
-    raceTable[kk][3] =2973988
-    raceTable[kk][4] = u"du "
-    kk += 1    
  
-    raceTable[kk][1] = u"Flèche"
-    raceTable[kk][2] = u"Wallonne"
-    raceTable[kk][3] =508838
-    raceTable[kk][4] = u"de la "
-    kk += 1
- 
-    raceTable[kk][1] = u"Amstel"
-    raceTable[kk][2] = u"Gold"
-    raceTable[kk][3] =3614690
-    raceTable[kk][4] = u"de l'"
-    kk += 1
-    
-    raceTable[kk][1] = u"Brabantse"
-    raceTable[kk][2] = u"Pijl"
-    raceTable[kk][3] =51717210
-    raceTable[kk][4] = u"de la "
-    kk += 1    
-
-    raceTable[kk][1] = u"Healthy"
-    raceTable[kk][2] = u"Ageing"
-    raceTable[kk][3] =1341486
-    raceTable[kk][4] = u"de l'"
-    kk += 1
-    
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Dottignies"
-    raceTable[kk][3] =3774953
-    raceTable[kk][4] = u"du "
-    kk += 1    
-
-    raceTable[kk][1] = u"Joe Martin"
-    raceTable[kk][2] = u"Race"
-    raceTable[kk][3] =29060753
-    raceTable[kk][4] = u"de la "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Aphrodite"
-    raceTable[kk][2] = u"Sanctuary"
-    raceTable[kk][3] =61014201
-    raceTable[kk][4] = u"de l'"
-    kk += 1     
-    
-    raceTable[kk][1] = u"Aphrodite"
-    raceTable[kk][2] = u"Time"
-    raceTable[kk][3] =62577415
-    raceTable[kk][4] = u"de l'"
-    kk += 1        
-    
-    raceTable[kk][1] = u"Nokere"
-    raceTable[kk][2] = u"Koerse"
-    raceTable[kk][3] =60821013
-    raceTable[kk][4] = u"de la "
-    kk += 1    
-
-    raceTable[kk][1] = u"Omloop"
-    raceTable[kk][2] = u"Westhoek"
-    raceTable[kk][3] =50281020
-    raceTable[kk][4] = u"du "
-    kk += 1  
-
-    raceTable[kk][1] = u"Justiniano"
-    raceTable[kk][2] = u"Grand Prix"
-    raceTable[kk][3] =65042342
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Velo Alanya"
-    raceTable[kk][2] = u"Grand Prix"
-    raceTable[kk][3] =47531313
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Arava"
-    raceTable[kk][3] =61003023
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Scorpions"
-    raceTable[kk][2] = u"ITT"
-    raceTable[kk][3] =61002924
-    raceTable[kk][4] = u"du "
-    kk += 1  
-   
-    raceTable[kk][1] = u"Setmana"
-    raceTable[kk][2] = u"Valenciana"
-    raceTable[kk][3] =28752781
-    raceTable[kk][4] = u"de la "
-    kk += 1 
-
-    raceTable[kk][1] = u"Alanya"
-    raceTable[kk][2] = u"Grand Prix"
-    raceTable[kk][3] =60965348
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Cappadocia"
-    raceTable[kk][2] = u"Grand Prix"
-    raceTable[kk][3] =79031829
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Occitanie"
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] =79032374
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Develi"
-    raceTable[kk][2] = u"Grand Prix"
-    raceTable[kk][3] =79031767
-    raceTable[kk][4] = u"du "
-    kk += 1    
-    
-    raceTable[kk][1] = u"Central Anatolia"
-    raceTable[kk][2] = u"Grand Prix"
-    raceTable[kk][3] =79032793
-    raceTable[kk][4] = u"du "
-    kk += 1    
-        
-    raceTable[kk][1] = u"Trophée"
-    raceTable[kk][2] = u"Grimpeuses"
-    raceTable[kk][3] =79032472
-    raceTable[kk][4] = u"du "
-    kk += 1   
-    
-    raceTable[kk][1] = u"Grote prijs"
-    raceTable[kk][2] = u"Beerens"
-    raceTable[kk][3] =77559206
-    raceTable[kk][4] = u"du "
-    kk += 1 
-     
-    raceTable[kk][1] = u"Watersley"
-    raceTable[kk][2] = u"Challenge"
-    raceTable[kk][3] =79032687
-    raceTable[kk][4] = u"du "
-    kk += 1      
-
-   
-    raceTable[kk][1] = u"Kayseri"
-    raceTable[kk][2] = u"Grand Prix"
-    raceTable[kk][3] =79031695
-    raceTable[kk][4] = u"du "
-    kk += 1
- 
-    raceTable[kk][1] = u"Grand Prix Erciyes"
-    raceTable[kk][2] = u"Grand Prix Erciyes"
-    raceTable[kk][3] =79032136
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Velo Erciyes"
-    raceTable[kk][3] =79033022
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Mount Erciyes"
-    raceTable[kk][3] =79033120
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"High Altitude"
-    raceTable[kk][3] =79033205
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Malaysia"
-    raceTable[kk][3] =79033337
-    raceTable[kk][4] = u"du "
-    kk += 1
-    
-    raceTable[kk][1] = u"Chabany"
-    raceTable[kk][2] = u"Race"
-    raceTable[kk][3] =79031524
-    raceTable[kk][4] = u"de la "
-    kk += 1   
-
-    raceTable[kk][1] = u"Ciudad"
-    raceTable[kk][2] = u"Eibar"
-    raceTable[kk][3] =79032029
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Gazipasa"
-    raceTable[kk][2] = u"Grand Prix"
-    raceTable[kk][3] =60965049
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Herald Sun"
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] =47509863
-    raceTable[kk][4] = u"du "
-    kk += 1   
-
-    raceTable[kk][1] = u"Cadel Evans"
-    raceTable[kk][2] = u"Race"
-    raceTable[kk][3] =28536664
-    raceTable[kk][4] = u"de la "
-    kk += 1   
-    
-    raceTable[kk][1] = u"Gravel"
-    raceTable[kk][2] = u"Tar"
-    raceTable[kk][3] =60642923
-    raceTable[kk][4] = u"du "
-    kk += 1  
-
-    raceTable[kk][1] = u"Gran Premio"
-    raceTable[kk][2] = u"Comite Olimpico"
-    raceTable[kk][3] =57967831
-    raceTable[kk][4] = u"du "
-    kk += 1  
-    
-    raceTable[kk][1] = u"Ronde"
-    raceTable[kk][2] = u"Mouscron"
-    raceTable[kk][3] =77558798
-    raceTable[kk][4] = u"de la "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Districtenpijl"
-    raceTable[kk][2] = u"Districtenpijl"
-    raceTable[kk][3] =77559070
-    raceTable[kk][4] = u"de la "
-    kk += 1 
-   
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Beerens"
-    raceTable[kk][3] =77559206
-    raceTable[kk][4] = u"du "
-    kk += 1 
-   
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Guangxi"
-    raceTable[kk][3] =42394196
-    raceTable[kk][4] = u"du "
-    kk += 1   
-    
-    raceTable[kk][1] = u"Bloeizone"
-    raceTable[kk][2] = u"Fryslan"
-    raceTable[kk][3] =110763940
-    raceTable[kk][4] = u"du "
-    kk += 1     
-    
-    raceTable[kk][1] = u"Trofeo"
-    raceTable[kk][2] = u"Oro in Euro"
-    raceTable[kk][3] =110764022
-    raceTable[kk][4] = u"du "
-    kk += 1    
-    
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Mediterrennean"
-    raceTable[kk][3] =105811175
-    raceTable[kk][4] = u"du "
-    kk += 1     
-    
-    raceTable[kk][1] = u"GRAN PREMIO"
-    raceTable[kk][2] = u"LIBERAZIONE"
-    raceTable[kk][3] =3774541
-    raceTable[kk][4] = u"du "
-    kk += 1   
-    
-    raceTable[kk][1] = u"Leiedal"
-    raceTable[kk][2] = u"Koerse"
-    raceTable[kk][3] =110764040
-    raceTable[kk][4] = u"de la "
-    kk += 1  
-  
-    raceTable[kk][1] = u"Andalucia"
-    raceTable[kk][2] = u"Ruta Del Sol"
-    raceTable[kk][3] =110764063
-    raceTable[kk][4] = u"du "
-    kk += 1  
-
-    raceTable[kk][1] = u"Omloop"
-    raceTable[kk][2] = u"Kempen"
-    raceTable[kk][3] =110764076
-    raceTable[kk][4] = u"du "
-    kk += 1  
-
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Estonia"
-    raceTable[kk][3] =110764090
-    raceTable[kk][4] = u"du "
-    kk += 1 
-
-    raceTable[kk][1] = u"Kyiv"
-    raceTable[kk][2] = u"Cup"
-    raceTable[kk][3] =110764507
-    raceTable[kk][4] = u"de la "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Kyiv"
-    raceTable[kk][2] = u"Green Race"
-    raceTable[kk][3] =110764558
-    raceTable[kk][4] = u"de la "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Belgrade"
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] = 107233692
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Monica"
-    raceTable[kk][2] = u"Bandini"
-    raceTable[kk][3] = 110764703
-    raceTable[kk][4] = u"du "
-    kk += 1     
-    
-    raceTable[kk][1] = u"Alpes"
-    raceTable[kk][2] = u"Gresivaudan"
-    raceTable[kk][3] = 110764826
-    raceTable[kk][4] = u"de la "
-    kk += 1   
-
-    raceTable[kk][1] = u"GP"
-    raceTable[kk][2] = u"Schelkens"
-    raceTable[kk][3] = 110764947
-    raceTable[kk][4] = u"du "
-    kk += 1     
-
-    raceTable[kk][1] = u"Mont Ventoux"
-    raceTable[kk][2] = u"Challenges"
-    raceTable[kk][3] = 110322011
-    raceTable[kk][4] = u"du "
-    kk += 1  
-
-    raceTable[kk][1] = u"GP"
-    raceTable[kk][2] = u"Slovakia"
-    raceTable[kk][3] = 110765084
-    raceTable[kk][4] = u"du "
-    kk += 1 
-
-    raceTable[kk][1] = u"Visegrad"
-    raceTable[kk][2] = u"Hungary"
-    raceTable[kk][3] = 110765104
-    raceTable[kk][4] = u"du "
-    kk += 1    
-    
-    raceTable[kk][1] = u"Tour de France"
-    raceTable[kk][2] = u"Femmes"
-    raceTable[kk][3] = 1542952
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Anna Vasa"
-    raceTable[kk][2] = u"Race"
-    raceTable[kk][3] = 110765120
-    raceTable[kk][4] = u"de la "
-    kk += 1 
-
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Kalmar"
-    raceTable[kk][3] = 110765135
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Yahyalı"
-    raceTable[kk][3] = 110765155
-    raceTable[kk][4] = u"du "
-    kk += 1 
- 
-    raceTable[kk][1] = u"Coupe d'Europe"
-    raceTable[kk][2] = u"Grimpeurs"
-    raceTable[kk][3] = 110765167
-    raceTable[kk][4] = u"de la "
-    kk += 1 
-
-    raceTable[kk][1] = u"Vuelta"
-    raceTable[kk][2] = u"Colombia"
-    raceTable[kk][3] = 27684043
-    raceTable[kk][4] = u"du "
-    kk += 1 
-
-    raceTable[kk][1] = u"GP"
-    raceTable[kk][2] = u"Yvonne Reynders"
-    raceTable[kk][3] = 110765321
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Grote Prijs"
-    raceTable[kk][2] = u"Yvonne Reynders"
-    raceTable[kk][3] = 110765321
-    raceTable[kk][4] = u"du "
-    kk += 1 
-
-    raceTable[kk][1] = u"La Route"
-    raceTable[kk][2] = u"Géantes"
-    raceTable[kk][3] = 110765379
-    raceTable[kk][4] = u"de "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Grand Prix"
-    raceTable[kk][2] = u"Wallonie"
-    raceTable[kk][3] = 110765400
-    raceTable[kk][4] = u"du "
-    kk += 1     
-
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Semois"
-    raceTable[kk][3] = 79032472
-    raceTable[kk][4] = u"du "
-    kk += 1   
-    
-    raceTable[kk][1] = u"Binche"
-    raceTable[kk][2] = u"Chimay"
-    raceTable[kk][3] = 110765414
-    raceTable[kk][4] = u"du "
-    kk += 1
-      
-    raceTable[kk][1] = u"Syrian"
-    raceTable[kk][2] = u"Tour"
-    raceTable[kk][3] = 110765437
-    raceTable[kk][4] = u"du "
-    kk += 1 
-    
-    raceTable[kk][1] = u"Tour"
-    raceTable[kk][2] = u"Romandie"
-    raceTable[kk][3] = 110765449
-    raceTable[kk][4] = u"du "
-    kk += 1     
-    
-    raceTable[kk][1] = u"Travers"
-    raceTable[kk][2] = u"Hauts de France"
-    raceTable[kk][3] = 110765397
-    raceTable[kk][4] = u"d'"
-    kk += 1    
-
-    final_table = [['' for x in range(5)] for y in range(kk)]
-    final_table=raceTable[:kk]
-    
-    return final_table, race_dic
+    return dic

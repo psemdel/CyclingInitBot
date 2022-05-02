@@ -4,240 +4,252 @@ Created on Thu Jan  4 15:29:49 2018
 
 @author: maxime delzenne
 """
-from .cycling_init_bot_low import (add_Qvalue, add_date, add_value, CIOtoIDsearch,
- get_country, get_class_WWT, define_article, create_present, link_year, 
- add_multiple_value, get_description, get_class_id, get_race_begin, get_end_date,
- get_class, get_year, date_finder, add_to_master, get_race_name
- )
-                                   
+                                  
 from .data.calendar_list import calendaruciID, calendarWWTID, calendarUWTID
-from .bot_log import Log
+from .func import get_class_id, define_article, date_finder
+from .base import CyclingInitBot, Race, create_present, PyItem
 
-
-def stage_label(number, genre,race_name, year):
-    mylabel={}
-
-    if number==0:
-        label_part1_fr = u"Prologue"
-    elif number==1:
-        label_part1_fr = u"1re étape"
+def get_class_WWT(classe):    
+    UCI=True
+    
+    dic_WWT={
+      "1.1":False,
+      "2.1":False,
+      "1.2":False,
+      "2.2":False,
+      "1.5":False,
+      "1.WWT":True,
+      "2.WWT":True,
+      "1.Pro":False,
+      "2.Pro":False,
+      "1.UWT":False,
+      "2.UWT":False,
+         } 
+    
+    dic_UWT={
+      "1.1":False,
+      "2.1":False,
+      "1.2":False,
+      "2.2":False,
+      "1.5":False,
+      "1.WWT":False,
+      "2.WWT":False,
+      "1.Pro":False,
+      "2.Pro":False,
+      "1.UWT":True,
+      "2.UWT":True,
+         }  
+    
+    if classe in dic_WWT:
+        return UCI, dic_WWT[classe], dic_UWT[classe]
     else:
-        label_part1_fr = str(number)+u"e étape"
+        return UCI, False, False    
 
-    mylabel[u'fr']= label_part1_fr+" " + genre + race_name + " "+ str(year)
-    return mylabel
-
-def UCI_to_calendar_id(UCI, WWT, UWT, year, man_or_woman):
-         
-    if WWT:
-         calendar_id=calendarWWTID(str(year))
-    elif UWT:
-         calendar_id=calendarUWTID(str(year))
-    elif UCI and man_or_woman==u"woman":  
-         calendar_id=calendaruciID(str(year))
-    else:
-         calendar_id=None
-    return calendar_id
-
-def f(pywikibot,site,repo,team_table_femmes,race_name,
-                 single_race,man_or_woman,**kwargs):
-    #optional: end_date, only_stages, create_stages, first_stage,  last_stage, stage_race_id
-
-    def race_basic(pywikibot,repo,item,site,country_code,master,start_date, UCI, WWT, year,
-               single_race, man_or_woman, **kwargs):
-    #No need for the table here
-        add_Qvalue(pywikibot,repo,item,"P31",master,u'Nature')
-        add_Qvalue(pywikibot,repo,item,"P641","Q3609",u'cyclisme sur route')
-        if country_code!=0:
-            add_Qvalue(pywikibot,repo,item,"P17",country_code,u'country')
-    
-        if single_race:
-            add_date(pywikibot, repo, item, "P585", start_date, u' date')
-        else:
-            add_date(pywikibot,repo,item,"P580",start_date,u'starting date')
-            end_date=kwargs.get('end_date')
-            add_date(pywikibot,repo,item,"P582",end_date,u'ending date')
-    
-        #insert the 
-        calendar_id=UCI_to_calendar_id(UCI, WWT, UWT, year, man_or_woman)
-        if calendar_id is not None:
-            add_Qvalue(pywikibot,repo,item,"P361",calendar_id,u'part of') #
-    
-    def stage_basic(pywikibot,repo,item,site,number,country_code,master):
-    
-        if number==0:
-            add_Qvalue(pywikibot,repo,item,"P31","Q485321",u'Nature')  #prologue
-        else:
-            add_Qvalue(pywikibot,repo,item,"P31","Q18131152",u'Nature')  #étape
-    
-        add_Qvalue(pywikibot,repo,item,"P361",master,u'part of')
-        add_Qvalue(pywikibot,repo,item,"P641","Q3609",u'cyclisme sur route')
-        add_Qvalue(pywikibot,repo,item,"P17",country_code,u'country')
-        add_value(pywikibot,repo,item,"P1545",str(number),u'order')
-        #race_begin later
- 
-    ##main starts here##
-    try: 
-        log=None
-        verbose=False
-        class_id=None
-        log=Log()
-        mydescription={}
-        race_begin=kwargs.get('race_begin')
-        end_date=kwargs.get('end_date')
-        classe=kwargs.get('classe') #text 1.2 not id
-        countryCIO=kwargs.get('countryCIO')
-        id_race_master=kwargs.get('id_race_master')
-        edition_nr=str(kwargs.get('edition_nr'))
-        year=kwargs.get('year')
-    
-        if single_race:
-            only_stages=False
-            create_stages=False
-            end_date=None
-            create_main=True
-            if year is None and race_begin is not None: 
-                year=race_begin.year
-            if year is None:
-                log.concat("year of the race not found")
-                return 10, log, "Q1"      
-        else:
-            only_stages=kwargs.get('only_stages')
-            first_stage=kwargs.get('first_stage')
-            last_stage=kwargs.get('last_stage')
-            if only_stages:
-                stage_race_id=kwargs.get('stage_race_id')
-                create_stages=True
-                create_main=False
-                present_id=stage_race_id
-                item =pywikibot.ItemPage(repo, present_id)
-                item.get() 
-                if countryCIO is None:
-                    countryCIO=get_country(pywikibot, repo, present_id)
-                    if verbose:
-                        log.concat("country of stage race: " + str(countryCIO))
-                else:
-                   if verbose:
-                       log.concat("country of stage race: " + str(countryCIO) + "was not None")
-                if race_begin is None:
-                    race_begin=get_race_begin(pywikibot, repo, present_id)
-                if end_date is None:
-                    end_date=get_end_date(pywikibot, repo, present_id)
-                if classe is None:
-                    class_id=get_class(pywikibot, repo, present_id)
-                if year is None:
-                    year=get_year(pywikibot, repo, present_id)
-                if race_name is None:
-                    race_name=get_race_name(pywikibot, repo, present_id)
-            else:
-                create_stages=kwargs.get('create_stages')
-                create_main=True
-                if year is None and race_begin is not None: 
-                    year=race_begin.year
-                if year is None:
-                    log.concat("year of the race not found")
-                    return 10, log, "Q1"       
-           
-        if countryCIO[0]=="Q" and countryCIO[1].isnumeric():
-            country_id=countryCIO
-        else:
-            country_id=CIOtoIDsearch(team_table_femmes, countryCIO)
-        if verbose: 
-            print("country_id "+str(country_id))
-
-        race_genre, race_name=define_article(race_name)
+class RaceCreator(CyclingInitBot):
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
         
-        if create_main:
-            UCI, WWT, UWT=get_class_WWT(classe) #not required for stages, where classe is not defined
-            mylabel={}
-            mylabel[u'fr']=race_name + " " + str(year)
-            present_id, item=create_present(pywikibot, site,repo,mylabel)
+        self.verbose=False
+        self.class_id=None
+        
+        self.race_begin=kwargs.get('race_begin')
+        self.end_date=kwargs.get('end_date')
+        self.classe=kwargs.get('classe') #text 1.2 not id
+        self.countryCIO=kwargs.get('countryCIO')
+        self.id_race_master=kwargs.get('id_race_master')
+        self.edition_nr=kwargs.get('edition_nr')
+        self.year=kwargs.get('year')
+        self.UWT=kwargs.get('UWT')
+        self.WWT=kwargs.get('WWT')
+        self.UCI=kwargs.get('UCI')
+        self.race_name=kwargs.get('race_name')
+        self.man_or_woman=kwargs.get('man_or_woman')
+        self.single_race=kwargs.get('single_race',False)
+        
+        if self.single_race:
+            self.only_stages=False
+            self.create_stages=False
+            self.end_date=None
+            self.create_main=True
             
-            if present_id!=u'Q1':
-                if get_description('fr',item)=='':
-                    mydescription[u'fr']=u'édition ' + str(year) +" "+ race_genre + race_name
-                    item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
+            if self.countryCIO is not None:
+                self.country=self.nation_table[self.countryCIO]["country"]
+            
+        else:
+            self.only_stages=kwargs.get('only_stages',False)
+            self.create_main_bool= not self.only_stages
+            self.end_date=kwargs.get('end_date')
+            
+            if self.only_stages:
+                self.create_stages_bool=True
+                
+                present_id=kwargs.get('stage_race_id')
+                if present_id is None:
+                    raise ValueError("create stage require stage_race_id")
+                    self.log.concat("create stage require stage_race_id")
+
+                self.first_stage=kwargs.get('first_stage')
+                if self.first_stage is None:
+                    raise ValueError("create stage require first_stage")
+                    self.log.concat("create stage require first_stage")
+                
+                self.last_stage=kwargs.get('last_stage')
+                if self.last_stage is None:
+                    raise ValueError("create stage require last_stage")
+                    self.log.concat("create stage require last_stage")
+
+                #present_id is know we have a lot of info
+                self.race=Race(id=present_id)
+                
+                if self.race_begin is None:
+                    self.race_begin=self.race.get_begin_date()
+                if self.end_date is None:
+                    self.end_date=self.race.get_end_date()
+                if self.classe is None:
+                    self.class_id=self.race.get_class()
+                if self.year is None:
+                    self.year=self.race.get_year()
+                if self.race_name is None:
+                    self.race_name=self.race.get_race_name()
+                if self.countryCIO is None:
+                    self.country=self.race.get_country()
+            else:
+                self.create_stages_bool=kwargs.get('create_stages')
+
+        if self.year is None and self.race_begin is not None: 
+            self.year=self.race_begin.year
+
+        self.class_id=get_class_id(self.classe) #self.classe None is handled inside
+        self.genre, self.race_name=define_article(self.race_name)
+            
+    def main(self):
+        try: 
+            if self.country is None:
+                raise ValueError("country not found")
+                self.log.concat("country not found")
+                return 10, self.log, "Q1"
+            
+            if self.year is None:
+                raise ValueError("year of the race not found")
+                self.log.concat("year of the race not found")
+                return 10, self.log, "Q1"
+            
+            if self.race_name is None:
+                raise ValueError("race name not defined")
+                self.log.concat("race name not defined")
+                return 10, self.log, "Q1"
+
+            if self.create_main_bool:
+                self.create_main()
+            if self.create_stages_bool:
+                self.create_stages()
+
+            return 0, self.log, self.race.id     
+        except Exception as msg:
+            print(msg)
+            return 10, self.log, "Q1"      
+        except:
+            self.log.concat("General Error in race creator")
+            return 10, self.log, "Q1"   
     
-                
-                race_basic(pywikibot,repo,item,site,country_id,
-                           id_race_master,race_begin, UCI, WWT, year,single_race,man_or_woman,end_date=end_date)
+    def UCI_to_calendar_id(self):
+        calendar_id=None
+        if self.WWT:
+             calendar_id=calendarWWTID(str(self.year))
+        elif self.UWT:
+             calendar_id=calendarUWTID(str(self.year))
+        elif self.UCI and self.man_or_woman==u"woman":  
+             calendar_id=calendaruciID(str(self.year))
+             
+        return calendar_id   
 
-                if edition_nr!='':
-                     add_value(pywikibot,repo,item,"P393",edition_nr,u'edition nr')
+    def stage_label(self,number):
+        if number==0:
+            label_part1_fr = u"Prologue"
+        elif number==1:
+            label_part1_fr = u"1re étape"
+        else:
+            label_part1_fr = str(number)+u"e étape"
+    
+        return {'fr': label_part1_fr+" " + self.genre + self.race_name + 
+                " "+ str(self.year)}
 
-                #insert the race in the main calendar
-                
-                calendar_id=UCI_to_calendar_id(UCI, WWT, UWT, year, man_or_woman)
-                    
-                if calendar_id is not None:
-                    item_calendar =pywikibot.ItemPage(repo, calendar_id)
-                    item_calendar.get()
-                    add_multiple_value(pywikibot,repo,item_calendar,"P527",present_id,u'in',0)
-                                   
-                if class_id is None:
-                    class_id=get_class_id(classe)
-                
-                if class_id:
-                    add_multiple_value(pywikibot,repo,item,"P31", class_id,u'Class',0)
-                #link previous and next
-                link_year(pywikibot, site,repo, present_id, year,id_master=id_race_master)
-                #link to master
-                add_to_master(pywikibot,site,repo,present_id,id_race_master)
-
-        #Create the stages
-        if create_stages:   
-            log.concat("stage creation")
-            stage_label_present={}  
+    def create_stages(self):
+        self.log.concat("stage creation")
+        pyItem_stage_previous=None
+        
+        for number in range(self.first_stage,self.last_stage+1):
+            stage_label_present=self.stage_label(number)
+            pyItem_stage=create_present(stage_label_present)
+            self.log.concat("id stage present "+pyItem_stage.id)
             
-            for ii in range(first_stage,last_stage+1):
-                stage_label_present=stage_label(ii, race_genre, race_name, year)
-                id_stage_present, item_stage=create_present(pywikibot, site,repo,stage_label_present)
-                log.concat("id stage present "+id_stage_present)
+            if pyItem_stage.id!='Q1':
+                if pyItem_stage.get_description('fr')=='':
+                    mydescription={'fr':u'étape'+" " + self.genre + 
+                                   self.race_name + " "+ str(self.year)}
+                    pyItem_stage.item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
                 
-                if id_stage_present!='Q1':
-                    if get_description('fr',item_stage)=='':
-                        mydescription[u'fr']=u'étape'+" " + race_genre + race_name + " "+ str(year)
-                        item_stage.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
-                    
-                    
-                    stage_basic(pywikibot,repo,item_stage,site,ii,country_id,present_id)
-                    stage_date=date_finder(pywikibot,ii,first_stage,last_stage, race_begin,end_date)
-                    add_date(pywikibot,repo,item_stage,"P585",stage_date,u'date')
-                    #Link to the master for this year, so item
-                    add_multiple_value(pywikibot,repo,item,"P527",id_stage_present,u'link stage '+str(ii),0) 
-                    #Link to previous
-                    
-                    if ii==0:
-                        lookforprevious=False
-                        id_stage_previous="Q0"
-                    else:   
-                        if ii==1:
-                            if first_stage==0:
-                                lookforprevious=True
-                            else:
-                                lookforprevious=False
-                                #id_stage_previous="Q0"
-                        else:
-                            lookforprevious=True
-                            
-                        if lookforprevious:
-                            #stage_label_previous=stage_label(ii-1, race_genre, race_name, year)
-                            #does not work anymore as the search is not actualized often enough
-                            #id_stage_previous=search_item(pywikibot,site,stage_label_previous['fr'])
-                            if (id_stage_previous!=u'Q0')and(id_stage_previous!=u'Q1'):  #no previous or al
-                                add_Qvalue(pywikibot,repo,item_stage,"P155",id_stage_previous,u'link previous') 
-                                #Link to the previous
-                                item_stage_previous=pywikibot.ItemPage(repo, id_stage_previous)
-                                item_stage_previous.get()
-                                add_Qvalue(pywikibot,repo,item_stage_previous,"P156",id_stage_present,u'link next')
-                    id_stage_previous=id_stage_present     
-                        
-                #Link to next
-                #Not required 
-        return 0, log, present_id       
-    except Exception as msg:
-        print(msg)
-        return 10, log, "Q1"      
-    except:
-        log.concat("General Error in race creator")
-        return 10, log, "Q1"         
+                if number==0:
+                    pyItem_stage.add_value("P31","Q485321",u'Nature')  #prologue
+                else:
+                    pyItem_stage.add_value("P31","Q18131152",u'Nature')  #étape
+            
+                pyItem_stage.add_value("P361",self.id_race_master,u'part of')
+                pyItem_stage.add_value("P641","Q3609",u'cyclisme sur route')
+                pyItem_stage.add_value("P17",self.country,u'country')
+                pyItem_stage.add_value("P1545",str(number),u'order',noId=True)
+
+                stage_date=date_finder(number,self.first_stage,self.last_stage, 
+                                       self.race_begin,self.end_date)
+                
+                pyItem_stage.add_value("P585",stage_date,u'date',date=True)
+
+                #Link to the master for this year, so item
+                self.race.add_values("P527",pyItem_stage.id,u'link stage '+str(number),False) 
+                #Link to previous
+                
+                if number>self.first_stage:
+                    pyItem_stage.add_value("P155",pyItem_stage_previous.id,u'link previous') 
+                    pyItem_stage_previous.add_value("P156",pyItem_stage.id,u'link next')
+                pyItem_stage_previous=pyItem_stage.copy()
+        
+    def create_main(self):
+        UCI, WWT, UWT=get_class_WWT(self.classe) #not required for stages, where classe is not defined
+        
+        mylabel={'fr': self.race_name + " " + str(self.year)}
+        self.race=create_present(mylabel)
+        
+        if self.race.id!=u'Q1':
+            if self.race.get_description('fr')=='':
+                mydescription={'fr':u'édition ' + str(self.year) +" "+ self.genre + self.race_name}
+                self.race.item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
+
+                self.race.add_value("P31",self.id_race_master,u'Nature')
+                self.race.add_value("P641","Q3609",u'cyclisme sur route')
+                self.race.add_value("P17",self.country,u'country')
+            
+                if self.single_race:
+                    self.race.add_value("P585", self.start_date, u' date',date=True)
+                else:
+                    self.race.add_value("P580",self.start_date,u'starting date', date=True)
+                    if self.end_date:
+                        self.race.add_value("P582",self.end_date,u'ending date',date=True)
+            
+                if self.edition_nr is not None:
+                     self.race.add_value("P393",str(self.edition_nr),u'edition nr',noId=True)
+
+                calendar_id=self.UCI_to_calendar_id()
+                if calendar_id is not None:
+                    self.race.add_value("P361",calendar_id,u'part of')
+                    pyItem_cal=PyItem(id=calendar_id)
+                    pyItem_cal.add_values("P527",self.race.id,u'in',False)
+
+                if self.class_id:
+                    self.race.add_values("P31", self.class_id,u'Class',0)    
+                self.race.link_year(self.year,id_master=self.id_race_master)  
+                pyItem_master=PyItem(id=self.id_race_master)
+                pyItem_master.add_value("P527",self.race.id,u'adding a year')
+
+    
+    
+      

@@ -4,233 +4,126 @@ Created on Thu Jan  4 15:28:39 2018
 
 @author: maxime delzenne
 """
-from .cycling_init_bot_low import (add_Qvalue, add_value, get_description, get_alias,
-teamCIOsearch, create_present, link_year, add_multiple_value)
-from .bot_log import Log
-from .data.language_list import load 
-all_langs=load()
-import time
+import pywikibot
+from .base import CyclingInitBot, PyItem, create_item
 
-def f(
-        pywikibot,
-        site,
-        repo,
-        team_table,
-        man_or_woman,
-        start_year,
-        end_year,
-        **kwargs
-        ):
-   
-    # ==Get==
-    def national_team_alias(teamTable, kk, Year):
-        # input
-        alias = {}
-        alias['fr'] = [teamTable[kk][7] + u" " + str(Year)]
-        alias['en'] = alias['fr']
-        for lang in all_langs:
-            alias[lang] = alias[u'fr']
-
-        return alias
-   
-    def national_team_basic(
-                pywikibot,
-                repo,
-                item,
-                siteIn,
-                country_name,
-                country_code,
-                year,
-                master,
-                CIO):
-            # No need for the table here
-        add_Qvalue(pywikibot, repo, item, "P31", "Q23726798", u'Nature')
-        add_value(pywikibot, repo, item, "P1998", CIO, u'CIO code')
-        add_Qvalue(pywikibot, repo, item, "P641","Q3609", u'cyclisme sur route')
-        add_Qvalue(pywikibot, repo, item, "P17", country_code, u'country')
-        add_Qvalue(pywikibot, repo, item, "P361", master, u'part of')
+class NationalTeamCreator(CyclingInitBot):
+    def __init__(self,man_or_woman,start_year,end_year,**kwargs):
+        super().__init__(**kwargs)
+        
+        self.man_or_woman=man_or_woman
+        self.start_year=start_year
+        self.end_year=end_year
+        self.country=kwargs.get('country')
+        
+        if man_or_woman == 'man':
+            self.key = "team man"
+        elif man_or_woman == 'woman':
+            self.key = "team woman"
+        elif man_or_woman == 'womanU':
+            self.key = "team woman U23"
+        elif man_or_woman == 'manU':
+            self.key = "team man U23"   
+        elif man_or_woman == 'womanJ':
+            self.key = "team woman U19"
+        elif man_or_woman == 'manJ':
+            self.key = "team man U19"
+        else:
+            self.key = "team woman"
+        
+    def main(self):
+        try:
+            if self.country:
+                if self.country not in self.nation_table:
+                    self.log.concat("master of the team not found, contact the Webmaster")
+                    return 10, self.log, "Q1"
+                
+                id_present =self.sub_function(self.country,self.nation_table[self.country])
+            else:
+                for countryCIO, e in self.nation_table:
+                    if e["group"]==1:
+                        id_present=self.sub_function(countryCIO, e)
+                    
+            return 0, self.log, id_present                   
+        except Exception as msg:
+            print(msg)
+            self.log.concat("General Error in national team creator")
+            return 10, self.log, "Q1"
     
-        if (u'P580' not in item.claims):
-            claim = pywikibot.Claim(repo, u'P580')  # date de début
-            start_date = pywikibot.WbTime(
-                site=siteIn,
-                year=year,
-                month=1,
-                day=1,
-                precision='day')
-            claim.setTarget(start_date)
-            item.addClaim(claim, summary=u'Adding starting date')
-    
-        if(u'P582' not in item.claims):
-            claim = pywikibot.Claim(repo, u'P582')  # date de fin
-            end_date = pywikibot.WbTime(
-                site=siteIn,
-                year=year,
-                month=12,
-                day=31,
-                precision='day')
-            claim.setTarget(end_date)
-            item.addClaim(claim, summary=u'Adding ending date')
-    
-        if(u'P1448' not in item.claims):
-            claim = pywikibot.Claim(repo, u'P1448')  # nom officiel
-            official_name = pywikibot.WbMonolingualText(
-                text=country_name, language='fr')
-            claim.setTarget(official_name)
-            item.addClaim(claim, summary=u'Adding official name')
-
-
-    def national_team_intro(item, teamTable, kk, Year):
-        item.get()
-        if get_description('fr', item) == '':
-            mydescription = national_team_description(teamTable, kk, Year)
-            item.editDescriptions(mydescription,
-                                  summary=u'Setting/updating descriptions.')
-    
-        if get_alias('fr', item) == '':
-            myalias = national_team_alias(teamTable, kk, Year)
-            item.editAliases(
-                aliases=myalias,
-                summary=u'Setting Aliases')  # Not working yet
-
-
-    def national_team_label(teamTable, kk, Year, man_or_woman):
-        # input
-        country_fr = teamTable[kk][1]
-        genre_fr = teamTable[kk][2]
-    
-        countryadj_en = teamTable[kk][6]
-    
-        if man_or_woman == u'man':
+    def national_team_label(self,year):
+        if self.man_or_woman == u'man':
             adj = u''
             adjen = u'men'
             adjes = u''
         else:
             adj = u'féminine '
             adjen = u'women'
-            adjes = u' femenino'
-        # declaration
-        mylabel = {}
-    
-        # Teamlabel_fr
-        label_part1_fr = u"équipe"
-        label_part2_fr = adj + u"de cyclisme sur route"
-        mylabel[u'fr'] = label_part1_fr + " " + genre_fr + \
-            country_fr + " " + label_part2_fr + " " + str(Year)
-    
-        # Teamlabel_en
-        label_part2_en = adjen + u"'s national road cycling team"
-        mylabel[u'en'] = countryadj_en + " " + label_part2_en + " " + str(Year)
-    
-        # Teamlabel_es
-        countryname_es = teamTable[kk][15]
-        if teamTable[kk][26]!=0:
-            genre_es=teamTable[kk][26]+ " " #for instance NED
+            adjes = u'femenino'
+            
+        if "genre es" in self.this_nation:
+            genre_es=self.this_nation["genre es"]
         else:
             genre_es=""
         
-        if countryname_es != '':
-            mylabel[u'es'] = u"Equipo nacional" + adjes + " de " + genre_es +\
-                countryname_es + " de ciclismo en ruta" + " " + str(Year)
+        return {'fr': "équipe" + " " + self.this_nation["genre"] + \
+                 self.this_nation["name fr"] + adj + "de cyclisme sur route " +str(year),
+                 'en': self.this_nation["adj en"] + " " +adjen + \
+                 u"'s national road cycling team " +  str(year),
+                 'es': u"Equipo nacional " + adjes + " de " + genre_es +\
+                     self.this_nation["name es"] + " de ciclismo en ruta " + str(year)
+                 }
     
-        return mylabel
-
-
-    def national_team_description(teamTable, kk, Year):
-        # input
-        country_fr = teamTable[kk][1]
-        genre_fr = teamTable[kk][2]
-    
-        # declaration
-        mydescription = {}
-    
-        # mydescription_fr
-        description_part1_fr = u'saison'
-        description_part2_fr = u"de l'équipe"
-        description_part3_fr = u"de cyclisme sur route"
-        mydescription[u'fr'] = description_part1_fr + " " + \
-            str(Year) + " " + description_part2_fr + " " + genre_fr + country_fr + " " + description_part3_fr
-    
-        return mydescription
-    
-    ### begin main ###
-    try:
-        country=kwargs.get('country',False)
-        log=Log()
-        if country:
-            kkinit = teamCIOsearch(team_table, country)
-            endkk = kkinit+1
-        else:
-            kkinit = 1 #teamCIOsearch(team_table, 'MEX')
-            endkk = len(team_table)
+    def sub_function(self,countryCIO,e):
+        for year in range(self.start_year, self.end_year+1):
+            self.this_nation=e
+            mylabel = self.national_team_label(year)
+            pyItem=create_item(mylabel)
             
-        if man_or_woman == 'man':
-            IndexTeam = 14
-        elif man_or_woman == 'woman':
-            IndexTeam = 4
-        elif man_or_woman == 'womanU':
-            IndexTeam = 27
-        elif man_or_woman == 'manU':
-            IndexTeam = 28     
-        elif man_or_woman == 'womanJ':
-            IndexTeam = 29
-        elif man_or_woman == 'manJ':
-            IndexTeam = 30
-        else:
-            IndexTeam = 4
+            self.log.concat("national team created")
+            self.log.concat("team id: " + pyItem.id)
+           
+            if pyItem.get_description('fr') == '':
+                description={'fr':"saison " + str(year) + " de l'équipe " + e["genre"] +\
+                             e["name fr"] + " de cyclisme sur route"
+                             }
+                pyItem.item.editDescriptions(description,
+                                      summary='Setting/updating descriptions.')
     
-        for kk in range(kkinit, endkk):  #
-            group = team_table[kk][8]
-            if group == 1 or country:
-                for ii in range(start_year, end_year+1):
-            
-                    year = ii
-                    if team_table[kk][IndexTeam] == 0:
-                        log.concat("master of the team not found, contact the Webmaster")
-                        if country:
-                            return 10, log, "Q1"
-                    else :
-                        mylabel = {}
-                        mylabel = national_team_label(
-                            team_table, kk, year, man_or_woman)
-                        
-                        id_present, item=create_present(pywikibot, site,repo,mylabel)
-                        log.concat("national team created")
-                        log.concat("team id: " + id_present)
-                        if id_present!=u'Q1':
-                            national_team_intro(item, team_table, kk, year)
-                            time.sleep(1.0)
-                            national_team_basic(
-                                pywikibot,
-                                repo,
-                                item,
-                                site,
-                                team_table[kk][1],
-                                team_table[kk][3],
-                                year,
-                                team_table[kk][IndexTeam],
-                                team_table[kk][7])
-                            time.sleep(1.0)
-                        # Link the other to the new item
-                            link_year(pywikibot, site,repo, id_present, year,id_master=team_table[kk][IndexTeam])
+            if pyItem.get_alias('fr') == '':
+                alias={}
+                for lang in self.all_langs:
+                    alias[lang]=countryCIO+ " " + str(year)
+                pyItem.item.editAliases(aliases=alias,summary=u'Setting Aliases')    
+                    
+            pyItem.add_value("P31", "Q23726798", u'Nature')
+            pyItem.add_value("P1998", countryCIO, u'CIO code')
+            pyItem.add_value("P641","Q3609", u'cyclisme sur route')
+            pyItem.add_value("P17", e["country"], u'country')
+            if self.key in e:
+                pyItem.add_value("P361", e[self.key], u'part of')
 
-                        # link to master
-                        if team_table[kk][IndexTeam] != 0:
-                            item_master = pywikibot.ItemPage(
-                                repo, u'Q' + str(team_table[kk][IndexTeam]))
-                            item_master.get()
-                            add_multiple_value(
-                                pywikibot,
-                                repo,
-                                item_master,
-                                "P527",
-                                id_present,
-                                u'link year ' +
-                                str(year),
-                                0)
-                            log.concat("national team added to master")
-        return 0, log, id_present                   
-    except Exception as msg:
-        print(msg)
-        log.concat("General Error in national team creator")
-        return 10, log, "Q1"
+            start_date = pywikibot.WbTime(
+                site=self.site,
+                year=year,
+                month=1,
+                day=1,
+                precision='day')
+            end_date = pywikibot.WbTime(
+                site=self.site,
+                year=year,
+                month=12,
+                day=31,
+                precision='day')
+            
+            pyItem.add_value("P580",start_date,'Adding starting date',date=True)
+            pyItem.add_value("P582",end_date,'Adding ending date',date=True)
+            
+            official_name = pywikibot.WbMonolingualText(text=e["name fr"], language='fr')
+            pyItem.add_value('P1448',official_name,'Adding official name',noId=True)
+            
+            if self.key in e:
+                pyItem.link_year(self.year,id_master=e[self.key])
+                pyItem_master=PyItem(id=e[self.key])
+                pyItem_master.add_value("P527",pyItem.id,'new season')
+
+            return pyItem.id
