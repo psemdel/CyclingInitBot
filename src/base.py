@@ -246,13 +246,13 @@ class Cyclist(PyItem):
                      
     def get_present_team(self, time_of_race):
         result = 'Q1'
-        bt=None
-        et=None
         tt=time_of_race.toTimestamp()
         
         if (u'P54' in self.item.claims):
             allteams = self.item.claims.get(u'P54')
             for this_team in allteams:
+                bt=None
+                et=None
                 if ('P580' in this_team.qualifiers):
                     begin_time = this_team.qualifiers['P580'][0].getTarget()
                     bt=begin_time.toTimestamp()

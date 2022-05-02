@@ -40,9 +40,9 @@ class RiderFastInit(CyclingInitBot):
                 self.pyItem.add_value("P31", "Q5", u'nature')
                 
                 if self.man_or_woman==u'man':
-                    genre="Q6581072"
-                else:
                     genre="Q6581097"
+                else:
+                    genre="Q6581072"
                 self.pyItem.add_value("P21", genre, u'genre')
                 self.pyItem.add_value("P27",
                                        self.nation_table[self.countryCIO]["country"], 

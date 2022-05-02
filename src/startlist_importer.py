@@ -23,7 +23,7 @@ class StartlistImporter(CyclingInitBot):
         self.man_or_woman=man_or_woman
         self.force_nation_team=force_nation_team
         self.file=kwargs.get('file','Results')
-        self.verbose=True
+        self.verbose=kwargs.get('verbose')
 
     def IDtoCIOsearch(self,this_id):
         if this_id=="Q55":

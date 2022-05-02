@@ -200,7 +200,6 @@ def define_article(name):
 def table_reader(filename,**kwargs):  #startline, 
     try:
         verbose=kwargs.get("verbose",False)
-        verbose=True
         local_saved_list=["champ","champ_clm","champ_man","champ_man_clm"]
         file_csv=True
         filepath=None

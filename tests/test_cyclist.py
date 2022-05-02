@@ -47,7 +47,17 @@ class TestCyclist(unittest.TestCase):
         this_date1=pywikibot.WbTime(site=site,year=2018, month=1, day=1, precision='day') 
         self.assertEqual(c1.get_present_team(this_date1), "Q2651858")
         this_date1=pywikibot.WbTime(site=site,year=2019, month=1, day=1, precision='day')    
-        self.assertEqual(c1.get_present_team(this_date1), "Q2651858")   
+        self.assertEqual(c1.get_present_team(this_date1), "Q2651858")  
+        
+        c1=Cyclist(id="Q58454725")
+        this_date1=pywikibot.WbTime(site=site,year=2022, month=3, day=30, precision='day')    
+        self.assertEqual(c1.get_present_team(this_date1), "Q21484669")  
+        c1=Cyclist(id="Q61480155")
+        this_date1=pywikibot.WbTime(site=site,year=2022, month=3, day=30, precision='day')    
+        self.assertEqual(c1.get_present_team(this_date1), "Q21484669")                    
+        c1=Cyclist(id="Q98923509")
+        this_date1=pywikibot.WbTime(site=site,year=2022, month=3, day=30, precision='day')    
+        self.assertEqual(c1.get_present_team(this_date1), "Q21484669")          
 
     def test_get_nationality(self):
         c1=Cyclist(id="Q13893333")

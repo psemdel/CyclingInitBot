@@ -128,7 +128,7 @@ class GetRiderTricot(CyclingInitBot):
             return 0
 
 class Scan(CyclingInitBot):
-    def __init__(self, id_race, chrono, man_or_woman):
+    def __init__(self, id_race, chrono, man_or_woman,**kwargs):
         super().__init__()   
         self.race=Race(id=id_race)
         self.time_of_race=self.race.get_date()
@@ -158,7 +158,7 @@ class Scan(CyclingInitBot):
                     
 
 class ScanExisting(CyclingInitBot):
-    def __init__(self, id_race, chrono, man_or_woman):
+    def __init__(self, id_race, chrono, man_or_woman,**kwargs):
         super().__init__()   
         self.race=Race(id=id_race)
         self.time_of_race=self.race.get_date()
@@ -167,7 +167,7 @@ class ScanExisting(CyclingInitBot):
         
     def main(self):
         if(u'P710' in self.race.item.claims): 
-            startlist=self.race.claims.get(u'P710')
+            startlist=self.race.item.claims.get(u'P710')
             
             for c in startlist:
                 cyclist=Cyclist(id=c.getTarget().getID())
