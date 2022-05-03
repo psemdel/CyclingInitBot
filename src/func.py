@@ -108,7 +108,9 @@ def time_converter(e, winner_time):
                 e=e.replace("'",":")   
             if e.find("::")!=-1:
                 e=e.replace("::","")        
-
+            if e.find(".")!=-1:
+                e=e.replace(".",":")  
+                
             timesplit = e.split(":")
 
             if len(timesplit) == 3:

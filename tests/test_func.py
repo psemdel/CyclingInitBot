@@ -139,6 +139,8 @@ class TestRace(unittest.TestCase):
         self.assertEqual(res,(13085))  
         res=time_converter("+00:00:05",100)
         self.assertEqual(res,(105))  
+        res=time_converter("00.03.09",0)
+        self.assertEqual(res,(189))
         
     def test_float_to_int(self):
         self.assertEqual( float_to_int('1149.67'),1149)  
