@@ -100,6 +100,8 @@ class NameSorter(CyclingInitBot):
                 list_of_comprend = self.team.item.claims.get(self.prop)
             else:
                 print("property for name sorting not found")
+                self.log.concat("property for name sorting not found")
+                return 10, self.log   
             dic = {}
             #list_of_names = [['' for x in range(2)] for y in list_of_comprend]
             list_of_names=[]

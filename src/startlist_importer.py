@@ -148,14 +148,14 @@ class StartlistImporter(CyclingInitBot):
 
             if not self.test:
                 already_list=False
-                if ('P710' in self.race.item.claims 
-                   and (self.prologue_or_final in [0,2])):  #already there do nothing
-                    self.log.concat("warning ")
-                    self.log.concat(u'List of starters already there')
+                if 'P710' in self.race.item.claims:
                     already_list=True
                     list_of_comprend=self.race.item.claims.get(u'P710')
                     list_of_lost=list_of_comprend.copy()
-                    
+                    if self.prologue_or_final in [0,2]:  #already there do nothing
+                        self.log.concat("warning ")
+                        self.log.concat(u'List of starters already there')
+
                 if self.prologue_or_final!=1: #for prologue_or_final==1 no detection
                     self.log.concat(u'looking for national team')
                     self.find_national_team(df)
@@ -169,7 +169,7 @@ class StartlistImporter(CyclingInitBot):
                         claim=None
                         if already_list:
                             for jj, e in enumerate(list_of_comprend):
-                               if e.getTarget().getID()==cyclist.id: #Already there
+                                if e.getTarget().getID()==cyclist.id: #Already there
                                     claim=e
                                     if self.prologue_or_final==1:
                                         list_of_lost.remove(e)
@@ -200,7 +200,7 @@ class StartlistImporter(CyclingInitBot):
                                qualifier_rank=pywikibot.page.Claim(self.site, 'P1352', is_qualifier=True)
                                qualifier_rank.setTarget(target_qualifier)
                                claim.addQualifier(qualifier_rank)
-                        if not self.force_nation_team: #when only national team, no national tricot
+                        if not self.force_nation_team and self.prologue_or_final!=1: #when only national team, no national tricot
                             #to avoid being called every time, should be centralized
                             grt=GetRiderTricot(cyclist.id, self.time_of_race, claim, self.chrono, self.man_or_woman)
                             grt.main()
