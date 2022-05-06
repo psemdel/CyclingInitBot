@@ -8,6 +8,7 @@ Created on Thu Jan  4 15:29:49 2018
 from .data.calendar_list import calendaruciID, calendarWWTID, calendarUWTID
 from .func import get_class_id, define_article, date_finder
 from .base import CyclingInitBot, Race, create_present, PyItem
+import copy
 
 def get_class_WWT(classe):    
     UCI=True
@@ -193,8 +194,8 @@ class RaceCreator(CyclingInitBot):
                     pyItem_stage.add_value("P31","Q485321",u'Nature')  #prologue
                 else:
                     pyItem_stage.add_value("P31","Q18131152",u'Nature')  #étape
-            
-                pyItem_stage.add_value("P361",self.id_race_master,u'part of')
+                
+                pyItem_stage.add_value("P361",self.race.id,u'part of')
                 pyItem_stage.add_value("P641","Q3609",u'cyclisme sur route')
                 pyItem_stage.add_value("P17",self.country,u'country')
                 pyItem_stage.add_value("P1545",str(number),u'order',noId=True)
@@ -211,7 +212,7 @@ class RaceCreator(CyclingInitBot):
                 if number>self.first_stage:
                     pyItem_stage.add_value("P155",pyItem_stage_previous.id,u'link previous') 
                     pyItem_stage_previous.add_value("P156",pyItem_stage.id,u'link next')
-                pyItem_stage_previous=pyItem_stage.copy()
+                pyItem_stage_previous=copy.copy(pyItem_stage)
         
     def create_main(self):
         UCI, WWT, UWT=get_class_WWT(self.classe) #not required for stages, where classe is not defined
