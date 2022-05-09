@@ -8,7 +8,7 @@ from .base import CyclingInitBot, PyItem, create_item
 
 class TeamCreator(CyclingInitBot):
     def __init__(self,name,id_master,countryCIO,UCIcode,year,**kwargs):
-        super().__init__()
+        super().__init__(**kwargs)
         self.name=name
         self.id_master=id_master
         self.countryCIO=countryCIO
@@ -20,7 +20,8 @@ class TeamCreator(CyclingInitBot):
         
         for lang in self.all_langs:
             self.label[lang] = self.name + " " + str(self.year)
-            self.alias[lang] = self.UCIcode + " "   + str(self.year)
+            if self.UCIcode!="":
+                self.alias[lang] = self.UCIcode + " "   + str(self.year)
         
     def main(self):
         try:
@@ -34,14 +35,14 @@ class TeamCreator(CyclingInitBot):
                 if pyItem.get_alias('fr')=='':
                     pyItem.item.editAliases(aliases=self.alias, summary='Setting Aliases')
                 
-                if self.UCIcode:
+                if self.UCIcode and self.UCIcode!="":
                     pyItem.add_value( "P1998", self.UCIcode, 'UCI code',noId=True)
                 
                 if self.category_id:
                     pyItem.add_values("P31", self.category_id, 'Category', False)
                 pyItem.add_values("P31", "Q53534649", 'Season', False)
                 pyItem.add_value("P641", "Q3609", 'cyclisme sur route')
-                pyItem.add_value("P17", self.countryCIO, 'country')
+                pyItem.add_value("P17", self.nation_table[self.countryCIO]["country"], 'country')
                 pyItem.add_value("P361", self.id_master, 'part of')
                 pyItem.add_value("P5138", self.id_master, 'part of')
                 pyItem_master=PyItem(id=self.id_master)
