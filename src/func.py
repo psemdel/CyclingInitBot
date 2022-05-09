@@ -106,13 +106,17 @@ def time_converter(e, winner_time):
                 e=e.replace("h",":")
             if e.find("'")!=-1:
                 e=e.replace("'",":")   
+            if e.find('"')!=-1:
+                e=e.replace('"',":")   
             if e.find("::")!=-1:
                 e=e.replace("::","")        
             if e.find(".")!=-1:
                 e=e.replace(".",":")  
-                
+            if e[-1]==":":
+                e=e[:-1]
+            
             timesplit = e.split(":")
-
+            
             if len(timesplit) == 3:
                 t= float_to_int(timesplit[0]) * 3600 + float_to_int(timesplit[1]) * 60 + float_to_int(timesplit[2])
             elif len(timesplit) == 2:
