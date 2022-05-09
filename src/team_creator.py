@@ -31,7 +31,7 @@ class TeamCreator(CyclingInitBot):
                 pyItem.item.editDescriptions(description,
                                       summary='Setting/updating descriptions.')
                 
-                if pyItem.item.get_alias('fr')=='':
+                if pyItem.get_alias('fr')=='':
                     pyItem.item.editAliases(aliases=self.alias, summary='Setting Aliases')
                 
                 if self.UCIcode:
