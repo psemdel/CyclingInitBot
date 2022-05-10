@@ -141,6 +141,11 @@ class TestSearch(unittest.TestCase):
         s=Search('W. Mathias Sorgho')
         self.assertEqual(s.rider('',''),'Q27644062')
         
+        s=Search(None)
+        self.assertEqual(s.rider('Belen', 'GONZALEZ SIMON'),'Q111941173')
+        self.assertEqual(s.rider('Belen', 'GONZALEZ  SIMON'),'Q111941173')
+        
+        
         #exception
         s=Search(None)
         self.assertEqual(s.rider('1501996785028', 'ERIC'),'Q19661759')

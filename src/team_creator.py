@@ -20,7 +20,7 @@ class TeamCreator(CyclingInitBot):
         
         for lang in self.all_langs:
             self.label[lang] = self.name + " " + str(self.year)
-            if self.UCIcode!="":
+            if self.UCIcode and self.UCIcode!="":
                 self.alias[lang] = self.UCIcode + " "   + str(self.year)
         
     def main(self):

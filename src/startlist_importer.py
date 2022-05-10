@@ -135,9 +135,16 @@ class StartlistImporter(CyclingInitBot):
 
     def main(self):
         try:
-            df, _, _, log=table_reader(self.file,verbose=self.verbose,need_complete=True,rider=True)
+            df, all_riders_found, _, log=table_reader(self.file,verbose=self.verbose,need_complete=True,rider=True)
             self.log.concat(log)
             #Sort by dossard
+            if df is None:
+                raise ValueError("table reader failed")
+                
+            if not all_riders_found:
+                log.concat(u'Not all riders found, request stopped')
+                return 1, self.log
+                
             if "BIB" in df.columns:
                 df=df.sort_values(["BIB"])
             else:
