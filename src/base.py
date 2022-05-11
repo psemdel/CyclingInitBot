@@ -89,7 +89,7 @@ class PyItem():
              return None
             
     def add_value(self, prop, value, comment,**kwargs):
-        if value!=0:
+        if value!=0 or kwargs.get("date",False): #date is somehow not different from 0
             if prop not in self.item.claims:  # already there do nothing
                 claim = pywikibot.Claim(self.repo, prop)
                 if kwargs.get("date",False) or kwargs.get("noId",False):
@@ -469,14 +469,13 @@ class Team(PyItem):
         self.sortkey=self.nameObj.sortkey
     
     def get_date(self):
+        self.date =None
         if (u'P585' in self.item.claims):
-             this_claim = self.item.claims.get(u'P585')
-             self.date = this_claim[0].getTarget()
+            this_claim = self.item.claims.get(u'P585')
+            self.date = this_claim[0].getTarget()
         elif (u'P580' in self.item.claims):
             this_claim  = self.item.claims.get(u'P580')
             self.date = this_claim[0].getTarget()
-    
-        return self.date
 
 class Search(CyclingInitBot):
     def __init__(self, search_str):

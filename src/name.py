@@ -65,8 +65,11 @@ class CyclistName(Name):
         self.name=ligne    
         
      def check_and_revert(self):
+        while self.name.find("  ")!=-1:
+            self.name=self.name.replace("  "," ")
+            self.name_cor=self.name
+            
         names_table = self.name.split(" ")
-        
       #  if len(names_table)==1: #no person
      #       self.name_cor=self.name
      #   else:
