@@ -28,7 +28,7 @@ class TeamCreator(CyclingInitBot):
             pyItem=create_item(self.label)
             if pyItem is not None:
                 self.log.concat("team id: "+ pyItem.id)
-                description={'fr':'Saison ' + str(self.year) +" de l'équipe cycliste" + self.name}
+                description={'fr':'Saison ' + str(self.year) +" de l'équipe cycliste " + self.name}
                 pyItem.item.editDescriptions(description,
                                       summary='Setting/updating descriptions.')
                 
@@ -46,8 +46,8 @@ class TeamCreator(CyclingInitBot):
                 pyItem.add_value("P361", self.id_master, 'part of')
                 pyItem.add_value("P5138", self.id_master, 'part of')
                 pyItem_master=PyItem(id=self.id_master)
-                pyItem_master.add_value("P527",pyItem.id,'new season')
-                
+                pyItem_master.add_values("P527",pyItem.id,'new season',False)
+
                 start_date = pywikibot.WbTime(
                     site=self.site,
                     year=self.year,

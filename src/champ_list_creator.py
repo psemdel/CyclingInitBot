@@ -57,7 +57,7 @@ class ChampListCreator(CyclingInitBot):
         
         final_df=pd.DataFrame(self.champ_table)
         if self.actualize:
-            old_df = pd.read_csv(self.old_filename)
+            old_df = pd.read_csv(self.old_filename,index_col=0)
             old_df=old_df[old_df["WorldCC"]==False] #remove the world
             old_df=old_df[old_df["Year"]<self.start_year]
             final_df=pd.concat([old_df, final_df])

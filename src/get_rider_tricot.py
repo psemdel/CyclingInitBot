@@ -46,7 +46,6 @@ class GetRiderTricot(CyclingInitBot):
 
         sub_df=sub_df1[sub_df1["Winner"]==self.rider.id]
         sub_df=sub_df[sub_df["Year"]>=self.time_of_race.year-1] #champ not too much in the past
-
         dates_ok=[]
         
         for ii in range(len(sub_df)):
@@ -65,8 +64,6 @@ class GetRiderTricot(CyclingInitBot):
             for k in list_:
                 if k in ["World","CC"]:
                     sub_df2=sub_df[sub_df["Champ"]==dic[k]]
-              #      print("worldCC")
-              #      print(sub_df2)
                 else:
                     sub_df2=sub_df[(sub_df["Champ"]!=dic["World"])&(sub_df["Champ"]!=dic["CC"])]
                     
@@ -75,7 +72,7 @@ class GetRiderTricot(CyclingInitBot):
 
                 if len(sub_df2)>0:
                     if int(sub_df2['Year'])==self.time_of_race.year: #then it is clear
-                        quali=sub_df["Champ"].values[0]
+                        quali=sub_df2["Champ"].values[0]
                     else: #not clear, look for a championship this year
                         sub_df3=sub_df1[sub_df1["Champ"]==sub_df["Champ"].values[0]]
                         sub_df3=sub_df3[sub_df3["Year"]==self.time_of_race.year]
@@ -87,10 +84,10 @@ class GetRiderTricot(CyclingInitBot):
                                                        precision='day')    
                             
                             if this_date.toTimestamp()>=self.time_of_race.toTimestamp(): #otherwise it is another champ
-                                quali=sub_df["Champ"].values[0]
+                                quali=sub_df2["Champ"].values[0]
     
                         else:
-                            quali=sub_df["Champ"].values[0]
+                            quali=sub_df2["Champ"].values[0]
                      
                 if quali is not None:    
                     rider_label=self.rider.get_label('fr')
