@@ -65,8 +65,6 @@ class GetRiderTricot(CyclingInitBot):
             for k in list_:
                 if k in ["World","CC"]:
                     sub_df2=sub_df[sub_df["Champ"]==dic[k]]
-              #      print("worldCC")
-              #      print(sub_df2)
                 else:
                     sub_df2=sub_df[(sub_df["Champ"]!=dic["World"])&(sub_df["Champ"]!=dic["CC"])]
                     

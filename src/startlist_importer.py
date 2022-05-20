@@ -221,6 +221,7 @@ class StartlistImporter(CyclingInitBot):
                         if qualnotfound:
                             qualifier_DNF.setTarget(target_DNFqual)
                             e.addQualifier(qualifier_DNF)
+            print("start list insertion finished")
             return 0, self.log                          
         except Exception as msg:
             _, _, exc_tb = sys.exc_info()
