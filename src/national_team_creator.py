@@ -6,6 +6,7 @@ Created on Thu Jan  4 15:28:39 2018
 """
 import pywikibot
 from .base import CyclingInitBot, PyItem, create_item
+from .func import man_or_women_to_is_women
 
 class NationalTeamCreator(CyclingInitBot):
     def __init__(self,man_or_woman,start_year,end_year,**kwargs):
@@ -23,13 +24,14 @@ class NationalTeamCreator(CyclingInitBot):
         elif man_or_woman == 'womanU':
             self.key = "team woman U23"
         elif man_or_woman == 'manU':
-            self.key = "team man U23"   
+            self.key = "team man U23"  
         elif man_or_woman == 'womanJ':
             self.key = "team woman U19"
         elif man_or_woman == 'manJ':
             self.key = "team man U19"
         else:
             self.key = "team woman"
+        self.is_women=man_or_women_to_is_women(man_or_woman)
         
     def main(self):
         try:
@@ -94,13 +96,14 @@ class NationalTeamCreator(CyclingInitBot):
                 for lang in self.all_langs:
                     alias[lang]=countryCIO+ " " + str(year)
                 pyItem.item.editAliases(aliases=alias,summary=u'Setting Aliases')    
-                    
-            pyItem.add_value("P31", "Q23726798", u'Nature')
+            
+            pyItem.add_value("P31", "Q53534649", u'Nature')
+            pyItem.add_value("P2094", "Q23726798", u'Category')
             pyItem.add_value("P1998", countryCIO, u'CIO code')
             pyItem.add_value("P641","Q3609", u'cyclisme sur route')
             pyItem.add_value("P17", e["country"], u'country')
             if self.key in e:
-                pyItem.add_value("P361", e[self.key], u'part of')
+                pyItem.add_value("P5138", e[self.key], u'part of')
 
             start_date = pywikibot.WbTime(
                 site=self.site,
@@ -120,6 +123,9 @@ class NationalTeamCreator(CyclingInitBot):
             
             official_name = pywikibot.WbMonolingualText(text=e["name fr"], language='fr')
             pyItem.add_value('P1448',official_name,'Adding official name',noId=True)
+            
+            if self.is_women:
+                pyItem.add_values('P2094',"Q1451845","women cycling",False)
             
             if self.key in e:
                 pyItem.link_year(self.year,id_master=e[self.key])

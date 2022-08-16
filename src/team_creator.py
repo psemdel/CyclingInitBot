@@ -39,11 +39,10 @@ class TeamCreator(CyclingInitBot):
                     pyItem.add_value( "P1998", self.UCIcode, 'UCI code',noId=True)
                 
                 if self.category_id:
-                    pyItem.add_values("P31", self.category_id, 'Category', False)
+                    pyItem.add_values("P2094", self.category_id, 'Category', False)
                 pyItem.add_values("P31", "Q53534649", 'Season', False)
                 pyItem.add_value("P641", "Q3609", 'cyclisme sur route')
                 pyItem.add_value("P17", self.nation_table[self.countryCIO]["country"], 'country')
-                pyItem.add_value("P361", self.id_master, 'part of')
                 pyItem.add_value("P5138", self.id_master, 'part of')
                 pyItem_master=PyItem(id=self.id_master)
                 pyItem_master.add_values("P527",pyItem.id,'new season',False)
@@ -67,6 +66,9 @@ class TeamCreator(CyclingInitBot):
                 official_name = pywikibot.WbMonolingualText(text=self.name, language='fr')
                 pyItem.add_value('P1448',official_name,'Adding official name',noId=True)
                 pyItem.link_year(self.year,id_master=self.id_master)
+                
+                if self.category_id and self.category_id in ['Q80425135','Q2466826','Q26849121']:
+                    pyItem.add_values('P2094',"Q1451845","women cycling",False)
 
             return 0, self.log, pyItem.id
         except Exception as msg:

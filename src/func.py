@@ -46,6 +46,12 @@ def get_class_id(classe_text):
     else:
         return None
 
+def man_or_women_to_is_women(man_or_woman):
+    if man_or_woman in ["woman","womanJ","womanU"]:
+        return True
+    else:
+        return False
+
 def get_single_or_stage(classe):    
     #single=true
     if type(classe)==str:
@@ -89,17 +95,17 @@ def date_finder(number,first_stage,last_stage, race_begin,
 #convert the time in seconds
 def time_converter(e, winner_time):
     ecart=False
-    
+
     if not isinstance(e, str):
         if math.isnan(e):
             return -1
-    elif e in ['+0', '+00']:
+    elif e in ['+','+0', '+00']:
         return winner_time
     else:
         if e.find("+")==0:
             e=e[1:]
             ecart=True
-      
+        
         #if h then replace through :, if ' then replace through :
         if isinstance(e, str):
             if e.find("h")!=-1:
@@ -359,10 +365,11 @@ def cyclists_table_reader(df,**kwargs):
             else:
                 this_rider=Cyclist(id=df["ID Rider"].values[ii])
                 if bib_bool:
-                    this_rider.dossard=df["BIB"].values[ii]
+                    if not math.isnan(df["BIB"].values[ii]):
+                        this_rider.dossard=int(df["BIB"].values[ii])
                 if rank_bool:
-                    if not math.isnan(df["Rank"].values[ii]):
-                        this_rider.rank=df["Rank"].values[ii]
+                    if not math.isnan(df["Rank"].values[ii]): #to check if it does not kill the DNF
+                        this_rider.rank=int(df["Rank"].values[ii])
             list_of_cyclists.append(this_rider)
 
             if id_team_bool:
