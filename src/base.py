@@ -391,13 +391,21 @@ class Race(PyItem):
             "Q74275176" 
          ]
         
-        if (u'P31' in self.item.claims):
-            P31=self.item.claims.get(u'P31')
-            for p31 in P31:
-                tempQ=p31.getTarget().getID()
+        if (u'P279' in self.item.claims):
+            P279=self.item.claims.get(u'P279')
+            for p279 in P279:
+                tempQ=p279.getTarget().getID()
                 if tempQ in class_list:
                     return tempQ
         return None   
+    
+    def get_is_women(self):
+        if (u'P2094' in self.item.claims):
+            P2094=self.item.claims.get(u'P2094')
+            for p2094 in P2094:
+                if p2094.getTarget().getID()=="Q1451845":
+                    return True
+        return False
     
     def get_race_name(self):
          label_raw=self.get_label('fr')

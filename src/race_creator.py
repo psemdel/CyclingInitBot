@@ -6,7 +6,8 @@ Created on Thu Jan  4 15:29:49 2018
 """
                                   
 from .data.calendar_list import calendaruciID, calendarWWTID, calendarUWTID
-from .func import get_class_id, define_article, date_finder
+from .func import get_class_id, define_article, date_finder, man_or_women_to_is_women
+
 from .base import CyclingInitBot, Race, create_present, PyItem
 import copy
 
@@ -65,6 +66,11 @@ class RaceCreator(CyclingInitBot):
         self.UCI=kwargs.get('UCI')
         self.race_name=kwargs.get('race_name')
         self.man_or_woman=kwargs.get('man_or_woman')
+        
+        self.is_women=None
+        if self.man_or_woman is not None:
+            self.is_women=man_or_women_to_is_women(self.man_or_woman)
+        
         self.single_race=kwargs.get('single_race',False)
         
         if self.single_race:
@@ -98,7 +104,7 @@ class RaceCreator(CyclingInitBot):
                 if self.last_stage is None:
                     raise ValueError("create stage require last_stage")
                     self.log.concat("create stage require last_stage")
-
+                   
                 #present_id is know we have a lot of info
                 self.race=Race(id=present_id)
                 
@@ -114,6 +120,11 @@ class RaceCreator(CyclingInitBot):
                     self.race_name=self.race.get_race_name()
                 if self.countryCIO is None:
                     self.country=self.race.get_country()
+                if self.asse is None:
+                    self.class_id=self.race.get_class()
+                if self.is_women is None:
+                    self.is_women=self.get_is_women()
+                    
             else:
                 self.create_stages_bool=kwargs.get('create_stages')
 
@@ -205,6 +216,9 @@ class RaceCreator(CyclingInitBot):
                 
                 pyItem_stage.add_value("P585",stage_date,u'date',date=True)
 
+                if self.is_women:
+                    pyItem_stage.add_value('P2094',"Q1451845","women cycling")
+
                 #Link to the master for this year, so item
                 self.race.add_values("P527",pyItem_stage.id,u'link stage '+str(number),False) 
                 #Link to previous
@@ -246,7 +260,11 @@ class RaceCreator(CyclingInitBot):
                     pyItem_cal.add_values("P527",self.race.id,u'in',False)
 
                 if self.class_id:
-                    self.race.add_values("P31", self.class_id,u'Class',0)    
+                    self.race.add_values("P279", self.class_id,u'Class',0)   
+                    
+                if self.is_women:
+                    self.race.add_value('P2094',"Q1451845","women cycling")
+                
                 self.race.link_year(self.year,id_master=self.id_race_master)  
                 pyItem_master=PyItem(id=self.id_race_master)
                 pyItem_master.add_value("P527",self.race.id,u'adding a year')

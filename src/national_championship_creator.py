@@ -164,7 +164,7 @@ class NationalChampionshipCreator(CyclingInitBot):
             else:
                 item_to_add = 'Q22231119' # CN
 
-            pyItem.add_value("P31",item_to_add,'Adding CN')
+            pyItem.add_value("P2094",item_to_add,'Adding CN')
             
             if enligne:
                 dic ={'woman': "Course en ligne féminine",
