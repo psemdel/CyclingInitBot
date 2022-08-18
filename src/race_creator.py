@@ -120,8 +120,6 @@ class RaceCreator(CyclingInitBot):
                     self.race_name=self.race.get_race_name()
                 if self.countryCIO is None:
                     self.country=self.race.get_country()
-                if self.asse is None:
-                    self.class_id=self.race.get_class()
                 if self.is_women is None:
                     self.is_women=self.get_is_women()
                     
