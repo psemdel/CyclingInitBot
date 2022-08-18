@@ -58,7 +58,7 @@ class NationalTeamCreator(CyclingInitBot):
             adjen = u'men'
             adjes = u''
         else:
-            adj = u'féminine '
+            adj = u' féminine '
             adjen = u'women'
             adjes = u'femenino'
             
@@ -99,7 +99,7 @@ class NationalTeamCreator(CyclingInitBot):
             
             pyItem.add_value("P31", "Q53534649", u'Nature')
             pyItem.add_value("P2094", "Q23726798", u'Category')
-            pyItem.add_value("P1998", countryCIO, u'CIO code')
+            pyItem.add_value("P1998", countryCIO, u'CIO code',noId=True)
             pyItem.add_value("P641","Q3609", u'cyclisme sur route')
             pyItem.add_value("P17", e["country"], u'country')
             if self.key in e:

@@ -121,7 +121,7 @@ class RaceCreator(CyclingInitBot):
                 if self.countryCIO is None:
                     self.country=self.race.get_country()
                 if self.is_women is None:
-                    self.is_women=self.get_is_women()
+                    self.is_women=self.race.get_is_women()
                     
             else:
                 self.create_stages_bool=kwargs.get('create_stages')
