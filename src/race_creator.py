@@ -75,7 +75,7 @@ class RaceCreator(CyclingInitBot):
         
         if self.single_race:
             self.only_stages=False
-            self.create_stages=False
+            self.create_stages_bool=False
             self.end_date=None
             self.create_main_bool=True
             
