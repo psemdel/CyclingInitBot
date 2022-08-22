@@ -54,7 +54,7 @@ class RaceCreator(CyclingInitBot):
         self.verbose=False
         self.class_id=None
         
-        self.race_begin=kwargs.get('race_begin')
+        self.start_date=kwargs.get('start_date')
         self.end_date=kwargs.get('end_date')
         self.classe=kwargs.get('classe') #text 1.2 not id
         self.countryCIO=kwargs.get('countryCIO')
@@ -108,8 +108,8 @@ class RaceCreator(CyclingInitBot):
                 #present_id is know we have a lot of info
                 self.race=Race(id=present_id)
                 
-                if self.race_begin is None:
-                    self.race_begin=self.race.get_begin_date()
+                if self.start_date is None:
+                    self.start_date=self.race.get_begin_date()
                 if self.end_date is None:
                     self.end_date=self.race.get_end_date()
                 if self.classe is None:
@@ -126,8 +126,8 @@ class RaceCreator(CyclingInitBot):
             else:
                 self.create_stages_bool=kwargs.get('create_stages')
 
-        if self.year is None and self.race_begin is not None: 
-            self.year=self.race_begin.year
+        if self.year is None and self.start_date is not None: 
+            self.year=self.start_date.year
 
         self.class_id=get_class_id(self.classe) #self.classe None is handled inside
         self.genre, self.race_name=define_article(self.race_name)
@@ -210,7 +210,7 @@ class RaceCreator(CyclingInitBot):
                 pyItem_stage.add_value("P1545",str(number),u'order',noId=True)
 
                 stage_date=date_finder(number,self.first_stage,self.last_stage, 
-                                       self.race_begin,self.end_date)
+                                       self.start_date,self.end_date)
                 
                 pyItem_stage.add_value("P585",stage_date,u'date',date=True)
 

@@ -10,7 +10,7 @@ import pywikibot
 site = pywikibot.Site("wikidata", "wikidata")
 
 def cycling_init_bot():
-    selector=9
+    selector=19
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -69,9 +69,9 @@ def cycling_init_bot():
         #more details in the table with activate and group
         from src.team_creator import TeamCreator
 
-        name="abc"
-        id_master="Q110794483"
-        countryCIO="COL"
+        name="Macadam’s Cowboys & Girls"
+        id_master="Q105702884"
+        countryCIO="FRA"
         UCIcode=None
         year=2022
         """
@@ -83,7 +83,7 @@ def cycling_init_bot():
         Female amateur cycling team (Q26849121)
         Amateur cycling team (Q20652655)
         """
-        category_id="Q2466826"
+        category_id="Q26849121"
 
         f=TeamCreator(name,id_master,countryCIO,UCIcode,year,category_id=category_id)
         f.main()    
@@ -91,7 +91,7 @@ def cycling_init_bot():
     elif selector==5:   
         from src.sorter import NameSorter
 
-        id_team=u'Q110769468'
+        id_team=u'Q110773806'
         prop="P1923" # 'has part (P527)', 'participating team (P1923)'
         test=False
         
@@ -116,7 +116,7 @@ def cycling_init_bot():
         id_race_master="Q79032687"
         create_stages=True
         year=2021
-        race_begin=pywikibot.WbTime(site=site,year=year, month=9, day=3, precision='day')
+        start_date=pywikibot.WbTime(site=site,year=year, month=9, day=3, precision='day')
         end_date=pywikibot.WbTime(site=site,year=year, month=9, day=5, precision='day')
         first_stage=1
         last_stage=3
@@ -133,7 +133,7 @@ def cycling_init_bot():
             id_race_master=id_race_master,
             countryCIO=countryCIO,
             classe=classe,
-            race_begin=race_begin,
+            start_date=start_date,
             edition_nr=edition_nr,
             end_date=end_date,
             only_stages=False,
@@ -150,7 +150,7 @@ def cycling_init_bot():
          race_name=u"Binche-Chimay-Binche féminin"
          id_race_master=108914692
          year=2021
-         race_date=pywikibot.WbTime(site=site,year=year, month=10, day=5, precision='day')
+         start_date=pywikibot.WbTime(site=site,year=year, month=10, day=5, precision='day')
          countryCIO=u'BEL'
          classe='1.2'
          edition_nr='1'
@@ -161,7 +161,7 @@ def cycling_init_bot():
                 race_name=race_name,
                 single_race=single_race,
                 man_or_woman=man_or_woman,
-                race_begin=race_date,
+                start_date=start_date,
                 edition_nr=edition_nr,
                 id_race_master=id_race_master,
                 countryCIO=countryCIO,
@@ -172,7 +172,7 @@ def cycling_init_bot():
     elif selector==9:
         from src.classification_importer import ClassificationImporter
         
-        id_race='Q110769471'
+        id_race='Q111732415'
         stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
         #5 team, #6 team points, #7 youth points, #8 == sprints
         final=False
@@ -190,8 +190,8 @@ def cycling_init_bot():
     elif selector==10:
         from src.startlist_importer import StartlistImporter
         
-        id_race='Q110769471'
-        prologue_or_final=2 #0=prologue, 1=final, 2=one day race
+        id_race='Q110773757'
+        prologue_or_final=1 #0=prologue, 1=final, 2=one day race
         chrono=False
         test=False
         man_or_woman=u'woman'
@@ -214,8 +214,8 @@ def cycling_init_bot():
         from src.champ_list_creator import ChampListCreator
         
         man_or_woman=u'woman'
-        actualize=False
-        start_year=2005
+        actualize=True
+        start_year=2022
         
         f=ChampListCreator(man_or_woman,start_year,actualize)
         f.main()
@@ -249,9 +249,9 @@ def cycling_init_bot():
         #race_name=u"Grand Prix Mediterrennean"
        # id_race_master='104640104'
         #year=2021
-        stage_race_id="Q104640104" #only for onlystages
-        first_stage=0
-        last_stage=3
+        stage_race_id="Q110774135" #only for onlystages
+        first_stage=1
+        last_stage=6
         #single_race=True
         man_or_woman=u'woman'
         
@@ -278,7 +278,7 @@ def cycling_init_bot():
     elif selector==18:
         from src.get_rider_tricot import ScanExisting
         
-        id_race='Q101426092'
+        id_race='Q110774449'
         chrono=True
         test=False
         man_or_woman=u'woman'
@@ -286,6 +286,11 @@ def cycling_init_bot():
         
         f=ScanExisting( id_race, chrono, man_or_woman,test=False)
         f.main()
+    elif selector==19:
+        from src.sparql import SparQL
+        
+        f=SparQL()
+        f.list_elements()
     
     else: 
         print('do nothing')
