@@ -77,7 +77,7 @@ class RaceCreator(CyclingInitBot):
             self.only_stages=False
             self.create_stages=False
             self.end_date=None
-            self.create_main=True
+            self.create_main_bool=True
             
             if self.countryCIO is not None:
                 self.country=self.nation_table[self.countryCIO]["country"]
