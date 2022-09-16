@@ -10,7 +10,7 @@ import pywikibot
 site = pywikibot.Site("wikidata", "wikidata")
 
 def cycling_init_bot():
-    selector=19
+    selector=14
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -172,7 +172,7 @@ def cycling_init_bot():
     elif selector==9:
         from src.classification_importer import ClassificationImporter
         
-        id_race='Q111732415'
+        id_race='Q110775085'
         stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
         #5 team, #6 team points, #7 youth points, #8 == sprints
         final=False
@@ -190,7 +190,7 @@ def cycling_init_bot():
     elif selector==10:
         from src.startlist_importer import StartlistImporter
         
-        id_race='Q110773757'
+        id_race='Q110774935'
         prologue_or_final=1 #0=prologue, 1=final, 2=one day race
         chrono=False
         test=False
@@ -223,17 +223,39 @@ def cycling_init_bot():
     elif selector==14:  
         from src.uci_classification import UCIClassification
         
-        man_or_woman=u'man'
-        id_master_UCI=u'Q104218422'  #Q97367360
-        year=u'2021'
-        filename=u'OceaniaRanking2021man' #'UCIranking'  CIranking2020man
+        man_or_woman=u'woman'
+        id_master_UCI=u'Q15831496'  #Q97367360
+        year=u'2014'
+        filename=u'UCIranking2014' #'UCIranking'  CIranking2020man
         test=False
         cleaner=False #delete the UCI ranking
         UCIranking=False #for team team
-        bypass=True #don't interrupt if not all riders found
+        bypass=False #don't interrupt if not all riders found
         
         f=UCIClassification(
             UCIranking=UCIranking,
+            id_master_UCI=id_master_UCI,
+            filename=filename,
+            cleaner=cleaner,
+            man_or_woman=man_or_woman,
+            bypass=bypass,
+            year=year,
+            test=test)
+        f.main()
+
+
+    elif selector==15:  
+        from src.uci_classification import UCITeamClassification
+        
+        man_or_woman=u'woman'
+        id_master_UCI=u'Q57267790'  #Q97367360
+        year=u'2019'
+        filename=u'UCIranking2019team' #'UCIranking'  CIranking2020man
+        test=False
+        cleaner=False #delete the UCI ranking
+        bypass=False #don't interrupt if not all riders found
+        
+        f=UCITeamClassification(
             id_master_UCI=id_master_UCI,
             filename=filename,
             cleaner=cleaner,

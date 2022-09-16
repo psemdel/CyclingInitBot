@@ -115,12 +115,14 @@ class PyItem():
     def add_values(self,prop,vId,comment,overpass):
         # check if the value is not already 
         Addc = True
+        
         if not overpass:  # To add a value and then delete it for sorting purpose
             if prop in self.item.claims:  # already there do nothing
                 for e in self.item.claims.get(prop) :
                     if e.getTarget().getID() == vId:  # Already there
+                        claim=e
                         Addc = False
-                        print('Item already in the Master list')
+                        print('Item already present')
                         break
         # add the value
         if Addc:
@@ -128,7 +130,22 @@ class PyItem():
             target = pywikibot.ItemPage(self.repo, vId)
             claim.setTarget(target)
             self.item.addClaim(claim, summary=u'Adding ' + comment)
-        return Addc
+        return Addc, claim
+
+    #note: as claim is defined, the pyItem calling does not matter
+    def add_qualifier(self,claim,prop,target_q):
+        Addc = True
+        #for qual in claim.qualifiers:
+        #    print(claim.qualifiers[qual][0])
+        #    if claim.qualifiers[qual][0].getTarget()==target_q:
+        #        Addc=False
+        
+        for qual in claim.qualifiers.get(prop, []):
+            Addc = False
+        if Addc:
+            q=pywikibot.page.Claim(self.site, prop, is_qualifier=True)
+            q.setTarget(target_q)
+            claim.addQualifier(q)
 
     def link_year(self, year,**kwargs):
         year_previous=int(year)-1
@@ -501,17 +518,19 @@ class Search(CyclingInitBot):
             last_name=last_name)
     
     def team_by_code(self, **kwargs):
-         if kwargs.get("man_or_woman","woman")=="man":
-             exception_table=exception.list_of_team_code_ex_man()
-         else:
-             exception_table=exception.list_of_team_code_ex()
-
-         return self.complexe(
-            disam=self.is_it_a_teamseason,
-            force_disam=True,
-            exception_table=exception_table,
-            )      
-    
+        if kwargs.get("man_or_woman","woman")=="man":
+            exception_table=exception.list_of_team_code_ex_man()
+            dis=self.is_it_a_menteam
+        else:
+            exception_table=exception.list_of_team_code_ex()
+            dis=self.is_it_a_womenteam
+   
+        return self.complexe(
+           disam=dis,
+           force_disam=True,
+           exception_table=exception_table,
+           )      
+            
     def race(self):
         result = "Q0", ""
         race_table=race_list.load()
@@ -625,7 +644,7 @@ class Search(CyclingInitBot):
         item.get()
         if(u'P31' in item.claims):  
             for nature in item.claims.get(u'P31'):
-                if nature.getTarget().getID() == 'Q53534649':  # Already there
+                if nature.getTarget().getID() == 'Q53534649':  
                     return True
         return False 
 
@@ -647,6 +666,42 @@ class Search(CyclingInitBot):
             return True
         else:
             return False
+        
+    def is_it_a_womenteam(self,item_id,**kwargs):
+        if self.is_it_a_teamseason(item_id):
+            item = pywikibot.ItemPage(self.repo, item_id)
+            item.get()
+            
+            if (u'P2094' in item.claims):
+                P2094=item.claims.get(u'P2094')
+                for p2094 in P2094:
+                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#, "Q1451845" #cats and women cycling 
+                        return True
+            #if (u'P31' in item.claims):
+            #    P31=item.claims.get(u'P31')
+            #    for p31 in P31:
+            #        if p31.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#cats
+            #            return True                    
+                    
+        return False
+            
+    def is_it_a_menteam(self,item_id,**kwargs):
+        if self.is_it_a_teamseason(item_id):
+            item = pywikibot.ItemPage(self.repo, item_id)
+            item.get()
+            
+            if (u'P2094' in item.claims):
+                P2094=item.claims.get(u'P2094')
+                for p2094 in P2094:
+                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#, "Q1451845" #cats and women cycling 
+                        return False
+            if (u'P31' in item.claims):
+                P31=item.claims.get(u'P31')
+                for p31 in P31:
+                    if p31.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#cats
+                        return False                    
+            return True
+        return False    
 
 class Log():
     def __init__(self):
