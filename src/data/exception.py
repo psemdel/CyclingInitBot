@@ -32,6 +32,7 @@ def list_of_rider_ex():
     'ERIĆ 1501996785028 ERIĆ 1501996785028':'Q19661759',
     'Felix Gross':'Q39885866',
     'Birgitte Andersen':'Q55287126',
+    "Daniela Gass":"Q19282137",
     
     #men
     'Jefferson Cepeda':'Q21093468',
@@ -55,6 +56,16 @@ def list_of_team_name_ex():
 #woman
 def list_of_team_code_ex():
     return {
+        "WCC 2021":"Q105703849",
+        "WCC 2020":"Q84087671",
+        "WCC 2019":"Q61747863",
+        "WCC 2018":"Q52529771",
+        "WCC 2017":"Q41483982",
+        
+        
+            } #difficult to classify
+
+"""
     'ORS 2017':'Q27865610',
     'SUN 2017':'Q28133168',
     'LSL 2017':'Q28047488',
@@ -88,9 +99,12 @@ def list_of_team_code_ex():
     'UAD 2022':'Q110371624',
     'UXT 2022':'Q110371245',
     }
+"""
 
 def list_of_team_code_ex_man():
-    return {
+    return {}
+
+"""
     'MTS 2020':'Q78075331',
     'TFS 2020':'Q78075353',     
     'SUN 2020':'Q78075349',   
@@ -115,4 +129,4 @@ def list_of_team_code_ex_man():
     'UAD 2022':'Q109109784',
     'UXT 2022':'Q109211214'
     }
-
+"""

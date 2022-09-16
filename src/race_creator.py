@@ -237,35 +237,35 @@ class RaceCreator(CyclingInitBot):
                 mydescription={'fr':u'édition ' + str(self.year) +" "+ self.genre + self.race_name}
                 self.race.item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
 
-                self.race.add_value("P31",self.id_race_master,u'Nature')
-                self.race.add_value("P641","Q3609",u'cyclisme sur route')
-                self.race.add_value("P17",self.country,u'country')
-            
-                if self.single_race:
-                    self.race.add_value("P585", self.start_date, u' date',date=True)
-                else:
-                    self.race.add_value("P580",self.start_date,u'starting date', date=True)
-                    if self.end_date:
-                        self.race.add_value("P582",self.end_date,u'ending date',date=True)
-            
-                if self.edition_nr is not None:
-                     self.race.add_value("P393",str(self.edition_nr),u'edition nr',noId=True)
+            self.race.add_value("P31",self.id_race_master,u'Nature')
+            self.race.add_value("P641","Q3609",u'cyclisme sur route')
+            self.race.add_value("P17",self.country,u'country')
+        
+            if self.single_race:
+                self.race.add_value("P585", self.start_date, u' date',date=True)
+            else:
+                self.race.add_value("P580",self.start_date,u'starting date', date=True)
+                if self.end_date:
+                    self.race.add_value("P582",self.end_date,u'ending date',date=True)
+        
+            if self.edition_nr is not None:
+                 self.race.add_value("P393",str(self.edition_nr),u'edition nr',noId=True)
 
-                calendar_id=self.UCI_to_calendar_id()
-                if calendar_id is not None:
-                    self.race.add_value("P361",calendar_id,u'part of')
-                    pyItem_cal=PyItem(id=calendar_id)
-                    pyItem_cal.add_values("P527",self.race.id,u'in',False)
+            calendar_id=self.UCI_to_calendar_id()
+            if calendar_id is not None:
+                self.race.add_value("P361",calendar_id,u'part of')
+                pyItem_cal=PyItem(id=calendar_id)
+                pyItem_cal.add_values("P527",self.race.id,u'in',False)
 
-                if self.class_id:
-                    self.race.add_values("P279", self.class_id,u'Class',0)   
-                    
-                if self.is_women:
-                    self.race.add_value('P2094',"Q1451845","women cycling")
+            if self.class_id:
+                self.race.add_values("P279", self.class_id,u'Class',0)   
                 
-                self.race.link_year(self.year,id_master=self.id_race_master)  
-                pyItem_master=PyItem(id=self.id_race_master)
-                pyItem_master.add_value("P527",self.race.id,u'adding a year')
+            if self.is_women:
+                self.race.add_value('P2094',"   ","women cycling")
+            
+            self.race.link_year(self.year,id_master=self.id_race_master)  
+            pyItem_master=PyItem(id=self.id_race_master)
+            pyItem_master.add_value("P527",self.race.id,u'adding a year')
 
     
     

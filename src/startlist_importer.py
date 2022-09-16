@@ -104,12 +104,12 @@ class StartlistImporter(CyclingInitBot):
                         if team!="Q1":
                             proteam=team
                         else:
-                            all_same_team=all_same_team-1
+                            all_same_team-=1
                     else:
                         if team!='Q1' and proteam!=team: 
-                            all_same_team=all_same_team-1
+                            all_same_team-=1
                         elif team=='Q1':
-                            all_same_team=all_same_team-1
+                            all_same_team-=1
                 #last team
             else: #force_nation_team, then only look at nation value
                 #item_rider=list_of_cyclists[ii].item
@@ -184,43 +184,27 @@ class StartlistImporter(CyclingInitBot):
                         if claim is None:  ##create the rider
                             if self.prologue_or_final==1:
                                 self.log.concat('\n rider not found, id: '+str(cyclist.id))
-                            claim=pywikibot.Claim(self.repo, u'P710')  #reinit everytime
-                            claim.setTarget(cyclist.item)
-                            self.race.item.addClaim(claim, summary=u'Adding starterlist')
-                            qualifier_dossard=pywikibot.page.Claim(self.site, 'P1618', is_qualifier=True)
-                            qualifier_dossard.setTarget(str(cyclist.dossard))
-                            claim.addQualifier(qualifier_dossard)
+                            _, claim=self.race.add_values('P710', cyclist.item, 'starterlist', False)
+                            self.race.add_qualifier(claim,'P1618',str(cyclist.dossard))
                             
                             if cyclist.team: #national team
-                                target_qualifier = pywikibot.ItemPage(self.repo, cyclist.team)
-                                qualifier_team=pywikibot.page.Claim(self.site, 'P54', is_qualifier=True)
-                                qualifier_team.setTarget(target_qualifier)
-                                claim.addQualifier(qualifier_team)
+                                target_q = pywikibot.ItemPage(self.repo, cyclist.team)
+                                self.race.add_qualifier(claim,'P54',target_q)
                                 
                         if self.prologue_or_final in [1,2]:
                            if cyclist.rank==0: #no ranking
-                               qualifier_DNF=pywikibot.page.Claim(self.site, 'P1534', is_qualifier=True)
-                               qualifier_DNF.setTarget(target_DNFqual)
-                               claim.addQualifier(qualifier_DNF)
+                               self.race.add_qualifier(claim,'P1534',target_DNFqual)
                            else:
-                               target_qualifier =  pywikibot.WbQuantity(amount=cyclist.rank, site=self.site)
-                               qualifier_rank=pywikibot.page.Claim(self.site, 'P1352', is_qualifier=True)
-                               qualifier_rank.setTarget(target_qualifier)
-                               claim.addQualifier(qualifier_rank)
+                               target_q =  pywikibot.WbQuantity(amount=cyclist.rank, site=self.site)
+                               self.race.add_qualifier(claim,'P1352',target_q)
                         if not self.force_nation_team and self.prologue_or_final!=1: #when only national team, no national tricot
                             #to avoid being called every time, should be centralized
                             grt=GetRiderTricot(cyclist.id, self.time_of_race, claim, self.chrono, self.man_or_woman)
                             grt.main()
                 #all riders are classified, assumption the other are DNF
                 if self.prologue_or_final==1:
-                    for e in list_of_lost:
-                        qualifier_DNF=pywikibot.page.Claim(self.site, 'P1534', is_qualifier=True)
-                        qualnotfound=True
-                        for qual in e.qualifiers.get('P1534', []):
-                            qualnotfound=False
-                        if qualnotfound:
-                            qualifier_DNF.setTarget(target_DNFqual)
-                            e.addQualifier(qualifier_DNF)
+                    for claim in list_of_lost:
+                        self.race.add_qualifier(claim,'P1534',target_DNFqual)
             print("start list insertion finished")
             return 0, self.log                          
         except Exception as msg:

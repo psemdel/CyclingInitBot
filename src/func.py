@@ -265,6 +265,7 @@ def table_reader(filename,**kwargs):  #startline,
             first_name_bool=False
             last_name_bool=False
             bib_bool=False
+
             if 'Name' in df.columns:
                 name_bool=True
             if 'First Name' in df.columns:
@@ -283,6 +284,7 @@ def table_reader(filename,**kwargs):  #startline,
                 
                 if name_bool:
                     name=df['Name'].values[ii]
+
                 if first_name_bool:
                     first_name=df['First Name'].values[ii]
                 if last_name_bool:
@@ -295,8 +297,13 @@ def table_reader(filename,**kwargs):  #startline,
                 
                 if kwargs.get("need_complete",False):
                    if id_rider in ['Q0','Q1']:
-                       log+="\n" + str(first_name) + " " +  str(last_name) + " "  + str(name) +\
-                            " number "+ str(bib)+" not found"
+                       if first_name_bool:
+                           log+="\n" + str(first_name) + " " +  str(last_name) +" number "
+                       else:
+                           log+="\n" + str(name) +" number "
+                       if bib_bool:
+                           log+=str(bib)
+                       log+=" not found"
                        all_riders_found=False
                 rider_ids.append(id_rider)
             df["ID Rider"]=rider_ids
@@ -308,28 +315,35 @@ def table_reader(filename,**kwargs):  #startline,
             elif year is None:
                 raise ValueError("No year present to create Team Code")
             else:
-                df["Team Code"]=df["Team Code"].apply(lambda x: x+" "+str(year))
+                 df["Team Code"]=df["Team Code"].apply(lambda x: str(x)+" "+str(year) if str(x)!="nan" and str(x)!="NaN" else str(x))
 
             if kwargs.get("team",False):
                 team_ids=[]
+                code_to_id={"nan":"Q0"}
                 man_or_woman=kwargs.get('man_or_woman',u'woman') #used only for team
-                
-                for ii in range(len(df.index)):
-                    team_code=df["Team Code"].values[ii]
-                    s=Search(team_code)
-                    id_team=s.team_by_code(man_or_woman=man_or_woman)
+                df2=pd.unique(df["Team Code"].values)
+               
+                for ii in range(len(df2)):
+                    team_code=df2[ii]
+                    if team_code not in ["nan","NaN"]:
+                        s=Search(team_code)
+                        id_team=s.team_by_code(man_or_woman=man_or_woman)
+                        if kwargs.get("need_complete",False):
+                            if id_team in ['Q0','Q1']:
+                                log+="\n" + str(team_code) + " not found"
+                                all_teams_found=False
+                        code_to_id[team_code]=id_team
                     
-                    if kwargs.get("need_complete",False):
-                        if id_team in ['Q0','Q1']:
-                            log+="\n" + str(team_code) + " not found"
-                            all_teams_found=False
-                    team_ids.append(id_team)
-                df["ID Team"]=team_ids
+                for ii in range(len(df.index)):
+                    id_team=code_to_id[df["Team Code"].values[ii]]
+                    team_ids.append(id_team)   #in the end has the same length as     rider_ids         
+                df["ID Team"]=team_ids 
 
         if verbose:
             print('table read')
 
         return df, all_riders_found, all_teams_found, log
+    
     except Exception as msg:
         _, _, exc_tb = sys.exc_info()
         print("line " + str(exc_tb.tb_lineno))
@@ -358,7 +372,7 @@ def cyclists_table_reader(df,**kwargs):
             team_code_bool=True        
         if "ID Team" in df.columns:
             id_team_bool=True
-            
+        
         for ii in range(len(df.index)):
             if df["ID Rider"].values[ii] in ['Q0','Q1']:
                 this_rider=Cyclist(name='not found')
@@ -369,7 +383,7 @@ def cyclists_table_reader(df,**kwargs):
                         this_rider.dossard=int(df["BIB"].values[ii])
                 if rank_bool:
                     if not math.isnan(df["Rank"].values[ii]): #to check if it does not kill the DNF
-                        this_rider.rank=int(df["Rank"].values[ii])
+                        this_rider.rank=str(int(df["Rank"].values[ii])) #avoid .0
             list_of_cyclists.append(this_rider)
 
             if id_team_bool:
@@ -386,3 +400,4 @@ def cyclists_table_reader(df,**kwargs):
         print(msg)
         print("cyclists_table_reader read failure")
         return None, None
+    

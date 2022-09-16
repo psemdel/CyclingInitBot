@@ -6,7 +6,7 @@ Created on Sun Jul 22 16:21:08 2018
 """
 
 import pywikibot
-from .base import CyclingInitBot, Race
+from .base import CyclingInitBot, Race, Team
 from .func import table_reader
 import math
 import sys
@@ -57,6 +57,14 @@ class ClassificationImporter(CyclingInitBot):
             self.team_bool=True
         else:
             self.team_bool=False
+            
+        #WWT functionality
+        self.WWT=False
+        if (u'P2094' in self.race.item.claims):
+            P2094=self.race.item.claims.get(u'P2094')
+            for p2094 in P2094:
+                if p2094 in ["Q23005601","Q23005603"]: #WWT
+                    self.WWT=True
             
     def is_there_a_startlist(self):
         item_with_startlist=None
@@ -120,26 +128,15 @@ class ClassificationImporter(CyclingInitBot):
                         break
                     
                 if this_starter!=None:
-                     qualnotfound=True
-                     for qual in this_starter.qualifiers.get('P1534', []):
-                         qualnotfound=False
-                     if qualnotfound:
-                         target_qualifier = pywikibot.ItemPage(self.repo, u'Q1210380')
-                         qualifier_DNF=pywikibot.page.Claim(self.site, 'P1534', is_qualifier=True)
-                         qualifier_DNF.setTarget(target_qualifier)
-                         if not self.test:
-                             this_starter.addQualifier(qualifier_DNF)
-                     #add the stage_number of the DNF       
-                     qualnotfound=True
-                     for qual in this_starter.qualifiers.get('P1545', []):
-                         qualnotfound=False 
-                     if qualnotfound and stage_nummer!=-1:   
-                         qualifier_stage_number=pywikibot.page.Claim(self.site, 'P1545', is_qualifier=True)
-                         qualifier_stage_number.setTarget(stage_nummer)
-                         if not self.test:
-                             this_starter.addQualifier(qualifier_stage_number)
-                     if self.test and stage_nummer!=-1: 
-                         return this_starter, stage_nummer #return first dnf rider
+                     target_q = pywikibot.ItemPage(self.repo, u'Q1210380')
+                     if not self.test:
+                         this_starter.add_qualifier(this_starter,'P1534',target_q)
+
+                     if stage_nummer!=-1: 
+                         if not self.test:   
+                             this_starter.add_qualifier(this_starter,'P1545',str(stage_nummer))
+                         else:
+                             return this_starter, stage_nummer #return first dnf rider
         if self.test:
             return None, -1                       
 
@@ -153,6 +150,9 @@ class ClassificationImporter(CyclingInitBot):
             if self.team_bool: #team
                 df, _, _, log=table_reader(self.file,result_points=self.result_points, team=True, 
                                            year=self.year,convert_team_code=True) 
+            elif self.WWT: #rider, but team needed
+                df, _, _, log=table_reader(self.file,result_points=self.result_points, rider=True,team=True,
+                                           year=self.year)                 
             else: #rider
                 df, _, _, log=table_reader(self.file,result_points=self.result_points, rider=True,
                                            year=self.year) 
@@ -163,6 +163,7 @@ class ClassificationImporter(CyclingInitBot):
             if self.verbose:
                 print(df2)
                 
+            team_done=[]
             self.is_there_a_startlist()
             if self.startlist is not None:
                 self.log.concat('startlist found')
@@ -171,7 +172,7 @@ class ClassificationImporter(CyclingInitBot):
                 if(self.prop in self.race.item.claims):  #already there do nothing
                     self.log.concat(u'Classification already there')
                 else: 
-                    claim=pywikibot.Claim(self.repo, self.prop)  
+                    #claim=pywikibot.Claim(self.repo, self.prop)  
                     for ii in range(len(df2)):
                         row=df2.iloc[ii]
                         if self.team_bool:
@@ -180,38 +181,39 @@ class ClassificationImporter(CyclingInitBot):
                             this_id=row["ID Rider"]
 
                         if this_id not in ['Q0','Q1']:
-                           claim=pywikibot.Claim(self.repo, self.prop)  
+                           _, claim=self.race.add_values(self.prop, this_id, 'classification', False) 
+                           target_q =  pywikibot.WbQuantity(amount=int(row['Rank']), site=self.site)
+                           self.race.add_qualifier(claim,'P1352',target_q)
                            target = pywikibot.ItemPage(self.repo, this_id)
-                           claim.setTarget(target)
-                           self.race.item.addClaim(claim, summary=u'Adding classification')
-                           qualifier_rank=pywikibot.page.Claim(self.site, 'P1352', is_qualifier=True)
-                           target_qualifier =  pywikibot.WbQuantity(amount=row['Rank'], site=self.site)
-                           qualifier_rank.setTarget(target_qualifier)
-                           claim.addQualifier(qualifier_rank)
+
                            itemSeconds=pywikibot.ItemPage(self.repo, "Q11574")
                            if self.result_points:
-                               qualifier_points=pywikibot.page.Claim(self.site, 'P1358', is_qualifier=True)
-                               target_qualifier = pywikibot.WbQuantity(amount=row['Points'], site=self.site)
-                               qualifier_points.setTarget(target_qualifier)
-                               claim.addQualifier(qualifier_points)
+                               target_q = pywikibot.WbQuantity(amount=row['Points'], site=self.site)
+                               self.race.add_qualifier(claim,'P1358',target_q)
                            elif row['Rank']==1:
-                               qualifier_time=pywikibot.page.Claim(self.site, 'P2781', is_qualifier=True)
-                               target_qualifier = pywikibot.WbQuantity(amount=row['Time'], site=self.site, unit=itemSeconds)
-                               qualifier_time.setTarget(target_qualifier)
-                               claim.addQualifier(qualifier_time)
+                               target_q = pywikibot.WbQuantity(amount=row['Time'], site=self.site, unit=itemSeconds)   
+                               self.race.add_qualifier(claim,'P2781',target_q)
                            else:
                                if row['Ecart']!=-1:
-                                   qualifier_ecart=pywikibot.page.Claim(self.site, 'P2911', is_qualifier=True)
-                                   target_qualifier = pywikibot.WbQuantity(amount=row['Ecart'], site=self.site, unit=itemSeconds)
-                                   qualifier_ecart.setTarget(target_qualifier)
-                                   claim.addQualifier(qualifier_ecart)
+                                   target_q = pywikibot.WbQuantity(amount=row['Ecart'], site=self.site, unit=itemSeconds)
+                                   self.race.add_qualifier(claim,'P2911',target_q)
                            #look for team in startlist
                            if self.startlist is not None:
                                self.copy_team(claim, target)
         
                            if (self.general_or_stage in self.general_or_stage_addwinner) and self.final:
-                               self.race.add_winner(this_id,row['Rank'],self.general_or_stage) 
-                               
+                               self.race.add_winner(this_id,int(row['Rank']),self.general_or_stage) 
+  
+                           if self.WWT: #add ranking in the team then
+                               if row["ID Team"] and row["ID Team"] not in ['Q0','Q1'] and \
+                                   row["ID Team"] not in team_done:
+                                   this_team=Team(id=row["ID Team"])
+                                   
+                                   _, claim=this_team.add_values('P1344',self.race.id,'classification',False)
+                                   this_team.add_qualifier(claim,'P710',this_id)
+                                   this_team.add_qualifier(claim,'P1545',str(row['Rank']))
+                                   team_done.append(this_team.id)
+    
                         else:
                            if 'Name' in row:
                                self.log.concat(row['Name'])
