@@ -2293,6 +2293,24 @@ def load():
     
     #TUV
     #Tuvulu
+    dic['UAE']={ 
+        "name fr":'Émirats arabes unis',
+        "name en":'United Arab Emirates',
+        "name es":'Emiratos Árabes Unidos',
+        "adj fr woman":'émiratie',
+        "adj fr man":'émirati',
+        "adj en":'United Arab Emirates',
+        "genre": "des ",
+        "group":2,
+        "country":"Q878",
+        "National championship master":"Q16538209",
+        "team woman":"Q114028414",
+        "team man":"Q21070560",
+        "Road race woman":"Q112342085",
+        "Clm woman":"Q112342086",
+        "Road race man":"Q105954513",
+        "Clm man":"Q105955274",
+    }
 
     dic['URU']={ 
         "name fr":'Uruguay',

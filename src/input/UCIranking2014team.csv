@@ -1,32 +1,32 @@
-Rank      Name                                                          Team Code    Nationality              Points      
-         1RABO LIV WOMEN CYCLING TEAM                                   RBW          NETHERLANDS                   3422,75
-         2SPECIALIZED - LULULEMON                                       SLU          UNITED STATES OF AMERICA         2230
-         3BOELS DOLMANS CYCLING TEAM                                    DLT          NETHERLANDS                      2102
-         4ORICA - AIS                                                   GEW          AUSTRALIA                      1925,5
-         5TEAM GIANT-SHIMANO                                            GIW          NETHERLANDS                      1914
-         6HITEC PRODUCTS                                                HPU          NORWAY                         1396,5
-         7WIGGLE HONDA                                                  WHT          GREAT BRITAIN                    1252
-         8ALE CIPOLLINI                                                 ALE          ITALY                            1176
-         9ASTANA BEPINK WOMENS TEAM                                     BPK          ITALY                            1152
-        10                                                                                                             851
-        11UNITEDHEALTHCARE PROFESSIONAL CYCLING TEAM                    UHC          UNITED STATES OF AMERICA          778
-        12LOTTO BELISOL LADIES                                          LBL          BELGIUM                           770
-        13RUSVELO                                                       RVL          RUSSIAN FEDERATION                738
-        14OPTUM P/B KELLY BENEFIT STRATEGIES                            OPW          UNITED STATES OF AMERICA          631
-        15BIGLA CYCLING TEAM                                            BCT          SWITZERLAND                       484
-        16BTC CITY LJUBLJANA                                            BTC          SLOVENIA                          313
-        17SERVETTO FOOTON                                               SEF          ITALY                             270
-        18TIBCO / TO THE TOP                                            TIB          UNITED STATES OF AMERICA          236
-        19VILLE D'ALGER                                                 MVA          ALGERIA                           226
-        20FUTURUMSHOP.NL - ZANNATA                                      FTZ          NETHERLANDS                     221,5
-        21POITOU-CHARENTES.FUTUROSCOPE.86                               FUT          FRANCE                            213
-        22LOINTEK                                                       LKT          SPAIN                             212
-        23TOPSPORT VLAANDEREN - PRO - DUO                               VLL          BELGIUM                           140
-        24PARKHOTEL VALKENBURG CONTINENTAL TEAM                         PHV          NETHERLANDS                        94
-        25VAIANO FONDRIEST                                              VAI          ITALY                              92
-        26BIZKAIA - DURANGO                                             BPD          SPAIN                              71
-        27FORNO D'ASOLO - ASTUTE                                        FDA          LITHUANIA                          42
-        28TEAM RYTGER                                                   TRY          DENMARK                            37
-        29CHINA CHONGMING-GIANT-CHAMPION SYSTEM PRO CYCLING             GPC          HONG KONG, CHINA                   21
-        30TOP GIRLS FASSA BORTOLO                                       TOG          ITALY                              19
-        31NO RADUNION VITALOGIC                                         NOE          AUSTRIA                             7
+Rank,Name,Team Code,Nationality,Points
+1,RABO LIV WOMEN CYCLING TEAM,RBW,NETHERLANDS,"3422,75"
+2,SPECIALIZED - LULULEMON,SLU,UNITED STATES OF AMERICA,2230
+3,BOELS DOLMANS CYCLING TEAM,DLT,NETHERLANDS,2102
+4,ORICA - AIS,GEW,AUSTRALIA,"1925,5"
+5,TEAM GIANT-SHIMANO,GIW,NETHERLANDS,1914
+6,HITEC PRODUCTS,HPU,NORWAY,"1396,5"
+7,WIGGLE HONDA,WHT,GREAT BRITAIN,1252
+8,ALE CIPOLLINI,ALE,ITALY,1176
+9,ASTANA BEPINK WOMENS TEAM,BPK,ITALY,1152
+10,,,,851
+11,UNITEDHEALTHCARE PROFESSIONAL CYCLING TEAM,UHC,UNITED STATES OF AMERICA,778
+12,LOTTO BELISOL LADIES,LBL,BELGIUM,770
+13,RUSVELO,RVL,RUSSIAN FEDERATION,738
+14,OPTUM P/B KELLY BENEFIT STRATEGIES,OPW,UNITED STATES OF AMERICA,631
+15,BIGLA CYCLING TEAM,BCT,SWITZERLAND,484
+16,BTC CITY LJUBLJANA,BTC,SLOVENIA,313
+17,SERVETTO FOOTON,SEF,ITALY,270
+18,TIBCO / TO THE TOP,TIB,UNITED STATES OF AMERICA,236
+19,VILLE D'ALGER,MIC,ALGERIA,226
+20,FUTURUMSHOP.NL - ZANNATA,FTZ,NETHERLANDS,"221,5"
+21,POITOU-CHARENTES.FUTUROSCOPE.86,FUT,FRANCE,213
+22,LOINTEK,LKT,SPAIN,212
+23,TOPSPORT VLAANDEREN - PRO - DUO,VLL,BELGIUM,140
+24,PARKHOTEL VALKENBURG CONTINENTAL TEAM,PHV,NETHERLANDS,94
+25,VAIANO FONDRIEST,VAI,ITALY,92
+26,BIZKAIA - DURANGO,BPD,SPAIN,71
+27,FORNO D'ASOLO - ASTUTE,FDA,LITHUANIA,42
+28,TEAM RYTGER,TRY,DENMARK,37
+29,CHINA CHONGMING-GIANT-CHAMPION SYSTEM PRO CYCLING,GPC,"HONG KONG, CHINA",21
+30,TOP GIRLS FASSA BORTOLO,TOG,ITALY,19
+31,NO RADUNION VITALOGIC,NOE,AUSTRIA,7

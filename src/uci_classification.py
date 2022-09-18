@@ -35,9 +35,9 @@ class UCITeamClassification(CyclingInitBot):
                             year=self.year,
                             convert_team_code=True,
                             need_complete=not self.bypass,
-                            result_points=True)   
-            self.log.concat(log)
-                
+                            result_points=True)  
+            
+            self.log.concat(log)    
             if not all_teams_found and self.bypass==False:
                 self.log.concat(u'Not all teams found, request stopped')
                 return 1, self.log 
@@ -98,7 +98,7 @@ class UCIClassification(CyclingInitBot):
             points_bool=False #note: Team Code is there, otherwise uci_classification sends an error
             if "Points" in df.columns:
                 points_bool=True
-    
+
             self.log.concat('result_table created')
            
             if not all_riders_found and self.bypass==False:
@@ -127,7 +127,10 @@ class UCIClassification(CyclingInitBot):
                                this_rider.add_qualifier(claim,'P1352',target_q)
                                
                                if points_bool:
-                                    target_q = pywikibot.WbQuantity(amount=row["Points"], site=self.site) #row["Points"] is normally already int
+                                    points=row["Points"] #float
+                                    if points==int(points):
+                                        points=int(points)
+                                    target_q = pywikibot.WbQuantity(amount=points, site=self.site) #row["Points"] is normally already int
                                     this_rider.add_qualifier(claim,'P1358',target_q)
                                        
                             #First in the teamm

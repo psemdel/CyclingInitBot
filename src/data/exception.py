@@ -33,6 +33,8 @@ def list_of_rider_ex():
     'Felix Gross':'Q39885866',
     'Birgitte Andersen':'Q55287126',
     "Daniela Gass":"Q19282137",
+    "emma jorge":"Q64691975",
+    "Irina Molicheva":"Q19519046",
     
     #men
     'Jefferson Cepeda':'Q21093468',

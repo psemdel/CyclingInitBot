@@ -1,35 +1,35 @@
-Rank      Name                                                          Team Code    Nationality              Points      
-         1ORICA - AIS                                                   GEW          AUSTRALIA                      2138,5
-         2SPECIALIZED - LULULEMON                                       SLU          UNITED STATES OF AMERICA         2132
-         3RABO WOMEN CYCLING TEAM                                       RBW          NETHERLANDS                   2118,75
-         4HITEC PRODUCTS UCK                                            HPU          NORWAY                        1171,74
-         5WIGGLE HONDA                                                  WHT          GREAT BRITAIN                    1170
-         6SENGERS LADIES CYCLING TEAM                                   SLT          BELGIUM                        1091,5
-         7MCIPOLLINI GIORDANA                                           MCG          ITALY                            1049
-         8TEAM ARGOS - SHIMANO                                          ARW          NETHERLANDS                       773
-         9TEAM TIBCO - TO THE TOP                                       TIB          UNITED STATES OF AMERICA          720
-        10BEPINK                                                        BPK          ITALY                             709
-        11BOELS DOLMANS CYCLING TEAM                                    DLT          NETHERLANDS                     538,5
-        12RUSVELO                                                       RVL          RUSSIAN FEDERATION                526
-        13OPTUM P/B KELLY BENEFIT STRATEGIES                            OPW          UNITED STATES OF AMERICA          449
-        14PASTA ZARA - COGEAS                                           PZC          LITHUANIA                         429
-        15LOTTO BELISOL LADIES                                          LBL          BELGIUM                           365
-        16CHIRIO FORNO D'ASOLO                                          FCL          LITHUANIA                       349,5
-        17FAREN KUOTA                                                   FLF          ITALY                           274,5
-        18GSD GESTION - KALLISTO                                        GKS          CANADA                            259
-        19VIENNE FUTUROSCOPE                                            FUT          FRANCE                            258
-        20MICHE VILLE D'ALGER                                           MVA          ALGERIA                           229
-        21TEAM PRATOMAGNO WOMEN                                         TPW          UZBEKISTAN                        206
-        22TOP GIRLS FASSA BORTOLO                                       TOG          ITALY                          180,66
-        23EXERGY TWENTY16                                               EXG          UNITED STATES OF AMERICA          178
-        24VAIANO FONDRIEST                                              VAI          ITALY                             124
-        25CHINA CHONGMING - GIANT PRO CYCLING                           GPC          HONG KONG, CHINA                  110
-        26LOINTEK                                                       LKT          SPAIN                              86
-        27BIZKAIA - DURANGO                                             BPD          SPAIN                           73,25
-        28BOURGOGNE - PRO DIALOG                                        BCF          FRANCE                             58
-        29TOPSPORT VLAANDEREN - BIORACER                                VLL          BELGIUM                            51
-        30CYCLELIVE PLUS - ZANNATA                                      CZT          BELGIUM                            50
-        31SQUADRA SCAPPATELLA                                           SQS          AUSTRIA                            47
-        32CRAMO GO:GREEN                                                AGG          SWEDEN                             32
-        33TEAM FUTURUMSHOP.NL                                           TPO          NETHERLANDS                        31
-        34SERVETTO FOOTON                                               SEF          ITALY                               9
+Rank,Name,Team Code,Nationality,Points
+1,ORICA - AIS,GEW,AUSTRALIA,"2138,5"
+2,SPECIALIZED - LULULEMON,SLU,UNITED STATES OF AMERICA,2132
+3,RABO WOMEN CYCLING TEAM,RBW,NETHERLANDS,"2118,75"
+4,HITEC PRODUCTS UCK,HPU,NORWAY,"1171,74"
+5,WIGGLE HONDA,WHT,GREAT BRITAIN,1170
+6,SENGERS LADIES CYCLING TEAM,SLT,BELGIUM,"1091,5"
+7,MCIPOLLINI GIORDANA,MCG,ITALY,1049
+8,TEAM ARGOS - SHIMANO,ARW,NETHERLANDS,773
+9,TEAM TIBCO - TO THE TOP,TIB,UNITED STATES OF AMERICA,720
+10,BEPINK,BPK,ITALY,709
+11,BOELS DOLMANS CYCLING TEAM,DLT,NETHERLANDS,"538,5"
+12,RUSVELO,RVL,RUSSIAN FEDERATION,526
+13,OPTUM P/B KELLY BENEFIT STRATEGIES,OPW,UNITED STATES OF AMERICA,449
+14,PASTA ZARA - COGEAS,PZC,LITHUANIA,429
+15,LOTTO BELISOL LADIES,LBL,BELGIUM,365
+16,CHIRIO FORNO D'ASOLO,FCL,LITHUANIA,"349,5"
+17,FAREN KUOTA,FLF,ITALY,"274,5"
+18,GSD GESTION - KALLISTO,GKS,CANADA,259
+19,VIENNE FUTUROSCOPE,FUT,FRANCE,258
+20,MICHE VILLE D'ALGER,MIC,ALGERIA,229
+21,TEAM PRATOMAGNO WOMEN,TPW,UZBEKISTAN,206
+22,TOP GIRLS FASSA BORTOLO,TOG,ITALY,"180,66"
+23,EXERGY TWENTY16,EXG,UNITED STATES OF AMERICA,178
+24,VAIANO FONDRIEST,VAI,ITALY,124
+25,CHINA CHONGMING - GIANT PRO CYCLING,GPC,"HONG KONG, CHINA",110
+26,LOINTEK,LKT,SPAIN,86
+27,BIZKAIA - DURANGO,BPD,SPAIN,"73,25"
+28,BOURGOGNE - PRO DIALOG,BCF,FRANCE,58
+29,TOPSPORT VLAANDEREN - BIORACER,VLL,BELGIUM,51
+30,CYCLELIVE PLUS - ZANNATA,CZT,BELGIUM,50
+31,SQUADRA SCAPPATELLA,SQS,AUSTRIA,47
+32,CRAMO GO:GREEN,AGG,SWEDEN,32
+33,TEAM FUTURUMSHOP.NL,TPO,NETHERLANDS,31
+34,SERVETTO FOOTON,SEF,ITALY,9

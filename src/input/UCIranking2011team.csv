@@ -1,29 +1,29 @@
-Rank      Name                                                          Team Code    Nationality              Points      
-         1NEDERLAND BLOEIT                                              NLB          NETHERLANDS                      2594
-         2HTC HIGHROAD WOMEN                                            TCW          UNITED STATES OF AMERICA         2394
-         3HITEC PRODUCTS - UCK                                          HPU          NORWAY                           1302
-         4GARMIN - CERVELO                                              CWT          GREAT BRITAIN                    1123
-         5AA DRINK - LEONTIEN.NL CYCLING TEAM                           LNL          NETHERLANDS                       770
-         6SC MCIPOLLINI GIAMBENINI                                      MCG          ITALY                           741,5
-         7COLAVITA FORNO D'ASOLO                                        FCL          ITALY                             687
-         8GAUSS                                                         GAU          ITALY                             676
-         9LOTTO HONDA TEAM                                              LHT          BELGIUM                           522
-        10TOPSPORT VLAANDEREN  2012 - RIDLEY TEAM                       VLL          BELGIUM                           464
-        11DIADORA - PASTA ZARA                                          DPZ          UNITED STATES OF AMERICA          439
-        12TIBCO - TO THE TOP                                            TIB          UNITED STATES OF AMERICA          395
-        13DOLMANS LANDSCAPING TEAM                                      DLT          NETHERLANDS                       346
-        14VAIANO SOLARISTECH                                            VAI          ITALY                             334
-        15BIZKAIA-DURANGO                                               BPD          SPAIN                             289
-        16TEAM GSD GESTION                                              GSD          FRANCE                            215
-        17TOP GIRLS FASSA BORTOLO                                       TOG          ITALY                             160
-        18VIENNE FUTUROSCOPE                                            FUT          FRANCE                            112
-        19MICHE - GUERCIOTTI                                            MIE          ITALY                             104
-        20ABUS NUTRIXXION                                               NXX          GERMANY                            98
-        21ALRIKSSON GO:GREEN                                            AGG          SWEDEN                             83
-        22JUVEDERM - SPECIALIZED                                        JSD          CANADA                             65
-        23KUOTA SPEED KUEENS                                            KSK          AUSTRIA                            31
-        24KLEO LADIES TEAM                                              KLT          ITALY                              20
-        25LOINTEK                                                       LTK          SPAIN                              19
-        26CHINA CHONGMING - GIANT PRO CYCLING                           GPC          HONG KONG, CHINA                   10
-        27DEBABARRENA - GIPUZKOA                                        DEB          SPAIN                               8
-        28ASPTT DIJON - BOURGOGNE                                       BCF          FRANCE                              3
+Rank,Name,Team Code,Nationality,Points
+1,NEDERLAND BLOEIT,NLB,NETHERLANDS,2594
+2,HTC HIGHROAD WOMEN,TCW,UNITED STATES OF AMERICA,2394
+3,HITEC PRODUCTS - UCK,HPU,NORWAY,1302
+4,GARMIN - CERVELO,CWT,GREAT BRITAIN,1123
+5,AA DRINK - LEONTIEN.NL CYCLING TEAM,LNL,NETHERLANDS,770
+6,SC MCIPOLLINI GIAMBENINI,MCG,ITALY,"741,5"
+7,COLAVITA FORNO D'ASOLO,FCL,ITALY,687
+8,GAUSS,GAU,ITALY,676
+9,LOTTO HONDA TEAM,LHT,BELGIUM,522
+10,TOPSPORT VLAANDEREN  2012 - RIDLEY TEAM,VLL,BELGIUM,464
+11,DIADORA - PASTA ZARA,DPZ,UNITED STATES OF AMERICA,439
+12,TIBCO - TO THE TOP,TIB,UNITED STATES OF AMERICA,395
+13,DOLMANS LANDSCAPING TEAM,DLT,NETHERLANDS,346
+14,VAIANO SOLARISTECH,VAI,ITALY,334
+15,BIZKAIA-DURANGO,BPD,SPAIN,289
+16,TEAM GSD GESTION,GSD,FRANCE,215
+17,TOP GIRLS FASSA BORTOLO,TOG,ITALY,160
+18,VIENNE FUTUROSCOPE,FUT,FRANCE,112
+19,MICHE - GUERCIOTTI,MIC,ITALY,104
+20,ABUS NUTRIXXION,NXX,GERMANY,98
+21,ALRIKSSON GO:GREEN,AGG,SWEDEN,83
+22,JUVEDERM - SPECIALIZED,JSD,CANADA,65
+23,KUOTA SPEED KUEENS,KSK,AUSTRIA,31
+24,KLEO LADIES TEAM,KLT,ITALY,20
+25,LOINTEK,LTK,SPAIN,19
+26,CHINA CHONGMING - GIANT PRO CYCLING,GPC,"HONG KONG, CHINA",10
+27,DEBABARRENA - GIPUZKOA,DEB,SPAIN,8
+28,ASPTT DIJON - BOURGOGNE,BCF,FRANCE,3

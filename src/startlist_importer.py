@@ -116,7 +116,7 @@ class StartlistImporter(CyclingInitBot):
                 nationality=cyclist.get_nationality(self.time_of_race)    
                 id_national_team=self.get_national_team_id(nationality)
 
-                if id_national_team!=u'Q0':
+                if id_national_team not in ['Q0','Q1']:
                     cyclist.team=id_national_team
                     cyclist.national_team=True #for testing
 
