@@ -1,37 +1,37 @@
-Rank      Name                                                          Team Code    Nationality              Points      
-         1RABO LIV WOMEN CYCLING TEAM                                   RBW          NETHERLANDS                    3120,5
-         2BOELS DOLMANS CYCLING TEAM                                    DLT          NETHERLANDS                   2929,92
-         3WIGGLE HONDA                                                  WHT          GREAT BRITAIN                    2735
-         4VELOCIO - SRAM                                                VEL          GERMANY                          2321
-         5BIGLA PRO CYCLING TEAM                                        BCT          SWITZERLAND                   1774,67
-         6ORICA - AIS                                                   OGE          AUSTRALIA                     1768,67
-         7HITEC PRODUCTS                                                HPU          NORWAY                        1275,17
-         8TEAM LIV-PLANTUR                                              TLP          NETHERLANDS                    1010,5
-         9ALE CIPOLLINI                                                 ALE          ITALY                           879,5
-        10UNITEDHEALTHCARE PROFESSIONAL CYCLING TEAM                    UHC          UNITED STATES OF AMERICA       770,33
-        11TEAM TIBCO - SVB                                              TIB          UNITED STATES OF AMERICA          618
-        12LOTTO SOUDAL LADIES                                           LBL          BELGIUM                           615
-        13OPTUM P/B KELLY BENEFIT STRATEGIES                            OPW          UNITED STATES OF AMERICA          612
-        14POITOU-CHARENTES.FUTUROSCOPE.86                               FUT          FRANCE                            578
-        15BTC CITY LJUBLJANA                                            BTC          SLOVENIA                          549
-        16BEPINK LACLASSICA                                             BPK          ITALY                           527,5
-        17TWENTY 16 p/b SHO-AIR                                         T16          UNITED STATES OF AMERICA       465,34
-        18TOPSPORT VLAANDEREN - PRO - DUO                               VLL          BELGIUM                           407
-        19SERVETTO FOOTON                                               SEF          ITALY                             350
-        20PARKHOTEL VALKENBURG CONTINENTAL TEAM                         PHV          NETHERLANDS                       309
-        21INPA SOTTOLI GIUSFREDI                                        ISG          ITALY                             302
-        22LOINTEK TEAM                                                  LTK          SPAIN                             264
-        23LENSWORLD.eu - ZANNATA                                        LWZ          BELGIUM                           214
-        24AROMITALIA VAIANO                                             VAI          ITALY                             196
-        25                                                                                                             185
-        26CHINA CHONGMING-LIV-CHAMPION SYSTEM PRO CYCLING               GPC          HONG KONG, CHINA                  131
-        27MATRIX FITNESS                                                MAT          GREAT BRITAIN                      82
-        28ASTANA - ACCA DUE O                                           ASA          KAZAKHSTAN                         67
-        29ITAU SHIMANO LADIES POWER TEAM                                SLP          ARGENTINA                          32
-        30TOP GIRLS FASSA BORTOLO                                       TOG          ITALY                              31
-        31TEAM RYTGER                                                   TRY          DENMARK                            27
-        32BMW P/B HAPPY TOOTH DENTAL                                    BMW          UNITED STATES OF AMERICA        25,67
-        33BIZKAIA - DURANGO                                             BPD          SPAIN                              24
-        34FEMININE CYCLING TEAM                                         FCT          GERMANY                            16
-        35XIRAYAS DE SAN LUIS                                           XSL          ARGENTINA                          15
-        36NO RADUNION VITALOGIC                                         NOE          AUSTRIA                             8
+Rank,Name,Team Code,Nationality,Points
+1,RABO LIV WOMEN CYCLING TEAM,RBW,NETHERLANDS,"3120,5"
+2,BOELS DOLMANS CYCLING TEAM,DLT,NETHERLANDS,"2929,92"
+3,WIGGLE HONDA,WHT,GREAT BRITAIN,2735
+4,VELOCIO - SRAM,VEL,GERMANY,2321
+5,BIGLA PRO CYCLING TEAM,BCT,SWITZERLAND,"1774,67"
+6,ORICA - AIS,OGE,AUSTRALIA,"1768,67"
+7,HITEC PRODUCTS,HPU,NORWAY,"1275,17"
+8,TEAM LIV-PLANTUR,TLP,NETHERLANDS,"1010,5"
+9,ALE CIPOLLINI,ALE,ITALY,"879,5"
+10,UNITEDHEALTHCARE PROFESSIONAL CYCLING TEAM,UHC,UNITED STATES OF AMERICA,"770,33"
+11,TEAM TIBCO - SVB,TIB,UNITED STATES OF AMERICA,618
+12,LOTTO SOUDAL LADIES,LBL,BELGIUM,615
+13,OPTUM P/B KELLY BENEFIT STRATEGIES,OPW,UNITED STATES OF AMERICA,612
+14,POITOU-CHARENTES.FUTUROSCOPE.86,FUT,FRANCE,578
+15,BTC CITY LJUBLJANA,BTC,SLOVENIA,549
+16,BEPINK LACLASSICA,BPK,ITALY,"527,5"
+17,TWENTY 16 p/b SHO-AIR,T16,UNITED STATES OF AMERICA,"465,34"
+18,TOPSPORT VLAANDEREN - PRO - DUO,VLL,BELGIUM,407
+19,SERVETTO FOOTON,SEF,ITALY,350
+20,PARKHOTEL VALKENBURG CONTINENTAL TEAM,PHV,NETHERLANDS,309
+21,INPA SOTTOLI GIUSFREDI,ISG,ITALY,302
+22,LOINTEK TEAM,LTK,SPAIN,264
+23,LENSWORLD.eu - ZANNATA,LWZ,BELGIUM,214
+24,AROMITALIA VAIANO,VAI,ITALY,196
+25,,,,185
+26,CHINA CHONGMING-LIV-CHAMPION SYSTEM PRO CYCLING,GPC,"HONG KONG, CHINA",131
+27,MATRIX FITNESS,MAT,GREAT BRITAIN,82
+28,ASTANA - ACCA DUE O,ASA,KAZAKHSTAN,67
+29,ITAU SHIMANO LADIES POWER TEAM,SLP,ARGENTINA,32
+30,TOP GIRLS FASSA BORTOLO,TOG,ITALY,31
+31,TEAM RYTGER,TRY,DENMARK,27
+32,BMW P/B HAPPY TOOTH DENTAL,BMW,UNITED STATES OF AMERICA,"25,67"
+33,BIZKAIA - DURANGO,BPD,SPAIN,24
+34,FEMININE CYCLING TEAM,FCT,GERMANY,16
+35,XIRAYAS DE SAN LUIS,XSL,ARGENTINA,15
+36,NO RADUNION VITALOGIC,NOE,AUSTRIA,8

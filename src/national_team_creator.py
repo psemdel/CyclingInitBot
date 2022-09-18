@@ -128,7 +128,7 @@ class NationalTeamCreator(CyclingInitBot):
                 pyItem.add_values('P2094',"Q1451845","women cycling",False)
             
             if self.key in e:
-                pyItem.link_year(self.year,id_master=e[self.key])
+                pyItem.link_year(year,id_master=e[self.key])
                 pyItem_master=PyItem(id=e[self.key])
                 pyItem_master.add_value("P527",pyItem.id,'new season')
 

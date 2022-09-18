@@ -1,37 +1,37 @@
-Rank      Name                                                          Team Code    Nationality              Points      
-         1RABOBANK WOMEN CYCLNG TEAM                                    RBW          NETHERLANDS                      2879
-         2TEAM SPECIALIZED - LULULEMON                                  SLU          GERMANY                          2674
-         3ORICA - AIS                                                   GEW          AUSTRALIA                     1960,75
-         4AA DRINK - LEONTIEN.NL CYCLING TEAM                           LNL          NETHERLANDS                      1654
-         5HITEC PRODUCTS - MISTRAL HOME CYCLING TEAM                    HPU          NORWAY                        1490,25
-         6BE PINK                                                       BPK          ITALY                             874
-         7MCIPOLLINI GIAMBENINI                                         MCG          ITALY                          790,01
-         8RUSVELO                                                       RVL          RUSSIAN FEDERATION              766,5
-         9LOTTO BELISOL LADIES                                          LBL          BELGIUM                           546
-        10DIADORA - PASTA ZARA                                          DPZ          ITALY                             537
-        11EXERGY TWENTY12                                               EXG          UNITED STATES OF AMERICA          413
-        12FAREN HONDA TEAM                                              FHT          ITALY                             411
-        13TIBCO - TO THE TOP                                            TIB          UNITED STATES OF AMERICA       401,01
-        14SKIL - ARGOS                                                  SKI          NETHERLANDS                    386,25
-        15SENGERS LADIES CYCLING TEAM                                   SLT          BELGIUM                        381,34
-        16MICHE - GUERCIOTTI *                                          MIE          ITALY                             271
-        17ABUS NUTRIXXION                                               NXX          GERMANY                           255
-        18VIENNE FUTUROSCOPE                                            FUT          FRANCE                            223
-        19DOLMANS - BOELS CYCLINGTEAM                                   DLT          NETHERLANDS                       222
-        20VAIANO TEPSO                                                  VAI          ITALY                             216
-        21VERINLEGNO - FABIANI                                          GCV          ITALY                             200
-        22CHINA CHONGMING - GIANT PRO CYCLING                           GPC          HONG KONG, CHINA                  177
-        23TOPSPORT VLAANDEREN - RIDLEY 2012                             VLL          BELGIUM                           164
-        24KLEO LADIES TEAM                                              KLT          BELGIUM                        147,67
-        25BIZKAIA - DURANGO                                             BPD          SPAIN                             105
-        26AXMAN TEAM TAIWAN                                             ATT          CHINESE TAIPEI                    102
-        27TEAM GSD GESTION                                              GSD          FRANCE                             95
-        28FORNO D'ASOLO COLAVITA                                        FCL          ITALY                              81
-        29FASSA BORTOLO - SERVETTO                                      TOG          ITALY                              81
-        30LOINTEK                                                       LKT          SPAIN                              38
-        31ALRIKSSON GO:GREEN                                            AGG          SWEDEN                          32,25
-        32TEAM IBIS CYCLES                                              DPD          GREAT BRITAIN                      18
-        33ASPTT DIJON - BOURGOGNE                                       BCF          FRANCE                             16
-        34TEAM BIZHUB - FCF                                             BIZ          SOUTH AFRICA                        9
-        35SCAPPA SPEED QUEENS                                           KSK          AUSTRIA                             5
-        36TEAM DUEDI - BIEMME METAL                                     TDB          UZBEKISTAN                          3
+Rank,Name,Team Code,Nationality,Points
+1,RABOBANK WOMEN CYCLNG TEAM,RBW,NETHERLANDS,2879
+2,TEAM SPECIALIZED - LULULEMON,SLU,GERMANY,2674
+3,ORICA - AIS,GEW,AUSTRALIA,"1960,75"
+4,AA DRINK - LEONTIEN.NL CYCLING TEAM,LNL,NETHERLANDS,1654
+5,HITEC PRODUCTS - MISTRAL HOME CYCLING TEAM,HPU,NORWAY,"1490,25"
+6,BE PINK,BPK,ITALY,874
+7,MCIPOLLINI GIAMBENINI,MCG,ITALY,"790,01"
+8,RUSVELO,RVL,RUSSIAN FEDERATION,"766,5"
+9,LOTTO BELISOL LADIES,LBL,BELGIUM,546
+10,DIADORA - PASTA ZARA,DPZ,ITALY,537
+11,EXERGY TWENTY12,EXG,UNITED STATES OF AMERICA,413
+12,FAREN HONDA TEAM,FHT,ITALY,411
+13,TIBCO - TO THE TOP,TIB,UNITED STATES OF AMERICA,"401,01"
+14,SKIL - ARGOS,SKI,NETHERLANDS,"386,25"
+15,SENGERS LADIES CYCLING TEAM,SLT,BELGIUM,"381,34"
+16,MICHE - GUERCIOTTI *,MIC,ITALY,271
+17,ABUS NUTRIXXION,NXX,GERMANY,255
+18,VIENNE FUTUROSCOPE,FUT,FRANCE,223
+19,DOLMANS - BOELS CYCLINGTEAM,DLT,NETHERLANDS,222
+20,VAIANO TEPSO,VAI,ITALY,216
+21,VERINLEGNO - FABIANI,GCV,ITALY,200
+22,CHINA CHONGMING - GIANT PRO CYCLING,GPC,"HONG KONG, CHINA",177
+23,TOPSPORT VLAANDEREN - RIDLEY 2012,VLL,BELGIUM,164
+24,KLEO LADIES TEAM,KLT,BELGIUM,"147,67"
+25,BIZKAIA - DURANGO,BPD,SPAIN,105
+26,AXMAN TEAM TAIWAN,ATT,CHINESE TAIPEI,102
+27,TEAM GSD GESTION,GSD,FRANCE,95
+28,FORNO D'ASOLO COLAVITA,FCL,ITALY,81
+29,FASSA BORTOLO - SERVETTO,TOG,ITALY,81
+30,LOINTEK,LKT,SPAIN,38
+31,ALRIKSSON GO:GREEN,AGG,SWEDEN,"32,25"
+32,TEAM IBIS CYCLES,DPD,GREAT BRITAIN,18
+33,ASPTT DIJON - BOURGOGNE,BCF,FRANCE,16
+34,TEAM BIZHUB - FCF,BIZ,SOUTH AFRICA,9
+35,SCAPPA SPEED QUEENS,KSK,AUSTRIA,5
+36,TEAM DUEDI - BIEMME METAL,TDB,UZBEKISTAN,3

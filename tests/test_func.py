@@ -150,6 +150,9 @@ class TestRace(unittest.TestCase):
         self.assertEqual( float_to_int(1149),1149)  
         self.assertEqual( float_to_int(''),0)  #exception management
         self.assertEqual( float_to_int(""),0)
+        self.assertEqual( float_to_int('1149,67'),1149)  
+        self.assertEqual( float_to_int("1149,67"),1149)  
+        self.assertEqual( float_to_int("1149,07"),1149)  
         
     def test_define_article(self):
         self.assertEqual(define_article(None),("", ""))

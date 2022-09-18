@@ -146,13 +146,20 @@ def calc_ecart(e, winner_time):
     else:
         return e-winner_time
 
-def float_to_int(a):
+def to_float(a):
     if a=='':
         return 0
     else:
         if isinstance(a, str):
             a=a.replace(",",".")
-        return int(float(a))
+        t=float(a)
+        if t==int(t):
+            return int(a)
+        else:
+            return t
+
+def float_to_int(a):
+    return int(to_float(a))
 
 def define_article(name):
     if name==None:
@@ -251,14 +258,16 @@ def table_reader(filename,**kwargs):  #startline,
             raise ValueError("import file uses ; separator, correct to ,")
 
         #pre-processing
-        if 'Result' in df: #no for champ
+        if 'Result' in df.columns: #no for champ
             if kwargs.get('result_points',False):
-                df["Points"]=df["Result"].apply(lambda x:  float_to_int(x)) 
+                df["Points"]=df["Result"].apply(lambda x: to_float(x)) 
             else:
                 winner_time=time_converter(df["Result"].values[0],0)
                 df["Time"]=df["Result"].apply(lambda x: time_converter(x, winner_time)) 
                 df["Ecart"]=df["Time"].apply(lambda x: calc_ecart(x, winner_time)) 
     
+        if 'Points' in df.columns:
+            df["Points"]=df["Points"].apply(lambda x: to_float(x)) 
         #search the rider
         if kwargs.get('rider',False):
             name_bool=False

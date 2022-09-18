@@ -1,43 +1,43 @@
-Rank      Name                                                          Team Code    Nationality              Points      
-         1BOELS DOLMANS CYCLINGTEAM                                     DLT          NETHERLANDS                   4329,99
-         2MITCHELTON SCOTT                                              MTS          AUSTRALIA                     4081,02
-         3TEAM SUNWEB                                                   SUN          NETHERLANDS                   3269,97
-         4CANYON // SRAM RACING                                         CSR          GERMANY                       2545,02
-         5WAOWDEALS PRO CYCLING TEAM                                    WAD          NETHERLANDS                   2380,99
-         6WIGGLE HIGH5                                                  WHT          GREAT BRITAIN                 2342,03
-         7CERVELO - BIGLA PRO CYCLING TEAM                              CBT          DENMARK                       1986,99
-         8ALE CIPOLLINI                                                 ALE          ITALY                         1459,98
-         9ASTANA WOMEN'S TEAM                                           ASA          ITALY                             922
-        10VALCAR PBM                                                    VAL          ITALY                          884,02
-        11BTC CITY LJUBLJANA                                            BTC          SLOVENIA                          791
-        12MOVISTAR TEAM WOMEN                                           MOV          SPAIN                          784,98
-        13TEAM TIBCO - SILICON VALLEY BANK                              TIB          UNITED STATES OF AMERICA       627,02
-        14TREK - DROPS                                                  DRP          GREAT BRITAIN                  590,99
-        15FDJ NOUVELLE - AQUITAINE FUTUROSCOPE                          FDJ          FRANCE                         582,02
-        16TEAM VIRTU CYCLING                                            TVC          DENMARK                         499,5
-        17UNITEDHEALTHCARE PRO CYCLING TEAM                             UHC          UNITED STATES OF AMERICA          419
-        18HITEC PRODUCTS - BIRK SPORT                                   HPU          NORWAY                         320,98
-        19BEPINK                                                        BPK          ITALY                             307
-        20COGEAS - METTLER PRO CYCLING TEAM                             CGS          RUSSIAN FEDERATION             229,98
-        21PARKHOTEL VALKENBURG                                          PHV          NETHERLANDS                       194
-        22CYLANCE PRO CYCLING                                           CPC          UNITED STATES OF AMERICA          191
-        23RALLY CYCLING                                                 RLW          UNITED STATES OF AMERICA          182
-        24LOTTO SOUDAL LADIES                                           LSL          BELGIUM                           175
-        25DOLTCINI - VAN EYCK SPORT UCI WOMEN CYCLING                   DVE          BELGIUM                           171
-        26EXPERZA - FOOTLOGIX                                           EXP          BELGIUM                        136,83
-        27MINSK CYCLING CLUB                                            MCC          BELARUS                           123
-        28SWAPIT AGOLICO                                                SWA          MEXICO                             60
-        29BIZKAIA DURANGO - EUSKADI MURIAS                              BDM          SPAIN                              39
-        30THAILAND WOMEN'S CYCLING TEAM                                 TWC          THAILAND                           38
-        31TWENTY20 p/b SHO - AIR                                        T20          UNITED STATES OF AMERICA           37
-        32WNT ROTOR PRO CYCLING TEAM                                    WNT          GREAT BRITAIN                      31
-        33CHINA LIV PRO CYCLING                                         GPC          HONG KONG, CHINA                   27
-        34HAGENS BERMAN / SUPERMINT                                     HBS          UNITED STATES OF AMERICA           24
-        35TEAM ILLUMINATE                                               ILU          UNITED STATES OF AMERICA           24
-        36AROMITALIA VAIANO                                             VAI          ITALY                              23
-        37TEAM DUKLA PRAHA WOMEN                                        TDP          CZECH REPUBLIC                     22
-        38TOP GIRLS FASSA BORTOLO                                       TOP          ITALY                              18
-        39SERVETTO - STRADALLI CYCLE - ALURECYCLING                     SER          ITALY                              10
-        40STOREY RACING                                                 STR          GREAT BRITAIN                       9
-        41S.C. MICHELA FANINI                                           MIC          ITALY                               5
-        42HEALTH MATE - CYCLELIVE TEAM                                  HCT          BELGIUM                             3
+Rank,Name,Team Code,Nationality,Points
+1,BOELS DOLMANS CYCLINGTEAM,DLT,NETHERLANDS,"4329,99"
+2,MITCHELTON SCOTT,MTS,AUSTRALIA,"4081,02"
+3,TEAM SUNWEB,SUN,NETHERLANDS,"3269,97"
+4,CANYON // SRAM RACING,CSR,GERMANY,"2545,02"
+5,WAOWDEALS PRO CYCLING TEAM,WAD,NETHERLANDS,"2380,99"
+6,WIGGLE HIGH5,WHT,GREAT BRITAIN,"2342,03"
+7,CERVELO - BIGLA PRO CYCLING TEAM,CBT,DENMARK,"1986,99"
+8,ALE CIPOLLINI,ALE,ITALY,"1459,98"
+9,ASTANA WOMEN'S TEAM,ASA,ITALY,922
+10,VALCAR PBM,VAL,ITALY,"884,02"
+11,BTC CITY LJUBLJANA,BTC,SLOVENIA,791
+12,MOVISTAR TEAM WOMEN,MOV,SPAIN,"784,98"
+13,TEAM TIBCO - SILICON VALLEY BANK,TIB,UNITED STATES OF AMERICA,"627,02"
+14,TREK - DROPS,DRP,GREAT BRITAIN,"590,99"
+15,FDJ NOUVELLE - AQUITAINE FUTUROSCOPE,FDJ,FRANCE,"582,02"
+16,TEAM VIRTU CYCLING,TVC,DENMARK,"499,5"
+17,UNITEDHEALTHCARE PRO CYCLING TEAM,UHC,UNITED STATES OF AMERICA,419
+18,HITEC PRODUCTS - BIRK SPORT,HPU,NORWAY,"320,98"
+19,BEPINK,BPK,ITALY,307
+20,COGEAS - METTLER PRO CYCLING TEAM,CGS,RUSSIAN FEDERATION,"229,98"
+21,PARKHOTEL VALKENBURG,PHV,NETHERLANDS,194
+22,CYLANCE PRO CYCLING,CPC,UNITED STATES OF AMERICA,191
+23,RALLY CYCLING,RLW,UNITED STATES OF AMERICA,182
+24,LOTTO SOUDAL LADIES,LSL,BELGIUM,175
+25,DOLTCINI - VAN EYCK SPORT UCI WOMEN CYCLING,DVE,BELGIUM,171
+26,EXPERZA - FOOTLOGIX,EXP,BELGIUM,"136,83"
+27,MINSK CYCLING CLUB,MCC,BELARUS,123
+28,SWAPIT AGOLICO,SWA,MEXICO,60
+29,BIZKAIA DURANGO - EUSKADI MURIAS,BDM,SPAIN,39
+30,THAILAND WOMEN'S CYCLING TEAM,TWC,THAILAND,38
+31,TWENTY20 p/b SHO - AIR,T20,UNITED STATES OF AMERICA,37
+32,WNT ROTOR PRO CYCLING TEAM,WNT,GREAT BRITAIN,31
+33,CHINA LIV PRO CYCLING,GPC,"HONG KONG, CHINA",27
+34,HAGENS BERMAN / SUPERMINT,HBS,UNITED STATES OF AMERICA,24
+35,TEAM ILLUMINATE,ILU,UNITED STATES OF AMERICA,24
+36,AROMITALIA VAIANO,VAI,ITALY,23
+37,TEAM DUKLA PRAHA WOMEN,TDP,CZECH REPUBLIC,22
+38,TOP GIRLS FASSA BORTOLO,TOP,ITALY,18
+39,SERVETTO - STRADALLI CYCLE - ALURECYCLING,SER,ITALY,10
+40,STOREY RACING,STR,GREAT BRITAIN,9
+41,S.C. MICHELA FANINI,MIC,ITALY,5
+42,HEALTH MATE - CYCLELIVE TEAM,HCT,BELGIUM,3

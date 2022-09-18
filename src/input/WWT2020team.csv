@@ -1,33 +1,33 @@
-Rank      Name                                                          Team Code    Nationality              Points      
-         1TREK - SEGAFREDO                                              TFS          UNITED STATES OF AMERICA      4380,98
-         2BOELS DOLMANS CYCLINGTEAM                                     DLT          NETHERLANDS                   3177,02
-         3TEAM SUNWEB                                                   SUN          GERMANY                       2876,98
-         4MITCHELTON - SCOTT                                            MTS          AUSTRALIA                        2585
-         5CCC - LIV                                                     CCC          POLAND                           2137
-         6CANYON / /SRAM RACING                                         CSR          GERMANY                          1961
-         7CERATIZIT - WNT PRO CYCLING TEAM                              WNT          GERMANY                       1908,02
-         8EQUIPE PAULE KA                                               EPK          SWITZERLAND                   1656,02
-         9FDJ NOUVELLE - AQUITAINE FUTUROSCOPE                          FDJ          FRANCE                           1558
-        10LOTTO SOUDAL LADIES                                           LSL          BELGIUM                          1326
-        11VALCAR - TRAVEL & SERVICE                                     VAL          ITALY                            1279
-        12ALE' BTC LJUBLJANA                                            ALE          ITALY                         1229,98
-        13PARKHOTEL VALKENBURG                                          PHV          NETHERLANDS                      1056
-        14MOVISTAR TEAM WOMEN                                           MOV          SPAIN                             650
-        15ASTANA WOMEN'S TEAM                                           ASA          KAZAKHSTAN                        503
-        16TEAM TIBCO - SILICON VALLEY BANK                              TIB          UNITED STATES OF AMERICA          480
-        17Rally Cycling                                                 RLW          UNITED STATES OF AMERICA          156
-        18BEPINK                                                        BPK          ITALY                             126
-        19HITEC PRODUCTS - BIRK SPORT                                   HPU          NORWAY                            115
-        20AROMITALIA - BASSO BIKES - VAIANO                             VAI          ITALY                              72
-        21DOLTCINI - VAN EYCK- PROXIMUS CONTINENTAL TEAM                DVE          BELGIUM                            72
-        22ROXSOLT ATTAQUER                                              RXS          AUSTRALIA                          64
-        23Cogeas Mettler Look Pro Cycling Team                          CGS          RUSSIAN FEDERATION                 56
-        24Team Arkea                                                    ARK          FRANCE                             48
-        25CRONOS - CASA DORADA WOMEN CYCLING                            CDO          SPAIN                              33
-        26TOP GIRLS FASSA BORTOLO                                       TOP          ITALY                              26
-        27NXTG RACING                                                   NXG          NETHERLANDS                        24
-        28Charente - Maritime Women Cycling                             CMW          FRANCE                             16
-        29EUROTARGET - BIANCHI - VITTORIA                               SBT          ITALY                              16
-        30MULTUM ACCOUNTANTS - LSK LADIES CYCLING TEAM                  MUL          BELGIUM                            16
-        31BIZKAIA - DURANGO                                             BDU          SPAIN                               8
-        32SERVETTO - PIUMATE - BELTRAMI TSA                             SER          ITALY                               8
+Rank,Name,Team Code,Nationality,Points
+1,TREK - SEGAFREDO,TFS,UNITED STATES OF AMERICA,"4380,98"
+2,BOELS DOLMANS CYCLINGTEAM,DLT,NETHERLANDS,"3177,02"
+3,TEAM SUNWEB,SUN,GERMANY,"2876,98"
+4,MITCHELTON - SCOTT,MTS,AUSTRALIA,2585
+5,CCC - LIV,CCC,POLAND,2137
+6,CANYON / /SRAM RACING,CSR,GERMANY,1961
+7,CERATIZIT - WNT PRO CYCLING TEAM,WNT,GERMANY,"1908,02"
+8,EQUIPE PAULE KA,EPK,SWITZERLAND,"1656,02"
+9,FDJ NOUVELLE - AQUITAINE FUTUROSCOPE,FDJ,FRANCE,1558
+10,LOTTO SOUDAL LADIES,LSL,BELGIUM,1326
+11,VALCAR - TRAVEL & SERVICE,VAL,ITALY,1279
+12,ALE' BTC LJUBLJANA,ALE,ITALY,"1229,98"
+13,PARKHOTEL VALKENBURG,PHV,NETHERLANDS,1056
+14,MOVISTAR TEAM WOMEN,MOV,SPAIN,650
+15,ASTANA WOMEN'S TEAM,ASA,KAZAKHSTAN,503
+16,TEAM TIBCO - SILICON VALLEY BANK,TIB,UNITED STATES OF AMERICA,480
+17,Rally Cycling,RLW,UNITED STATES OF AMERICA,156
+18,BEPINK,BPK,ITALY,126
+19,HITEC PRODUCTS - BIRK SPORT,HPU,NORWAY,115
+20,AROMITALIA - BASSO BIKES - VAIANO,VAI,ITALY,72
+21,DOLTCINI - VAN EYCK- PROXIMUS CONTINENTAL TEAM,DVE,BELGIUM,72
+22,ROXSOLT ATTAQUER,RXS,AUSTRALIA,64
+23,Cogeas Mettler Look Pro Cycling Team,CGS,RUSSIAN FEDERATION,56
+24,Team Arkea,ARK,FRANCE,48
+25,CRONOS - CASA DORADA WOMEN CYCLING,CDO,SPAIN,33
+26,TOP GIRLS FASSA BORTOLO,TOP,ITALY,26
+27,NXTG RACING,NXG,NETHERLANDS,24
+28,Charente - Maritime Women Cycling,CMW,FRANCE,16
+29,EUROTARGET - BIANCHI - VITTORIA,SBT,ITALY,16
+30,MULTUM ACCOUNTANTS - LSK LADIES CYCLING TEAM,MUL,BELGIUM,16
+31,BIZKAIA - DURANGO,BDU,SPAIN,8
+32,SERVETTO - PIUMATE - BELTRAMI TSA,SER,ITALY,8
