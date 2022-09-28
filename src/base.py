@@ -377,7 +377,10 @@ class Race(PyItem):
 
     def get_year(self):
         self.get_date()
-        return int(self.date.year or 0)
+        if self.date is None:
+            return 0
+        else:
+            return int(self.date.year)
     
     def get_end_date(self):
         if (u'P582' in self.item.claims):

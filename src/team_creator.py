@@ -21,8 +21,8 @@ class TeamCreator(CyclingInitBot):
         for lang in self.all_langs:
             self.label[lang] = self.name + " " + str(self.year)
             if self.UCIcode and self.UCIcode!="":
-                self.alias[lang] = self.UCIcode + " "   + str(self.year)
-        
+                self.alias[lang]=[self.UCIcode + " "   + str(self.year)]
+    
     def main(self):
         try:
             pyItem=create_item(self.label)
@@ -33,7 +33,7 @@ class TeamCreator(CyclingInitBot):
                                       summary='Setting/updating descriptions.')
                 
                 if pyItem.get_alias('fr')=='':
-                    pyItem.item.editAliases(aliases=self.alias, summary='Setting Aliases')
+                    pyItem.item.editAliases(aliases=self.alias, summary='Setting Aliases')                
                 
                 if self.UCIcode and self.UCIcode!="":
                     pyItem.add_value( "P1998", self.UCIcode, 'UCI code',noId=True)
@@ -46,6 +46,7 @@ class TeamCreator(CyclingInitBot):
                 pyItem.add_value("P5138", self.id_master, 'part of')
                 pyItem_master=PyItem(id=self.id_master)
                 pyItem_master.add_values("P527",pyItem.id,'new season',False)
+
 
                 start_date = pywikibot.WbTime(
                     site=self.site,
