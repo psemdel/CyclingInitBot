@@ -48,12 +48,16 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(s.team_by_code(),'Q105530407')
         s=Search("LSL 2021")
         self.assertEqual(s.team_by_code(),'Q105451626')
-        
+        s=Search("COF 2022")
+        self.assertEqual(s.team_by_code(),'Q110629530')
+
     def test_search_team_by_code_man(self):
         s=Search("TFS 2020")
         self.assertEqual(s.team_by_code(man_or_woman="man"),'Q78075353')
         s=Search("DQT 2020")
         self.assertEqual(s.team_by_code(man_or_woman="man"),'Q78075314')
+        s=Search("COF 2022")
+        self.assertEqual(s.team_by_code(man_or_woman="man"),'Q109109760')
 
     def test_is_it_a_cyclist(self):
         s=Search("TFS 2020")
@@ -68,6 +72,22 @@ class TestSearch(unittest.TestCase):
         self.assertTrue(s.is_it_a_teamseason('Q82315001'))
         self.assertFalse(s.is_it_a_teamseason('Q563737'))
         self.assertFalse(s.is_it_a_teamseason('Q27123005'))   
+        s=Search("BWB 2021")
+        self.assertTrue(s.is_it_a_teamseason('Q104537501'))
+        
+    def test_is_it_a_menteam(self):
+        s=Search("BWB 2021")
+        self.assertTrue(s.is_it_a_menteam('Q104537501'))
+        s=Search("IGD 2021")
+        self.assertTrue(s.is_it_a_menteam('Q102247949'))
+        s=Search("COF 2022")
+        self.assertTrue(s.is_it_a_menteam('Q109109760'))
+        self.assertFalse(s.is_it_a_menteam('Q110629530'))
+        
+    def test_is_it_a_womenteam(self):
+        s=Search("COF 2022")
+        self.assertFalse(s.is_it_a_womenteam('Q109109760'))
+        self.assertTrue(s.is_it_a_womenteam('Q110629530'))
 
     def test_find_sortkey(self):
         list_=['féminine de cyclisme']

@@ -35,7 +35,8 @@ class UCITeamClassification(CyclingInitBot):
                             year=self.year,
                             convert_team_code=True,
                             need_complete=not self.bypass,
-                            result_points=True)  
+                            result_points=True,
+                            man_or_woman=self.man_or_woman)  
             
             self.log.concat(log)    
             if not all_teams_found and self.bypass==False:
@@ -91,7 +92,8 @@ class UCIClassification(CyclingInitBot):
                             year=self.year,
                             convert_team_code=True,
                             need_complete=not self.bypass,
-                            result_points=True)
+                            result_points=True,
+                            man_or_woman=self.man_or_woman)
             self.log.concat(log)
     
             #post-processing

@@ -94,7 +94,7 @@ class NationalTeamCreator(CyclingInitBot):
             if pyItem.get_alias('fr') == '':
                 alias={}
                 for lang in self.all_langs:
-                    alias[lang]=countryCIO+ " " + str(year)
+                    alias[lang]=[countryCIO+ " " + str(year)]
                 pyItem.item.editAliases(aliases=alias,summary=u'Setting Aliases')    
             
             pyItem.add_value("P31", "Q53534649", u'Nature')

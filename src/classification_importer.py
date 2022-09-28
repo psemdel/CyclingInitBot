@@ -163,7 +163,6 @@ class ClassificationImporter(CyclingInitBot):
             if self.verbose:
                 print(df2)
                 
-            team_done=[]
             self.is_there_a_startlist()
             if self.startlist is not None:
                 self.log.concat('startlist found')
@@ -203,17 +202,7 @@ class ClassificationImporter(CyclingInitBot):
         
                            if (self.general_or_stage in self.general_or_stage_addwinner) and self.final:
                                self.race.add_winner(this_id,int(row['Rank']),self.general_or_stage) 
-  
-                           if self.WWT: #add ranking in the team then
-                               if row["ID Team"] and row["ID Team"] not in ['Q0','Q1'] and \
-                                   row["ID Team"] not in team_done:
-                                   this_team=Team(id=row["ID Team"])
-                                   
-                                   _, claim=this_team.add_values('P1344',self.race.id,'classification',False)
-                                   this_team.add_qualifier(claim,'P710',this_id)
-                                   this_team.add_qualifier(claim,'P1545',str(row['Rank']))
-                                   team_done.append(this_team.id)
-    
+
                         else:
                            if 'Name' in row:
                                self.log.concat(row['Name'])
@@ -221,6 +210,25 @@ class ClassificationImporter(CyclingInitBot):
                                self.log.concat(row['First Name'] + " " + row['Last Name'])
                            self.log.concat(u'item not found, interrupted')
                            return 0, self.log
+                       
+                        
+                if self.WWT and self.general_or_stage==0: #add ranking in the team then, no contradiction with Classification already there
+                    team_done=[]
+                    for ii in range(len(df)): #no maxkk
+                        row=df.iloc[ii]
+                        if self.team_bool:
+                            this_id=row["ID Team"]
+                        else:
+                            this_id=row["ID Rider"]
+                        
+                        if row["ID Team"] and row["ID Team"] not in ['Q0','Q1'] and \
+                            row["ID Team"] not in team_done:
+                            this_team=Team(id=row["ID Team"])
+                            
+                            _, claim=this_team.add_values('P1344',self.race.id,'classification',False)
+                            this_team.add_qualifier(claim,'P710',this_id)
+                            this_team.add_qualifier(claim,'P1545',str(row['Rank']))
+                            team_done.append(this_team.id)
                 self.log.concat('result inserted')
                 #fill startlist with DNF, HD and so on
                 if self.startlist is not None and not self.team_bool and self.general_or_stage==1:
