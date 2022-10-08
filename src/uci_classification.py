@@ -121,7 +121,11 @@ class UCIClassification(CyclingInitBot):
                 for ii, this_rider in enumerate(list_of_cyclists):
                     row=df.iloc[ii]
                     
-                    if this_rider.id not in ['Q0','Q1']:
+                    if this_rider.id in ['Q0','Q1']:
+                        this_team=list_of_teams[ii]
+                        if this_team.id not in ['Q0','Q1'] and this_team.id not in team_done:
+                            team_done.append(this_team.id) #avoid to put the wrong first rider                        
+                    else:
                         if not self.cleaner:
                             Addc, claim=this_rider.add_values('P1344',self.id_master_UCI,'classification',False)
                             if Addc:
@@ -149,7 +153,7 @@ class UCIClassification(CyclingInitBot):
                             if this_team.id not in ['Q0','Q1']:
                             #Whole ranking in the team, only for UCI ranking up to now
                                 if self.UCIranking:
-                                    Addc, claim=this_team.add_values('P3494',this_rider.item,'classification',False)
+                                    Addc, claim=this_team.add_values('P3494',this_rider.id,'classification',False)
                                     if Addc:
                                         target_q = pywikibot.WbQuantity(amount=this_rider.rank, site=self.site)
                                         this_team.add_qualifier(claim,'P1352',target_q)

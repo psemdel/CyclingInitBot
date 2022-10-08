@@ -583,7 +583,7 @@ class Search(CyclingInitBot):
                     result_id= u'Q0'
         else:
             # several results
-            candidate=0
+            cand=[]
             result_id = u'Q1'
             #for all candidate look if one fulfill the criteria, for instance be a rider
             
@@ -592,10 +592,10 @@ class Search(CyclingInitBot):
                 for res in all_res:
                     temp_id=res['id']
                     if disam(temp_id,**kwargs): #no force param here, as it must always be checked
-                        candidate+=1
+                        cand.append(temp_id)
                         result_id=temp_id
-                if candidate>1:
-                    print("2 items found for: " +search_name)
+                if len(cand)>1:
+                    print("2 items found for: " +search_name + " "+ str(cand))
                     result_id = u'Q1'
     
         return result_id
@@ -638,7 +638,7 @@ class Search(CyclingInitBot):
         item.get()
         if(u'P106' in item.claims): 
             for occu in item.claims.get(u'P106'):
-                if occu.getTarget().getID() == 'Q2309784':  # Already there
+                if occu.getTarget().getID() == 'Q2309784': 
                     return True
         return False
 

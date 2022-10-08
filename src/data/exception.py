@@ -44,6 +44,17 @@ def list_of_rider_ex():
     'Lisa Klein':'Q15825971',
     'Olivia Bent':'Q66370887',
     'Olivia Bentley':'Q108914617',
+    'Simon Clarke':'Q713274',
+    'Jan Maas':'Q24088953',
+    'Nicholas White':'Q60456732',
+    'Luis Lopez':'Q55669953',
+    'Roberto González':'Q28048282',
+    'Roman Kreuziger':'Q347184',
+    'Fábio Fernandes':'Q110942376',
+    'Luis López':'Q55669953',
+    'Andrea Peron':'Q16228892',
+    'Rafael Silva':'Q28729609',
+    'Viktor Manakov':'Q3558314'
     }
 
 
