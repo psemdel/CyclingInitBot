@@ -184,7 +184,7 @@ class StartlistImporter(CyclingInitBot):
                         if claim is None:  ##create the rider
                             if self.prologue_or_final==1:
                                 self.log.concat('\n rider not found, id: '+str(cyclist.id))
-                            _, claim=self.race.add_values('P710', cyclist.item, 'starterlist', False)
+                            _, claim=self.race.add_values('P710', cyclist.id, 'starterlist', False)
                             self.race.add_qualifier(claim,'P1618',str(cyclist.dossard))
                             
                             if cyclist.team: #national team
