@@ -1,4 +1,3 @@
-import os
 import pywikibot
 
 def concaten(names_table,ii):
@@ -27,7 +26,7 @@ class Name():
                    'e': ['é', 'è', 'ê', 'ë','ė'],
                    'i': ['î', 'ï'],
                    'u': ['ù', 'ü', 'û','ů'],
-                   'o': ['ô', 'ö'],
+                   'o': ['ô', 'ö','ó','ò'],
                    's': ['š'],
                    'n': ['ñ'],
                    'ss' : ['ß'],
@@ -50,21 +49,24 @@ class Name():
 class CyclistName(Name):
      def __init__(self, name):
         super().__init__(name)
-        self.supprime_esset()
+        self.supprime_esset() #keep the upper
         self.check_and_revert()
+        self.supprime_accent()
         
      def supprime_esset(self):
         """ supprime les accents du texte source """
         ligne = self.name
         accents = {
-                   'SS' : ['ß'], #avoir geßner bug
+                   'SS' : ['ß'], #avoid geßner bug
                    }
         for (char, accented_chars) in accents.items():
             for accented_char in accented_chars:
                 ligne = ligne.replace(accented_char, char)
-        self.name=ligne    
+        self.name=ligne  
         
-     def check_and_revert(self):
+     #needs upper to distinguish last from first name   
+     #so no lower before!
+     def check_and_revert(self): 
         while self.name.find("  ")!=-1:
             self.name=self.name.replace("  "," ")
             self.name_cor=self.name
