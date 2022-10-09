@@ -54,7 +54,18 @@ def list_of_rider_ex():
     'Luis López':'Q55669953',
     'Andrea Peron':'Q16228892',
     'Rafael Silva':'Q28729609',
-    'Viktor Manakov':'Q3558314'
+    'Viktor Manakov':'Q3558314',
+    'Julien Vermote':'Q1712273',
+    'Davide Casarotto':'Q60316201',
+    'James Williamson':'Q19628910',
+    'Samuel Hill':'Q79688480',
+    'Emil Lindgren':'Q87285939',
+    'Oliver Martin':'Q47528438',
+    'Arne Peters':'Q106864448',
+    'Sergei Nikolaev':'Q18402405',
+    'Venceslau Fernandes':'Q110992301',
+    'Alexander Maes':'Q18615925',
+    
     }
 
 

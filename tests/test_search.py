@@ -171,6 +171,10 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(s.rider('1501996785028', 'ERIC'),'Q19661759')
         s=Search('GARCIA CAÑELLAS Margarita Victo')
         self.assertEqual(s.rider('', ''),'Q23907253')
+        s=Search('GONZÁLEZ Roberto')
+        self.assertEqual(s.rider('', ''),'Q28048282')
+        
+        
 
 if __name__ == '__main__':
     unittest.main()
