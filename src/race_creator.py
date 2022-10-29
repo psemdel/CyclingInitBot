@@ -53,6 +53,9 @@ class RaceCreator(CyclingInitBot):
         
         self.verbose=False
         self.class_id=None
+        self.country=None
+        self.year=None
+        self.start_date=None
         
         self.start_date=kwargs.get('start_date')
         self.end_date=kwargs.get('end_date')
@@ -72,16 +75,14 @@ class RaceCreator(CyclingInitBot):
             self.is_women=man_or_women_to_is_women(self.man_or_woman)
         
         self.single_race=kwargs.get('single_race',False)
-        
+        if self.countryCIO is not None:
+            self.country=self.nation_table[self.countryCIO]["country"]
+            
         if self.single_race:
             self.only_stages=False
             self.create_stages_bool=False
             self.end_date=None
             self.create_main_bool=True
-            
-            if self.countryCIO is not None:
-                self.country=self.nation_table[self.countryCIO]["country"]
-            
         else:
             self.only_stages=kwargs.get('only_stages',False)
             self.create_main_bool= not self.only_stages
@@ -125,6 +126,17 @@ class RaceCreator(CyclingInitBot):
                     
             else:
                 self.create_stages_bool=kwargs.get('create_stages')
+                
+                if self.create_stages_bool:
+                    self.first_stage=kwargs.get('first_stage')
+                    if self.first_stage is None:
+                        raise ValueError("create stage require first_stage")
+                        self.log.concat("create stage require first_stage")
+                    
+                    self.last_stage=kwargs.get('last_stage')
+                    if self.last_stage is None:
+                        raise ValueError("create stage require last_stage")
+                        self.log.concat("create stage require last_stage")
 
         if self.year is None and self.start_date is not None: 
             self.year=self.start_date.year
@@ -170,7 +182,6 @@ class RaceCreator(CyclingInitBot):
              calendar_id=calendarUWTID(str(self.year))
         elif self.UCI and self.man_or_woman==u"woman":  
              calendar_id=calendaruciID(str(self.year))
-             
         return calendar_id   
 
     def stage_label(self,number):
@@ -227,7 +238,7 @@ class RaceCreator(CyclingInitBot):
                 pyItem_stage_previous=copy.copy(pyItem_stage)
         
     def create_main(self):
-        UCI, WWT, UWT=get_class_WWT(self.classe) #not required for stages, where classe is not defined
+        self.UCI, self.WWT, self.UWT=get_class_WWT(self.classe) #not required for stages, where classe is not defined
         
         mylabel={'fr': self.race_name + " " + str(self.year)}
         self.race=create_present(mylabel)
@@ -261,12 +272,12 @@ class RaceCreator(CyclingInitBot):
                 self.race.add_values("P279", self.class_id,u'Class',0)   
                 
             if self.is_women:
-                self.race.add_value('P2094',"   ","women cycling")
+                
+                self.race.add_value('P2094',"Q1451845","women cycling")
             
             self.race.link_year(self.year,id_master=self.id_race_master)  
             pyItem_master=PyItem(id=self.id_race_master)
             pyItem_master.add_value("P527",self.race.id,u'adding a year')
 
-    
     
       

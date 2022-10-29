@@ -6,7 +6,7 @@ Created on Sun Jul 22 16:21:08 2018
 """
 
 import pywikibot
-from .base import CyclingInitBot, Race, Team
+from .base import CyclingInitBot, Race, Team, PyItem
 from .func import table_reader
 import math
 import sys
@@ -128,13 +128,15 @@ class ClassificationImporter(CyclingInitBot):
                         break
                     
                 if this_starter!=None:
+                     pyItem=PyItem(id=this_id) #does not really matter, we need a pyItem to call the method
+                    
                      target_q = pywikibot.ItemPage(self.repo, u'Q1210380')
                      if not self.test:
-                         this_starter.add_qualifier(this_starter,'P1534',target_q)
+                         pyItem.add_qualifier(this_starter,'P1534',target_q)
 
                      if stage_nummer!=-1: 
                          if not self.test:   
-                             this_starter.add_qualifier(this_starter,'P1545',str(stage_nummer))
+                             pyItem.add_qualifier(this_starter,'P1545',str(stage_nummer))
                          else:
                              return this_starter, stage_nummer #return first dnf rider
         if self.test:

@@ -65,7 +65,17 @@ def list_of_rider_ex():
     'Sergei Nikolaev':'Q18402405',
     'Venceslau Fernandes':'Q110992301',
     'Alexander Maes':'Q18615925',
-    
+    'Franklin Chacón':'Q47423680',
+    'Scott Sunderland':'Q1884760',
+    'Marco Zanotti':'Q1828281',
+    'Raimondas Rumšas':'Q27229774',
+    'Marc Goos':'Q936343',
+    'jose ferreira':'Q28604369',
+    'Enrique Díaz':'Q50896276',
+    'Frédéric Brun':'Q15973964',
+    'Hilton Clarke':'Q716303',
+    'Heberth Gutiérrez':'Q56825278',
+    'Thomas Frei':'Q686832'
     }
 
 
