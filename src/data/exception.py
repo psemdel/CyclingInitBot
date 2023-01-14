@@ -75,7 +75,8 @@ def list_of_rider_ex():
     'Frédéric Brun':'Q15973964',
     'Hilton Clarke':'Q716303',
     'Heberth Gutiérrez':'Q56825278',
-    'Thomas Frei':'Q686832'
+    'Thomas Frei':'Q686832',
+    'Alexandre Vinokurov':'Q110872512'
     }
 
 

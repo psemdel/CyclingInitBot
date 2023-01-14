@@ -32,6 +32,7 @@ def load():
 #women
 def calendaruciID(year):
     calendar_dic={
+            "2023":"Q115517229",
             "2022":"Q109975945",
             "2021":"Q103982710",
             "2020":"Q74127378",
@@ -62,6 +63,7 @@ def calendaruciID(year):
 #women
 def calendarWWTID(year): 
     calendar_dic={
+        "2023":"Q113164731",
         "2022":"Q107093611",
         "2021":"Q101436794",
         "2020":"Q70443700",
@@ -91,7 +93,8 @@ def calendarUWTID(year):
         "2019":"Q56966729",
         "2020":"Q66739340",
         "2021":"Q97926291",
-        "2022":"Q106203911"
+        "2022":"Q106203911",
+        "2023":"Q106203942"
         }
     
     if year in calendar_dic:
@@ -103,7 +106,7 @@ def calendarUWTID(year):
 def nationChampionshipMaster():
     #Championnats nationaux de cyclisme sur route 
     dic ={
-        "2022" : 'Q110532956',
+        "2023" : "Q112650500",  "2022" : 'Q110532956', 
         "2021" : 'Q104303043',  "2020" : 'Q70655305', "2019" : 'Q60015262',   
         "2018" : 'Q43920899',   "2017" : 'Q28005879', "2016" : 'Q22021840',
 		"2015" : 'Q19296998',   "2014" : 'Q15621925', "2013": 'Q3339162',
