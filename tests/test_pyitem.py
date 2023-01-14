@@ -27,7 +27,7 @@ class TestRace(unittest.TestCase):
         id_master, id_previous, id_next=p1.link_year(2022,test=True)
         self.assertEqual(id_master,"Q1757136")
         self.assertEqual(id_previous,"Q104523104")
-        self.assertEqual(id_next,None)
+        self.assertEqual(id_next,"Q115729649")
         
         p1=PyItem(id="Q110369548")
         id_master, id_previous, id_next=p1.link_year(2022,id_master="Q1757136",test=True)
