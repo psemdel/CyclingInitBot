@@ -7,6 +7,7 @@ Created on Thu Jan  4 15:30:20 2018
 import pywikibot
 from .base import CyclingInitBot, PyItem, create_item, Search
 from .data import cc_table
+import sys
 
 class NationalChampionshipCreator(CyclingInitBot):
     def __init__(self,man_or_woman,option, start_year,end_year,CC,**kwargs):
@@ -65,7 +66,7 @@ class NationalChampionshipCreator(CyclingInitBot):
     def main(self):
         try:
             if self.CC:
-                for _, e in cc_table.load():
+                for _, e in cc_table.load().items():
                     self.sub_function(None,e)
                 #load CC table
             if self.country:
@@ -75,9 +76,9 @@ class NationalChampionshipCreator(CyclingInitBot):
             
                 self.sub_function(self.country,self.nation_table[self.country])
             else:
-                for countryCIO, e in self.nation_table:
+                for _, e in self.nation_table.items():
                     if e["group"] in [1,2]:
-                        self.sub_function(countryCIO,e)
+                        self.sub_function(e)
                     
             return 0, self.log
         except Exception as msg:
@@ -88,7 +89,7 @@ class NationalChampionshipCreator(CyclingInitBot):
             self.log.concat("General Error in national team creator")
             return 10, self.log  
         
-    def national_championship_basic(self,countryCIO,year):
+    def national_championship_basic(self,country_id,year):
         self.pyNatChamp.add_value("P31", self.id_NatChampMaster, u'Nature')
         self.pyNatChamp.add_value("P641", "Q3609", u'cyclisme sur route')
         
@@ -106,7 +107,7 @@ class NationalChampionshipCreator(CyclingInitBot):
                 self.pyNatChamp.add_value("P361", id_allchamp, u'part of')
                 pyItem_allchamp=PyItem(id=id_allchamp)
                 pyItem_allchamp.add_value("P527",self.pyNatChamp.id,'add new year')
-            self.pyNatChamp.add_value("P17", countryCIO, u'country')
+            self.pyNatChamp.add_value("P17", country_id, u'country')
             
         self.pyNatChamp.link_year(year,id_master=self.id_NatChampMaster)            
         return 0
@@ -138,7 +139,7 @@ class NationalChampionshipCreator(CyclingInitBot):
                e["name fr"] + " de cyclisme sur route " + str(year)
               }
 
-    def national_championship_race_basic(self,pyItem,id_race,year,m_or_w,enligne,countryCIO): #id_race is for instance course en ligne...without year
+    def national_championship_race_basic(self,pyItem,id_race,year,m_or_w,enligne,country_id): #id_race is for instance course en ligne...without year
             pyItem.add_value("P31", self.pyNatChamp.id, 'Nature')
             pyItem.add_value("P641", "Q3609", 'cyclisme sur route')
             self.pyNatChamp.add_value("P527",pyItem.id,'add new year')
@@ -176,7 +177,7 @@ class NationalChampionshipCreator(CyclingInitBot):
                      }  
 
             if not self.CC:
-                pyItem.add_value("P17", countryCIO, u'country')
+                pyItem.add_value("P17", country_id, u'country')
                 
                 s=Search(dic[m_or_w]+" aux championnats nationaux de cyclisme sur route " + str(year))
                 id_allchamp = s.simple()
@@ -191,42 +192,47 @@ class NationalChampionshipCreator(CyclingInitBot):
                     pyItem_allchamp.add_value("P527",pyItem.id,'add new year')
             return 0
 
-    def sub_function(self, countryCIO, e):
-        for m_or_w in self.gender_list:    
-            self.log.concat( "championships creation for gender: " + m_or_w)
-            self.id_NatChampMaster=e["National championship master"]
-            
-            for year in range(self.start_year, self.end_year+1):
-                self.log.concat( "championships creation for year: " + str(year))
-                mylabel={"fr": "Championnats " + e["genre"] + e["country"] + \
-                        " de cyclisme sur route " + str(year)
-                }
-                if not self.CC: #no english for CC
-                    mylabel[u'en'] = str(year) + " " + e["adj en"] + " National Road Race Championships"
-                self.pyNatChamp=create_item(mylabel)
+    def sub_function(self, e):
+        try:
+            for m_or_w in self.gender_list:    
+                self.log.concat( "championships creation for gender: " + m_or_w)
+                self.id_NatChampMaster=e["National championship master"]
                 
-                ##create championship
-                if self.pyNatChamp.id!='Q1': 
-                    r=self.national_championship_race_basic(countryCIO,year)
-                    if r==1:
-                        self.log.concat(u'Code interrupted')
-                        return 10, self.log
-                
-                for k in ["road race","clm"]:
-                    key= self.race_dic[m_or_w][k]
-                    if key in e:
-                        mylabel_race =self.national_championship_race_label(e, year,m_or_w,k=="road race")
-                        pyItemRace=create_item(mylabel_race)
-                        
-                        if self.pyItemEnLigne.id!='Q1':
-                            r=self.national_championship_race_basic(
-                                 pyItemRace,
-                                 e[key],
-                                 year,
-                                 m_or_w,
-                                 k=="road race",
-                                 countryCIO)
-                            if r==1:
-                                self.log.concat(u'Code interrupted')
-                                return 10, self.log
-
+                for year in range(self.start_year, self.end_year+1):
+                    self.log.concat( "championships creation for year: " + str(year))
+                    mylabel={"fr": "Championnats " + e["genre"] + e["name fr"] + \
+                            " de cyclisme sur route " + str(year)
+                    }
+                    if not self.CC: #no english for CC
+                        mylabel[u'en'] = str(year) + " " + e["adj en"] + " National Road Race Championships"
+                    self.pyNatChamp=create_item(mylabel)
+                    
+                    ##create championship
+                    if self.pyNatChamp.id!='Q1': 
+                        r=self.national_championship_basic(e["country"],year)
+                        if r==1:
+                            self.log.concat(u'Code interrupted')
+                            return 10, self.log
+                    
+                    for k in ["road race","clm"]:
+                        key= self.race_dic[m_or_w][k]
+                        if key in e:
+                            mylabel_race =self.national_championship_race_label(e, year,m_or_w,k=="road race")
+                            pyItemRace=create_item(mylabel_race)
+                            
+                            if pyItemRace.id!='Q1':
+                                r=self.national_championship_race_basic(
+                                     pyItemRace,
+                                     e[key],
+                                     year,
+                                     m_or_w,
+                                     k=="road race",
+                                     e["country"])
+                                if r==1:
+                                    self.log.concat(u'Code interrupted')
+                                    return 10, self.log
+        except Exception as msg:
+            _, _, exc_tb = sys.exc_info()
+            print("line " + str(exc_tb.tb_lineno))
+            print(msg)
+            raise RuntimeError("error sub_function")

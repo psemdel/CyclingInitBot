@@ -38,7 +38,7 @@ class CyclingInitBot():
         else:
             return res
 
-def create_present(label):   
+def create_item(label):   
     search=Search(label['fr'])
     present_id=search.simple()
     site = pywikibot.Site("wikidata", "wikidata")
@@ -46,7 +46,7 @@ def create_present(label):
     
     if (present_id == u'Q0'):
         print(label['fr'] + ' created')
-        return create_item(label)
+        return create_item_sub(label)
     elif (present_id == u'Q1'):
         print(label['fr'] + ' already present several times')
         return None
@@ -55,12 +55,12 @@ def create_present(label):
         item = pywikibot.ItemPage(repo, present_id)
         return PyItem(id=present_id, item=item)
 
-def create_item(label_dict):
+def create_item_sub(label):
     try:
         pywikibot.exception(tb=True)
         site=pywikibot.Site("wikidata", "wikidata")
         new_item = pywikibot.ItemPage(site)
-        new_item.editLabels(labels=label_dict, summary="Setting labels")
+        new_item.editLabels(labels=label, summary="Setting labels")
     # Add description here or in another function
         pyItem=PyItem(id=new_item.getID(), item=new_item)
         return pyItem
@@ -638,8 +638,12 @@ class Search(CyclingInitBot):
         item.get()
         if(u'P106' in item.claims): 
             for occu in item.claims.get(u'P106'):
-                if occu.getTarget().getID() == 'Q2309784': 
-                    return True
+                try:
+                    if occu.getTarget().getID() == 'Q2309784': 
+                        return True
+                except Exception as msg:
+                    print(msg)
+                    return False
         return False
 
     def is_it_a_teamseason(self,item_id,**kwargs):

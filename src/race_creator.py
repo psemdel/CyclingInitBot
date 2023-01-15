@@ -8,7 +8,7 @@ Created on Thu Jan  4 15:29:49 2018
 from .data.calendar_list import calendaruciID, calendarWWTID, calendarUWTID
 from .func import get_class_id, define_article, date_finder, man_or_women_to_is_women
 
-from .base import CyclingInitBot, Race, create_present, PyItem
+from .base import CyclingInitBot, Race, create_item, PyItem
 import copy
 
 def get_class_WWT(classe):    
@@ -201,7 +201,7 @@ class RaceCreator(CyclingInitBot):
         
         for number in range(self.first_stage,self.last_stage+1):
             stage_label_present=self.stage_label(number)
-            pyItem_stage=create_present(stage_label_present)
+            pyItem_stage=create_item(stage_label_present)
             self.log.concat("id stage present "+pyItem_stage.id)
             
             if pyItem_stage.id!='Q1':
@@ -241,7 +241,7 @@ class RaceCreator(CyclingInitBot):
         self.UCI, self.WWT, self.UWT=get_class_WWT(self.classe) #not required for stages, where classe is not defined
         
         mylabel={'fr': self.race_name + " " + str(self.year)}
-        self.race=create_present(mylabel)
+        self.race=create_item(mylabel)
         
         if self.race.id!=u'Q1':
             if self.race.get_description('fr')=='':
