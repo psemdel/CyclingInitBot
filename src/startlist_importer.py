@@ -142,7 +142,7 @@ class StartlistImporter(CyclingInitBot):
                 raise ValueError("table reader failed")
                 
             if not all_riders_found:
-                log.concat(u'Not all riders found, request stopped')
+                self.log.concat(u'Not all riders found, request stopped')
                 return 1, self.log
                 
             if "BIB" in df.columns:

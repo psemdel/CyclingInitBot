@@ -47,6 +47,10 @@ def get_class_id(classe_text):
         return None
 
 def man_or_women_to_is_women(man_or_woman):
+    print("man_or_woman")
+    print( man_or_woman)
+    print(man_or_woman in ["woman","womanJ","womanU"])
+    
     if man_or_woman in ["woman","womanJ","womanU"]:
         return True
     else:
