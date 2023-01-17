@@ -60,10 +60,10 @@ class ClassificationImporter(CyclingInitBot):
             
         #WWT functionality
         self.WWT=False
-        if (u'P2094' in self.race.item.claims):
-            P2094=self.race.item.claims.get(u'P2094')
-            for p2094 in P2094:
-                if p2094 in ["Q23005601","Q23005603"]: #WWT
+        if (u'P279' in self.race.item.claims):
+            P279=self.race.item.claims.get(u'P279')
+            for p279 in P279:
+                if p279.getTarget().getID() in ["Q23005601","Q23005603"]: #WWT
                     self.WWT=True
             
     def is_there_a_startlist(self):
@@ -228,8 +228,9 @@ class ClassificationImporter(CyclingInitBot):
                             this_team=Team(id=row["ID Team"])
                             
                             _, claim=this_team.add_values('P1344',self.race.id,'classification',False)
-                            this_team.add_qualifier(claim,'P710',this_id)
-                            this_team.add_qualifier(claim,'P1545',str(row['Rank']))
+                            this_team.add_qualifier(claim,'P710',pywikibot.ItemPage(self.repo, this_id))
+                            target_q =pywikibot.WbQuantity(amount=int(row['Rank']), site=self.site)
+                            this_team.add_qualifier(claim,'P1352',target_q)
                             team_done.append(this_team.id)
                 self.log.concat('result inserted')
                 #fill startlist with DNF, HD and so on

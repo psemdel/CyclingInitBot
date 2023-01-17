@@ -135,11 +135,6 @@ class PyItem():
     #note: as claim is defined, the pyItem calling does not matter
     def add_qualifier(self,claim,prop,target_q):
         Addc = True
-        #for qual in claim.qualifiers:
-        #    print(claim.qualifiers[qual][0])
-        #    if claim.qualifiers[qual][0].getTarget()==target_q:
-        #        Addc=False
-        
         for qual in claim.qualifiers.get(prop, []):
             Addc = False
         if Addc:
@@ -532,7 +527,21 @@ class Search(CyclingInitBot):
            disam=dis,
            force_disam=True,
            exception_table=exception_table,
-           )      
+           ) 
+
+    def team_by_name(self, **kwargs):
+        if kwargs.get("man_or_woman","woman")=="man":
+            exception_table=exception.list_of_team_name_ex_man()
+            dis=self.is_it_a_menteam
+        else:
+            exception_table=exception.list_of_team_name_ex()
+            dis=self.is_it_a_womenteam
+   
+        return self.complexe(
+           disam=dis,
+           force_disam=True,
+           exception_table=exception_table,
+           )        
             
     def race(self):
         result = "Q0", ""
@@ -580,6 +589,7 @@ class Search(CyclingInitBot):
                 if disam(temp_id,**kwargs): #it must be correct, for instance a rider
                     result_id=temp_id 
                 else:
+                    print(search_name + " found at " + temp_id + " but disambiguation failed")
                     result_id= u'Q0'
         else:
             # several results

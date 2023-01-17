@@ -22,7 +22,7 @@ def load():
         "Road race man":"Q23069702"
         }   
     dic['Asie']={
-        "name fr":"Afrique",
+        "name fr":"Asie",
         "genre":"d'",
         "National championship master":"Q4806618",
         "Road race woman":"Q50061750",
@@ -50,7 +50,7 @@ def load():
         "Road race woman":"Q30894544",
         "Clm woman":"Q30894543",
         "Road race man":"Q30894537",
-        "Clm man":"Q33315723",
+        "Clm man":"Q30894535",
         "Road race woman U23":"Q3653998",
         "Clm woman U23":"Q3653993"
         } 

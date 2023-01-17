@@ -151,16 +151,21 @@ def calc_ecart(e, winner_time):
         return e-winner_time
 
 def to_float(a):
-    if a=='':
-        return 0
-    else:
-        if isinstance(a, str):
-            a=a.replace(",",".")
-        t=float(a)
-        if t==int(t):
-            return int(a)
+    try:
+        if a=='':
+            return 0
         else:
-            return t
+            if isinstance(a, str):
+                a=a.replace(",",".")
+            t=float(a)
+            if t==int(t):
+                return int(a)
+            else:
+                return t
+    except Exception as msg:
+        print("exception in to_float")
+        print(msg)
+        print("faulty string: " +a)
 
 def float_to_int(a):
     return int(to_float(a))
@@ -320,35 +325,54 @@ def table_reader(filename,**kwargs):  #startline,
                        all_riders_found=False
                 rider_ids.append(id_rider)
             df["ID Rider"]=rider_ids
-        if kwargs.get("team",False) or kwargs.get("convert_team_code",False):
+        team=kwargs.get("team",False)
+        if team or kwargs.get("convert_team_code",False):
             year=kwargs.get("year",None)
+            try_with_team_name=False
             
             if "Team Code" not in df.columns:
-                raise ValueError("Team Code not present in import file")
+                print("Team Code not present in import file")
+
+                if "Team" not in df.columns:
+                    print("Team not present in import file")
+                    team=False
+                else:
+                    try_with_team_name=True
+                    df["Team"]=df["Team"].apply(lambda x: str(x)+" "+str(year) if str(x)!="nan" and str(x)!="NaN" else str(x))
             elif year is None:
                 raise ValueError("No year present to create Team Code")
             else:
                  df["Team Code"]=df["Team Code"].apply(lambda x: str(x)+" "+str(year) if str(x)!="nan" and str(x)!="NaN" else str(x))
 
-            if kwargs.get("team",False):
+            if team:
                 team_ids=[]
                 code_to_id={"nan":"Q0"}
                 man_or_woman=kwargs.get('man_or_woman',u'woman') #used only for team
-                df2=pd.unique(df["Team Code"].values)
+            
+                if try_with_team_name:
+                    df2=pd.unique(df["Team"].values)
+                else:
+                    df2=pd.unique(df["Team Code"].values)
                
                 for ii in range(len(df2)):
-                    team_code=df2[ii]
-                    if team_code not in ["nan","NaN"]:
-                        s=Search(team_code)
-                        id_team=s.team_by_code(man_or_woman=man_or_woman)
+                    team_str=df2[ii]
+                    if team_str not in ["nan","NaN"]:
+                        s=Search(team_str)
+                        if try_with_team_name:
+                            id_team=s.team_by_name(man_or_woman=man_or_woman)
+                        else:
+                            id_team=s.team_by_code(man_or_woman=man_or_woman)
                         if kwargs.get("need_complete",False):
                             if id_team in ['Q0','Q1']:
-                                log+="\n" + str(team_code) + " not found"
+                                log+="\n" + str(team_str) + " not found"
                                 all_teams_found=False
-                        code_to_id[team_code]=id_team
+                        code_to_id[team_str]=id_team
                     
                 for ii in range(len(df.index)):
-                    id_team=code_to_id[df["Team Code"].values[ii]]
+                    if try_with_team_name:
+                        id_team=code_to_id[df["Team"].values[ii]]
+                    else:
+                        id_team=code_to_id[df["Team Code"].values[ii]]
                     team_ids.append(id_team)   #in the end has the same length as     rider_ids         
                 df["ID Team"]=team_ids 
 

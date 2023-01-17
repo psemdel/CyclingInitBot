@@ -38,7 +38,11 @@ def load():
         "team man U23":"Q99641920",
         "team woman U19":"Q99646155",
         "team man U19":"Q99646695",       
-        "team all":"Q99646695"
+        "team all":"Q99646695",
+        "Road race woman":"Q112959349",
+        "Clm woman":"Q112959350",
+        "Road race man":"Q112959344",
+        "Clm man":"Q107299111",
         }
 
     dic['ALG']={
@@ -61,6 +65,8 @@ def load():
         "team all":"Q86989084",
         "Road race woman":"Q66082905",
         "Clm woman":"Q66082384",
+        "Road race man":"Q108286236",
+        "Clm man":"Q112306980",
         }
     
     dic['AND']={
@@ -80,6 +86,10 @@ def load():
         "team woman U19":"Q99646156",
         "team man U19":"Q99642905",       
         "team all":"Q99646696",
+        "Road race woman":"Q112959981",
+        "Clm woman":"Q112959982",
+        "Road race man":"Q112959975",
+        "Clm man":"Q112959976",
         }
     
     dic['ANG']={
@@ -535,7 +545,7 @@ def load():
         "adj en":'Chilean',
         "genre": "du ",
         "group":1,
-        "country":"Q155",
+        "country":"Q298",
         "National championship master":"Q2955202",
         "team woman":"Q43306977",
         "team man":"Q22132069",
