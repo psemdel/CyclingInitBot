@@ -134,7 +134,7 @@ class NationalTeamCreator(CyclingInitBot):
                 if self.key in e:
                     pyItem.link_year(year,id_master=e[self.key])
                     pyItem_master=PyItem(id=e[self.key])
-                    pyItem_master.add_value("P527",pyItem.id,'new season')
+                    pyItem_master.add_values("P527",pyItem.id,'new season',False)
     
                 return pyItem.id        
         except Exception as msg:

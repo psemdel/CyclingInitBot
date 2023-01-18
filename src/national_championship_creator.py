@@ -7,6 +7,8 @@ Created on Thu Jan  4 15:30:20 2018
 import pywikibot
 from .base import CyclingInitBot, PyItem, create_item, Search
 from .data import cc_table
+from .func import man_or_women_to_is_women
+
 import sys
 
 class NationalChampionshipCreator(CyclingInitBot):
@@ -67,14 +69,14 @@ class NationalChampionshipCreator(CyclingInitBot):
         try:
             if self.CC:
                 for _, e in cc_table.load().items():
-                    self.sub_function(None,e)
+                    self.sub_function(e)
                 #load CC table
-            if self.country:
+            elif self.country:
                 if self.country not in self.nation_table:
                     self.log.concat("master of the team not found, contact the Webmaster")
                     return 10, self.log
             
-                self.sub_function(self.country,self.nation_table[self.country])
+                self.sub_function(self.nation_table[self.country])
             else:
                 for _, e in self.nation_table.items():
                     if e["group"] in [1,2]:
@@ -106,7 +108,7 @@ class NationalChampionshipCreator(CyclingInitBot):
             else:
                 self.pyNatChamp.add_value("P361", id_allchamp, u'part of')
                 pyItem_allchamp=PyItem(id=id_allchamp)
-                pyItem_allchamp.add_value("P527",self.pyNatChamp.id,'add new year')
+                pyItem_allchamp.add_values("P527",self.pyNatChamp.id,'add champ',False)
             self.pyNatChamp.add_value("P17", country_id, u'country')
             
         self.pyNatChamp.link_year(year,id_master=self.id_NatChampMaster)            
@@ -140,10 +142,13 @@ class NationalChampionshipCreator(CyclingInitBot):
               }
 
     def national_championship_race_basic(self,pyItem,id_race,year,m_or_w,enligne,country_id): #id_race is for instance course en ligne...without year
-            pyItem.add_value("P31", self.pyNatChamp.id, 'Nature')
+            pyItem.add_value("P31", id_race, 'Nature')
             pyItem.add_value("P641", "Q3609", 'cyclisme sur route')
-            self.pyNatChamp.add_value("P527",pyItem.id,'add new year')
-            pyItem.add_value("P361", id_race, u'part of')
+            self.pyNatChamp.add_values("P527",pyItem.id,'adding to master',False)
+            pyItem_race=PyItem(id=id_race)
+            pyItem_race.add_values("P527",pyItem.id,'adding to master',False)
+            
+            pyItem.add_value("P361", self.pyNatChamp.id, u'part of')
             
             pyItemRace=PyItem(id=id_race)
             pyItemRace.add_value("P527",pyItem.id,'add new year')
@@ -165,7 +170,10 @@ class NationalChampionshipCreator(CyclingInitBot):
             else:
                 item_to_add = 'Q22231119' # CN
 
-            pyItem.add_value("P2094",item_to_add,'Adding CN')
+            pyItem.add_value("P279",item_to_add,'Adding CN')
+            
+            if self.is_women:
+                pyItem.add_value('P2094',"Q1451845","women cycling")
             
             if enligne:
                 dic ={'woman': "Course en ligne féminine",
@@ -184,17 +192,23 @@ class NationalChampionshipCreator(CyclingInitBot):
                 pyItem_allchamp=PyItem(id=id_allchamp)
                 
                 if (id_allchamp == u'Q0')or(id_allchamp == u'Q1'):
-                    self.log(dic[m_or_w]+' not found')
+                    self.log.concat(dic[m_or_w]+" aux championnats nationaux de cyclisme sur route " + str(year)+' not found')
                     print(dic[m_or_w]+' not found')
                     return 1
                 else:
                     pyItem_allchamp=PyItem(id=id_allchamp)
-                    pyItem_allchamp.add_value("P527",pyItem.id,'add new year')
+                    pyItem_allchamp.add_values("P527",pyItem.id,'add champ',False)
             return 0
-
+            
     def sub_function(self, e):
         try:
+            if self.CC:
+                t=None
+            else:
+                t=e["country"]
+            
             for m_or_w in self.gender_list:    
+                self.is_women=man_or_women_to_is_women(m_or_w)
                 self.log.concat( "championships creation for gender: " + m_or_w)
                 self.id_NatChampMaster=e["National championship master"]
                 
@@ -209,7 +223,7 @@ class NationalChampionshipCreator(CyclingInitBot):
                     
                     ##create championship
                     if self.pyNatChamp.id!='Q1': 
-                        r=self.national_championship_basic(e["country"],year)
+                        r=self.national_championship_basic(t,year)
                         if r==1:
                             self.log.concat(u'Code interrupted')
                             return 10, self.log
@@ -227,7 +241,7 @@ class NationalChampionshipCreator(CyclingInitBot):
                                      year,
                                      m_or_w,
                                      k=="road race",
-                                     e["country"])
+                                     t)
                                 if r==1:
                                     self.log.concat(u'Code interrupted')
                                     return 10, self.log

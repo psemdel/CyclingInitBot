@@ -88,6 +88,9 @@ def list_of_team_name_ex():
     'MITCHELTON SCOTT':'Q43144477',
     }
 
+def list_of_team_name_ex_man():
+    return {}
+
 #woman
 def list_of_team_code_ex():
     return {
@@ -165,3 +168,4 @@ def list_of_team_code_ex_man():
     'UXT 2022':'Q109211214'
     }
 """
+
