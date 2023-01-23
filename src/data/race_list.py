@@ -28,7 +28,7 @@ def load():
         'master':"Q22661614",
         "genre":"du "
         }  
-    dic["Santos Women's Tour"]={
+    dic["Santos Women's Tour2"]={
         'names':['Santos',"Tour Down Under"],
         'master':"Q22661614",
         "genre":"du "
