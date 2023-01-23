@@ -61,6 +61,7 @@ class RaceCreator(CyclingInitBot):
         self.end_date=kwargs.get('end_date')
         self.classe=kwargs.get('classe') #text 1.2 not id
         self.countryCIO=kwargs.get('countryCIO')
+        self.country=kwargs.get('country') #country id
         self.id_race_master=kwargs.get('id_race_master')
         self.edition_nr=kwargs.get('edition_nr')
         self.year=kwargs.get('year')
@@ -75,7 +76,7 @@ class RaceCreator(CyclingInitBot):
             self.is_women=man_or_women_to_is_women(self.man_or_woman)
         
         self.single_race=kwargs.get('single_race',False)
-        if self.countryCIO is not None:
+        if self.countryCIO is not None and self.country is None:
             self.country=self.nation_table[self.countryCIO]["country"]
             
         if self.single_race:
@@ -161,6 +162,11 @@ class RaceCreator(CyclingInitBot):
                 self.log.concat("race name not defined")
                 return 10, self.log, "Q1"
 
+            if self.start_date is None:
+                raise ValueError("date of the race not found")
+                self.log.concat("date of the race not found")
+                return 10, self.log, "Q1"
+            
             if self.create_main_bool:
                 self.create_main()
             if self.create_stages_bool:
@@ -275,9 +281,9 @@ class RaceCreator(CyclingInitBot):
                 
                 self.race.add_value('P2094',"Q1451845","women cycling")
             
-            self.race.link_year(self.year,id_master=self.id_race_master)  
+            self.race.link_year(self.year,id_master=self.id_race_master) 
             pyItem_master=PyItem(id=self.id_race_master)
-            pyItem_master.add_value("P527",self.race.id,u'adding a year')
+            pyItem_master.add_values("P527",self.race.id,u'adding a year',False)
 
     
       

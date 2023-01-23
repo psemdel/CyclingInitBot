@@ -28,6 +28,11 @@ def load():
         'master':"Q22661614",
         "genre":"du "
         }  
+    dic["Santos Women's Tour2"]={
+        'names':['Santos',"Tour Down Under"],
+        'master':"Q22661614",
+        "genre":"du "
+        }      
     dic["Contre-la-montre par équipes de l'Open de Suède Vårgårda"]={
         'names':['Vårgårda',"TTT"],
         'master':"Q26266060",
@@ -63,6 +68,12 @@ def load():
         'master':"Q21030967",
         "genre":"de la "
         }    
+    dic["La Vuelta Femenina"]={
+        'names':['La Vuelta Femenina',"La Vuelta Femenina"],
+        'master':"Q21030967",
+        "genre":"de "
+        }      
+ 
     dic["Grand Prix de Plouay féminin"]={
         'names':['GP',"Plouay"],
         'master':"Q1110856",
@@ -73,6 +84,11 @@ def load():
         'master':"Q1110856",
         "genre":"du "
         }   
+    dic["Grand Prix de Plouay féminin3"]={
+        'names':['Classic',"Lorient Agglomération"],
+        'master':"Q1110856",
+        "genre":"du "
+        }      
     dic["Grand Prix de Chambéry"]={
         'names':['Grand Prix',"Chambéry"],
         'master':"Q16763629",
@@ -337,7 +353,13 @@ def load():
         'names':["Battle","North"],
         'master':"Q17619325",
         "genre":"du "
+        } 
+    dic["Battle of the North3"]={
+        'names':["Tour","Scandinavia"],
+        'master':"Q17619325",
+        "genre":"du "
         }  
+    
     dic["Baloise Ladies Tour"]={
         'names':["Tour","BeNe"],
         'master':"Q16911866",
@@ -558,6 +580,13 @@ def load():
         'master':"Q110765120",
         "genre":"de la "
         }
+    dic["Anna Vasa Race2"]={
+        'names':["Tour","Anna Vasa"],
+        'master':"Q110765120",
+        "genre":"de la "
+        }    
+    
+    
     dic["Scenic Avenue International Race I"]={
         'names':['Scenic Avenue',"Race I"],
         'master':"Q67205061",
@@ -652,7 +681,12 @@ def load():
         'names':["Classics","Navarra"],
         'master':"Q66076050",
         "genre":"de la "
-        }        
+        } 
+    dic["Clasica Femenina Navarra2"]={
+        'names':["Classic","Navarra"],
+        'master':"Q66076050",
+        "genre":"de la "
+        }  
     dic["Emakumeen Nafarroako Klasikoa"]={
         'names':["Klasikoa","Nafarroako"],
         'master':"Q66015725",
@@ -668,6 +702,11 @@ def load():
         'master':"Q42052559",
         "genre":"de la "
         }  
+    dic["Classic Bruges-La Panne féminine2"]={
+        'names':["Brugge","Panne"],
+        'master':"Q42052559",
+        "genre":"de la "
+        }      
     dic["Veenendaal Veenendaal Classic féminine"]={
         'names':["Classic","Veenendaal"],
         'master':"Q56257178",
@@ -728,7 +767,7 @@ def load():
         'master':"Q61013887",
         "genre":"du "
         } 
-    dic["Grand Prix de Fourmies féminin"]={
+    dic["Grand Prix de Fourmies féminin2"]={
         'names':['Féminine',"Fourmies"],
         'master':"Q61013887",
         "genre":"de la "
@@ -785,7 +824,7 @@ def load():
         } 
     dic["Tour de Drenthe féminin"]={
         'names':["Ronde","Drenthe"],
-        'master':"Q28938662",
+        'master':"Q23015336",
         "genre":"du "
         } 
     dic["Trofeo Alfredo Binda-Comune di Cittiglio"]={
@@ -813,7 +852,7 @@ def load():
         'master':"Q1637189",
         "genre":"du "
         }   
-    dic["Tour de Delta féminin"]={
+    dic["Tour de Delta féminin2"]={
         'names':["White","Spot"],
         'master':"Q1637189",
         "genre":"du "
@@ -897,9 +936,24 @@ def load():
         'names':["Aphrodite","Sanctuary"],
         'master':"Q61014201",
         "genre":"de l'"
-        }   
+        }  
+    dic["Aphrodite Cycling Race-RR"]={
+        'names':["Aphrodite","RR"],
+        'master':"Q61014201",
+        "genre":"de l'"
+        }  
+    dic["Aphrodite Cycling Race-Women for future"]={
+        'names':["Aphrodite","future"],
+        'master':"Q116298877",
+        "genre":"de l'"
+        }      
     dic["Aphrodite Cycling Race ITT"]={
         'names':["Aphrodite","Time"],
+        'master':"Q62577415",
+        "genre":"de l'"
+        }      
+    dic["Aphrodite Cycling Race ITT2"]={
+        'names':["Aphrodite","ITT"],
         'master':"Q62577415",
         "genre":"de l'"
         }      
@@ -940,7 +994,7 @@ def load():
         }
     dic["Leiedal Koerse"]={
         'names':["Leiedal","Koerse"],
-        'master':"Q110764040",
+        'master':"Q2454861",
         "genre":"de la "
         }
     dic["Tour d'Andalousie féminin"]={
@@ -987,7 +1041,143 @@ def load():
         'names':["Travers","Hauts de France"],
         'master':"Q110765397",
         "genre":"d'"
-        }       
+        }  
+    dic["Vuelta a Formosa"]={
+        'names':["Vuelta","Formosa"],
+        'master':"Q114912404",
+        "genre":"de la "
+        }  
+    dic["Women Cycling Pro Costa De Almería"]={
+        'names':["Costa","De Almería"],
+        'master':"Q116297763",
+        "genre":"de la "
+        }
+    dic["Grand Prix Apollon Temple"]={
+        'names':["Grand Prix","Apollon Temple"],
+        'master':"Q116297804",
+        "genre":"du "
+        }
+    dic["UAE Tour"]={
+        'names':["UAE Tour","UAE Tour"],
+        'master':"Q116282971",
+        "genre":"du "
+        }
+    dic["Clasica de Almeria féminine"]={
+        'names':["Clasica","Almeria"],
+        'master':"Q116298909",
+        "genre":"de la "
+        }
+    dic["Syedra Ancient City"]={
+        'names':["Syedra","Ancient"],
+        'master':"Q116298931",
+        "genre":"de la "
+        }
+    dic["Umag Trophy Ladies"]={
+        'names':["Umag","Trophy"],
+        'master':"Q116298992",
+        "genre":"de l'"
+        }
+    dic["Alanya cup"]={
+        'names':["Alanya","Cup"],
+        'master':"Q116299020",
+        "genre":"de l'"
+        }
+    dic["Poreč Trophy Ladies"]={
+        'names':["Porec","Trophy"],
+        'master':"Q116299042",
+        "genre":"du "
+        }
+    dic["Trofeo Ponente in Rosa"]={
+        'names':["Trofeo","Trofeo Ponente"],
+        'master':"Q116299062",
+        "genre":"du "
+        }
+    dic["Vuelta Extremadura Féminas"]={
+        'names':["Vuelta","Extremadura"],
+        'master':"Q116299093",
+        "genre":"de la "
+        }
+    dic["Tour de Normandie Féminin"]={
+        'names':["Tour","Normandie"],
+        'master':"Q116299108",
+        "genre":"du "
+        }
+    dic["4a reVolta"]={
+        'names':["4a reVolta","4a reVolta"],
+        'master':"Q116299129",
+        "genre":"de la "
+        }    
+    dic["The Tour Oqtosh-Chorvoq-Mountain Ladies"]={
+        'names':["Oqtosh","Chorvoq"],
+        'master':"Q116299145",
+        "genre":"de "
+        } 
+    dic["Grand Prix Samarkand Ladies"]={
+        'names':["Grand Prix","Samarkand"],
+        'master':"Q116299150",
+        "genre":"du "
+        } 
+    dic["Grand Prix Samarkand Ladies"]={
+        'names':["Grand Prix","Samarkand"],
+        'master':"Q116299150",
+        "genre":"du "
+        }  
+    dic["Le Tour des Dames"]={
+        'names':["Le Tour des Dames","Le Tour des Dames"],
+        'master':"Q116299165",
+        "genre":"du "
+        }      
+    dic["Grand Prix Afrosiyob Ladies"]={
+        'names':["Grand Prix","Afrosiyob"],
+        'master':"Q116299170",
+        "genre":"du "
+        } 
+    dic["Antwerp Port Epic Ladies"]={
+        'names':["Antwerp","Port"],
+        'master':"Q116299176",
+        "genre":"de l'"
+        } 
+    dic["Tour Féminin International des Pyrénées"]={
+        'names':["Tour Féminin","Pyrénées"],
+        'master':"Q113458345",
+        "genre":"du "
+        } 
+    dic["Dwars door het Hageland (Women) "]={
+        'names':["Dwars","Hageland"],
+        'master':"Q107123979",
+        "genre":"de "
+        }    
+    dic["Ladies Race Slovakia"]={
+        'names':["Race","Slovakia"],
+        'master':"Q110765084",
+        "genre":"de la "
+        }     
+    dic["Women's Cycling Grand Prix Stuttgart Region"]={
+        'names':["Grand Prix","Stuttgart"],
+        'master':"Q116299286",
+        "genre":"du "
+        }    
+    dic["Vuelta Ciclista a Chile Femenina"]={
+        'names':["Vuelta","Chile"],
+        'master':"Q116299403",
+        "genre":"de la "
+        }    
+    dic["Konvert Kortrijk Koerse"]={
+        'names':["Konvert","Koerse"],
+        'master':"Q113574406",
+        "genre":"de la "
+        }  
+    dic["Grand Prix Kaisareia"]={
+        'names':["Grand Prix","Kaisareia"],
+        'master':"Q116299618",
+        "genre":"du "
+        }        
+    dic["Trofeo Baracchi"]={
+        'names':["Trofeo","Baracchi"],
+        'master':"Q116301437",
+        "genre":"du "
+        }     
+
  #too dangerous!!   
     
    # raceTable[kk][1] = u"Women's Tour"
@@ -995,5 +1185,5 @@ def load():
    # raceTable[kk][3] = 16679864
   #  raceTable[kk][4] = u" "
  #   kk += 1 
- 
+ #La Vuelta Femenina
     return dic

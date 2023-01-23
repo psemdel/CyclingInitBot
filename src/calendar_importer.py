@@ -36,7 +36,7 @@ class CalendarImporter(CyclingInitBot):
                     master_name =pyItem_master.get_label('fr')
                     
                     if 'Date From' in row:
-                        if "." in row['Date from']:
+                        if "." in row['Date From']:
                             table_date = row['Date From'].split(".")
                         elif "/" in row['Date From']:
                             table_date = row['Date From'].split("/")
@@ -45,6 +45,7 @@ class CalendarImporter(CyclingInitBot):
                             return 10, self.log
                         
                         year = int(table_date[2])
+                        
                         race_begin = pywikibot.WbTime(
                             site=self.site,
                             year=int(table_date[2]),
@@ -56,7 +57,7 @@ class CalendarImporter(CyclingInitBot):
                         
                         s2=Search( master_name + " " +str(year-1))
                         id_previous =s2.simple()
-                        edition_nr=''
+                        edition_nr=None
 
                         if id_previous not in ['Q0','Q1']:
                             pyItem_previous=PyItem(id=id_previous)
@@ -72,10 +73,10 @@ class CalendarImporter(CyclingInitBot):
                                      race_name= master_name,
                                      single_race=single_race,
                                      man_or_woman=self.man_or_woman,
-                                     race_begin=race_begin,
+                                     start_date=race_begin,
                                      edition_nr=edition_nr,
                                      id_race_master=id_master,
-                                     countryCIO=id_country,
+                                     country=id_country,
                                      classe=row['Class'],
                                      year=year
                                      )                               
@@ -101,18 +102,19 @@ class CalendarImporter(CyclingInitBot):
                                           race_name= master_name,
                                           single_race=single_race,
                                           man_or_woman=self.man_or_woman,
-                                          race_begin=race_begin,
+                                          start_date=race_begin,
                                           edition_nr=edition_nr,
                                           id_race_master=id_master,
-                                          countryCIO=id_country,
+                                          country=id_country,
                                           classe=row['Class'],
                                           end_date=stage_race_end,
                                           only_stages=False,
                                           create_stages=False,
                                           year=year
                                           )
-                        status, log, res_id=raceCreator.main()
+                        if not self.test:
+                            status, log, res_id=raceCreator.main()
                 elif row['Class'] != "CN" and row['Class'] != "CC" and row['Class'] !="CRT":
-                    log.concat(row['Name'])
-                    log.concat("race not found")
+                    self.log.concat(row['Name'])
+                    self.log.concat("race not found")
         return 0, self.log   

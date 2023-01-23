@@ -25,7 +25,7 @@ class DateSorter(CyclingInitBot):
                 print("property for date sorting not found")
             
             for e in list_of_comprend: #ii needed below
-                race=Race(None,None,id=e.getTarget().getID())
+                race=Race(id=e.getTarget().getID())
                 if race.date is None:
                     self.log.concat(race.get_labels('fr') + ' has no date')
                 self.listo.append(race)
@@ -43,11 +43,14 @@ class DateSorter(CyclingInitBot):
                     if not order_ok:
                         key = e
                         
-                self.team.delete_value(self.prop,self.listo[key].id,'race for sorting')
-                self.team.add_values(self.prop,self.listo[key].id,'race for sorting',True)
+                        self.team.delete_value(self.prop,self.listo[key].id,'race for sorting')
+                        self.team.add_values(self.prop,self.listo[key].id,'race for sorting',True)
 
             return 0, self.log     
-        except:
+        except Exception as msg:
+            _, _, exc_tb = sys.exc_info()
+            print("line " + str(exc_tb.tb_lineno))
+            print(msg)
             self.log.concat("General Error in date sorter")
             return 10, self.log            
         
