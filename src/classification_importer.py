@@ -13,11 +13,10 @@ import sys
 
 class ClassificationImporter(CyclingInitBot):
     def __init__(self, general_or_stage, id_race,
-                       final, maxkk,**kwargs):
+                       maxkk,**kwargs):
         super().__init__(**kwargs)
         self.general_or_stage=general_or_stage
         self.race=Race(id=id_race)
-        self.final=final
         self.maxkk=maxkk
 
         self.verbose=False
@@ -31,7 +30,7 @@ class ClassificationImporter(CyclingInitBot):
         self.startliston=kwargs.get('startliston',True)
         self.file=kwargs.get('file','Results')
         #code
-        self.general_or_stage_addwinner=[0, 2, 3,4]
+        self.general_or_stage_addwinner=[0, 2, 3,4,8]
         
         general_or_stage_prop={
                0:'P2321', #general
@@ -152,12 +151,12 @@ class ClassificationImporter(CyclingInitBot):
             if self.team_bool: #team
                 df, _, _, log=table_reader(self.file,result_points=self.result_points, team=True, 
                                            year=self.year,convert_team_code=True) 
-            elif self.WWT: #rider, but team needed
+            else: #if self.WWT: #rider, but team needed
                 df, _, _, log=table_reader(self.file,result_points=self.result_points, rider=True,team=True,
                                            year=self.year)                 
-            else: #rider
-                df, _, _, log=table_reader(self.file,result_points=self.result_points, rider=True,
-                                           year=self.year) 
+            #else: #rider
+#                df, _, _, log=table_reader(self.file,result_points=self.result_points, rider=True,
+                    #                       year=self.year) 
             self.log.concat(log)
             
             df2=df.iloc[:self.maxkk]
@@ -202,9 +201,8 @@ class ClassificationImporter(CyclingInitBot):
                            if self.startlist is not None:
                                self.copy_team(claim, target)
         
-                           if (self.general_or_stage in self.general_or_stage_addwinner) and self.final:
-                               self.race.add_winner(this_id,int(row['Rank']),self.general_or_stage) 
-
+                           if (self.general_or_stage in self.general_or_stage_addwinner) and not self.race.get_is_stage():
+                              self.race.add_winner(this_id,int(row['Rank']),self.general_or_stage)
                         else:
                            if 'Name' in row:
                                self.log.concat(row['Name'])
@@ -212,7 +210,16 @@ class ClassificationImporter(CyclingInitBot):
                                self.log.concat(row['First Name'] + " " + row['Last Name'])
                            self.log.concat(u'item not found, interrupted')
                            return 0, self.log
-                       
+                  
+                #add victory automatically to the team
+                if self.general_or_stage==0:
+                    for ii in range(len(df)): #no maxkk
+                        row=df.iloc[ii]
+                        if int(row['Rank'])==1:
+                            this_id=row["ID Rider"]
+                            if row["ID Team"] and row["ID Team"] not in ['Q0','Q1']:
+                                this_team=Team(id=row["ID Team"])
+                                _, claim=this_team.add_values('P2522',self.race.id,'victory',False)
                         
                 if self.WWT and self.general_or_stage==0: #add ranking in the team then, no contradiction with Classification already there
                     team_done=[]
