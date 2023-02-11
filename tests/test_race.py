@@ -45,6 +45,20 @@ class TestRace(unittest.TestCase):
         self.assertEqual(r1.get_class(), "Q22231106")
         r1=Race(id="Q57277539")
         self.assertEqual(r1.get_class(), "Q23005601")
+        
+    def test_get_is_women(self):
+        r1=Race(id="Q115443011")
+        self.assertTrue(r1.get_is_women())
+        r1=Race(id="Q116148731")
+        self.assertFalse(r1.get_is_women())    
+        r1=Race(id="Q42053105")
+        self.assertTrue(r1.get_is_women())  
+        
+    def test_get_is_stage(self):
+        r1=Race(id="Q116302534")
+        self.assertFalse(r1.get_is_stage())    
+        r1=Race(id="Q116687807")
+        self.assertTrue(r1.get_is_stage())           
 
 if __name__ == '__main__':
     unittest.main()

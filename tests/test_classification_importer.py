@@ -15,7 +15,7 @@ class TestClassificationImporter(unittest.TestCase):
         
         # 0:'2321', #general
         #  1: '2417',#stage
-        cl=ClassificationImporter(0, "Q79138636", False, 10, test=True)
+        cl=ClassificationImporter(0, "Q79138636", 10, test=True)
         startlist, in_parent=cl.is_there_a_startlist()
         
         target = pywikibot.ItemPage(repo, "Q2870834") #no team
@@ -79,7 +79,7 @@ class TestClassificationImporter(unittest.TestCase):
 
     def test_put_dnf_in_startlist(self):
             
-        cl=ClassificationImporter(0, "Q98293556", False, 10, test=True)
+        cl=ClassificationImporter(0, "Q98293556", 10, test=True)
         cl.is_there_a_startlist()
 
         df, _,_,log=table_reader('DNF_test',rider=True)
@@ -90,48 +90,48 @@ class TestClassificationImporter(unittest.TestCase):
 
     def test_is_there_a_startlist(self):
 
-        cl=ClassificationImporter(0, "Q98293689", False, 10, test=True)
+        cl=ClassificationImporter(0, "Q98293689", 10, test=True)
         startlist, in_parent=cl.is_there_a_startlist()
         self.assertTrue(startlist is not None)
         self.assertEqual(in_parent, True)
         #stage race, with startlist
-        cl=ClassificationImporter(0, "Q79138636", False, 10, test=True)
+        cl=ClassificationImporter(0, "Q79138636", 10, test=True)
         startlist, in_parent=cl.is_there_a_startlist()
         self.assertTrue(startlist is not None)
         self.assertEqual(in_parent, False)
 
          #single day race, with startlist
-        cl=ClassificationImporter(0, "Q57277525", False, 10, test=True)
+        cl=ClassificationImporter(0, "Q57277525", 10, test=True)
         startlist, in_parent=cl.is_there_a_startlist() 
         self.assertTrue(startlist is not None)
         self.assertEqual(in_parent, False)       
         
         #single day race, without startlist
-        cl=ClassificationImporter(0, "Q24575332", False, 10, test=True)
+        cl=ClassificationImporter(0, "Q24575332", 10, test=True)
         startlist, in_parent=cl.is_there_a_startlist() 
         self.assertTrue(startlist is None)
         self.assertEqual(in_parent, False) 
 
         #stage, with startlist
-        cl=ClassificationImporter(1, "Q98293689", False, 10, test=True)
+        cl=ClassificationImporter(1, "Q98293689", 10, test=True)
         startlist, in_parent=cl.is_there_a_startlist() 
         self.assertTrue(startlist is not None)
         self.assertEqual(in_parent, True)
         
         #stage race, with startlist
-        cl=ClassificationImporter(1, "Q79138636", False, 10, test=True)
+        cl=ClassificationImporter(1, "Q79138636", 10, test=True)
         startlist, in_parent=cl.is_there_a_startlist() 
         self.assertTrue(startlist is not None)
         self.assertEqual(in_parent, False) 
        
          #single day race, with startlist
-        cl=ClassificationImporter(1,"Q57277525", False, 10, test=True)
+        cl=ClassificationImporter(1,"Q57277525", 10, test=True)
         startlist, in_parent=cl.is_there_a_startlist() 
         self.assertTrue(startlist is not None)
         self.assertEqual(in_parent, False) 
  
         #single day race, without startlist
-        cl=ClassificationImporter(1,"Q24575332", False, 10, test=True)
+        cl=ClassificationImporter(1,"Q24575332", 10, test=True)
         startlist, in_parent=cl.is_there_a_startlist() 
         self.assertTrue(startlist is None)
         self.assertEqual(in_parent, False) 

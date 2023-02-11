@@ -432,7 +432,8 @@ class Race(PyItem):
      
     def add_winner(self, value, order, general_or_stage):
         prop = "P1346"
-        dic_order1={0:'Q20882667',2:'Q20883007', 3:'Q20883212', 4:'Q20883139'}
+        #general_or_stage to "vainqueur de xy"
+        dic_order1={0:'Q20882667',2:'Q20883007', 3:'Q20883212', 4:'Q20883139',8:'Q20883328'}
         Addc = True
     
         if order == 1:
@@ -466,6 +467,25 @@ class Race(PyItem):
                 targetQualifier = pywikibot.ItemPage(self.repo, qualifier_nummer)
                 qualifierDe.setTarget(targetQualifier)
                 claim.addQualifier(qualifierDe)
+                
+    def get_is_stage(self):
+        stagesQ=[
+        	"Q18131152",
+        	"Q20646667", 
+        	"Q20646670",
+        	"Q20680270",
+        	"Q20646668",
+        	"Q20679712",
+        	"Q2348250",
+        	"Q2266066",
+        	"Q485321"]
+        
+        if (u'P31' in self.item.claims):
+            P31=self.item.claims.get(u'P31')
+            for p31 in P31:
+                if p31.getTarget().getID() in stagesQ:
+                    return True
+        return False
     
 class Team(PyItem):
     def __init__(self, **kwargs):

@@ -10,7 +10,7 @@ import pywikibot
 site = pywikibot.Site("wikidata", "wikidata")
 
 def cycling_init_bot():
-    selector=14
+    selector=18
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -21,10 +21,10 @@ def cycling_init_bot():
         from src.national_team_creator import NationalTeamCreator
         
         man_or_woman=u'man'
-        start_year=2022
-        end_year=2022
+        start_year=2023
+        end_year=2023
         #optional
-        country=False #u'FRA'  #None is not
+        country=None #u'FRA'  #None is not
         
         f=NationalTeamCreator( man_or_woman,start_year,end_year,country=country)
         f.main()    
@@ -34,8 +34,8 @@ def cycling_init_bot():
 
         man_or_woman=u'both' #both
         option=u'clmon' #'clmoff'
-        start_year=2022
-        end_year=2022
+        start_year=2023
+        end_year=2023
         CC=True
         
         f=NationalChampionshipCreator(man_or_woman,option, start_year,end_year,CC)
@@ -46,8 +46,8 @@ def cycling_init_bot():
         
         man_or_woman=u'both'
         option=u'clmon' #'clmoff'
-        start_year=2022
-        end_year=2022
+        start_year=2023
+        end_year=2023
         country=False  #optional/False u'ESA'
         CC=False
 
@@ -59,8 +59,8 @@ def cycling_init_bot():
        
         test=False
         man_or_woman=u'woman'
-        filename='calendrier2022'
-        year=2022
+        filename='Calendar2023'
+        year=2023
         
         f=CalendarImporter(filename, man_or_woman, year,test=test)
         f.main() 
@@ -69,11 +69,11 @@ def cycling_init_bot():
         #more details in the table with activate and group
         from src.team_creator import TeamCreator
 
-        name="Macadam’s Cowboys & Girls"
-        id_master="Q105702884"
-        countryCIO="FRA"
-        UCIcode=None
-        year=2022
+        name="Juvederm Specialized"
+        id_master="Q114006589"
+        countryCIO="CAN"
+        UCIcode="JSD"
+        year=2011
         """
         UCI WorldTeam (Q6154783)
         UCI ProTeam (Q78464255)
@@ -83,7 +83,7 @@ def cycling_init_bot():
         Female amateur cycling team (Q26849121)
         Amateur cycling team (Q20652655)
         """
-        category_id="Q26849121"
+        category_id="Q2466826"
 
         f=TeamCreator(name,id_master,countryCIO,UCIcode,year,category_id=category_id)
         f.main()    
@@ -100,7 +100,7 @@ def cycling_init_bot():
 
     elif selector==6:
         from src.sorter import DateSorter
-        id_team=u'Q107093611'
+        id_team=u'Q115517229'
         # if victory:   property_number = 2522  # victoire
         # else:  #      property_number = 527  # comprend
         prop="P527"
@@ -112,15 +112,15 @@ def cycling_init_bot():
     elif selector==7:
         from src.race_creator import RaceCreator
         
-        race_name=u"Watersley Womens Challenge"
-        id_race_master="Q79032687"
+        race_name=u"Vuelta a Formosa "
+        id_race_master="Q114912404"
         create_stages=True
-        year=2021
-        start_date=pywikibot.WbTime(site=site,year=year, month=9, day=3, precision='day')
-        end_date=pywikibot.WbTime(site=site,year=year, month=9, day=5, precision='day')
+        year=2022
+        start_date=pywikibot.WbTime(site=site,year=year, month=10, day=21, precision='day')
+        end_date=pywikibot.WbTime(site=site,year=year, month=10, day=23, precision='day')
         first_stage=1
-        last_stage=3
-        countryCIO=u'NED'
+        last_stage=4
+        countryCIO=u'ARG'
         classe='2.2'
         edition_nr='1'
         single_race=False
@@ -172,17 +172,16 @@ def cycling_init_bot():
     elif selector==9:
         from src.classification_importer import ClassificationImporter
         
-        id_race='Q110775085'
+        id_race='Q116203516'
         stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
         #5 team, #6 team points, #7 youth points, #8 == sprints
-        final=False
         maxkk=10
-        year=2022 #for team
+        year=2023 #for team
         startliston=True
         test=False
         man_or_woman=u'woman'
         
-        f=ClassificationImporter(stage_or_general,id_race,final,
+        f=ClassificationImporter(stage_or_general,id_race,
                                  maxkk, test=test ,year=year,startliston=startliston,
                                  man_or_woman=man_or_woman)
         f.main()
@@ -190,8 +189,8 @@ def cycling_init_bot():
     elif selector==10:
         from src.startlist_importer import StartlistImporter
         
-        id_race='Q110774935'
-        prologue_or_final=1 #0=prologue, 1=final, 2=one day race
+        id_race='Q116203516'
+        prologue_or_final=0 #0=prologue, 1=final, 2=one day race
         chrono=False
         test=False
         man_or_woman=u'woman'
@@ -220,17 +219,17 @@ def cycling_init_bot():
         f=ChampListCreator(man_or_woman,start_year,actualize)
         f.main()
 
-    elif selector==14:  
+    elif selector==14:   
         from src.uci_classification import UCIClassification
         
-        man_or_woman=u'woman'
-        id_master_UCI=u'Q15831496'  #Q97367360
-        year=u'2014'
-        filename=u'UCIranking2014' #'UCIranking'  CIranking2020man
+        man_or_woman=u'man'
+        id_master_UCI=u'Q109000605'  #Q97367360
+        year=u'2022'
+        filename=u'AsiaRanking2022man' #'UCIranking'  CIranking2020man
         test=False
-        cleaner=False #delete the UCI ranking
-        UCIranking=False #for team team
-        bypass=False #don't interrupt if not all riders found
+        cleaner=False #delete the UC I ranking
+        UCIranking=False #for  team team
+        bypass=True #don't interru pt if not all riders found
         
         f=UCIClassification(
             UCIranking=UCIranking,
@@ -247,13 +246,13 @@ def cycling_init_bot():
     elif selector==15:  
         from src.uci_classification import UCITeamClassification
         
-        man_or_woman=u'woman'
-        id_master_UCI=u'Q57267790'  #Q97367360
-        year=u'2019'
-        filename=u'UCIranking2019team' #'UCIranking'  CIranking2020man
+        man_or_woman=u'man'
+        id_master_UCI=u'Q109000605'  
+        year=u'2022'
+        filename=u'AsiaRanking2022teamman' #'UCIranking'  CIranking2020man
         test=False
         cleaner=False #delete the UCI ranking
-        bypass=False #don't interrupt if not all riders found
+        bypass=True #don't interrupt if not all riders found
         
         f=UCITeamClassification(
             id_master_UCI=id_master_UCI,
@@ -300,8 +299,8 @@ def cycling_init_bot():
     elif selector==18:
         from src.get_rider_tricot import ScanExisting
         
-        id_race='Q110774449'
-        chrono=True
+        id_race='Q61727859'
+        chrono=False
         test=False
         man_or_woman=u'woman'
         #had already the results
