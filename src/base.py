@@ -433,7 +433,7 @@ class Race(PyItem):
     def add_winner(self, value, order, general_or_stage):
         prop = "P1346"
         #general_or_stage to "vainqueur de xy"
-        dic_order1={0:'Q20882667',2:'Q20883007', 3:'Q20883212', 4:'Q20883139',8:'Q20883328'}
+        dic_order1={0:'Q20882667',2:'Q20883007', 3:'Q20883212', 4:'Q20883139',8:'Q20883328',100:'Q20882747',101:'Q20882763'}
         Addc = True
     
         if order == 1:
@@ -463,7 +463,7 @@ class Race(PyItem):
                 target = pywikibot.ItemPage(self.repo, value)
                 claim.setTarget(target)
                 self.item.addClaim(claim, summary=u'Adding winner')
-                qualifierDe = pywikibot.page.Claim(self.site, 'P642', isQualifier=True)
+                qualifierDe = pywikibot.page.Claim(self.site, 'P642', is_qualifier=True)
                 targetQualifier = pywikibot.ItemPage(self.repo, qualifier_nummer)
                 qualifierDe.setTarget(targetQualifier)
                 claim.addQualifier(qualifierDe)
@@ -536,7 +536,7 @@ class Search(CyclingInitBot):
             last_name=last_name)
     
     def team_by_code(self, **kwargs):
-        if kwargs.get("man_or_woman","woman")=="man":
+        if kwargs.get("man_or_woman","woman")=="man" or kwargs.get("is_women",True)==False:
             exception_table=exception.list_of_team_code_ex_man()
             dis=self.is_it_a_menteam
         else:
@@ -550,7 +550,7 @@ class Search(CyclingInitBot):
            ) 
 
     def team_by_name(self, **kwargs):
-        if kwargs.get("man_or_woman","woman")=="man":
+        if kwargs.get("man_or_woman","woman")=="man" or kwargs.get("is_women",True)==False:
             exception_table=exception.list_of_team_name_ex_man()
             dis=self.is_it_a_menteam
         else:

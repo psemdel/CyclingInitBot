@@ -14,7 +14,8 @@ class UCITeamClassification(CyclingInitBot):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
         self.man_or_woman=kwargs.get("man_or_woman",None)
-        self.filename=kwargs.get("filename",None)
+        self.file=kwargs.get("file",None)
+        self.fc=kwargs.get("fc",None)
         self.id_master_UCI=kwargs.get("id_master_UCI",None)
         self.bypass=kwargs.get("bypass",False)
         self.cleaner=kwargs.get("cleaner",False)
@@ -23,13 +24,15 @@ class UCITeamClassification(CyclingInitBot):
     def main(self):
         try:
             #Check the non optional arguments, done like that otherwise it is difficult to find which position arg is what
-            if self.man_or_woman is None or self.filename is None or\
+            if self.man_or_woman is None or self.file is None or\
                self.id_master_UCI is None or self.year is None:
                    raise ValueError("Missing mandatory input by UCI classification")
                    self.log.concat("Missing mandatory input by UCI classification")
                    return 10, self.log
                
-            df, _, all_teams_found,log=table_reader(self.filename,
+            df, _, all_teams_found,log=table_reader(
+                            self.file,
+                            self.fc,
                             verbose=False,                                 
                             team=True,
                             year=self.year,
@@ -69,7 +72,8 @@ class UCIClassification(CyclingInitBot):
         super().__init__(**kwargs)
         self.UCIranking=kwargs.get("UCIranking",False)
         self.man_or_woman=kwargs.get("man_or_woman",None)
-        self.filename=kwargs.get("filename",None)
+        self.file=kwargs.get("file",None)
+        self.fc=kwargs.get("fc",None)
         self.id_master_UCI=kwargs.get("id_master_UCI",None)
         self.bypass=kwargs.get("bypass",False)
         self.cleaner=kwargs.get("cleaner",False)
@@ -78,14 +82,16 @@ class UCIClassification(CyclingInitBot):
     def main(self):
         try:
             #Check the non optional arguments, done like that otherwise it is difficult to find which position arg is what
-            if self.man_or_woman is None or self.filename is None or\
+            if self.man_or_woman is None or self.file is None or\
                self.id_master_UCI is None or self.year is None:
                    raise ValueError("Missing mandatory input by UCI classification")
                    self.log.concat("Missing mandatory input by UCI classification")
                    return 10, self.log
 
             
-            df, all_riders_found, all_teams_found,log=table_reader(self.filename,
+            df, all_riders_found, all_teams_found,log=table_reader(
+                            self.file,
+                            self.fc,
                             verbose=False,                                 
                             rider=True, 
                             team=True,

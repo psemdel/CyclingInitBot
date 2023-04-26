@@ -10,7 +10,7 @@ import pywikibot
 site = pywikibot.Site("wikidata", "wikidata")
 
 def cycling_init_bot():
-    selector=18
+    selector=10
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -172,32 +172,32 @@ def cycling_init_bot():
     elif selector==9:
         from src.classification_importer import ClassificationImporter
         
-        id_race='Q116203516'
+        id_race='Q116312240'
         stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
         #5 team, #6 team points, #7 youth points, #8 == sprints
         maxkk=10
-        year=2023 #for team
         startliston=True
         test=False
-        man_or_woman=u'woman'
+        fc=9045
         
         f=ClassificationImporter(stage_or_general,id_race,
-                                 maxkk, test=test ,year=year,startliston=startliston,
-                                 man_or_woman=man_or_woman)
+                                 maxkk, test=test ,startliston=startliston,
+                                 fc=fc)
         f.main()
 
     elif selector==10:
         from src.startlist_importer import StartlistImporter
         
-        id_race='Q116203516'
-        prologue_or_final=0 #0=prologue, 1=final, 2=one day race
+        id_race='Q116302599'
+        prologue_or_final=2 #0=prologue, 1=final, 2=one day race
         chrono=False
         test=False
         man_or_woman=u'woman'
         force_nation_team=False
+        fc=9046
         
         f=StartlistImporter(prologue_or_final, id_race, chrono,
-                            man_or_woman, force_nation_team,test=test)
+                            man_or_woman, force_nation_team,test=test,fc=fc)
         f.main()
 
     elif selector==12:
@@ -214,7 +214,7 @@ def cycling_init_bot():
         
         man_or_woman=u'woman'
         actualize=True
-        start_year=2022
+        start_year=2023
         
         f=ChampListCreator(man_or_woman,start_year,actualize)
         f.main()
@@ -225,7 +225,7 @@ def cycling_init_bot():
         man_or_woman=u'man'
         id_master_UCI=u'Q109000605'  #Q97367360
         year=u'2022'
-        filename=u'AsiaRanking2022man' #'UCIranking'  CIranking2020man
+        file=u'AsiaRanking2022man' #'UCIranking'  CIranking2020man
         test=False
         cleaner=False #delete the UC I ranking
         UCIranking=False #for  team team
@@ -234,7 +234,7 @@ def cycling_init_bot():
         f=UCIClassification(
             UCIranking=UCIranking,
             id_master_UCI=id_master_UCI,
-            filename=filename,
+            file=file,
             cleaner=cleaner,
             man_or_woman=man_or_woman,
             bypass=bypass,
@@ -299,7 +299,7 @@ def cycling_init_bot():
     elif selector==18:
         from src.get_rider_tricot import ScanExisting
         
-        id_race='Q61727859'
+        id_race='Q27481596'
         chrono=False
         test=False
         man_or_woman=u'woman'

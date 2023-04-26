@@ -18,7 +18,7 @@ from src.func import (is_website, get_single_or_stage,date_finder,
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
 
-class TestRace(unittest.TestCase):
+class TestFunc(unittest.TestCase):
     def test_is_website(self):
         self.assertFalse(is_website())
         
