@@ -165,7 +165,7 @@ class TestFunc(unittest.TestCase):
         self.assertEqual(define_article("Amstel Gold Race"),("de l'", "Amstel Gold Race"))
                 
     def test_table_reader(self):
-        df,_,_,_= table_reader('champ')
+        df,_,_,_= table_reader('champ',None)
         self.assertTrue(len(df)>0)
         
 if __name__ == '__main__':

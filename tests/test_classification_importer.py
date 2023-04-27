@@ -82,7 +82,7 @@ class TestClassificationImporter(unittest.TestCase):
         cl=ClassificationImporter(0, "Q98293556", 10, test=True)
         cl.is_there_a_startlist()
 
-        df, _,_,log=table_reader('DNF_test',rider=True)
+        df, _,_,log=table_reader('DNF_test',None,rider=True)
         starter, stage_nummer=cl.put_dnf_in_startlist(df)
        
         self.assertEqual(starter.getTarget().getID(), "Q18125995")

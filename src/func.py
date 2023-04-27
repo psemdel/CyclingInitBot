@@ -414,8 +414,12 @@ def cyclists_table_reader(df,**kwargs):
                     if not math.isnan(df["BIB"].values[ii]):
                         this_rider.dossard=int(df["BIB"].values[ii])
                 if 'Rank' in df.columns:
-                    if not math.isnan(df["Rank"].values[ii]):
-                        this_rider.rank=str(df["Rank"].values[ii]) #int go to str, str remains str
+                    if type(df["Rank"].values[ii])==str:
+                        this_rider.rank=str(df["Rank"].values[ii]) 
+                    elif (type(df["Rank"].values[ii])==float or 
+                       type(df["Rank"].values[ii])==int) and not math.isnan(df["Rank"].values[ii]):
+                        this_rider.rank=str(int(df["Rank"].values[ii]))
+                        
             list_of_cyclists.append(this_rider)
 
             if "ID Team" in df.columns:

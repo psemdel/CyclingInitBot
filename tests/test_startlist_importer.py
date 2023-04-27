@@ -22,7 +22,7 @@ class TestStartList(unittest.TestCase):
           
         sl=StartlistImporter(0, "Q20681024", False, man_or_woman,force_nation_team,test=True)
         
-        df,_,_,log=table_reader('National_team_tests',need_complete=True,rider=True)
+        df,_,_,log=table_reader('National_team_tests',None,need_complete=True,rider=True)
         df=df.sort_values(["BIB"])
         sl.list_of_cyclists,_ = cyclists_table_reader(df)
         res_list_of_cyclists=sl.find_national_team(df)
@@ -49,7 +49,7 @@ class TestStartList(unittest.TestCase):
         sl.time_of_race=pywikibot.WbTime(site=site,year=2020, month=8, day=27, precision='day')    
         sl.year=sl.time_of_race.year
         
-        df,_,_,log=table_reader('National_team_tests_neg',need_complete=True,rider=True)
+        df,_,_,log=table_reader('National_team_tests_neg',None,need_complete=True,rider=True)
         df=df.sort_values(["BIB"])
         sl.list_of_cyclists,_ = cyclists_table_reader(df)
         res_list_of_cyclists=sl.find_national_team(df)   
@@ -75,7 +75,7 @@ class TestStartList(unittest.TestCase):
         sl.time_of_race=pywikibot.WbTime(site=site,year=2015, month=8, day=27, precision='day')   
         sl.year=sl.time_of_race.year
         
-        df, _, _, _=table_reader('National_team_tests2',need_complete=True,rider=True)
+        df, _, _, _=table_reader('National_team_tests2',None,need_complete=True,rider=True)
         df=df.sort_values(["BIB"])
         sl.list_of_cyclists, _ = cyclists_table_reader(df)
         res_list_of_cyclists=sl.find_national_team(df)

@@ -187,7 +187,8 @@ class StartlistImporter(CyclingInitBot):
                 target_DNFqual = pywikibot.ItemPage(self.repo, u'Q1210380')
                 target_DNSqual = pywikibot.ItemPage(self.repo, u'Q1210382')
                 target_DSQqual = pywikibot.ItemPage(self.repo, u'Q1229261')
-
+                target_OOTqual = pywikibot.ItemPage(self.repo, u'Q7113430')
+                
                 self.log.concat(u'inserting start list')
                 for ii, cyclist in enumerate(self.list_of_cyclists):
                     if cyclist.id not in ['Q0','Q1']:
@@ -217,6 +218,8 @@ class StartlistImporter(CyclingInitBot):
                                self.race.add_qualifier(claim,'P1534',target_DNSqual)
                            elif cyclist.rank=="DSQ": 
                                self.race.add_qualifier(claim,'P1534',target_DSQqual)
+                           elif cyclist.rank=="OOT": 
+                               self.race.add_qualifier(claim,'P1534',target_OOTqual)    
                            else:
                                target_q =  pywikibot.WbQuantity(amount=cyclist.rank, site=self.site)
                                self.race.add_qualifier(claim,'P1352',target_q)
