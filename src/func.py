@@ -9,10 +9,13 @@ Created on Thu Mar 10 08:51:33 2022
 import pywikibot
 import os
 import pandas as pd
+import numpy as np
 import math
+from datetime import datetime
 
 from .name import Name
 from .base import Search, Cyclist, Team
+from .first_cycling_api import RaceEdition
 
 import sys
 
@@ -225,7 +228,7 @@ def define_article(name):
     
         return "du ", race_name #default
 
-def table_reader(filename,**kwargs):  #startline, 
+def table_reader(filename,fc,**kwargs):  #startline, 
     try:
         verbose=kwargs.get("verbose",False)
         local_saved_list=["champ","champ_clm","champ_man","champ_man_clm"]
@@ -234,64 +237,71 @@ def table_reader(filename,**kwargs):  #startline,
         log=''
         all_riders_found=True
         all_teams_found=True
-       
+        year=kwargs.get("year",datetime.now())
+
         #differentiate local from remote
-        if filename[-3:]=='csv': #with the site, the extension is given
-            filepath='uploads/'+filename
-        elif filename[-4:]=='xlsx':
-            filepath='uploads/'+filename
-            file_csv=False
-        elif filename in local_saved_list:
-            if is_website():
-                filepath="bot_src/src/input/"+filename+".csv"       
-            else:
-                filepath="src/input/"+filename+".csv"
-        elif not is_website(): #for local use only
-            if os.path.isfile('src/input/'+filename+'.csv'):
-                filepath='src/input/'+filename+'.csv'
-            elif os.path.isfile('src/input/'+filename+'.xlsx'):
-                filepath='src/input/'+filename+'.xlsx'
+        if fc is not None:
+            df = RaceEdition(race_id=fc, year=year).ext_results().results_table
+        else: #real file
+            if filename[-3:]=='csv': #with the site, the extension is given
+                filepath='uploads/'+filename
+            elif filename[-4:]=='xlsx':
+                filepath='uploads/'+filename
                 file_csv=False
-
-        if filepath is None or not os.path.isfile(filepath):
-            raise ValueError("import file not found")
-        elif verbose:
-            print("corrected file path: " + filepath)
-
-        if file_csv:
-            df=pd.read_csv(filepath)
-        else:
-            df=pd.read_excel(filepath)
-        
-        if len(df.columns)==1:
-            raise ValueError("import file uses ; separator, correct to ,")
+            elif filename in local_saved_list:
+                if is_website():
+                    filepath="bot_src/src/input/"+filename+".csv"       
+                else:
+                    filepath="src/input/"+filename+".csv"
+            elif not is_website(): #for local use only
+                if os.path.isfile('src/input/'+filename+'.csv'):
+                    filepath='src/input/'+filename+'.csv'
+                elif os.path.isfile('src/input/'+filename+'.xlsx'):
+                    filepath='src/input/'+filename+'.xlsx'
+                    file_csv=False
+    
+            if filepath is None or not os.path.isfile(filepath):
+                raise ValueError("import file not found")
+            elif verbose:
+                print("corrected file path: " + filepath)
+    
+            if file_csv:
+                df=pd.read_csv(filepath)
+            else:
+                df=pd.read_excel(filepath)
+            
+            if len(df.columns)==1:
+                raise ValueError("import file uses ; separator, correct to ,")
 
         #pre-processing
-        if 'Result' in df.columns: #no for champ
-            if kwargs.get('result_points',False):
-                df["Points"]=df["Result"].apply(lambda x: to_float(x)) 
-            else:
-                winner_time=time_converter(df["Result"].values[0],0)
-                df["Time"]=df["Result"].apply(lambda x: time_converter(x, winner_time)) 
+        if fc is not None: 
+            point_column_name="Points"
+            time_column_name="Time"
+        else:
+            if 'Result' in df.columns:
+                point_column_name="Result"
+            elif 'Points' in df.columns:
+                point_column_name="Points"
+            time_column_name="Result"
+            
+        if kwargs.get('result_points',False):
+            if point_column_name in df.columns:
+                df["Points"]=df[point_column_name].apply(lambda x: to_float(x)) 
+        else:
+            if time_column_name in df.columns:
+                winner_time=time_converter(df[time_column_name].values[0],0)
+                df["Time"]=df[time_column_name].apply(lambda x: time_converter(x, winner_time)) 
                 df["Ecart"]=df["Time"].apply(lambda x: calc_ecart(x, winner_time)) 
-    
-        if 'Points' in df.columns:
-            df["Points"]=df["Points"].apply(lambda x: to_float(x)) 
+
+        if fc is not None:
+            for i in df.index:
+                try:
+                    df.loc[i,"Rank"]=int(df.loc[i,"Pos"])
+                except:
+                    df.loc[i,"Rank"]=df.loc[i,"Pos"] #DNF, DNS
+            
         #search the rider
         if kwargs.get('rider',False):
-            name_bool=False
-            first_name_bool=False
-            last_name_bool=False
-            bib_bool=False
-
-            if 'Name' in df.columns:
-                name_bool=True
-            if 'First Name' in df.columns:
-                first_name_bool=True
-            if 'Last Name' in df.columns:
-                last_name_bool=True
-            if 'BIB' in df.columns:
-                bib_bool=True
                 
             rider_ids=[]
             for ii in range(len(df.index)):
@@ -300,34 +310,33 @@ def table_reader(filename,**kwargs):  #startline,
                 last_name=None
                 bib=None
                 
-                if name_bool:
+                if 'Name' in df.columns:
                     name=df['Name'].values[ii]
-
-                if first_name_bool:
+                if 'Rider' in df.columns:
+                    name=df['Rider'].values[ii]
+                if 'First Name' in df.columns:
                     first_name=df['First Name'].values[ii]
-                if last_name_bool:
+                if 'Last Name' in df.columns:
                     last_name=df['Last Name'].values[ii]
-                if bib_bool:
+                if 'BIB' in df.columns:
                     bib=df['BIB'].values[ii]
                 
                 s=Search(name) 
                 id_rider=s.rider(first_name,last_name)
-                
-                if kwargs.get("need_complete",False):
-                   if id_rider in ['Q0','Q1']:
-                       if first_name_bool:
-                           log+="\n" + str(first_name) + " " +  str(last_name) +" number "
-                       else:
-                           log+="\n" + str(name) +" number "
-                       if bib_bool:
-                           log+=str(bib)
-                       log+=" not found"
-                       all_riders_found=False
+                if id_rider in ['Q0','Q1']:
+                    if first_name is not None:
+                        log+="\n" + str(first_name) + " " +  str(last_name) +" number "
+                    else:
+                        log+="\n" + str(name) +" number "
+                    if bib is not None:
+                        log+=str(bib)
+                    log+=" not found"
+                    if kwargs.get("need_complete",False):
+                        all_riders_found=False
                 rider_ids.append(id_rider)
             df["ID Rider"]=rider_ids
         team=kwargs.get("team",False)
         if team or kwargs.get("convert_team_code",False):
-            year=kwargs.get("year",None)
             try_with_team_name=False
             
             if "Team Code" not in df.columns:
@@ -339,8 +348,6 @@ def table_reader(filename,**kwargs):  #startline,
                 else:
                     try_with_team_name=True
                     df["Team"]=df["Team"].apply(lambda x: str(x)+" "+str(year) if str(x)!="nan" and str(x)!="NaN" else str(x))
-            elif year is None:
-                raise ValueError("No year present to create Team Code")
             else:
                  df["Team Code"]=df["Team Code"].apply(lambda x: str(x)+" "+str(year) if str(x)!="nan" and str(x)!="NaN" else str(x))
 
@@ -362,9 +369,9 @@ def table_reader(filename,**kwargs):  #startline,
                             id_team=s.team_by_name(man_or_woman=man_or_woman)
                         else:
                             id_team=s.team_by_code(man_or_woman=man_or_woman)
-                        if kwargs.get("need_complete",False):
-                            if id_team in ['Q0','Q1']:
-                                log+="\n" + str(team_str) + " not found"
+                        if id_team in ['Q0','Q1']:
+                            log+="\n team: " + str(team_str) + " not found"
+                            if kwargs.get("need_complete",False):
                                 all_teams_found=False
                         code_to_id[team_str]=id_team
                     
@@ -393,47 +400,41 @@ def cyclists_table_reader(df,**kwargs):
     try:
         list_of_cyclists =[]
         list_of_teams=[]
-        bib_bool=False
-        rank_bool=False
-        team_code_bool=False
-        id_team_bool=False
-        
+       
         #check if all riders are already present
         if "ID Rider" not in df.columns:             
             raise ValueError("ID Rider not present in dataframe")
-        if 'BIB' in df.columns:
-            bib_bool=True
-        if 'Rank' in df.columns:
-            rank_bool=True      
-        if 'Team Code' in df.columns:
-            team_code_bool=True        
-        if "ID Team" in df.columns:
-            id_team_bool=True
         
         for ii in range(len(df.index)):
             if df["ID Rider"].values[ii] in ['Q0','Q1']:
                 this_rider=Cyclist(name='not found')
             else:
                 this_rider=Cyclist(id=df["ID Rider"].values[ii])
-                if bib_bool:
+                if 'BIB' in df.columns:
                     if not math.isnan(df["BIB"].values[ii]):
                         this_rider.dossard=int(df["BIB"].values[ii])
-                if rank_bool:
-                    if not math.isnan(df["Rank"].values[ii]): #to check if it does not kill the DNF
-                        this_rider.rank=str(int(df["Rank"].values[ii])) #avoid .0
+                if 'Rank' in df.columns:
+                    if type(df["Rank"].values[ii])==str:
+                        this_rider.rank=str(df["Rank"].values[ii]) 
+                    elif (type(df["Rank"].values[ii])==float or 
+                       type(df["Rank"].values[ii])==int) and not math.isnan(df["Rank"].values[ii]):
+                        this_rider.rank=str(int(df["Rank"].values[ii]))
+                        
             list_of_cyclists.append(this_rider)
 
-            if id_team_bool:
+            if "ID Team" in df.columns:
                 if df["ID Team"].values[ii] in ['Q0','Q1']:
                     this_team=Team(name='not found')  #just as filler
                 else:
                     this_team=Team(id=df["ID Team"].values[ii])
-                    if team_code_bool:
+                    if 'Team Code' in df.columns:
                         this_team.codeUCI=df['Team Code'].values[ii]
                 list_of_teams.append(this_team)   
 
         return list_of_cyclists, list_of_teams
     except Exception as msg:
+        _, _, exc_tb = sys.exc_info()
+        print("line " + str(exc_tb.tb_lineno))
         print(msg)
         print("cyclists_table_reader read failure")
         return None, None

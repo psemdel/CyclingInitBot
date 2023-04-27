@@ -23,6 +23,11 @@ class StartlistImporter(CyclingInitBot):
         self.man_or_woman=man_or_woman
         self.force_nation_team=force_nation_team
         self.file=kwargs.get('file','Results')
+        fc=kwargs.get("fc",None)
+        if fc==0:
+            fc=None
+        self.fc=fc
+
         self.verbose=kwargs.get('verbose')
 
     def IDtoCIOsearch(self,this_id):
@@ -52,90 +57,102 @@ class StartlistImporter(CyclingInitBot):
         return s.national_team(positive_list=positive_list,negative_list=negative_list)
 
     def find_national_team(self, df):
-        national_team_detected=False #otherwise insert nothing during first loop
-        all_same_team=1
-        national_team_nation=u'reset'
-        national_team_begin=0
-        
-        for ii, cyclist in enumerate(self.list_of_cyclists):
-            #check national team
-            if not self.force_nation_team:
-                if df["BIB"].values[ii]%10==1:
-                            #insert last team
-                    if self.verbose:
-                        print("all_same_team" + str(all_same_team))
-                        
-                    if (national_team_detected and all_same_team<0):
-                        print(u'national team detected '+ self.IDtoCIOsearch(national_team_nation))
-                        #insert the team
-                        for jj in range(national_team_begin,ii):
-                            id_national_team=self.get_national_team_id(national_team_nation)
-                            if id_national_team!='Q0':
-                                self.list_of_cyclists[jj].team=id_national_team
-                                self.list_of_cyclists[jj].national_team=True #for testing
-                    #re-init the variable
-                    national_team_detected=True
-                    national_team_begin=ii
-                    national_team_nation=u'reset'
-                    proteam=u'reset'
-                    all_same_team=1 #if all_same_team is 1 then it is probably not a national team
-                   
-                if national_team_detected: 
-                    if self.verbose:
-                        print(cyclist.dossard)
-                    #get nationality
-                    nationality=cyclist.get_nationality(self.time_of_race)    
-                    if nationality !="Q0":
+        try:
+            national_team_detected=False #otherwise insert nothing during first loop
+            all_same_team=1
+            national_team_nation=u'reset'
+            national_team_begin=0
+            
+            for ii, cyclist in enumerate(self.list_of_cyclists):
+                #check national team
+                if not self.force_nation_team:
+                    if df["BIB"].values[ii]%10==1:
+                                #insert last team
                         if self.verbose:
-                            print("nationality: "+ nationality)
-                        cyclist.nationality=nationality   
-                        if national_team_nation==u'reset':
-                            national_team_nation=nationality   
+                            print("all_same_team" + str(all_same_team))
+                            
+                        if (national_team_detected and all_same_team<0):
+                            print(u'national team detected '+ self.IDtoCIOsearch(national_team_nation))
+                            #insert the team
+                            for jj in range(national_team_begin,ii):
+                                id_national_team=self.get_national_team_id(national_team_nation)
+                                if id_national_team!='Q0':
+                                    self.list_of_cyclists[jj].team=id_national_team
+                                    self.list_of_cyclists[jj].national_team=True #for testing
+                        #re-init the variable
+                        national_team_detected=True
+                        national_team_begin=ii
+                        national_team_nation=u'reset'
+                        proteam=u'reset'
+                        all_same_team=1 #if all_same_team is 1 then it is probably not a national team
+                       
+                    if national_team_detected: 
+                        if self.verbose:
+                            print(cyclist.dossard)
+                        #get nationality
+                        nationality=cyclist.get_nationality(self.time_of_race)    
+                        if nationality !="Q0":
+                            if self.verbose:
+                                print("nationality: "+ nationality)
+                            cyclist.nationality=nationality   
+                            if national_team_nation==u'reset':
+                                national_team_nation=nationality   
+                            else:
+                                if national_team_nation!=nationality: 
+                                    #not the same nation --> not a national team
+                                    if self.verbose:
+                                        print("different nation")
+                                    national_team_detected=False 
+                        team=cyclist.get_present_team(self.time_of_race) 
+                        if self.verbose:
+                            print("team: "+ team)
+                        if proteam==u'reset':
+                            if team!="Q1":
+                                proteam=team
+                            else:
+                                all_same_team-=1
                         else:
-                            if national_team_nation!=nationality: 
-                                #not the same nation --> not a national team
-                                if self.verbose:
-                                    print("different nation")
-                                national_team_detected=False 
-                    team=cyclist.get_present_team(self.time_of_race) 
-                    if self.verbose:
-                        print("team: "+ team)
-                    if proteam==u'reset':
-                        if team!="Q1":
-                            proteam=team
-                        else:
-                            all_same_team-=1
-                    else:
-                        if team!='Q1' and proteam!=team: 
-                            all_same_team-=1
-                        elif team=='Q1':
-                            all_same_team-=1
-                #last team
-            else: #force_nation_team, then only look at nation value
-                #item_rider=list_of_cyclists[ii].item
-                nationality=cyclist.get_nationality(self.time_of_race)    
-                id_national_team=self.get_national_team_id(nationality)
-
-                if id_national_team not in ['Q0','Q1']:
-                    cyclist.team=id_national_team
-                    cyclist.national_team=True #for testing
-
-        if not self.force_nation_team and national_team_detected and all_same_team<0:
-             print("last team")
-             print(u'national team detected '+self.IDtoCIOsearch(national_team_nation))
-                    #insert the team
-             for jj in range(national_team_begin,len(self.list_of_cyclists)):
-                 id_national_team=self.get_national_team_id(national_team_nation)
-                 if id_national_team!='Q0':
-                     self.list_of_cyclists[jj].team=id_national_team
-                     self.list_of_cyclists[jj].national_team=True #for testing
-
-        if self.test:
-            return self.list_of_cyclists
-
+                            if team!='Q1' and proteam!=team: 
+                                all_same_team-=1
+                            elif team=='Q1':
+                                all_same_team-=1
+                    #last team
+                else: #force_nation_team, then only look at nation value
+                    #item_rider=list_of_cyclists[ii].item
+                    nationality=cyclist.get_nationality(self.time_of_race)    
+                    id_national_team=self.get_national_team_id(nationality)
+    
+                    if id_national_team not in ['Q0','Q1']:
+                        cyclist.team=id_national_team
+                        cyclist.national_team=True #for testing
+    
+            if not self.force_nation_team and national_team_detected and all_same_team<0:
+                 print("last team")
+                 print(u'national team detected '+self.IDtoCIOsearch(national_team_nation))
+                        #insert the team
+                 for jj in range(national_team_begin,len(self.list_of_cyclists)):
+                     id_national_team=self.get_national_team_id(national_team_nation)
+                     if id_national_team!='Q0':
+                         self.list_of_cyclists[jj].team=id_national_team
+                         self.list_of_cyclists[jj].national_team=True #for testing
+    
+            if self.test:
+                return self.list_of_cyclists
+        except Exception as msg:
+             _, _, exc_tb = sys.exc_info()
+             print("line " + str(exc_tb.tb_lineno))
+             print(msg)
+     
     def main(self):
         try:
-            df, all_riders_found, _, log=table_reader(self.file,verbose=self.verbose,need_complete=True,rider=True)
+            df, all_riders_found, _, log=table_reader(
+                self.file,
+                self.fc,
+                start_list=True,
+                verbose=self.verbose,
+                need_complete=True,
+                rider=True,
+                year=self.year)
             self.log.concat(log)
             #Sort by dossard
             if df is None:
@@ -168,7 +185,10 @@ class StartlistImporter(CyclingInitBot):
                     self.find_national_team(df)
                     
                 target_DNFqual = pywikibot.ItemPage(self.repo, u'Q1210380')
-
+                target_DNSqual = pywikibot.ItemPage(self.repo, u'Q1210382')
+                target_DSQqual = pywikibot.ItemPage(self.repo, u'Q1229261')
+                target_OOTqual = pywikibot.ItemPage(self.repo, u'Q7113430')
+                
                 self.log.concat(u'inserting start list')
                 for ii, cyclist in enumerate(self.list_of_cyclists):
                     if cyclist.id not in ['Q0','Q1']:
@@ -192,8 +212,14 @@ class StartlistImporter(CyclingInitBot):
                                 self.race.add_qualifier(claim,'P54',target_q)
                                 
                         if self.prologue_or_final in [1,2]:
-                           if cyclist.rank==0: #no ranking
+                           if cyclist.rank==0 or cyclist.rank=="DNF": #no ranking
                                self.race.add_qualifier(claim,'P1534',target_DNFqual)
+                           elif cyclist.rank=="DNS":
+                               self.race.add_qualifier(claim,'P1534',target_DNSqual)
+                           elif cyclist.rank=="DSQ": 
+                               self.race.add_qualifier(claim,'P1534',target_DSQqual)
+                           elif cyclist.rank=="OOT": 
+                               self.race.add_qualifier(claim,'P1534',target_OOTqual)    
                            else:
                                target_q =  pywikibot.WbQuantity(amount=cyclist.rank, site=self.site)
                                self.race.add_qualifier(claim,'P1352',target_q)

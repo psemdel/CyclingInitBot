@@ -26,9 +26,17 @@ class ClassificationImporter(CyclingInitBot):
         self.startlist=None
         
         self.year=kwargs.get('year',None)
-        self.man_or_woman=kwargs.get('man_or_woman',u'woman')
+        if self.year is None:
+            self.year=self.race.get_year()
+        
+        self.is_women=self.race.get_is_women()
         self.startliston=kwargs.get('startliston',True)
         self.file=kwargs.get('file','Results')
+        fc=kwargs.get("fc",None)
+        if fc==0:
+            fc=None
+        self.fc=fc
+        
         #code
         self.general_or_stage_addwinner=[0, 2, 3,4,8]
         
@@ -149,11 +157,11 @@ class ClassificationImporter(CyclingInitBot):
                 raise ValueError('no year found')
             
             if self.team_bool: #team
-                df, _, _, log=table_reader(self.file,result_points=self.result_points, team=True, 
-                                           year=self.year,convert_team_code=True) 
+                df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, team=True, 
+                                           year=self.year,convert_team_code=True, is_women=self.is_women) 
             else: #if self.WWT: #rider, but team needed
-                df, _, _, log=table_reader(self.file,result_points=self.result_points, rider=True,team=True,
-                                           year=self.year)                 
+                df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, rider=True,team=True,
+                                           year=self.year, is_women=self.is_women)                 
             #else: #rider
 #                df, _, _, log=table_reader(self.file,result_points=self.result_points, rider=True,
                     #                       year=self.year) 
@@ -203,6 +211,12 @@ class ClassificationImporter(CyclingInitBot):
         
                            if (self.general_or_stage in self.general_or_stage_addwinner) and not self.race.get_is_stage():
                               self.race.add_winner(this_id,int(row['Rank']),self.general_or_stage)
+                           elif self.race.get_is_stage():
+                               if self.general_or_stage==1:
+                                   self.race.add_winner(this_id,int(row['Rank']),100) #stage winner
+                               elif self.general_or_stage==0:
+                                   print("add winner")
+                                   self.race.add_winner(this_id,int(row['Rank']),101) #stage leader                             
                         else:
                            if 'Name' in row:
                                self.log.concat(row['Name'])
@@ -212,16 +226,17 @@ class ClassificationImporter(CyclingInitBot):
                            return 0, self.log
                   
                 #add victory automatically to the team
-                if self.general_or_stage==0:
-                    for ii in range(len(df)): #no maxkk
-                        row=df.iloc[ii]
-                        if int(row['Rank'])==1:
-                            this_id=row["ID Rider"]
-                            if row["ID Team"] and row["ID Team"] not in ['Q0','Q1']:
-                                this_team=Team(id=row["ID Team"])
-                                _, claim=this_team.add_values('P2522',self.race.id,'victory',False)
+                if (self.general_or_stage==0 and not self.race.get_is_stage()) or\
+                   (self.general_or_stage==1 and self.race.get_is_stage()):
+                    row=df[df['Rank'].astype('str')=='1.0'] 
+                    if len(row)==0:
+                        row=df[df['Rank'].astype('str')=='1'] 
+                    
+                    if "ID Team" in row and len(row["ID Team"].values)>0 and row["ID Team"].values[0] not in ['Q0','Q1']:
+                        this_team=Team(id=row["ID Team"].values[0])
+                        _, claim=this_team.add_values('P2522',self.race.id,'victory',False)
                         
-                if self.WWT and self.general_or_stage==0: #add ranking in the team then, no contradiction with Classification already there
+                if self.WWT and self.general_or_stage==0 and not self.race.get_is_stage(): #add ranking in the team then, no contradiction with Classification already there
                     team_done=[]
                     for ii in range(len(df)): #no maxkk
                         row=df.iloc[ii]
@@ -236,8 +251,11 @@ class ClassificationImporter(CyclingInitBot):
                             
                             _, claim=this_team.add_values('P1344',self.race.id,'classification',False)
                             this_team.add_qualifier(claim,'P710',pywikibot.ItemPage(self.repo, this_id))
-                            target_q =pywikibot.WbQuantity(amount=int(row['Rank']), site=self.site)
-                            this_team.add_qualifier(claim,'P1352',target_q)
+                            try: #"DNF" will give an error
+                                target_q =pywikibot.WbQuantity(amount=int(row['Rank']), site=self.site)
+                                this_team.add_qualifier(claim,'P1352',target_q)
+                            except:
+                                pass
                             team_done.append(this_team.id)
                 self.log.concat('result inserted')
                 #fill startlist with DNF, HD and so on

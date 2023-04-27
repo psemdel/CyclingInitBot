@@ -18,7 +18,7 @@ from src.func import (is_website, get_single_or_stage,date_finder,
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
 
-class TestRace(unittest.TestCase):
+class TestFunc(unittest.TestCase):
     def test_is_website(self):
         self.assertFalse(is_website())
         
@@ -165,7 +165,7 @@ class TestRace(unittest.TestCase):
         self.assertEqual(define_article("Amstel Gold Race"),("de l'", "Amstel Gold Race"))
                 
     def test_table_reader(self):
-        df,_,_,_= table_reader('champ')
+        df,_,_,_= table_reader('champ',None)
         self.assertTrue(len(df)>0)
         
 if __name__ == '__main__':

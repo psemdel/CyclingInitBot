@@ -34,10 +34,8 @@ class GetRiderTricot(CyclingInitBot):
 
         if self.road_or_clm=='Road':
             dic["World"]='Q934877'
-            dic["CC"]='Q30894543'
         else:
             dic["World"]='Q2630733'
-            dic["CC"]='Q30894543'
 
         if self.road_or_clm=="Clm":
             sub_df1=self.df[self.df["Clm"]==True]
@@ -63,9 +61,14 @@ class GetRiderTricot(CyclingInitBot):
         if len(sub_df)>0:
             for k in list_:
                 if k in ["World","CC"]:
-                    sub_df2=sub_df[sub_df["Champ"]==dic[k]]
+                    sub_df2=sub_df[sub_df["WorldCC"]]
+                    if k=="World":
+                        sub_df2=sub_df2[sub_df2["Champ"]==dic["World"]]
+                    else:
+                        sub_df2=sub_df2[sub_df2["Champ"]!=dic["World"]]
+                    
                 else:
-                    sub_df2=sub_df[(sub_df["Champ"]!=dic["World"])&(sub_df["Champ"]!=dic["CC"])]
+                    sub_df2=sub_df[~sub_df["WorldCC"].values]
                     
                 if len(sub_df2)>1:
                     sub_df2=sub_df2[sub_df2["Year"]==self.time_of_race.year]
@@ -105,9 +108,9 @@ class GetRiderTricot(CyclingInitBot):
         result=None
         
         if self.man_or_woman==u'woman':
-            self.df,_,_,_=table_reader('champ')
+            self.df,_,_,_=table_reader('champ',None)
         else:
-            self.df,_,_,_=table_reader('champ_man')
+            self.df,_,_,_=table_reader('champ_man',None)
      
         result=self.sub_function()
         if self.test and result is not None:
@@ -133,7 +136,7 @@ class Scan(CyclingInitBot):
         self.man_or_woman=man_or_woman
         
     def main(self):
-        df,_,_,_=table_reader('Results')
+        df,_,_,_=table_reader('Results',None)
         #Sort by dossard
         if "BIB" in df.columns:
             df=df.sort_values(["BIB"])
