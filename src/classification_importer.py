@@ -7,7 +7,7 @@ Created on Sun Jul 22 16:21:08 2018
 
 import pywikibot
 from .base import CyclingInitBot, Race, Team, PyItem
-from .func import table_reader
+from .func import table_reader, get_fc_dic
 import math
 import sys
 
@@ -15,7 +15,6 @@ class ClassificationImporter(CyclingInitBot):
     def __init__(self, general_or_stage, id_race,
                        maxkk,**kwargs):
         super().__init__(**kwargs)
-        self.general_or_stage=general_or_stage
         self.race=Race(id=id_race)
         self.maxkk=maxkk
 
@@ -36,8 +35,21 @@ class ClassificationImporter(CyclingInitBot):
         if fc==0:
             fc=None
         self.fc=fc
-        
+        self.stage_num=kwargs.get("stage_num")
+
+        self.general_or_stage_init(general_or_stage)
+            
+        #WWT functionality
+        self.WWT=False
+        if (u'P279' in self.race.item.claims):
+            P279=self.race.item.claims.get(u'P279')
+            for p279 in P279:
+                if p279.getTarget().getID() in ["Q23005601","Q23005603"]: #WWT
+                    self.WWT=True
+                    
+    def general_or_stage_init(self,general_or_stage):
         #code
+        self.general_or_stage=general_or_stage
         self.general_or_stage_addwinner=[0, 2, 3,4,8]
         
         general_or_stage_prop={
@@ -49,9 +61,10 @@ class ClassificationImporter(CyclingInitBot):
                5:'P3497',#teamtime
                6:'P3496',#team points   
                7:'P4323',#youth points
-               8:'P4322'#sprint 
+               8:'P4322',#sprint 
+               9:'P2321', #all
                }
-        
+       
         if general_or_stage in general_or_stage_prop:
             self.prop=general_or_stage_prop[general_or_stage]  
             
@@ -63,16 +76,8 @@ class ClassificationImporter(CyclingInitBot):
         if self.general_or_stage in [5,6]:
             self.team_bool=True
         else:
-            self.team_bool=False
-            
-        #WWT functionality
-        self.WWT=False
-        if (u'P279' in self.race.item.claims):
-            P279=self.race.item.claims.get(u'P279')
-            for p279 in P279:
-                if p279.getTarget().getID() in ["Q23005601","Q23005603"]: #WWT
-                    self.WWT=True
-            
+            self.team_bool=False        
+        
     def is_there_a_startlist(self):
         item_with_startlist=None
         
@@ -121,7 +126,7 @@ class ClassificationImporter(CyclingInitBot):
             list_of_order=self.race.item.claims.get(u'P1545')
             stage_nummer=str(list_of_order[0].getTarget())
         
-        sub_df=df[df['Rank'].apply(lambda x: math.isnan(x))]
+        sub_df=df[df['Rank'].apply(lambda x: (type(x)==str or math.isnan(x)))]
 
         for ii in range(len(sub_df)):
             this_id=sub_df["ID Rider"].values[ii]
@@ -147,7 +152,15 @@ class ClassificationImporter(CyclingInitBot):
                          else:
                              return this_starter, stage_nummer #return first dnf rider
         if self.test:
-            return None, -1                       
+            return None, -1  
+
+    def run_all(self):
+        general_or_stages=get_fc_dic(self.fc, year=self.year, stage_num=self.stage_num)
+        
+        for general_or_stage in general_or_stages:
+            self.general_or_stage_init(general_or_stage)
+            print("run all, starting code: "+ str(self.general_or_stage))
+            self.main()                     
 
     def main(self):
         try:
@@ -158,10 +171,12 @@ class ClassificationImporter(CyclingInitBot):
             
             if self.team_bool: #team
                 df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, team=True, 
-                                           year=self.year,convert_team_code=True, is_women=self.is_women) 
+                                           year=self.year,convert_team_code=True, is_women=self.is_women,
+                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage) 
             else: #if self.WWT: #rider, but team needed
                 df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, rider=True,team=True,
-                                           year=self.year, is_women=self.is_women)                 
+                                           year=self.year, is_women=self.is_women,
+                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage)                 
             #else: #rider
 #                df, _, _, log=table_reader(self.file,result_points=self.result_points, rider=True,
                     #                       year=self.year) 

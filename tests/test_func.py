@@ -11,7 +11,7 @@ import unittest
 
 from src.func import (is_website, get_single_or_stage,date_finder,
                       time_converter, float_to_int, define_article,
-                      table_reader
+                      table_reader, get_fc_dic
 
              )         
 
@@ -167,6 +167,28 @@ class TestFunc(unittest.TestCase):
     def test_table_reader(self):
         df,_,_,_= table_reader('champ',None)
         self.assertTrue(len(df)>0)
+        self.assertTrue("Champ" in df.columns)
+        self.assertTrue("Winner" in df.columns)
+        self.assertTrue("WorldCC" in df.columns)
+        self.assertTrue("Clm" in df.columns)
+        
+        df,_,_,_= table_reader('Results',9058,year=2023)
+        self.assertTrue("Pos" in df.columns)
+        self.assertTrue("Time" in df.columns)
+        self.assertTrue("Rider_ID" in df.columns)
+        self.assertEqual(df["Rider"].values[0],"Annemiek van Vleuten")
+        self.assertEqual(df["Team"].values[0],"Movistar Team")
+        
+        df,_,_,_= table_reader('Results',9058,year=2023,general_or_stage=0)
+        self.assertTrue("Pos" in df.columns)
+        self.assertTrue("Time" in df.columns)
+        self.assertTrue("Rider_ID" in df.columns)
+        self.assertEqual(df["Rider"].values[0],"Annemiek van Vleuten")
+        self.assertEqual(df["Team"].values[0],"Movistar Team")
+        
+    def test_get_fc_dic(self):
+        keys=get_fc_dic(9058,year=2023)
+        self.assertEqual(keys,[0,2,3,5])
         
 if __name__ == '__main__':
     unittest.main()        

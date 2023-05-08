@@ -35,6 +35,7 @@ def list_of_rider_ex():
     "Daniela Gass":"Q19282137",
     "emma jorge":"Q64691975",
     "Irina Molicheva":"Q19519046",
+    "Francesca Pellegrini":"Q114708293",
     
     #men
     'Jefferson Cepeda':'Q21093468',

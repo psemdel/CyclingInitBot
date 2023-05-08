@@ -60,7 +60,6 @@ def img_to_profile(img):
 def parse_table(table):
 	""" Convert HTML table from bs4 to pandas DataFrame. Return None if no data. """
 	out_df = pd.read_html(str(table), decimal=',')[0]
-
 	if out_df.iat[0, 0] == 'No data': # No data
 		return None
 
@@ -86,13 +85,18 @@ def parse_table(table):
 		if "Rider" in col:
 			out_df["Inv name"]=out_df["Rider"].str.lower()
 			out_df["Rider"] = series.apply(lambda td: td.a["title"]) #keep normal order first name + last name
-
-		if col in ('Rider', 'Winner', 'Second', 'Third'):
-			out_df[col + '_ID'] = series.apply(lambda td: rider_link_to_id(td.a))
+			out_df['Rider_ID'] = series.apply(lambda td: rider_link_to_id(td.a))
 			try:
-				out_df[col + '_Country'] = series.apply(lambda td: img_to_country_code(td.img))
+				out_df['Rider_Country'] = series.apply(lambda td: img_to_country_code(td.img))
 			except TypeError:
 				pass
+            
+		#if ('Rider' in col) or ('Winner' in col) or ('Second' in col) or ('Third' in col):
+		#	out_df[col + '_ID'] = series.apply(lambda td: rider_link_to_id(td.a))
+		#	try:
+		#		out_df[col + '_Country'] = series.apply(lambda td: img_to_country_code(td.img))
+		#	except TypeError:
+		#		pass
 
 		elif col == 'Team':
 			out_df['Team_ID'] = series.apply(lambda td: team_link_to_id(td.a) if td.a else None)

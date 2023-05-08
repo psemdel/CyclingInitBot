@@ -174,7 +174,9 @@ class TestSearch(unittest.TestCase):
         s=Search('GONZÁLEZ Roberto')
         self.assertEqual(s.rider('', ''),'Q28048282')
         
-        
+    def test_search_fc_id(self):
+        s=Search('Anna van der Breggen')
+        self.assertEqual(s.search_fc_id(fc_id=89434),"Q289826")
 
 if __name__ == '__main__':
     unittest.main()
