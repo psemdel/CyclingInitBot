@@ -228,6 +228,31 @@ def define_article(name):
     
         return "du ", race_name #default
 
+general_or_stage_to_fc={
+    0:'gc', #general
+    1:'sta',#stage
+    2:'point',#points
+    3:'mountain',#mountains
+    4:'youth',#youth 
+    5:'team',#teamtime
+    #8:'P4322'#sprint 
+    }
+general_or_stage_to_fc_inv = {v: k for k, v in general_or_stage_to_fc.items()}
+
+def get_fc_dic(fc,**kwargs):
+    stage_num=kwargs.get("stage_num")
+    year=kwargs.get("year",datetime.now().year)
+    if stage_num==0:
+        stage_num=None
+    race_edition = RaceEdition(race_id=fc, year=year)
+    race_edition.ext_results(stage_num=stage_num)
+    
+    general_or_stages=[]
+    
+    for k in race_edition.standings:
+        general_or_stages.append(general_or_stage_to_fc_inv[k])
+    return general_or_stages
+
 def table_reader(filename,fc,**kwargs):  #startline, 
     try:
         verbose=kwargs.get("verbose",False)
@@ -237,11 +262,20 @@ def table_reader(filename,fc,**kwargs):  #startline,
         log=''
         all_riders_found=True
         all_teams_found=True
-        year=kwargs.get("year",datetime.now())
+        year=kwargs.get("year",datetime.now().year)
 
         #differentiate local from remote
         if fc is not None:
-            df = RaceEdition(race_id=fc, year=year).ext_results().results_table
+            stage_num=kwargs.get("stage_num")
+            if stage_num==0:
+                stage_num=None
+            race_edition = RaceEdition(race_id=fc, year=year)
+            ext_res=race_edition.ext_results(stage_num=stage_num)
+            if kwargs.get("general_or_stage"):
+                df=race_edition.standings[general_or_stage_to_fc[kwargs.get("general_or_stage")]]
+            else:
+                df=ext_res.results_table
+            
         else: #real file
             if filename[-3:]=='csv': #with the site, the extension is given
                 filepath='uploads/'+filename
@@ -309,6 +343,7 @@ def table_reader(filename,fc,**kwargs):  #startline,
                 first_name=None
                 last_name=None
                 bib=None
+                fc_id=None
                 
                 if 'Name' in df.columns:
                     name=df['Name'].values[ii]
@@ -320,9 +355,11 @@ def table_reader(filename,fc,**kwargs):  #startline,
                     last_name=df['Last Name'].values[ii]
                 if 'BIB' in df.columns:
                     bib=df['BIB'].values[ii]
+                if 'Rider_ID' in df.columns:
+                    fc_id=df['Rider_ID'].values[ii]
                 
                 s=Search(name) 
-                id_rider=s.rider(first_name,last_name)
+                id_rider=s.rider(first_name,last_name,fc_id=fc_id)
                 if id_rider in ['Q0','Q1']:
                     if first_name is not None:
                         log+="\n" + str(first_name) + " " +  str(last_name) +" number "

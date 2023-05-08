@@ -10,7 +10,7 @@ import pywikibot
 site = pywikibot.Site("wikidata", "wikidata")
 
 def cycling_init_bot():
-    selector=10
+    selector=9
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -172,29 +172,34 @@ def cycling_init_bot():
     elif selector==9:
         from src.classification_importer import ClassificationImporter
         
-        id_race='Q116312240'
-        stage_or_general=0# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
-        #5 team, #6 team points, #7 youth points, #8 == sprints
+        id_race='Q116303847'
+        stage_or_general=5# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
+        #5 team, #6 team points, #7 youth points, #8 == sprints, #9 == all
         maxkk=10
         startliston=True
         test=False
-        fc=9045
+        fc=9058
+        stage_num=0 #only for stage, put 0 otherwise
         
         f=ClassificationImporter(stage_or_general,id_race,
                                  maxkk, test=test ,startliston=startliston,
-                                 fc=fc)
-        f.main()
+                                 fc=fc, stage_num=stage_num)
+        
+        if stage_or_general==9:
+            f.run_all()
+        else:
+            f.main()
 
     elif selector==10:
         from src.startlist_importer import StartlistImporter
         
-        id_race='Q116302599'
-        prologue_or_final=2 #0=prologue, 1=final, 2=one day race
-        chrono=False
+        id_race='Q116303847'
+        prologue_or_final=1 #0=prologue, 1=final, 2=one day race
+        chrono=True
         test=False
         man_or_woman=u'woman'
         force_nation_team=False
-        fc=9046
+        fc=9058
         
         f=StartlistImporter(prologue_or_final, id_race, chrono,
                             man_or_woman, force_nation_team,test=test,fc=fc)
@@ -312,6 +317,16 @@ def cycling_init_bot():
         
         f=SparQL()
         f.list_elements()
+    
+    #elif selector==20:
+        #from src.team_importer import TeamImporter
+        
+        #id_race='Q118174870'
+        #test=False
+        #fc=9460
+        
+        #f=TeamImporter(id_race, test=test, fc=fc)
+        #f.main()
     
     else: 
         print('do nothing')

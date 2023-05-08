@@ -6,7 +6,7 @@ Created on Sat Jan  6 15:38:42 2018
 """
 
 import pywikibot
-
+from pywikibot import pagegenerators as pg
 from .data import nation_team_table, language_list, race_list, exception 
 from .name import Name, CyclistName, concaten
 
@@ -373,6 +373,7 @@ class Race(PyItem):
     def get_year(self):
         self.get_date()
         if self.date is None:
+            print("date not found")
             return 0
         else:
             return int(self.date.year)
@@ -527,13 +528,14 @@ class Search(CyclingInitBot):
         self.site = pywikibot.Site("wikidata", "wikidata")
         self.repo = self.site.data_repository()
         
-    def rider(self, first_name, last_name):
+    def rider(self, first_name, last_name, **kwargs):
         return self.complexe(
             rider_bool=True,
             disam=self.is_it_a_cyclist,
             exception_table=exception.list_of_rider_ex(),
             first_name=first_name, 
-            last_name=last_name)
+            last_name=last_name,
+            fc_id=kwargs.get("fc_id"))
     
     def team_by_code(self, **kwargs):
         if kwargs.get("man_or_woman","woman")=="man" or kwargs.get("is_women",True)==False:
@@ -592,18 +594,19 @@ class Search(CyclingInitBot):
     #search_item
     def simple(self,**kwargs):
         search_name=kwargs.get("search_name",self.search_str)
-        disam=kwargs.get('disam',None) #disambiguation_function
-        force_disam=kwargs.get('force_disam',False)  #disam criteria must be always filed
-        
+        disam=kwargs.get('disam') #disambiguation_function
         wd_entries=self.get_items(search_name)
         
         if(wd_entries['search'] == []):
             # no result
             result_id = u'Q0'
+            fallback=kwargs.get("fallback")
+            if fallback is not None:
+                result_id=fallback(**kwargs)
         elif len(wd_entries['search'])==1:
             temp_id = wd_entries['search'][0]['id']
             
-            if force_disam==False:
+            if kwargs.get('force_disam',False)==False:  #disam criteria must be always filed
                 result_id=temp_id ##then we don't care, we just return the result
             else:
                 if disam(temp_id,**kwargs): #it must be correct, for instance a rider
@@ -739,6 +742,29 @@ class Search(CyclingInitBot):
                         return False                    
             return True
         return False    
+    
+    def search_fc_id(self, **kwargs):
+        fc_id=kwargs.get("fc_id")
+        
+        query_part1 = """SELECT ?item
+        WHERE{
+          ?item wdt:P10902 ?fcid .
+          FILTER(CONTAINS(?fcid,"""
+        query_part2=""")) .
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "fr", "en". }
+        }"""
+        query=query_part1 + str(fc_id) +query_part2
+        generator = pg.WikidataSPARQLPageGenerator(query, site=self.site, endpoint='https://query.wikidata.org/sparql')
+            
+        ii=0
+        for item in generator:
+            ii+=1 #check that there is only one result
+        
+        if ii==1:
+            generator = pg.WikidataSPARQLPageGenerator(query, site=self.site, endpoint='https://query.wikidata.org/sparql')
+            for item in generator:
+                return item.getID()
+        return u'Q0'
 
 class Log():
     def __init__(self):
