@@ -160,7 +160,12 @@ class ClassificationImporter(CyclingInitBot):
         for general_or_stage in general_or_stages:
             self.general_or_stage_init(general_or_stage)
             print("run all, starting code: "+ str(self.general_or_stage))
-            self.main()                     
+            try:
+                code, self.log=self.main()      
+            except:
+                return code, self.log
+            
+        return code, self.log
 
     def main(self):
         try:
