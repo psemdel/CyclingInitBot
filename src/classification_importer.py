@@ -158,6 +158,9 @@ class ClassificationImporter(CyclingInitBot):
         general_or_stages=get_fc_dic(self.fc, year=self.year, stage_num=self.stage_num)
         
         for general_or_stage in general_or_stages:
+            if len(general_or_stages)==1:
+                general_or_stage=0 #for single day race
+            
             self.general_or_stage_init(general_or_stage)
             print("run all, starting code: "+ str(self.general_or_stage))
             try:
