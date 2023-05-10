@@ -71,18 +71,33 @@ def parse_table(table):
 			out_df[col] = out_df[col].astype(str).str.replace('.', '', regex=False).astype(int)
 
 	# Parse soup to add information hidden in tags/links
-	headers = [th.text for th in table.tr.find_all('th')]
-	trs = table.find_all('tr')[1:]
+	if len([th.text for th in table.tr.find_all('th')])==0: #bug with youth, as a <tr> is missing
+		trs = table.find_all('tr')[0:]
+	else:
+		trs = table.find_all('tr')[1:]
+    
+	headers = [th.text for th in table.thead.find_all('th')]
 
 	if 'Race.1' in out_df:
 		out_df = out_df.rename(columns={'Race': 'Race_Country', 'Race.1': 'Race'})
 		headers.insert(headers.index('Race'), 'Race_Country')
-
+    
+	for col in out_df.columns: #problems with \nRider\n
+		if "Rider" in col:
+			out_df = out_df.rename(columns={col: 'Rider'})
+			break
+	for i, col in enumerate(headers): #problems with \nRider\n
+		if "Rider" in col:
+			headers[i]='Rider'
+			break
+     
+	#print(len(trs[0].find_all('td')))
+	#print(headers)    
 	soup_df = pd.DataFrame([tr.find_all('td') for tr in trs], columns=headers)
 
 	# Add information hidden in tags
 	for col, series in soup_df.items():
-		if "Rider" in col:
+		if col=="Rider":
 			out_df["Inv name"]=out_df["Rider"].str.lower()
 			out_df["Rider"] = series.apply(lambda td: td.a["title"]) #keep normal order first name + last name
 			out_df['Rider_ID'] = series.apply(lambda td: rider_link_to_id(td.a))
@@ -90,13 +105,6 @@ def parse_table(table):
 				out_df['Rider_Country'] = series.apply(lambda td: img_to_country_code(td.img))
 			except TypeError:
 				pass
-            
-		#if ('Rider' in col) or ('Winner' in col) or ('Second' in col) or ('Third' in col):
-		#	out_df[col + '_ID'] = series.apply(lambda td: rider_link_to_id(td.a))
-		#	try:
-		#		out_df[col + '_Country'] = series.apply(lambda td: img_to_country_code(td.img))
-		#	except TypeError:
-		#		pass
 
 		elif col == 'Team':
 			out_df['Team_ID'] = series.apply(lambda td: team_link_to_id(td.a) if td.a else None)
@@ -115,8 +123,6 @@ def parse_table(table):
 				pass
 
 	out_df = out_df.replace({'-': None}).dropna(how='all', axis=1)
-
-	# TODO Remove Unnamed columns
 	
 	return out_df
 
