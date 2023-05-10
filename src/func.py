@@ -273,7 +273,7 @@ def table_reader(filename,fc,**kwargs):  #startline,
             race_edition = RaceEdition(race_id=fc, year=year)
             ext_res=race_edition.ext_results(stage_num=stage_num)
             
-            if kwargs.get("general_or_stage") is not None:
+            if kwargs.get("general_or_stage") is not None and len(race_edition.standings)!=1: #single day race
                 df=race_edition.standings[general_or_stage_to_fc[kwargs.get("general_or_stage")]]
             else:
                 df=ext_res.results_table
