@@ -163,7 +163,8 @@ class ClassificationImporter(CyclingInitBot):
             try:
                 code, self.log=self.main()      
             except:
-                return code, self.log
+                print("routine :"+str(self.general_or_stage)+ " crashed, performing further other rankings")
+                pass 
             
         return code, self.log
 
@@ -173,15 +174,22 @@ class ClassificationImporter(CyclingInitBot):
                 self.year=self.race.get_year()
             if self.year is None:
                 raise ValueError('no year found')
-            
+                
+            if self.WWT and self.general_or_stage==0 and not self.race.get_is_stage():
+                maxkk=None #we need full ranking here
+            else:
+                maxkk=self.maxkk
+                
             if self.team_bool: #team
                 df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, team=True, 
                                            year=self.year,convert_team_code=True, is_women=self.is_women,
-                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage) 
+                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage,
+                                           maxkk=maxkk) 
             else: #if self.WWT: #rider, but team needed
                 df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, rider=True,team=True,
                                            year=self.year, is_women=self.is_women,
-                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage)                 
+                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage,
+                                           maxkk=maxkk)                 
             #else: #rider
 #                df, _, _, log=table_reader(self.file,result_points=self.result_points, rider=True,
                     #                       year=self.year) 
@@ -235,7 +243,6 @@ class ClassificationImporter(CyclingInitBot):
                                if self.general_or_stage==1:
                                    self.race.add_winner(this_id,int(row['Rank']),100) #stage winner
                                elif self.general_or_stage==0:
-                                   print("add winner")
                                    self.race.add_winner(this_id,int(row['Rank']),101) #stage leader                             
                         else:
                            if 'Name' in row:

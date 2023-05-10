@@ -235,7 +235,7 @@ general_or_stage_to_fc={
     3:'mountain',#mountains
     4:'youth',#youth 
     5:'team',#teamtime
-    #8:'P4322'#sprint 
+    8:'sprint'#sprint 
     }
 general_or_stage_to_fc_inv = {v: k for k, v in general_or_stage_to_fc.items()}
 
@@ -251,6 +251,7 @@ def get_fc_dic(fc,**kwargs):
     
     for k in race_edition.standings:
         general_or_stages.append(general_or_stage_to_fc_inv[k])
+
     return general_or_stages
 
 def table_reader(filename,fc,**kwargs):  #startline, 
@@ -271,7 +272,8 @@ def table_reader(filename,fc,**kwargs):  #startline,
                 stage_num=None
             race_edition = RaceEdition(race_id=fc, year=year)
             ext_res=race_edition.ext_results(stage_num=stage_num)
-            if kwargs.get("general_or_stage"):
+            
+            if kwargs.get("general_or_stage") is not None:
                 df=race_edition.standings[general_or_stage_to_fc[kwargs.get("general_or_stage")]]
             else:
                 df=ext_res.results_table
@@ -357,20 +359,23 @@ def table_reader(filename,fc,**kwargs):  #startline,
                     bib=df['BIB'].values[ii]
                 if 'Rider_ID' in df.columns:
                     fc_id=df['Rider_ID'].values[ii]
-                
-                s=Search(name) 
-                id_rider=s.rider(first_name,last_name,fc_id=fc_id)
-                if id_rider in ['Q0','Q1']:
-                    if first_name is not None:
-                        log+="\n" + str(first_name) + " " +  str(last_name) +" number "
-                    else:
-                        log+="\n" + str(name) +" number "
-                    if bib is not None:
-                        log+=str(bib)
-                    log+=" not found"
-                    if kwargs.get("need_complete",False):
-                        all_riders_found=False
-                rider_ids.append(id_rider)
+
+                if type(name)!=str: #nan
+                    rider_ids.append("QO")
+                else:
+                    s=Search(name) 
+                    id_rider=s.rider(first_name,last_name,fc_id=fc_id)
+                    if id_rider in ['Q0','Q1']:
+                        if first_name is not None:
+                            log+="\n" + str(first_name) + " " +  str(last_name) +" number "
+                        else:
+                            log+="\n" + str(name) +" number "
+                        if bib is not None:
+                            log+=str(bib)
+                        log+=" not found"
+                        if kwargs.get("need_complete",False):
+                            all_riders_found=False
+                    rider_ids.append(id_rider)
             df["ID Rider"]=rider_ids
         team=kwargs.get("team",False)
         if team or kwargs.get("convert_team_code",False):

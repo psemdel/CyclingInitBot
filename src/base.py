@@ -432,6 +432,7 @@ class Race(PyItem):
          return label
      
     def add_winner(self, value, order, general_or_stage):
+        print("add winner")
         prop = "P1346"
         #general_or_stage to "vainqueur de xy"
         dic_order1={0:'Q20882667',2:'Q20883007', 3:'Q20883212', 4:'Q20883139',8:'Q20883328',100:'Q20882747',101:'Q20882763'}
@@ -452,22 +453,23 @@ class Race(PyItem):
         if Addc:
             if prop in self.item.claims:
                 list_of_winners = self.item.claims.get(prop)
-                # look if already there as a rider can't be first, second and third
-                # at the same time
                 for winner in list_of_winners:
                     if winner.getTarget().getID() == value:  # Already there
                         Addc = False
-                        print('winner already in the list')
+                        claim=winner
+                        print("claim found")
     
-            if Addc:
+            if Addc: #adding the winner
                 claim = pywikibot.Claim(self.repo, prop)
                 target = pywikibot.ItemPage(self.repo, value)
+                
                 claim.setTarget(target)
                 self.item.addClaim(claim, summary=u'Adding winner')
-                qualifierDe = pywikibot.page.Claim(self.site, 'P642', is_qualifier=True)
-                targetQualifier = pywikibot.ItemPage(self.repo, qualifier_nummer)
-                qualifierDe.setTarget(targetQualifier)
-                claim.addQualifier(qualifierDe)
+                
+            #adding the qualifier
+            print(qualifier_nummer)
+            target_q=pywikibot.ItemPage(self.repo, qualifier_nummer)
+            self.add_qualifier(claim,'P642',target_q)
                 
     def get_is_stage(self):
         stagesQ=[
@@ -715,7 +717,7 @@ class Search(CyclingInitBot):
             if (u'P2094' in item.claims):
                 P2094=item.claims.get(u'P2094')
                 for p2094 in P2094:
-                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#, "Q1451845" #cats and women cycling 
+                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q1451845"]:#, #cats and women cycling, Q1451845 required for national team
                         return True
             #if (u'P31' in item.claims):
             #    P31=item.claims.get(u'P31')
