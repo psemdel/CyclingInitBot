@@ -172,13 +172,13 @@ def cycling_init_bot():
     elif selector==9:
         from src.classification_importer import ClassificationImporter
         
-        id_race='Q116303847'
-        stage_or_general=5# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
+        id_race='Q116303938'
+        stage_or_general=9# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
         #5 team, #6 team points, #7 youth points, #8 == sprints, #9 == all
         maxkk=10
         startliston=True
         test=False
-        fc=9058
+        fc=12195
         stage_num=0 #only for stage, put 0 otherwise
         
         f=ClassificationImporter(stage_or_general,id_race,
@@ -318,15 +318,15 @@ def cycling_init_bot():
         f=SparQL()
         f.list_elements()
     
-    #elif selector==20:
-        #from src.team_importer import TeamImporter
+    elif selector==20:
+        from src.team_importer import TeamImporter
         
-        #id_race='Q118174870'
-        #test=False
-        #fc=9460
+        id_race='Q116303760'
+        test=True
+        fc=9052
         
-        #f=TeamImporter(id_race, test=test, fc=fc)
-        #f.main()
+        f=TeamImporter(id_race, test=test, fc=fc)
+        f.main()
     
     else: 
         print('do nothing')
