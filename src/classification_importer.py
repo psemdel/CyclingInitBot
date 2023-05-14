@@ -27,7 +27,7 @@ class ClassificationImporter(CyclingInitBot):
         self.year=kwargs.get('year',None)
         if self.year is None:
             self.year=self.race.get_year()
-        
+
         self.is_women=self.race.get_is_women()
         self.startliston=kwargs.get('startliston',True)
         self.file=kwargs.get('file','Results')
@@ -156,9 +156,9 @@ class ClassificationImporter(CyclingInitBot):
 
     def run_all(self):
         general_or_stages=get_fc_dic(self.fc, year=self.year, stage_num=self.stage_num)
-        
+
         for general_or_stage in general_or_stages:
-            if len(general_or_stages)==1:
+            if len(general_or_stages)==1 and self.stage_num==None:
                 general_or_stage=0 #for single day race
             
             self.general_or_stage_init(general_or_stage)
@@ -192,7 +192,7 @@ class ClassificationImporter(CyclingInitBot):
                 df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, rider=True,team=True,
                                            year=self.year, is_women=self.is_women,
                                            stage_num=self.stage_num, general_or_stage=self.general_or_stage,
-                                           maxkk=maxkk)                 
+                                           maxkk=maxkk)   
             #else: #rider
 #                df, _, _, log=table_reader(self.file,result_points=self.result_points, rider=True,
                     #                       year=self.year) 

@@ -9,6 +9,7 @@ import pywikibot
 from pywikibot import pagegenerators as pg
 from .data import nation_team_table, language_list, race_list, exception 
 from .name import Name, CyclistName, concaten
+from datetime import datetime
 
 ### All classes in the code ###
 
@@ -136,6 +137,9 @@ class PyItem():
     def add_qualifier(self,claim,prop,target_q):
         Addc = True
         for qual in claim.qualifiers.get(prop, []):
+            print("qualificatif found")
+            print(qual)
+            
             Addc = False
         if Addc:
             q=pywikibot.page.Claim(self.site, prop, is_qualifier=True)
@@ -374,7 +378,7 @@ class Race(PyItem):
         self.get_date()
         if self.date is None:
             print("date not found")
-            return 0
+            return datetime.now().year
         else:
             return int(self.date.year)
     
