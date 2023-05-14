@@ -15,7 +15,8 @@ from datetime import datetime
 
 from .name import Name
 from .base import Search, Cyclist, Team
-from .first_cycling_api import RaceEdition
+from .FirstCyclingAPI.first_cycling_api.combi import combi_results_startlist
+from .FirstCyclingAPI.first_cycling_api.race import RaceEdition
 
 import sys
 
@@ -228,6 +229,18 @@ def define_article(name):
     
         return "du ", race_name #default
 
+general_or_stage_to_classification_num={
+    0:1, #general
+    1:None, #stage
+    2:3,#points
+    3:4,#mountains
+    4:2,#youth 
+    5:8,#teamtime
+    8:6 #sprint 
+    }
+
+general_or_stage_to_classification_num_inv = {v: k for k, v in general_or_stage_to_classification_num.items()}
+
 general_or_stage_to_fc={
     0:'gc', #general
     1:'sta',#stage
@@ -244,13 +257,17 @@ def get_fc_dic(fc,**kwargs):
     year=kwargs.get("year",datetime.now().year)
     if stage_num==0:
         stage_num=None
-    race_edition = RaceEdition(race_id=fc, year=year)
-    race_edition.ext_results(stage_num=stage_num)
-    
+    t=combi_results_startlist(fc,year,stage_num=stage_num)
     general_or_stages=[]
     
-    for k in race_edition.standings:
+    for k in t.standings:
         general_or_stages.append(general_or_stage_to_fc_inv[k])
+
+    if len(general_or_stages)==0: #old race style
+        for k in general_or_stage_to_classification_num_inv:
+            t=combi_results_startlist(fc,year,stage_num=stage_num,classification_num=k)
+            if t is not None:
+                general_or_stages.append(general_or_stage_to_classification_num_inv[k])
 
     return general_or_stages
 
@@ -270,13 +287,27 @@ def table_reader(filename,fc,**kwargs):  #startline,
             stage_num=kwargs.get("stage_num")
             if stage_num==0:
                 stage_num=None
-            race_edition = RaceEdition(race_id=fc, year=year)
-            ext_res=race_edition.ext_results(stage_num=stage_num)
             
-            if kwargs.get("general_or_stage") is not None and len(race_edition.standings)!=1: #single day race
-                df=race_edition.standings[general_or_stage_to_fc[kwargs.get("general_or_stage")]]
+            if kwargs.get("general_or_stage") is not None: #single day race
+            
+                if kwargs.get("general_or_stage")==5:# team
+                    r=RaceEdition(race_id=fc,year=year)
+                    t=r.results(stage_num=stage_num,classification_num=5)
+                else:
+                    print(general_or_stage_to_classification_num[kwargs.get("general_or_stage")])
+                    t=combi_results_startlist(
+                        fc,
+                        year,
+                        stage_num=stage_num,
+                        classification_num=general_or_stage_to_classification_num[kwargs.get("general_or_stage")]
+                        )
             else:
-                df=ext_res.results_table
+                t=combi_results_startlist(
+                    fc,
+                    year,
+                    stage_num=stage_num,
+                    )
+            df=t.results_table
             
         else: #real file
             if filename[-3:]=='csv': #with the site, the extension is given
