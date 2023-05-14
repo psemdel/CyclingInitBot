@@ -1,0 +1,3 @@
+[submodule "FirstCyclingAPI"] 
+  path = src/FirstCyclingAPI
+  url = https://github.com/psemdel/FirstCyclingAPI
