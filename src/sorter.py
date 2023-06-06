@@ -42,7 +42,6 @@ class DateSorter(CyclingInitBot):
                         order_ok=False
                     if not order_ok:
                         key = e
-                        
                         self.team.delete_value(self.prop,self.listo[key].id,'race for sorting')
                         self.team.add_values(self.prop,self.listo[key].id,'race for sorting',True)
 
@@ -106,8 +105,7 @@ class NameSorter(CyclingInitBot):
                 self.log.concat("property for name sorting not found")
                 return 10, self.log   
             dic = {}
-            #list_of_names = [['' for x in range(2)] for y in list_of_comprend]
-            list_of_names=[]
+            unsorted_list_of_names=[]
             
             for e in list_of_comprend:
                 if self.prop =="P1923":
@@ -118,17 +116,15 @@ class NameSorter(CyclingInitBot):
                     o=Race(id=e.getTarget().getID())
     
                 dic[o.sortkey]=o
-              #  list_of_objects.append(o)
-                list_of_names.append(o.sortkey) #sortkey is generate automatically
+                unsorted_list_of_names.append(o.sortkey) #sortkey is generate automatically, original order
                 
-            sorted_names = sorted(list_of_names, key=lambda tup: tup[0])    
-            self.log.concat('sorted list :')
-            self.log.concat(sorted_names)
+            sorted_names = sorted(unsorted_list_of_names, key=lambda tup: tup[0])    
+            self.log.concat('sorted list : '+str(sorted_names))
             order_ok=True
 
             if not self.test:
                 for ii, name in enumerate(sorted_names):
-                    if name != list_of_names[ii]: #change only from the moment it differs, afterwards everything must be ordered
+                    if name != unsorted_list_of_names[ii]: #change only from the moment it differs, afterwards everything must be ordered
                         order_ok=False
                     if not order_ok:
                         claim = self.team.item.claims[self.prop][0]

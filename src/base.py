@@ -90,7 +90,7 @@ class PyItem():
              return None
             
     def add_value(self, prop, value, comment,**kwargs):
-        if value!=0 or kwargs.get("date",False): #date is somehow not different from 0
+        if not isinstance(value,int) or (isinstance(value,int) and value!=0) or kwargs.get("date",False): #date is somehow not different from 0
             if prop not in self.item.claims:  # already there do nothing
                 claim = pywikibot.Claim(self.repo, prop)
                 if kwargs.get("date",False) or kwargs.get("noId",False):
@@ -113,22 +113,31 @@ class PyItem():
             self.item.removeClaims(self.item.claims[prop])
 
 # Same as add value but for comprend
-    def add_values(self,prop,vId,comment,overpass):
+    def add_values(self,prop,value,comment,overpass,**kwargs):
         # check if the value is not already 
         Addc = True
         
         if not overpass:  # To add a value and then delete it for sorting purpose
             if prop in self.item.claims:  # already there do nothing
                 for e in self.item.claims.get(prop) :
-                    if e.getTarget().getID() == vId:  # Already there
-                        claim=e
-                        Addc = False
-                        print('Item already present')
-                        break
+                    if kwargs.get("date",False) or kwargs.get("noId",False):
+                        if e.getTarget() == value:  # Already there
+                            claim=e
+                            Addc = False
+                            print('Item already present')
+                            break   
+                    elif e.getTarget().getID() == value:  # Already there
+                            claim=e
+                            Addc = False
+                            print('Item already present')
+                            break
         # add the value
         if Addc:
             claim = pywikibot.Claim(self.repo, prop)
-            target = pywikibot.ItemPage(self.repo, vId)
+            if kwargs.get("date",False) or kwargs.get("noId",False):
+                target=value
+            else:
+                target = pywikibot.ItemPage(self.repo, value)
             claim.setTarget(target)
             self.item.addClaim(claim, summary=u'Adding ' + comment)
         return Addc, claim
@@ -136,11 +145,10 @@ class PyItem():
     #note: as claim is defined, the pyItem calling does not matter
     def add_qualifier(self,claim,prop,target_q):
         Addc = True
-        for qual in claim.qualifiers.get(prop, []):
-            print("qualificatif found")
-            print(qual)
-            
-            Addc = False
+        for qual in claim.qualifiers.get(prop, []): #the get(prop, []) avoids a crash if the qualifier is not present
+            if qual.target==target_q:
+                print("qualificatif found")
+                Addc = False
         if Addc:
             q=pywikibot.page.Claim(self.site, prop, is_qualifier=True)
             q.setTarget(target_q)
@@ -435,21 +443,22 @@ class Race(PyItem):
              label=label_raw
          return label
      
-    def add_winner(self, value, order, general_or_stage):
-        print("add winner")
+    def add_winner(self, value, order, general_or_stage,**kwargs):
         prop = "P1346"
         #general_or_stage to "vainqueur de xy"
-        dic_order1={0:'Q20882667',2:'Q20883007', 3:'Q20883212', 4:'Q20883139',8:'Q20883328',100:'Q20882747',101:'Q20882763'}
+        if kwargs.get("stage",False):
+            dic_order1={0:'Q20882763',1:'Q20882747',2:'Q20883008',3:'Q20883213',4:'Q20883140',5: "Q20882922", 8:'Q20883329'}
+        else:
+            dic_order1={0:'Q20882667',2:'Q20883007', 3:'Q20883212', 4:'Q20883139',5: "Q20882921", 8:'Q20883328'}
         Addc = True
+        qualifier_nummer = None
     
         if order == 1:
             if general_or_stage in dic_order1:
                 qualifier_nummer=dic_order1[general_or_stage]
-            else:
-                qualifier_nummer = 'Q20882667'
-        elif order == 2 and general_or_stage==0:
+        elif order == 2 and general_or_stage==0 and not kwargs.get("stage",False):
             qualifier_nummer = 'Q20882668'
-        elif order == 3 and general_or_stage==0:
+        elif order == 3 and general_or_stage==0 and not kwargs.get("stage",False):
             qualifier_nummer = 'Q20882669'
         else:
             Addc = False
@@ -461,7 +470,6 @@ class Race(PyItem):
                     if winner.getTarget().getID() == value:  # Already there
                         Addc = False
                         claim=winner
-                        print("claim found")
     
             if Addc: #adding the winner
                 claim = pywikibot.Claim(self.repo, prop)
@@ -471,9 +479,9 @@ class Race(PyItem):
                 self.item.addClaim(claim, summary=u'Adding winner')
                 
             #adding the qualifier
-            print(qualifier_nummer)
-            target_q=pywikibot.ItemPage(self.repo, qualifier_nummer)
-            self.add_qualifier(claim,'P642',target_q)
+            if qualifier_nummer is not None:
+                target_q=pywikibot.ItemPage(self.repo, qualifier_nummer)
+                self.add_qualifier(claim,'P642',target_q)
                 
     def get_is_stage(self):
         stagesQ=[
@@ -494,6 +502,15 @@ class Race(PyItem):
                     return True
         return False
     
+    def add_speed(self,time):
+        if (u'P3157' in self.item.claims): #distance
+            P3157=self.item.claims.get(u'P3157')
+            distance=P3157[0].getTarget().amount
+            speed=round(distance/time*3600,2)
+            itemKmh=pywikibot.ItemPage(self.repo, "Q180154")
+            speed_with_unit = pywikibot.WbQuantity(amount=speed, site=self.site, unit=itemKmh)
+            self.add_value("P2052", speed_with_unit, u'speed',noId=True)
+
 class Team(PyItem):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

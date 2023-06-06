@@ -289,12 +289,10 @@ def table_reader(filename,fc,**kwargs):  #startline,
                 stage_num=None
             
             if kwargs.get("general_or_stage") is not None: #single day race
-            
-                if kwargs.get("general_or_stage")==5:# team
+                if kwargs.get("general_or_stage")==5:# team, no need to mix the tables
                     r=RaceEdition(race_id=fc,year=year)
-                    t=r.results(stage_num=stage_num,classification_num=5)
+                    t=r.results(stage_num=stage_num,classification_num=general_or_stage_to_classification_num[kwargs.get("general_or_stage")])
                 else:
-                    print(general_or_stage_to_classification_num[kwargs.get("general_or_stage")])
                     t=combi_results_startlist(
                         fc,
                         year,
