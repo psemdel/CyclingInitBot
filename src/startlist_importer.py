@@ -189,6 +189,25 @@ class StartlistImporter(CyclingInitBot):
                 target_DSQqual = pywikibot.ItemPage(self.repo, u'Q1229261')
                 target_OOTqual = pywikibot.ItemPage(self.repo, u'Q7113430')
                 
+                #add starting/finishing number of participants
+                if self.prologue_or_final in [0,2]:
+                    nb_starter=0
+                    for ii, cyclist in enumerate(self.list_of_cyclists):
+                        if cyclist.id not in ['Q0','Q1']:
+                            if cyclist.rank!="DNS":
+                                nb_starter+=1
+                    target=pywikibot.WbQuantity(amount=nb_starter, site=self.site)
+                    _, claim=self.race.add_values('P1132', target, 'number of participants', False,noId=True)
+                    target_q = pywikibot.ItemPage(self.repo, 'Q529711')
+                    self.race.add_qualifier(claim,'P276',target_q)
+                if self.prologue_or_final in [1,2]:  
+                    if "Rank" in df.columns:
+                        l=[e for e in df["Rank"] if not isinstance(e,str)]
+                        target=pywikibot.WbQuantity(amount=int(max(l)), site=self.site)
+                        _, claim=self.race.add_values('P1132', target, 'number of participants', False,noId=True)
+                        target_q = pywikibot.ItemPage(self.repo, 'Q12769393')
+                        self.race.add_qualifier(claim,'P276',target_q)
+                
                 self.log.concat(u'inserting start list')
                 for ii, cyclist in enumerate(self.list_of_cyclists):
                     if cyclist.id not in ['Q0','Q1']:

@@ -193,9 +193,6 @@ class ClassificationImporter(CyclingInitBot):
                                            year=self.year, is_women=self.is_women,
                                            stage_num=self.stage_num, general_or_stage=self.general_or_stage,
                                            maxkk=maxkk)   
-            #else: #rider
-#                df, _, _, log=table_reader(self.file,result_points=self.result_points, rider=True,
-                    #                       year=self.year) 
             self.log.concat(log)
             
             df2=df.iloc[:self.maxkk]
@@ -232,6 +229,9 @@ class ClassificationImporter(CyclingInitBot):
                            elif row['Rank']==1:
                                target_q = pywikibot.WbQuantity(amount=row['Time'], site=self.site, unit=itemSeconds)   
                                self.race.add_qualifier(claim,'P2781',target_q)
+                               if ((self.general_or_stage==0 and not self.race.get_is_stage()) or
+                                   self.general_or_stage==1 and self.race.get_is_stage()):
+                                   self.race.add_speed(row['Time'])
                            else:
                                if row['Ecart']!=-1:
                                    target_q = pywikibot.WbQuantity(amount=row['Ecart'], site=self.site, unit=itemSeconds)
@@ -243,10 +243,7 @@ class ClassificationImporter(CyclingInitBot):
                            if (self.general_or_stage in self.general_or_stage_addwinner) and not self.race.get_is_stage():
                               self.race.add_winner(this_id,int(row['Rank']),self.general_or_stage)
                            elif self.race.get_is_stage():
-                               if self.general_or_stage==1:
-                                   self.race.add_winner(this_id,int(row['Rank']),100) #stage winner
-                               elif self.general_or_stage==0:
-                                   self.race.add_winner(this_id,int(row['Rank']),101) #stage leader                             
+                              self.race.add_winner(this_id,int(row['Rank']),self.general_or_stage,stage=True) #stage winner
                         else:
                            if 'Name' in row:
                                self.log.concat(row['Name'])

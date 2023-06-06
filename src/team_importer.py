@@ -24,7 +24,7 @@ class TeamImporter(CyclingInitBot):
     def __init__(self, id_race,**kwargs):
         super().__init__(**kwargs)
         self.race=Race(id=id_race)
-        self.verbose=True
+        self.verbose=False
         
         self.year=kwargs.get('year',None)
         if self.year is None:
@@ -52,14 +52,21 @@ class TeamImporter(CyclingInitBot):
             self.log.concat('result_table created')
             if self.verbose:
                 print(df2)
- 
+                
+            #sorting
+            dic={}
+            for e in df2:
+                o=Team(id=e)
+                dic[o.sortkey]=o
+            sorted_team =  sorted(dic.items(), key=lambda tup: tup[0])   
+            self.log.concat("sorted teams:"+ str(sorted_team))
+            
             if not self.test:
                 if(self.prop in self.race.item.claims):  #already there do nothing
                     self.log.concat(u'Classification already there')
                 else: 
-                    #claim=pywikibot.Claim(self.repo, self.prop)  
-                    for ii in range(len(df2)):
-                        self.race.add_values(self.prop, df2.values[ii], 'participating team', False) 
+                    for v in sorted_team:
+                        self.race.add_values(self.prop, v[1].id, 'participating team', False) 
                      
                 self.log.concat('teams inserted')
                 return 0, self.log   
