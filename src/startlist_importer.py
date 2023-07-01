@@ -7,40 +7,87 @@ Created on Thu Dec 19 20:34:29 2019
 """
 import pywikibot
 import sys
+import pandas as pd
 from .base import CyclingInitBot, Race, Search
 from .get_rider_tricot import GetRiderTricot
 from .func import cyclists_table_reader, table_reader    
   
 class StartlistImporter(CyclingInitBot):
-    def __init__(self,prologue_or_final, id_race, 
-          chrono,man_or_woman, force_nation_team,**kwargs):
+    def __init__(
+            self,
+            prologue_or_final: int, 
+            id_race: str, 
+            chrono: bool,
+            man_or_woman: str, 
+            force_nation_team: bool=False,
+            file:str="Results",
+            fc:int=None,
+            verbose:bool=False,
+            add_unknown_rider:bool=False,
+            **kwargs
+            ):
+        '''
+        Import a startlist for a race
+
+        Parameters
+        ----------
+        prologue_or_final : TYPE
+            Is the start list imported from the result of the first stage/prologue, or from the final results?
+            Code is prologue=0, final=1, single day race=2
+        id_race : TYPE
+            wikidata id of the race,
+        chrono : TYPE
+            Is there an ITT during the whole race
+        man_or_woman : str
+            age category and gender of the races to be created
+        force_nation_team : bool
+            Is there only national team?
+        file : str, optional
+            name of the file to be read
+        fc : int, optional
+            Id in firstcycling    
+        add_unknown_rider : bool
+            Add missing riders or stop the process if one is missing
+        '''
         super().__init__(**kwargs)
-        self.prologue_or_final=prologue_or_final
+        for k in ["prologue_or_final","man_or_woman","force_nation_team","file", "chrono","fc",
+                  "verbose","add_unknown_rider"]:
+            setattr(self,k,locals()[k])
+
         self.race=Race(id=id_race)
         self.time_of_race=self.race.get_date()
         self.year=self.time_of_race.year
-        self.chrono=chrono
-        self.man_or_woman=man_or_woman
-        self.force_nation_team=force_nation_team
-        self.file=kwargs.get('file','Results')
-        fc=kwargs.get("fc",None)
-        if fc==0:
-            fc=None
-        self.fc=fc
 
-        self.verbose=kwargs.get('verbose')
+        if self.fc==0:
+            self.fc=None
 
-    def IDtoCIOsearch(self,this_id):
-        if this_id=="Q55":
+    def IDtoCIOsearch(self,country_id:str):
+        '''
+        Return the CIO code of a country, for instance "FRA", from the country id in wikidata
+
+        Parameters
+        ----------
+        country_id : str
+            country id in wikidata
+        '''
+        if country_id=="Q55":
             return 'NED'
         
         for keys in self.nation_table:
-            if self.nation_table[keys]["country"]==this_id:
+            if self.nation_table[keys]["country"]==country_id:
                 return keys
-        print("country ID not found: " + str(this_id))  
+        print("country ID not found: " + str(country_id))  
         return ""
 
-    def get_national_team_id(self, country_id):
+    def get_national_team_id(self, country_id: str):
+        '''
+        Search for the national team of a country for a certain year
+
+        Parameters
+        ----------
+        country_id : str
+            country id in wikidata
+        '''        
         if self.man_or_woman==u'woman':
             positive_list=['féminine de cyclisme']
             negative_list=[]
@@ -56,7 +103,15 @@ class StartlistImporter(CyclingInitBot):
         s=Search(self.IDtoCIOsearch(country_id) + " " + str(self.year))
         return s.national_team(positive_list=positive_list,negative_list=negative_list)
 
-    def find_national_team(self, df):
+    def find_national_team(self, df: pd.core.frame.DataFrame):
+        '''
+        Try to detect national team in the start list by checking the nationality of successive riders in it
+        
+        Parameters
+        ----------
+        df: pd.core.frame.DataFrame
+            dataframe containing the imported file
+        '''          
         try:
             national_team_detected=False #otherwise insert nothing during first loop
             all_same_team=1
@@ -142,15 +197,36 @@ class StartlistImporter(CyclingInitBot):
              _, _, exc_tb = sys.exc_info()
              print("line " + str(exc_tb.tb_lineno))
              print(msg)
-     
+ 
+    def add_rank(self, claim, cyclist):
+        target_DNFqual = pywikibot.ItemPage(self.repo, u'Q1210380')
+        target_DNSqual = pywikibot.ItemPage(self.repo, u'Q1210382')
+        target_DSQqual = pywikibot.ItemPage(self.repo, u'Q1229261')
+        target_OOTqual = pywikibot.ItemPage(self.repo, u'Q7113430')
+        
+        if cyclist.rank==0 or cyclist.rank=="DNF": #no ranking
+            self.race.add_qualifier(claim,'P1534',target_DNFqual)
+        elif cyclist.rank=="DNS":
+            self.race.add_qualifier(claim,'P1534',target_DNSqual)
+        elif cyclist.rank=="DSQ": 
+            self.race.add_qualifier(claim,'P1534',target_DSQqual)
+        elif cyclist.rank=="OOT": 
+            self.race.add_qualifier(claim,'P1534',target_OOTqual)    
+        else:
+            target_q =  pywikibot.WbQuantity(amount=cyclist.rank, site=self.site)
+            self.race.add_qualifier(claim,'P1352',target_q)
+            
     def main(self):
+        '''
+        Main function of this script
+        '''
         try:
             df, all_riders_found, _, log=table_reader(
                 self.file,
                 self.fc,
                 start_list=True,
                 verbose=self.verbose,
-                need_complete=True,
+                need_complete=not self.create_missing,
                 rider=True,
                 year=self.year)
             self.log.concat(log)
@@ -158,7 +234,7 @@ class StartlistImporter(CyclingInitBot):
             if df is None:
                 raise ValueError("table reader failed")
                 
-            if not all_riders_found:
+            if not all_riders_found and not self.add_unknown_rider:
                 self.log.concat(u'Not all riders found, request stopped')
                 return 1, self.log
                 
@@ -185,9 +261,6 @@ class StartlistImporter(CyclingInitBot):
                     self.find_national_team(df)
                     
                 target_DNFqual = pywikibot.ItemPage(self.repo, u'Q1210380')
-                target_DNSqual = pywikibot.ItemPage(self.repo, u'Q1210382')
-                target_DSQqual = pywikibot.ItemPage(self.repo, u'Q1229261')
-                target_OOTqual = pywikibot.ItemPage(self.repo, u'Q7113430')
                 
                 #add starting/finishing number of participants
                 if self.prologue_or_final in [0,2]:
@@ -220,7 +293,7 @@ class StartlistImporter(CyclingInitBot):
                                     if self.prologue_or_final==1:
                                         list_of_lost.remove(e)
                                         
-                        if claim is None:  ##create the rider
+                        if claim is None:  ##add the rider to the property
                             if self.prologue_or_final==1:
                                 self.log.concat('\n rider not found, id: '+str(cyclist.id))
                             _, claim=self.race.add_values('P710', cyclist.id, 'starterlist', False)
@@ -231,21 +304,16 @@ class StartlistImporter(CyclingInitBot):
                                 self.race.add_qualifier(claim,'P54',target_q)
                                 
                         if self.prologue_or_final in [1,2]:
-                           if cyclist.rank==0 or cyclist.rank=="DNF": #no ranking
-                               self.race.add_qualifier(claim,'P1534',target_DNFqual)
-                           elif cyclist.rank=="DNS":
-                               self.race.add_qualifier(claim,'P1534',target_DNSqual)
-                           elif cyclist.rank=="DSQ": 
-                               self.race.add_qualifier(claim,'P1534',target_DSQqual)
-                           elif cyclist.rank=="OOT": 
-                               self.race.add_qualifier(claim,'P1534',target_OOTqual)    
-                           else:
-                               target_q =  pywikibot.WbQuantity(amount=cyclist.rank, site=self.site)
-                               self.race.add_qualifier(claim,'P1352',target_q)
+                            self.add_rank(claim,cyclist)
                         if not self.force_nation_team and self.prologue_or_final!=1: #when only national team, no national tricot
                             #to avoid being called every time, should be centralized
                             grt=GetRiderTricot(cyclist.id, self.time_of_race, claim, self.chrono, self.man_or_woman)
                             grt.main()
+                    elif self.add_unknown_rider and self.prologue_or_final in [0,2]: #otherwise it will add the same riders several time
+                        _, claim=self.race.add_values('P710', "Q120122853", 'starterlist', False)
+                        self.race.add_qualifier(claim,'P1618',str(cyclist.dossard))
+                        self.add_rank(claim,cyclist)
+                        
                 #all riders are classified, assumption the other are DNF
                 if self.prologue_or_final==1:
                     for claim in list_of_lost:

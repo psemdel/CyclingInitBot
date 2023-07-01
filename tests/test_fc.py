@@ -9,17 +9,16 @@ Created on Tue Mar 22 13:40:34 2022
 import pywikibot
 import unittest
 
-from src.first_cycling_api import RaceEdition      
+from src.FirstCyclingAPI.first_cycling_api.combi import combi_results_startlist
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
 
 class TestFC(unittest.TestCase):
     def test_startlist(self):
-        df = RaceEdition(race_id=9045, year=2023).ext_results().results_table
-        
+        df= combi_results_startlist(9045,2023).results_table
+
         sub_df=df[df["Inv name"]=="wiebes lorena"]
-        
         self.assertEqual(sub_df.iloc[0]["Rider"],"Lorena Wiebes")
         self.assertEqual(sub_df.iloc[0]["Pos"],"1")
         self.assertEqual(sub_df.iloc[0]["BIB"],1.0)

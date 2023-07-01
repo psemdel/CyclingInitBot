@@ -7,14 +7,36 @@ import pywikibot
 from .base import CyclingInitBot, PyItem, create_item
 
 class TeamCreator(CyclingInitBot):
-    def __init__(self,name,id_master,countryCIO,UCIcode,year,**kwargs):
+    def __init__(
+            self,
+            name: str,
+            id_master: str,
+            country: str,
+            UCIcode: str,
+            year: int,
+            category_id:str=None,
+            **kwargs):
+        '''
+        Createa season for a team
+
+        Parameters
+        ----------
+        name : str
+            Name of the race in the current year
+        id_master : str
+            wikidata id of the race, idenpendent from the year
+        country : str
+            code of the country, for instance "FRA"
+        UCIcode : str
+            UCI code of the team in the current year
+        year : int
+        category_id : str, optional
+            Category of the team in the current year
+        '''
         super().__init__(**kwargs)
-        self.name=name
-        self.id_master=id_master
-        self.countryCIO=countryCIO
-        self.UCIcode=UCIcode
-        self.year=year
-        self.category_id=kwargs.get("category_id",None)
+        for k in ["name","id_master","country","UCIcode","year","category_id"]:
+            setattr(self,k,locals()[k])
+
         self.label={}
         self.alias={}
         
@@ -24,6 +46,9 @@ class TeamCreator(CyclingInitBot):
                 self.alias[lang]=[self.UCIcode + " "   + str(self.year)]
     
     def main(self):
+        '''
+        Main function of this script
+        '''
         try:
             pyItem=create_item(self.label)
             if pyItem is not None:
@@ -42,12 +67,10 @@ class TeamCreator(CyclingInitBot):
                     pyItem.add_values("P2094", self.category_id, 'Category', False)
                 pyItem.add_values("P31", "Q53534649", 'Season', False)
                 pyItem.add_value("P641", "Q3609", 'cyclisme sur route')
-                pyItem.add_value("P17", self.nation_table[self.countryCIO]["country"], 'country')
+                pyItem.add_value("P17", self.nation_table[self.country]["country"], 'country')
                 pyItem.add_value("P5138", self.id_master, 'part of')
                 pyItem_master=PyItem(id=self.id_master)
                 pyItem_master.add_values("P527",pyItem.id,'new season',False)
-
-
                 start_date = pywikibot.WbTime(
                     site=self.site,
                     year=self.year,
@@ -74,11 +97,9 @@ class TeamCreator(CyclingInitBot):
             return 0, self.log, pyItem.id
         except Exception as msg:
             print(msg)
-            self.log.concat("General Error in team creator")
+            self.log.concat("General Error in team creator " + msg)
             return 10, self.log, "Q1"
-        except:
-            self.log.concat("General Error in team creator")
-            return 10, self.log, "Q1"
+
     
 
     

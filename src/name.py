@@ -1,13 +1,19 @@
 import pywikibot
 
 def concaten(names_table,ii):
+    '''
+    Concatenate first and last name
+    '''
     start=names_table[ii]
     for kk in range(ii+1,len(names_table)):
         start=start+" " + names_table[kk]
     return start
 
 class Name():
-    def __init__(self, name):
+    def __init__(self, name: str):
+        '''
+        Name, of team, rider,... corrected
+        '''
         self.name = name or ""
         self.name_cor = name or ""
         self.correct_name()
@@ -20,7 +26,9 @@ class Name():
         self.supprime_accent()
 
     def supprime_accent(self):
-        """ supprime les accents du texte source """
+        """ 
+        Remove the accents
+        """
         ligne = self.name_cor
         accents = {'a': ['à', 'ã', 'á', 'â', 'ä'],
                    'e': ['é', 'è', 'ê', 'ë','ė'],
@@ -38,8 +46,10 @@ class Name():
                 ligne = ligne.replace(accented_char, char)
         self.name_cor=ligne 
 
-#cut beginning of the name
     def find_start_sortkey(self, start_words):
+        '''
+        Cut beginning of the name
+        '''
         for word in start_words:
             if self.name_cor.find(word)!=-1:
                 self.sortkey=self.name_cor[len(word):]
@@ -47,34 +57,36 @@ class Name():
         return self.sortkey
 
 class CyclistName(Name):
-     def __init__(self, name):
+     def __init__(self, name:str):
+        '''
+        Name of a cyclist
+        '''
         super().__init__(name)
         self.supprime_esset() #keep the upper
         self.check_and_revert()
         self.supprime_accent()
         
      def supprime_esset(self):
-        """ supprime les accents du texte source """
-        ligne = self.name
+        """
+        Remove some special character
+        """
         accents = {
                    'SS' : ['ß'], #avoid geßner bug
                    }
         for (char, accented_chars) in accents.items():
             for accented_char in accented_chars:
-                ligne = ligne.replace(accented_char, char)
-        self.name=ligne  
+                self.name = self.name.replace(accented_char, char)
         
-     #needs upper to distinguish last from first name   
-     #so no lower before!
      def check_and_revert(self): 
+        '''
+        needs upper to distinguish last from first name   
+        so no lower before!
+        '''
         while self.name.find("  ")!=-1:
             self.name=self.name.replace("  "," ")
             self.name_cor=self.name
             
         names_table = self.name.split(" ")
-      #  if len(names_table)==1: #no person
-     #       self.name_cor=self.name
-     #   else:
         if names_table[0]==names_table[0].upper() and not "." in names_table[0]:
             last_name=names_table[0]
             end_last_name=0

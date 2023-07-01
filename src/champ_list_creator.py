@@ -12,7 +12,23 @@ from .base import CyclingInitBot, PyItem, Race
 from .data import calendar_list
 
 class ChampListCreator(CyclingInitBot):
-    def __init__(self,man_or_woman,start_year, actualize):
+    def __init__(
+            self,
+            man_or_woman:str,
+            start_year:int, 
+            actualize:bool):
+        '''
+        Perform queries in wikidata to find out the national champions for all years. It is saved in a csv file.
+        It is a kind of cashing of this queries, as it would too long to perform it every time it is needed.
+
+        Parameters
+        ----------
+        man_or_woman : str
+            age category and gender of the races to be created
+        start_year : int
+        actualize : bool
+            Do we want to actualize the list or recreated it completely
+        '''
         super().__init__()
         self.man_or_woman=man_or_woman
         self.start_year=start_year
@@ -28,6 +44,9 @@ class ChampListCreator(CyclingInitBot):
         self.verbose=False
     
     def main(self):
+        '''
+        Main function of this script
+        '''
         #Road
         if self.man_or_woman=="woman":
             self.filename='src/input/champ2.csv'
@@ -65,7 +84,24 @@ class ChampListCreator(CyclingInitBot):
         final_df.to_csv(self.filename)
         print("csv file " + self.filename + " written")
         
-    def sub_findwinner(self,pyItem,id_race,**kwargs):
+    def sub_findwinner(
+            self,
+            pyItem:PyItem,
+            id_race:str,
+            WorldCC:bool=False,
+            ):
+          '''
+            Look for winner in the races, it remove races that does not seem to have correct information
+    
+            Parameters
+            ----------
+            pyItem : PyItem
+            id_race : str
+                Wikidata id of the race
+            WorldCC : bool, optional
+                If the race is not a national championship
+          '''
+        
           date_found=False
           invalid_precision=False
           there_is_a_winner=False
@@ -109,7 +145,7 @@ class ChampListCreator(CyclingInitBot):
                          row['Month']=race_date.month
                          row['Year']=race_date.year  
                          row['Winner']=id_temp_winner
-                         if kwargs.get("WorldCC",False):
+                         if WorldCC:
                              row['WorldCC']=True
                          else:
                              row['WorldCC']=False
@@ -125,6 +161,9 @@ class ChampListCreator(CyclingInitBot):
                              warning_written=True
     
     def sub_champlist(self):
+        '''
+        Run the search of winners in each race of self.dic_worldconti
+        '''
         for id_race in self.dic_worldconti:
             race=Race(id=id_race)
             if(u'P527' in race.item.claims):
@@ -133,6 +172,9 @@ class ChampListCreator(CyclingInitBot):
                      self.sub_findwinner(pyItem_this_year, id_race,WorldCC=True) 
     
     def sub_course(self,race):
+        '''
+        Check the nature of the race and perform the winner search in the parent if necessary
+        '''
         this_label=race.get_label('fr')
         if this_label.find(self.pattern)==0: #filter with fr label
             if (u'P31' in race.item.claims):
@@ -143,7 +185,11 @@ class ChampListCreator(CyclingInitBot):
             self.sub_findwinner(race, id_master)
     
     def sub_create_champ(self):
-        #world and continental championships are recreated all the time
+        '''
+        Create the result table
+        
+        Note: world and continental championships are recreated all the time
+        '''
         self.sub_champlist()
         self.log.concat(self.road_or_clm +" world and continental championships "+ \
                         self.man_or_woman + " completed")

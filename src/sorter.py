@@ -10,12 +10,29 @@ from .base import CyclingInitBot, Race, PyItem, Team, Cyclist
 #sort the victories by date
 
 class DateSorter(CyclingInitBot):
-    def __init__(self,team_id, prop,**kwargs):
+    def __init__(
+            self,
+            team_id: str, 
+            prop: str,
+            **kwargs):
+        '''
+        Sort races according to the date, for instance the victories of the team
+
+        Parameters
+        ----------
+        team_id : str
+            id in wikidata of the team
+        prop : str
+            property to be sorted
+        '''
         super().__init__(**kwargs)
         self.team=PyItem(id=team_id)
         self.prop=prop
     
     def main(self):
+        '''
+        Main function of this script
+        '''
         try:
             self.listo = []
 
@@ -54,6 +71,9 @@ class DateSorter(CyclingInitBot):
             return 10, self.log            
         
     def date_sort(self):
+        '''
+        Sort the dates
+        '''
         iimax = len(self.new_order) - 1
         for ii in range(iimax - 1):
             jjmax = iimax - ii
@@ -74,12 +94,29 @@ class DateSorter(CyclingInitBot):
 
 #sort the family name of cyclists
 class NameSorter(CyclingInitBot):
-    def __init__(self,team_id, prop,**kwargs):
+    def __init__(
+            self,
+            team_id, 
+            prop,
+            **kwargs):
+        '''
+        Sort riders in alphabetical orders
+
+        Parameters
+        ----------
+        team_id : str
+            id in wikidata of the team
+        prop : str
+            property to be sorted
+        '''
         super().__init__(**kwargs)
         self.team=PyItem(id=team_id)
         self.prop=prop     
         
     def check_if_team(self):
+        '''
+        Check if the "team" is a team or not
+        '''
         list_of_team_cat = [
         "Q6154783", "Q20638319", "Q382927", "Q1756006", 
         "Q23726798", "Q20738667", "Q28492441", "Q20639848", 
@@ -97,6 +134,9 @@ class NameSorter(CyclingInitBot):
         return team
         
     def main(self):
+        '''
+        Main function of this script
+        '''
         try:
             if(self.prop in self.team.item.claims):
                 list_of_comprend = self.team.item.claims.get(self.prop)
@@ -149,7 +189,3 @@ class NameSorter(CyclingInitBot):
             print(msg)
             self.log.concat("General Error in name sorter")
             return 10, self.log   
-        except:     
-            self.log.concat("General Error in name sorter")
-            return 10, self.log   
-

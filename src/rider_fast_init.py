@@ -8,9 +8,26 @@ Created on Tue Dec 17 23:05:33 2019
 from .base import CyclingInitBot, create_item
 
 class RiderFastInit(CyclingInitBot):
-    def __init__(self,name, countryCIO, man_or_woman, **kwargs):
+    def __init__(
+            self,
+            name, 
+            country, 
+            man_or_woman, 
+            **kwargs):
+        '''
+        Create an item corresponding to a rider
+
+        Parameters
+        ----------
+        name : TYPE
+            Name of the rider
+        country : TYPE
+            code of the country, for instance "FRA"
+        man_or_woman : TYPE
+            age category and gender of the races to be created
+        '''
         super().__init__(**kwargs)
-        self.countryCIO=countryCIO
+        self.country=country
         self.man_or_woman=man_or_woman
         self.label = {}
 
@@ -19,16 +36,22 @@ class RiderFastInit(CyclingInitBot):
             self.label[lang] = name
         
     def create_fr_description(self):
+        '''
+        Generate the description for the rider
+        '''
         if self.man_or_woman==u'man':
             mydescription={'fr': 'coureur cycliste '+\
-                                        self.nation_table[self.countryCIO]['adj fr man'] or ''}
+                                        self.nation_table[self.country]['adj fr man'] or ''}
         else:
             mydescription={'fr': 'coureuse cycliste '+\
-                                        self.nation_table[self.countryCIO]['adj fr woman'] or ''}
+                                        self.nation_table[self.country]['adj fr woman'] or ''}
         self.pyItem.item.editDescriptions(mydescription,
                               summary=u'Setting/updating descriptions.')
 
     def main(self):
+        '''
+        Main function of this script
+        '''
         try:
             print("rider_fast_init")
         
@@ -45,7 +68,7 @@ class RiderFastInit(CyclingInitBot):
                     genre="Q6581072"
                 self.pyItem.add_value("P21", genre, u'genre')
                 self.pyItem.add_value("P27",
-                                       self.nation_table[self.countryCIO]["country"], 
+                                       self.nation_table[self.country]["country"], 
                                        u'nationality')
                 self.pyItem.add_value("P106", "Q2309784", u'cyclist')
             else:
@@ -55,8 +78,5 @@ class RiderFastInit(CyclingInitBot):
         
         except Exception as msg:
             print(msg)
-            self.log.concat("General Error in rider_fast_init")
-            return 10, self.log, "Q1"
-        except:
             self.log.concat("General Error in rider_fast_init")
             return 10, self.log, "Q1"

@@ -10,12 +10,12 @@ import pywikibot
 site = pywikibot.Site("wikidata", "wikidata")
 
 def cycling_init_bot():
-    selector=9
+    selector=2
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
     #9-10: complete the ranking and start list
-    #11-15: others
+    #11-21: others
     
     if selector==0:
         from src.national_team_creator import NationalTeamCreator
@@ -23,46 +23,60 @@ def cycling_init_bot():
         man_or_woman=u'man'
         start_year=2023
         end_year=2023
-        #optional
-        country=None #u'FRA'  #None is not
         
-        f=NationalTeamCreator( man_or_woman,start_year,end_year,country=country)
+        f=NationalTeamCreator(
+            man_or_woman,
+            start_year,
+            end_year,
+            country=None #u'FRA'  #None is not
+            )
         f.main()    
                                
     elif selector==1:
         from src.national_championship_creator import NationalChampionshipCreator
 
         man_or_woman=u'both' #both
-        option=u'clmon' #'clmoff'
         start_year=2023
         end_year=2023
-        CC=True
         
-        f=NationalChampionshipCreator(man_or_woman,option, start_year,end_year,CC)
+        f=NationalChampionshipCreator(
+            man_or_woman,
+            start_year,
+            end_year,
+            CC=True, 
+            clm=True, 
+            road=False)
         f.main()    
 
     elif selector==2:#
         from src.national_championship_creator import NationalChampionshipCreator
         
-        man_or_woman=u'both'
-        option=u'clmon' #'clmoff'
-        start_year=2023
-        end_year=2023
-        country=False  #optional/False u'ESA'
-        CC=False
+        man_or_woman=u'man'
+        start_year=1971
+        end_year=1985
 
-        f=NationalChampionshipCreator(man_or_woman,option, start_year,end_year,CC,country=country)
+        f=NationalChampionshipCreator(
+            man_or_woman,
+            start_year,
+            end_year,
+            CC=False,
+            country="DEN",  #optional/False u'ESA'
+            clm=True, 
+            road=True)
         f.main()    
         
     elif selector==3: 
         from src.calendar_importer import CalendarImporter
        
-        test=False
         man_or_woman=u'woman'
         filename='Calendar2023'
         year=2023
         
-        f=CalendarImporter(filename, man_or_woman, year,test=test)
+        f=CalendarImporter(
+            filename, 
+            man_or_woman, 
+            year,
+            test=False)
         f.main() 
 
     elif selector==4: 
@@ -71,7 +85,7 @@ def cycling_init_bot():
 
         name="Juvederm Specialized"
         id_master="Q114006589"
-        countryCIO="CAN"
+        country="CAN"
         UCIcode="JSD"
         year=2011
         """
@@ -83,9 +97,13 @@ def cycling_init_bot():
         Female amateur cycling team (Q26849121)
         Amateur cycling team (Q20652655)
         """
-        category_id="Q2466826"
-
-        f=TeamCreator(name,id_master,countryCIO,UCIcode,year,category_id=category_id)
+        f=TeamCreator(
+            name,
+            id_master,
+            country,
+            UCIcode,
+            year,
+            category_id="Q2466826")
         f.main()    
         
     elif selector==5:   
@@ -93,9 +111,11 @@ def cycling_init_bot():
 
         id_team=u'Q110773806'
         prop="P1923" # 'has part (P527)', 'participating team (P1923)'
-        test=False
         
-        f= NameSorter(id_team, prop,test=test)
+        f= NameSorter(
+            id_team, 
+            prop,
+            test=False)
         f.main()    
 
     elif selector==6:
@@ -104,86 +124,71 @@ def cycling_init_bot():
         # if victory:   property_number = 2522  # victoire
         # else:  #      property_number = 527  # comprend
         prop="P527"
-        test=False
         
-        f= DateSorter(id_team, prop,test=test)
+        f= DateSorter(
+            id_team, 
+            prop,
+            test=False)
         f.main()   
 
     elif selector==7:
         from src.race_creator import RaceCreator
-        
-        race_name=u"Vuelta a Formosa "
-        id_race_master="Q114912404"
-        create_stages=True
-        year=2022
+
         start_date=pywikibot.WbTime(site=site,year=year, month=10, day=21, precision='day')
         end_date=pywikibot.WbTime(site=site,year=year, month=10, day=23, precision='day')
-        first_stage=1
-        last_stage=4
-        countryCIO=u'ARG'
-        classe='2.2'
-        edition_nr='1'
-        single_race=False
-        man_or_woman=u'woman'
-        
+
         f=RaceCreator(
-            race_name=race_name,
-            single_race=single_race,
-            man_or_woman=man_or_woman,
-            id_race_master=id_race_master,
-            countryCIO=countryCIO,
-            classe=classe,
+            race_name="Vuelta a Formosa",
+            single_race=False,
+            man_or_woman='woman',
+            id_race_master="Q114912404",
+            country='ARG',
+            classe='2.2',
             start_date=start_date,
-            edition_nr=edition_nr,
+            edition_nr='1',
             end_date=end_date,
             only_stages=False,
-            create_stages=create_stages, 
-            first_stage=first_stage,
-            last_stage=last_stage,
-            year=year
+            create_stages=True, 
+            first_stage=1,
+            last_stage=4,
+            year=2022
             )
         f.main()
          
     elif selector==8:
          from src.race_creator import RaceCreator
-         
-         race_name=u"Binche-Chimay-Binche féminin"
-         id_race_master=108914692
-         year=2021
+
          start_date=pywikibot.WbTime(site=site,year=year, month=10, day=5, precision='day')
-         countryCIO=u'BEL'
-         classe='1.2'
-         edition_nr='1'
-         single_race=True
-         man_or_woman=u'woman'
-         
+
          f=RaceCreator(
-                race_name=race_name,
-                single_race=single_race,
-                man_or_woman=man_or_woman,
+                race_name="Binche-Chimay-Binche féminin",
+                single_race=True,
+                man_or_woman='woman',
                 start_date=start_date,
-                edition_nr=edition_nr,
-                id_race_master=id_race_master,
-                countryCIO=countryCIO,
-                classe=classe,
-                year=year)
+                edition_nr='1',
+                id_race_master="Q108914692",
+                country='BEL',
+                classe='1.2',
+                year=2021)
          f.main()
          
     elif selector==9:
         from src.classification_importer import ClassificationImporter
         
-        id_race='Q116303938'
+        id_race='Q116304222'
         stage_or_general=9# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
         #5 team, #6 team points, #7 youth points, #8 == sprints, #9 == all
         maxkk=10
-        startliston=True
-        test=False
-        fc=12195
-        stage_num=0 #only for stage, put 0 otherwise
         
-        f=ClassificationImporter(stage_or_general,id_race,
-                                 maxkk, test=test ,startliston=startliston,
-                                 fc=fc, stage_num=stage_num)
+        f=ClassificationImporter(
+            stage_or_general,
+            id_race,
+            maxkk, 
+            test=False,
+            startliston=True,
+            fc=9054, 
+            stage_num=0, #only for stage, put 0 otherwise
+            year=2023)
         
         if stage_or_general==9:
             f.run_all()
@@ -193,25 +198,32 @@ def cycling_init_bot():
     elif selector==10:
         from src.startlist_importer import StartlistImporter
         
-        id_race='Q116303847'
+        id_race='Q116304222'
         prologue_or_final=1 #0=prologue, 1=final, 2=one day race
-        chrono=True
-        test=False
+        chrono=False
         man_or_woman=u'woman'
-        force_nation_team=False
-        fc=9058
         
-        f=StartlistImporter(prologue_or_final, id_race, chrono,
-                            man_or_woman, force_nation_team,test=test,fc=fc)
+        f=StartlistImporter(
+            prologue_or_final,
+            id_race, 
+            chrono,
+            man_or_woman, 
+            force_nation_team=False,
+            test=False,
+            fc=9054,
+            add_unknown_rider=False)
         f.main()
 
     elif selector==12:
         from src.rider_fast_init import RiderFastInit 
         name=u"Courtney Sherwell"
-        countryCIO=u'AUS'
+        country=u'AUS'
         man_or_woman=u'woman'
         
-        f=RiderFastInit(name, countryCIO, man_or_woman)
+        f=RiderFastInit(
+            name, 
+            country, 
+            man_or_woman)
         f.main()
 
     elif selector==13:
@@ -221,71 +233,48 @@ def cycling_init_bot():
         actualize=True
         start_year=2023
         
-        f=ChampListCreator(man_or_woman,start_year,actualize)
+        f=ChampListCreator(
+            man_or_woman,
+            start_year,
+            actualize)
         f.main()
 
     elif selector==14:   
         from src.uci_classification import UCIClassification
-        
-        man_or_woman=u'man'
-        id_master_UCI=u'Q109000605'  #Q97367360
-        year=u'2022'
-        file=u'AsiaRanking2022man' #'UCIranking'  CIranking2020man
-        test=False
-        cleaner=False #delete the UC I ranking
-        UCIranking=False #for  team team
-        bypass=True #don't interru pt if not all riders found
-        
+       
         f=UCIClassification(
-            UCIranking=UCIranking,
-            id_master_UCI=id_master_UCI,
-            file=file,
-            cleaner=cleaner,
-            man_or_woman=man_or_woman,
-            bypass=bypass,
-            year=year,
-            test=test)
+            UCIranking=False,
+            id_master_UCI='Q109000605',
+            file='AsiaRanking2022man', #'UCIranking'  CIranking2020man
+            cleaner=False, #delete the UC I ranking
+            man_or_woman='man',
+            bypass=True,  #don't interru pt if not all riders found
+            year=2022,
+            test=False)
         f.main()
-
 
     elif selector==15:  
         from src.uci_classification import UCITeamClassification
         
-        man_or_woman=u'man'
-        id_master_UCI=u'Q109000605'  
-        year=u'2022'
-        filename=u'AsiaRanking2022teamman' #'UCIranking'  CIranking2020man
-        test=False
-        cleaner=False #delete the UCI ranking
-        bypass=True #don't interrupt if not all riders found
-        
         f=UCITeamClassification(
-            id_master_UCI=id_master_UCI,
-            filename=filename,
-            cleaner=cleaner,
-            man_or_woman=man_or_woman,
-            bypass=bypass,
-            year=year,
-            test=test)
+            id_master_UCI='Q109000605'  ,
+            filename='AsiaRanking2022teamman' ,
+            cleaner=False,
+            man_or_woman='man',
+            bypass=True,
+            year=2022,
+            test=False)
         f.main()
 
     elif selector==16: 
         #only stage
         from src.race_creator import RaceCreator
-        #race_name=u"Grand Prix Mediterrennean"
-       # id_race_master='104640104'
-        #year=2021
-        stage_race_id="Q110774135" #only for onlystages
-        first_stage=1
-        last_stage=6
-        #single_race=True
-        man_or_woman=u'woman'
         
         f= RaceCreator(
-            stage_race_id=stage_race_id,
-            first_stage=first_stage,
-            last_stage=last_stage,
-            man_or_woman=man_or_woman,
+            stage_race_id="Q110774135",#only for onlystages
+            first_stage=1,
+            last_stage=6,
+            man_or_woman='woman',
             only_stages=True
             )
         f.main()
@@ -295,22 +284,28 @@ def cycling_init_bot():
         
         id_race='Q65956705'
         chrono=False
-        test=False
         man_or_woman=u'woman'
         #read the result table
-        f=Scan( id_race, chrono, man_or_woman,test=False)
+        f=Scan( 
+            id_race, 
+            chrono, 
+            man_or_woman,
+            test=False)
         f.main()
     
     elif selector==18:
         from src.get_rider_tricot import ScanExisting
         
-        id_race='Q27481596'
+        id_race='Q116303680'
         chrono=False
-        test=False
         man_or_woman=u'woman'
         #had already the results
         
-        f=ScanExisting( id_race, chrono, man_or_woman,test=False)
+        f=ScanExisting(
+            id_race, 
+            chrono, 
+            man_or_woman,
+            test=False)
         f.main()
     elif selector==19:
         from src.sparql import SparQL
@@ -321,13 +316,19 @@ def cycling_init_bot():
     elif selector==20:
         from src.team_importer import TeamImporter
         
-        id_race='Q116303760'
-        test=True
-        fc=9052
+        id_race='Q116304222'
         
-        f=TeamImporter(id_race, test=test, fc=fc)
+        f=TeamImporter(
+            id_race, 
+            test=False,
+            fc=9054)
         f.main()
-    
+        
+    elif selector==21:
+        from src.nat import NationalCreator2
+        
+        f=NationalCreator2()
+        f.main()
     else: 
         print('do nothing')
    
