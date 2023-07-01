@@ -229,13 +229,13 @@ class ClassificationImporter(CyclingInitBot):
             if self.team_bool: #team
                 df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, team=True, 
                                            year=self.year,convert_team_code=True, is_women=self.is_women,
-                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage,
-                                           maxkk=maxkk) 
+                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage
+                                           ) 
             else: #if self.WWT: #rider, but team needed
                 df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, rider=True,team=True,
                                            year=self.year, is_women=self.is_women,
-                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage,
-                                           maxkk=maxkk)   
+                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage
+                                           )   
             self.log.concat(log)
             
             df2=df.iloc[:self.maxkk]

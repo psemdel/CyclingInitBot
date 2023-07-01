@@ -332,7 +332,8 @@ def table_reader(
         team:bool=False,
         need_complete:bool=False,
         convert_team_code:bool=True,
-        man_or_woman:str="woman"
+        man_or_woman:str="woman",
+        is_women:bool=True,
         ) -> (pd.core.frame.DataFrame, bool, bool, str):
     '''
     Read an excel or csv file
@@ -360,7 +361,9 @@ def table_reader(
     convert_team_code: bool
         Do we need to convert the team name in team UCI code  
     man_or_woman : str
-        age category and gender of the races to be created    
+        age category and gender of the races to be created 
+    is_women : bool
+        Is it a women race/team?
     '''
     try:
         local_saved_list=["champ","champ_clm","champ_man","champ_man_clm"]
@@ -525,9 +528,9 @@ def table_reader(
                     if team_str not in ["nan","NaN"]:
                         s=Search(team_str)
                         if try_with_team_name:
-                            id_team=s.team_by_name(man_or_woman=man_or_woman)
+                            id_team=s.team_by_name(man_or_woman=man_or_woman,is_women=is_women)
                         else:
-                            id_team=s.team_by_code(man_or_woman=man_or_woman)
+                            id_team=s.team_by_code(man_or_woman=man_or_woman,is_women=is_women)
                         if id_team in ['Q0','Q1']:
                             log+="\n team: " + str(team_str) + " not found"
                             if need_complete:
