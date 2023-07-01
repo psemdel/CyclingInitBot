@@ -11,17 +11,44 @@ from .base import CyclingInitBot, Team
 from .func import table_reader, cyclists_table_reader
 
 class UCITeamClassification(CyclingInitBot):
-    def __init__(self,**kwargs):
+    def __init__(self,
+                 man_or_woman:str=None,
+                 file:str=None,
+                 fc:int=None,
+                 id_master_UCI:str=None,
+                 bypass:bool=False,
+                 cleaner:bool=False,
+                 year:int=None,
+                 **kwargs):
+        '''
+        Insert the yearly UCI ranking into the team items
+
+        Parameters
+        ----------
+        man_or_woman : str, optional
+            age category and gender of the races to be created
+        file : str, optional
+            name of the file to be read
+        fc : int, optional
+            Id in firstcycling
+        id_master_UCI : str, optional
+            id in wikidata of the UCI calendar to fill
+        bypass : bool, optional
+            To bypass the completeness check
+        cleaner : bool, optional
+            to remove the last insertion of this function
+        year : int, optional
+        '''
         super().__init__(**kwargs)
-        self.man_or_woman=kwargs.get("man_or_woman",None)
-        self.file=kwargs.get("file",None)
-        self.fc=kwargs.get("fc",None)
-        self.id_master_UCI=kwargs.get("id_master_UCI",None)
-        self.bypass=kwargs.get("bypass",False)
-        self.cleaner=kwargs.get("cleaner",False)
-        self.year=kwargs.get("year",None)
+        
+        for k in ["man_or_woman","file","fc","id_master_UCI",
+                  "bypass","cleaner","year"]:
+            setattr(self,k,locals()[k])
         
     def main(self):
+        '''
+        Main function of this script
+        '''
         try:
             #Check the non optional arguments, done like that otherwise it is difficult to find which position arg is what
             if self.man_or_woman is None or self.file is None or\
@@ -68,18 +95,45 @@ class UCITeamClassification(CyclingInitBot):
             return 10, self.log    
                 
 class UCIClassification(CyclingInitBot):
-    def __init__(self,**kwargs):
+    def __init__(
+            self,
+            UCIranking:bool=False,
+            man_or_woman:str=None,
+            file:str=None,
+            fc:int=None,
+            id_master_UCI:str=None,
+            bypass:bool=False,
+            cleaner:bool=False,
+            year:int=None,
+            **kwargs):
+        '''
+        Insert the yearly UCI ranking into the rider items
+
+        Parameters
+        ----------
+        UCIranking : str, optional
+            Is it the UCI ranking that will be inserted --> then fill also the team        
+        man_or_woman : str, optional
+            age category and gender of the races to be created
+        file : str, optional
+            name of the file to be read
+        fc : int, optional
+            Id in firstcycling
+        id_master_UCI : str, optional
+            id in wikidata of the UCI calendar to fill
+        bypass : bool, optional
+            To bypass the completeness check
+        cleaner : bool, optional
+            to remove the last insertion of this function
+        year : int, optional
+        '''
         super().__init__(**kwargs)
-        self.UCIranking=kwargs.get("UCIranking",False)
-        self.man_or_woman=kwargs.get("man_or_woman",None)
-        self.file=kwargs.get("file",None)
-        self.fc=kwargs.get("fc",None)
-        self.id_master_UCI=kwargs.get("id_master_UCI",None)
-        self.bypass=kwargs.get("bypass",False)
-        self.cleaner=kwargs.get("cleaner",False)
-        self.year=kwargs.get("year",None)
+
 
     def main(self):
+        '''
+        Main function of this script
+        '''
         try:
             #Check the non optional arguments, done like that otherwise it is difficult to find which position arg is what
             if self.man_or_woman is None or self.file is None or\
@@ -88,7 +142,6 @@ class UCIClassification(CyclingInitBot):
                    self.log.concat("Missing mandatory input by UCI classification")
                    return 10, self.log
 
-            
             df, all_riders_found, all_teams_found,log=table_reader(
                             self.file,
                             self.fc,
@@ -177,8 +230,3 @@ class UCIClassification(CyclingInitBot):
             self.log.concat(msg)
             self.log.concat("General Error in UCI ranking")
             return 10, self.log        
-        except:
-            _, _, exc_tb = sys.exc_info()
-            self.log.concat("line " + str(exc_tb.tb_lineno))
-            self.log.concat("General Error in UCI ranking")
-            return 10, self.log    

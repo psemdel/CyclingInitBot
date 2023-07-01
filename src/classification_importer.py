@@ -10,33 +10,59 @@ from .base import CyclingInitBot, Race, Team, PyItem
 from .func import table_reader, get_fc_dic
 import math
 import sys
+import pandas as pd
 
 class ClassificationImporter(CyclingInitBot):
-    def __init__(self, general_or_stage, id_race,
-                       maxkk,**kwargs):
-        super().__init__(**kwargs)
-        self.race=Race(id=id_race)
-        self.maxkk=maxkk
+    def __init__(self, 
+                 general_or_stage, 
+                 id_race,
+                 maxkk,
+                 startliston:bool=True,
+                 file:str='Results',
+                 fc:int=None,
+                 stage_num:int=None,
+                 year:int=None,
+                 **kwargs):
+        '''
+        Import a race classification to a race
 
+        Parameters
+        ----------
+        general_or_stage : TYPE
+            Code displaying which ranking we want
+        id_race : TYPE
+            Wikidata id of the race
+        maxkk : TYPE
+            Maximum rank to be imported to wikidata
+        startliston : bool, optional
+            Do we want to check the startlist for teams
+        file : str, optional
+            name of the file to be read
+        fc : int, optional
+            Id in firstcycling    
+        stage_num : int, optional
+            Number of the stage
+        year : int, optional
+        '''
+        super().__init__(**kwargs)
+        for k in ["maxkk","startliston","stage_num","file", "fc",
+                  "year"]:
+            setattr(self,k,locals()[k])
+        
+        self.race=Race(id=id_race)
         self.verbose=False
         
         self.there_is_a_startlist=False
         self.in_parent=False
         self.startlist=None
         
-        self.year=kwargs.get('year',None)
         if self.year is None:
             self.year=self.race.get_year()
 
         self.is_women=self.race.get_is_women()
-        self.startliston=kwargs.get('startliston',True)
-        self.file=kwargs.get('file','Results')
-        fc=kwargs.get("fc",None)
-        if fc==0:
+        if self.fc==0:
             fc=None
         self.fc=fc
-        self.stage_num=kwargs.get("stage_num")
-
         self.general_or_stage_init(general_or_stage)
             
         #WWT functionality
@@ -47,7 +73,10 @@ class ClassificationImporter(CyclingInitBot):
                 if p279.getTarget().getID() in ["Q23005601","Q23005603"]: #WWT
                     self.WWT=True
                     
-    def general_or_stage_init(self,general_or_stage):
+    def general_or_stage_init(self,general_or_stage:int):
+        '''
+        Reinit general_or_stage
+        '''
         #code
         self.general_or_stage=general_or_stage
         self.general_or_stage_addwinner=[0, 2, 3,4,8]
@@ -79,6 +108,9 @@ class ClassificationImporter(CyclingInitBot):
             self.team_bool=False        
         
     def is_there_a_startlist(self):
+        '''
+        Check if a start list is present
+        '''
         item_with_startlist=None
         
         if (not self.team_bool) and self.startliston:
@@ -99,6 +131,9 @@ class ClassificationImporter(CyclingInitBot):
             return self.startlist, self.in_parent
                 
     def copy_team(self, claim, target):
+         '''
+         If the rider has a custom team in the start list, it is copied in the ranking
+         '''
          this_starter=None
          this_starter_id=None
          team=None
@@ -120,14 +155,16 @@ class ClassificationImporter(CyclingInitBot):
                  this_starter_id=this_starter.getTarget().getID()
              return this_starter_id, team
          
-    def put_dnf_in_startlist(self,df):
+    def put_dnf_in_startlist(self,df:pd.core.frame.DataFrame):
+        '''
+        Add DNF in the start list, if the rider abandonned during the stage
+        '''
         stage_nummer=-1
         if(u'P1545' in self.race.item.claims):  
             list_of_order=self.race.item.claims.get(u'P1545')
             stage_nummer=str(list_of_order[0].getTarget())
         
         sub_df=df[df['Rank'].apply(lambda x: (type(x)==str or math.isnan(x)))]
-
         for ii in range(len(sub_df)):
             this_id=sub_df["ID Rider"].values[ii]
 
@@ -155,6 +192,9 @@ class ClassificationImporter(CyclingInitBot):
             return None, -1  
 
     def run_all(self):
+        '''
+        Import all possible rankings, used in combination with firstcycling
+        '''
         general_or_stages=get_fc_dic(self.fc, year=self.year, stage_num=self.stage_num)
 
         for general_or_stage in general_or_stages:
@@ -172,6 +212,9 @@ class ClassificationImporter(CyclingInitBot):
         return code, self.log
 
     def main(self):
+        '''
+        Main function of this script
+        '''
         try:
             if self.year is None:
                 self.year=self.race.get_year()

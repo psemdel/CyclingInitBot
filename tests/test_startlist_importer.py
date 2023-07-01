@@ -18,9 +18,8 @@ repo = site.data_repository()
 class TestStartList(unittest.TestCase):  
     def test_find_national_team1(self):
         man_or_woman=u'woman'
-        force_nation_team=False
           
-        sl=StartlistImporter(0, "Q20681024", False, man_or_woman,force_nation_team,test=True)
+        sl=StartlistImporter(0, "Q20681024", False, man_or_woman,force_nation_team=False,test=True)
         
         df,_,_,log=table_reader('National_team_tests',None,need_complete=True,rider=True)
         df=df.sort_values(["BIB"])
@@ -43,9 +42,8 @@ class TestStartList(unittest.TestCase):
 
     def test_find_national_team3(self):    
         man_or_woman=u'woman'
-        force_nation_team=False
         
-        sl=StartlistImporter(0, "Q20681024", False, man_or_woman,force_nation_team,test=True)
+        sl=StartlistImporter(0, "Q20681024", False, man_or_woman,force_nation_team=False,test=True)
         sl.time_of_race=pywikibot.WbTime(site=site,year=2020, month=8, day=27, precision='day')    
         sl.year=sl.time_of_race.year
         
@@ -69,9 +67,8 @@ class TestStartList(unittest.TestCase):
  
     def test_find_national_team4(self):
         man_or_woman=u'woman'
-        force_nation_team=False
         
-        sl=StartlistImporter(0, "Q20681024", False, man_or_woman,force_nation_team,test=True)
+        sl=StartlistImporter(0, "Q20681024", False, man_or_woman,force_nation_team=False,test=True)
         sl.time_of_race=pywikibot.WbTime(site=site,year=2015, month=8, day=27, precision='day')   
         sl.year=sl.time_of_race.year
         

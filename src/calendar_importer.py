@@ -11,13 +11,32 @@ from .base import CyclingInitBot, PyItem, Search
 from .race_creator import RaceCreator
 
 class CalendarImporter(CyclingInitBot):
-    def __init__(self, filename, man_or_woman, year,**kwargs):
+    def __init__(
+            self,
+            filename: str, 
+            man_or_woman:str, 
+            year:int,
+            **kwargs):
+        '''
+        Import the UCI calendar
+
+        Parameters
+        ----------
+        filename : str
+            name of the file to be read
+        man_or_woman : str
+            age category and gender of the races to be created
+        year : int
+        '''
         super().__init__(**kwargs)
         self.filename=filename
         self.man_or_woman=man_or_woman
         self.verbose=False
         
     def main(self):
+        '''
+        Main function of this script
+        '''
         #delete the first line of file
         df, _,_,log=table_reader(self.filename,verbose=self.verbose)
         self.log.concat(log)

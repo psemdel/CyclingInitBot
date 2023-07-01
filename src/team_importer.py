@@ -13,40 +13,65 @@ Created on Sun Jul 22 16:21:08 2018
 @author: maxime delzenne
 """
 
-import pywikibot
-from .base import CyclingInitBot, Race, Team, PyItem
+from .base import CyclingInitBot, Race, Team
 from .func import table_reader
-import math
 import sys
 import pandas as pd
 
 class TeamImporter(CyclingInitBot):
-    def __init__(self, id_race,**kwargs):
+    def __init__(
+            self, 
+            id_race:str,
+            year:int=None,
+            file:str='Results',
+            fc:int=None,
+            **kwargs):
+        '''
+        Import the list of teams in a race        
+
+        Parameters
+        ----------
+        id_race : str
+            id in wikidata of the race where the team must be imported
+        year : int, optional
+        file : str, optional
+            name of the file to be read
+        fc : int, optional
+            Id in firstcycling
+
+        '''
         super().__init__(**kwargs)
+        
+        for k in ["id_race","year","file","fc"]:
+            setattr(self,k,locals()[k])
         self.race=Race(id=id_race)
         self.verbose=False
-        
-        self.year=kwargs.get('year',None)
+
         if self.year is None:
             self.year=self.race.get_year()
         
         self.is_women=self.race.get_is_women()
-        self.file=kwargs.get('file','Results')
-        fc=kwargs.get("fc",None)
-        if fc==0:
-            fc=None
-        self.fc=fc
+
+        if self.fc==0:
+            self.fc=None
         self.prop="P1923"
 
     def main(self):
+        '''
+        Main function of this script
+        '''
         try:
-            if self.year is None:
-                self.year=self.race.get_year()
             if self.year is None:
                 raise ValueError('no year found')
                 
-            df, _, _, log=table_reader(self.file,self.fc, team=True, 
-                                       year=self.year,convert_team_code=True, is_women=self.is_women) 
+            df, _, _, log=table_reader(
+                self.file,
+                self.fc, 
+                team=True, 
+                year=self.year,
+                convert_team_code=True, 
+                is_women=self.is_women
+                ) 
             self.log.concat(log)
             df2=pd.unique(df["ID Team"])
             self.log.concat('result_table created')

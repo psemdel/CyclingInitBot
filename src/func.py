@@ -21,16 +21,22 @@ from .FirstCyclingAPI.first_cycling_api.race import RaceEdition
 import sys
 
 ####Code without object 
-def noQ(item_id):
+def noQ(item_id)-> int:
+    '''
+    Remove the "Q" of a wikidata id
+    '''
     return int(item_id[1:])
 
-def is_website():
+def is_website()-> bool:
     if 'bot_requests' in os.listdir():
         return True #site
     return False #bot
 
 ## other ##
-def get_class_id(classe_text):
+def get_class_id(classe_text:str)-> str:
+    '''
+    Return the id of a class from its name
+    '''
     dic_class={
       "1.1":"Q22231110",
       "2.1":"Q22231112",
@@ -50,32 +56,54 @@ def get_class_id(classe_text):
     else:
         return None
 
-def man_or_women_to_is_women(man_or_woman):
-    print("man_or_woman")
-    print( man_or_woman)
-    print(man_or_woman in ["woman","womanJ","womanU"])
-    
+def man_or_women_to_is_women(man_or_woman: str)-> bool:
+    '''
+    Convert man_or_woman to is_women
+    '''
     if man_or_woman in ["woman","womanJ","womanU"]:
         return True
     else:
         return False
 
-def get_single_or_stage(classe):    
-    #single=true
+def get_single_or_stage(classe) -> bool:    
+    '''
+    Check if the class if for single day race or stage race
+    '''
     if type(classe)==str:
         if classe[0]=="2":
             return False
     return True
 
-def date_duplicate(date_input):
-    #? date_input.copy()
+def date_duplicate(date_input:pywikibot.WbTime) -> pywikibot.WbTime:
+    '''
+    Duplicate a Wbtime
+    '''
     return pywikibot.WbTime.fromTimestr(date_input.toTimestr(),precision="day")
 
 #function for race
-#determine the date of a stage
-def date_finder(number,first_stage,last_stage, race_begin,
-                race_end):
-    
+#
+def date_finder(
+        number: int,
+        first_stage: int,
+        last_stage: int, 
+        race_begin:pywikibot.WbTime,
+        race_end:pywikibot.WbTime)-> pywikibot.WbTime:
+    '''
+    Determine the date of a stage from its number
+
+    Parameters
+    ----------
+    number : int
+        Number of the stage
+    first_stage : int
+        Number of the first stage
+    last_stage : int
+        Number of the last stage
+    race_begin : pywikibot.WbTime
+        Date of the first stage
+    race_end : pywikibot.WbTime
+        Date of the last stage
+    '''
     days_in_month = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     if number==last_stage:
          return date_duplicate(race_end)
@@ -100,8 +128,10 @@ def date_finder(number,first_stage,last_stage, race_begin,
          output_date.day=day_temp
          return output_date
 
-#convert the time in seconds
-def time_converter(e, winner_time):
+def time_converter(e, winner_time:int)-> int:
+    '''
+    Return the race time for a rider or team, and determine if the input is a race time or a delta
+    '''
     ecart=False
 
     if not isinstance(e, str):
@@ -148,13 +178,16 @@ def time_converter(e, winner_time):
             t+=winner_time
         return t
     
-def calc_ecart(e, winner_time):
+def calc_ecart(e: int, winner_time: int)-> int:
+    '''
+    Calculate the time delta between winner and this time
+    '''
     if e==-1:
         return e
     else:
         return e-winner_time
 
-def to_float(a):
+def to_float(a)->float:
     try:
         if a=='':
             return 0
@@ -171,10 +204,13 @@ def to_float(a):
         print(msg)
         print("faulty string: " +a)
 
-def float_to_int(a):
+def float_to_int(a)->int:
     return int(to_float(a))
 
-def define_article(name):
+def define_article(name:str)->str:
+    '''
+    Determine the article to use for a race
+    '''
     if name==None:
         return "", ""
     else:
@@ -252,9 +288,22 @@ general_or_stage_to_fc={
     }
 general_or_stage_to_fc_inv = {v: k for k, v in general_or_stage_to_fc.items()}
 
-def get_fc_dic(fc,**kwargs):
-    stage_num=kwargs.get("stage_num")
-    year=kwargs.get("year",datetime.now().year)
+def get_fc_dic(
+        fc:int,
+        stage_num:int=None,
+        year:int=datetime.now().year
+        ) -> list:
+    '''
+    Determine which rankings are present in firstcycling for the race
+
+    Parameters
+    ----------
+    fc : int
+        Id in firstcycling  
+    stage_num : int, optional
+        Number of the stage
+    year : int, optional
+    '''
     if stage_num==0:
         stage_num=None
     t=combi_results_startlist(fc,year,stage_num=stage_num)
@@ -271,33 +320,74 @@ def get_fc_dic(fc,**kwargs):
 
     return general_or_stages
 
-def table_reader(filename,fc,**kwargs):  #startline, 
+def table_reader(
+        filename: str,
+        fc: int,
+        verbose:bool=False,
+        year:int=datetime.now().year,
+        general_or_stage:int=None,
+        stage_num:int=None,
+        result_points:bool=False,
+        rider:bool=False,
+        team:bool=False,
+        need_complete:bool=False,
+        convert_team_code:bool=True,
+        man_or_woman:str="woman"
+        ) -> (pd.core.frame.DataFrame, bool, bool, str):
+    '''
+    Read an excel or csv file
+
+    Parameters
+    ----------
+    filename : str
+        Name of the file
+    fc : TYPE
+        Id in firstcycling  
+    verbose : bool, optional
+    year : int, optional
+    general_or_stage : int, optional
+        Code displaying which ranking we want
+    stage_num : int, optional
+        Number of the stage
+    result_points: bool
+        Is this ranking using points instead of time
+    rider: bool
+        Do we need to search for riders
+    team: bool
+        Do we need to search for teams
+    need_complete: bool
+        Do we need all riders and teams to be found
+    convert_team_code: bool
+        Do we need to convert the team name in team UCI code  
+    man_or_woman : str
+        age category and gender of the races to be created    
+    '''
     try:
-        verbose=kwargs.get("verbose",False)
         local_saved_list=["champ","champ_clm","champ_man","champ_man_clm"]
         file_csv=True
         filepath=None
         log=''
         all_riders_found=True
         all_teams_found=True
-        year=kwargs.get("year",datetime.now().year)
 
         #differentiate local from remote
         if fc is not None:
-            stage_num=kwargs.get("stage_num")
             if stage_num==0:
                 stage_num=None
             
-            if kwargs.get("general_or_stage") is not None: #single day race
-                if kwargs.get("general_or_stage")==5:# team, no need to mix the tables
+            if general_or_stage is not None: #single day race
+                if general_or_stage==5:# team, no need to mix the tables
                     r=RaceEdition(race_id=fc,year=year)
-                    t=r.results(stage_num=stage_num,classification_num=general_or_stage_to_classification_num[kwargs.get("general_or_stage")])
+                    t=r.results(
+                        stage_num=stage_num,
+                        classification_num=general_or_stage_to_classification_num[general_or_stage]
+                        )
                 else:
                     t=combi_results_startlist(
                         fc,
                         year,
                         stage_num=stage_num,
-                        classification_num=general_or_stage_to_classification_num[kwargs.get("general_or_stage")]
+                        classification_num=general_or_stage_to_classification_num[general_or_stage]
                         )
             else:
                 t=combi_results_startlist(
@@ -349,7 +439,7 @@ def table_reader(filename,fc,**kwargs):  #startline,
                 point_column_name="Points"
             time_column_name="Result"
             
-        if kwargs.get('result_points',False):
+        if result_points:
             if point_column_name in df.columns:
                 df["Points"]=df[point_column_name].apply(lambda x: to_float(x)) 
         else:
@@ -366,8 +456,8 @@ def table_reader(filename,fc,**kwargs):  #startline,
                     df.loc[i,"Rank"]=df.loc[i,"Pos"] #DNF, DNS
             
         #search the rider
-        if kwargs.get('rider',False):
-                
+        #Not necessary for champ for instance
+        if rider:
             rider_ids=[]
             for ii in range(len(df.index)):
                 name=None
@@ -389,25 +479,24 @@ def table_reader(filename,fc,**kwargs):  #startline,
                 if 'Rider_ID' in df.columns:
                     fc_id=df['Rider_ID'].values[ii]
 
-                if type(name)!=str: #nan
-                    rider_ids.append("QO")
-                else:
-                    s=Search(name) 
-                    id_rider=s.rider(first_name,last_name,fc_id=fc_id)
-                    if id_rider in ['Q0','Q1']:
-                        if first_name is not None:
-                            log+="\n" + str(first_name) + " " +  str(last_name) +" number "
-                        else:
-                            log+="\n" + str(name) +" number "
-                        if bib is not None:
-                            log+=str(bib)
-                        log+=" not found"
-                        if kwargs.get("need_complete",False):
-                            all_riders_found=False
-                    rider_ids.append(id_rider)
+                s=Search(name) 
+                id_rider=s.rider(first_name,last_name,fc_id=fc_id)
+
+                if id_rider in ['Q0','Q1']:
+                    if first_name is not None:
+                        log+="\n" + str(first_name) + " " +  str(last_name) +" number "
+                    else:
+                        log+="\n" + str(name) +" number "
+                    if bib is not None:
+                        log+=str(bib)
+                    log+=" not found"
+                    if need_complete:
+                        all_riders_found=False
+                rider_ids.append(id_rider)
             df["ID Rider"]=rider_ids
-        team=kwargs.get("team",False)
-        if team or kwargs.get("convert_team_code",False):
+            
+        #Not necessary for champ for instance
+        if team:
             try_with_team_name=False
             
             if "Team Code" not in df.columns:
@@ -425,7 +514,6 @@ def table_reader(filename,fc,**kwargs):  #startline,
             if team:
                 team_ids=[]
                 code_to_id={"nan":"Q0"}
-                man_or_woman=kwargs.get('man_or_woman',u'woman') #used only for team
             
                 if try_with_team_name:
                     df2=pd.unique(df["Team"].values)
@@ -442,7 +530,7 @@ def table_reader(filename,fc,**kwargs):  #startline,
                             id_team=s.team_by_code(man_or_woman=man_or_woman)
                         if id_team in ['Q0','Q1']:
                             log+="\n team: " + str(team_str) + " not found"
-                            if kwargs.get("need_complete",False):
+                            if need_complete:
                                 all_teams_found=False
                         code_to_id[team_str]=id_team
                     
@@ -466,8 +554,14 @@ def table_reader(filename,fc,**kwargs):  #startline,
         print("table read failure")
         return None, None, None, ''
 
-#transform the df in a list of Cyclist objects
-def cyclists_table_reader(df,**kwargs):
+def cyclists_table_reader(df:pd.core.frame.DataFrame):
+    '''
+    transform the df in a list of Cyclist objects
+
+    Parameters
+    ----------
+    df : pd.core.frame.DataFrame
+    '''
     try:
         list_of_cyclists =[]
         list_of_teams=[]
@@ -481,15 +575,15 @@ def cyclists_table_reader(df,**kwargs):
                 this_rider=Cyclist(name='not found')
             else:
                 this_rider=Cyclist(id=df["ID Rider"].values[ii])
-                if 'BIB' in df.columns:
-                    if not math.isnan(df["BIB"].values[ii]):
-                        this_rider.dossard=int(df["BIB"].values[ii])
-                if 'Rank' in df.columns:
-                    if type(df["Rank"].values[ii])==str:
-                        this_rider.rank=str(df["Rank"].values[ii]) 
-                    elif (type(df["Rank"].values[ii])==float or 
-                       type(df["Rank"].values[ii])==int) and not math.isnan(df["Rank"].values[ii]):
-                        this_rider.rank=str(int(df["Rank"].values[ii]))
+            if 'BIB' in df.columns:
+                if not math.isnan(df["BIB"].values[ii]):
+                    this_rider.dossard=int(df["BIB"].values[ii])
+            if 'Rank' in df.columns:
+                if type(df["Rank"].values[ii])==str:
+                    this_rider.rank=str(df["Rank"].values[ii]) 
+                elif (type(df["Rank"].values[ii])==float or 
+                   type(df["Rank"].values[ii])==int) and not math.isnan(df["Rank"].values[ii]):
+                    this_rider.rank=str(int(df["Rank"].values[ii]))
                         
             list_of_cyclists.append(this_rider)
 

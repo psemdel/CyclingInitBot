@@ -11,15 +11,39 @@ from .base import CyclingInitBot, Cyclist, Race
 from .func import table_reader,cyclists_table_reader
 
 class GetRiderTricot(CyclingInitBot):
-    def __init__(self, id_rider,time_of_race,claim,chrono, man_or_woman,**kwargs):
+    def __init__(
+            self, 
+            id_rider:str,
+            time_of_race:pywikibot.WbTime,
+            claim,
+            chrono:bool, 
+            man_or_woman:str,
+            **kwargs):
+        '''
+        Check if the rider was national champion at the time of the race and add the corresponding tricot
+
+        Parameters
+        ----------
+        id_rider : str
+            id in wikidata of the rider
+        time_of_race : pywikibot.WbTime
+            Time when the race took place
+        claim :
+            Claim corresponding to the rider in the start list
+        chrono : bool
+            Is there an ITT during the whole race
+        man_or_woman : str
+            age category and gender of the races to be created
+        '''
         super().__init__(**kwargs)
         self.rider=Cyclist(id=id_rider)
-        self.time_of_race=time_of_race
-        self.claim=claim
-        self.chrono=chrono
-        self.man_or_woman=man_or_woman
+        for k in ["time_of_race","claim","chrono","man_or_woman"]:
+            setattr(self,k,locals()[k])
  
     def insert_quali(self,quali):
+        '''
+        Insert a qualifier to a claim
+        '''
         if quali is not None:  
            target_qualifier = pywikibot.ItemPage(self.repo, quali)
            qualifier_tricot=pywikibot.page.Claim(self.site, 'P2912', is_qualifier=True)
@@ -27,6 +51,10 @@ class GetRiderTricot(CyclingInitBot):
            self.claim.addQualifier(qualifier_tricot) 
           
     def sub_function(self):
+        '''
+        Check if the rider was national champion at the time of the race and add the corresponding tricot
+        For road race or ITT
+        '''
         #candidate
         quali=None
         dic={}
@@ -103,6 +131,9 @@ class GetRiderTricot(CyclingInitBot):
         return None
             
     def main(self):
+        '''
+        Main function of this script
+        '''        
         #road champ
         self.road_or_clm='Road'
         result=None
@@ -128,15 +159,38 @@ class GetRiderTricot(CyclingInitBot):
             return 0
 
 class Scan(CyclingInitBot):
-    def __init__(self, id_race, chrono, man_or_woman,**kwargs):
+    def __init__(
+            self, 
+            id_race: str, 
+            chrono: bool, 
+            man_or_woman: str,
+            file:str="Results",
+            **kwargs):
+        '''
+        Scan an input file and look for national champion
+
+        Parameters
+        ----------
+        id_race : str
+            id in wikidata of the race
+        chrono : bool
+            Is there an ITT during the whole race        
+        man_or_woman : str
+            age category and gender of the races to be created
+        file : str, optional
+            name of the file to be read            
+        '''
         super().__init__()   
         self.race=Race(id=id_race)
-        self.time_of_race=self.race.get_date()
-        self.chrono=chrono
-        self.man_or_woman=man_or_woman
+        
+        for k in ["time_of_race","chrono","man_or_woman"]:
+            setattr(self,k,locals()[k])
         
     def main(self):
-        df,_,_,_=table_reader('Results',None)
+        '''
+        Main function of this script
+        '''  
+        df,_,_,_=table_reader(self.file,None)
         #Sort by dossard
         if "BIB" in df.columns:
             df=df.sort_values(["BIB"])
@@ -149,7 +203,7 @@ class Scan(CyclingInitBot):
             for cyclist in list_of_cyclists:
                 if cyclist.id not in ['Q0','Q1']:
                     grt=GetRiderTricot(cyclist.id,
-                                   self.time_of_race,
+                                   self.race.date,
                                    pywikibot.Claim(self.repo, u'P710'),
                                    self.chrono,
                                    self.man_or_woman
@@ -158,14 +212,33 @@ class Scan(CyclingInitBot):
                     
 
 class ScanExisting(CyclingInitBot):
-    def __init__(self, id_race, chrono, man_or_woman,**kwargs):
+    def __init__(
+            self,
+            id_race: str, 
+            chrono: bool, 
+            man_or_woman,
+            **kwargs):
+        '''
+        Scan an existing wikidata race item startlist for national champions
+
+        Parameters
+        ----------
+        id_race : str
+            id in wikidata of the race
+        chrono : bool
+            Is there an ITT during the whole race        
+        man_or_woman : str
+            age category and gender of the races to be created
+        '''
         super().__init__()   
         self.race=Race(id=id_race)
-        self.time_of_race=self.race.get_date()
         self.chrono=chrono
         self.man_or_woman=man_or_woman
         
     def main(self):
+        '''
+        Main function of this script
+        '''  
         if(u'P710' in self.race.item.claims): 
             startlist=self.race.item.claims.get(u'P710')
             
@@ -174,7 +247,7 @@ class ScanExisting(CyclingInitBot):
                 claim=pywikibot.Claim(self.repo, u'P710')
                 claim.setTarget(cyclist.item)
                 grt=GetRiderTricot(cyclist.id,
-                               self.time_of_race,
+                               self.race.date,
                                claim,
                                self.chrono,
                                self.man_or_woman

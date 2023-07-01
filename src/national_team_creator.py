@@ -10,42 +10,55 @@ from .func import man_or_women_to_is_women
 import sys
 
 class NationalTeamCreator(CyclingInitBot):
-    def __init__(self,man_or_woman,start_year,end_year,**kwargs):
+    def __init__(
+            self,
+            man_or_woman: str,
+            start_year: int,
+            end_year: int,
+            country:str=None,
+            **kwargs):
+        '''
+        Create the national teams for all country for one year
+
+        Parameters
+        ----------
+        man_or_woman : str
+            age category and gender of the races to be created
+        start_year : int
+        end_year : int
+        country : str, optional
+            UCI code of a country, if false then all countries will be created
+        '''
         super().__init__(**kwargs)
+        for k in ["man_or_woman","start_year","end_year"]:
+            setattr(self,k,locals()[k])
         
-        self.man_or_woman=man_or_woman
-        self.start_year=start_year
-        self.end_year=end_year
-        self.country=kwargs.get('country')
-        
-        if man_or_woman == 'man':
-            self.key = "team man"
-        elif man_or_woman == 'woman':
-            self.key = "team woman"
-        elif man_or_woman == 'womanU':
-            self.key = "team woman U23"
-        elif man_or_woman == 'manU':
-            self.key = "team man U23"  
-        elif man_or_woman == 'womanJ':
-            self.key = "team woman U19"
-        elif man_or_woman == 'manJ':
-            self.key = "team man U19"
-        else:
-            self.key = "team woman"
+        d={
+            'man':"team man",
+            'woman':"team woman",
+            'womanU':"team woman U23",
+            'manU':"team man U23",
+            'womanJ':"team woman U19",
+            'manJ':"team man U19"
+            }
+        self.key = d[man_or_woman]
         self.is_women=man_or_women_to_is_women(man_or_woman)
         
     def main(self):
+        '''
+        Main function of this script
+        '''
         try:
-            if self.country:
+            if self.country is not None:
                 if self.country not in self.nation_table:
                     self.log.concat("master of the team not found, contact the Webmaster")
                     return 10, self.log, "Q1"
                 
-                id_present =self.sub_function(self.country,self.nation_table[self.country])
+                id_present =self.create_team(self.country,self.nation_table[self.country])
             else:
-                for countryCIO, e in self.nation_table.items():
+                for country, e in self.nation_table.items():
                     if e["group"]==1:
-                        id_present=self.sub_function(countryCIO, e)
+                        id_present=self.sub_function(country, e)
                     
             return 0, self.log, id_present                   
         except Exception as msg:
@@ -55,7 +68,10 @@ class NationalTeamCreator(CyclingInitBot):
             self.log.concat("General Error in national team creator")
             return 10, self.log, "Q1"
     
-    def national_team_label(self,year):
+    def national_team_label(self,year:int):
+        '''
+        Create the label of the team
+        '''
         if self.man_or_woman == u'man':
             adj = u''
             adjen = u'men'
@@ -78,14 +94,24 @@ class NationalTeamCreator(CyclingInitBot):
                      self.this_nation["name es"] + " de ciclismo en ruta " + str(year)
                  }
     
-    def sub_function(self,countryCIO,e):
+    def create_team(self,country: str,e: dict):
+        '''
+        Create one national team
+        
+        Parameters
+        ----------
+        e : dict
+            Dictionnary containing the information about the country or the continent
+        country : str, optional
+            UCI code of a country, if false then all countries will be created
+        '''
         try:
             for year in range(self.start_year, self.end_year+1):
                 self.this_nation=e
                 mylabel = self.national_team_label(year)
                 pyItem=create_item(mylabel)
                 
-                self.log.concat("national team "+ countryCIO + " created")
+                self.log.concat("national team "+ country + " created")
                 self.log.concat("team id: " + pyItem.id)
                
                 if pyItem.get_description('fr') == '':
@@ -98,12 +124,12 @@ class NationalTeamCreator(CyclingInitBot):
                 if pyItem.get_alias('fr') == '':
                     alias={}
                     for lang in self.all_langs:
-                        alias[lang]=[countryCIO+ " " + str(year)]
+                        alias[lang]=[country+ " " + str(year)]
                     pyItem.item.editAliases(aliases=alias,summary=u'Setting Aliases')    
                 
                 pyItem.add_value("P31", "Q53534649", u'Nature')
                 pyItem.add_value("P2094", "Q23726798", u'Category')
-                pyItem.add_value("P1998", countryCIO, u'CIO code',noId=True)
+                pyItem.add_value("P1998", country, u'CIO code',noId=True)
                 pyItem.add_value("P641","Q3609", u'cyclisme sur route')
                 pyItem.add_value("P17", e["country"], u'country')
                 if self.key in e:

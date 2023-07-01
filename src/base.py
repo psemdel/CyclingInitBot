@@ -12,34 +12,25 @@ from .name import Name, CyclistName, concaten
 from datetime import datetime
 
 ### All classes in the code ###
-
-#Master-class for the functions in the bot
 class CyclingInitBot():
-    def __init__(self,**kwargs):
+    def __init__(
+            self,
+            test:bool=False,
+            **kwargs):
+        '''
+        Master-class for the functions in the bot
+        '''
         self.site = pywikibot.Site("wikidata", "wikidata")
         self.repo = self.site.data_repository()
         self.nation_table= nation_team_table.load()
         self.all_langs=language_list.load()
         self.log=Log()
-        self.test=kwargs.get("test",False)
+        self.test=test
 
-    def get_items(self,item_title):
-        params = {
-            'action': 'wbsearchentities',
-            'format': 'json',
-            'language': 'fr',
-            'type': 'item',
-            'search': item_title,
-            'limit': 10}
-        #params.update({'continue': 1})
-        rq = pywikibot.data.api.Request(site=self.site, parameters=params)
-        res = rq.submit()
-        if res['success'] != 1:
-            print('WD search failed')
-        else:
-            return res
-
-def create_item(label):   
+def create_item(label:dict):   
+    '''
+    Create a new item in wikidata
+    '''
     search=Search(label['fr'])
     present_id=search.simple()
     site = pywikibot.Site("wikidata", "wikidata")
@@ -47,7 +38,12 @@ def create_item(label):
     
     if (present_id == u'Q0'):
         print(label['fr'] + ' created')
-        return create_item_sub(label)
+        site=pywikibot.Site("wikidata", "wikidata")
+        new_item = pywikibot.ItemPage(site)
+        new_item.editLabels(labels=label, summary="Setting labels")
+    # Add description here or in another function
+        pyItem=PyItem(id=new_item.getID(), item=new_item)
+        return pyItem
     elif (present_id == u'Q1'):
         print(label['fr'] + ' already present several times')
         return None
@@ -56,44 +52,69 @@ def create_item(label):
         item = pywikibot.ItemPage(repo, present_id)
         return PyItem(id=present_id, item=item)
 
-def create_item_sub(label):
-    try:
-        pywikibot.exception(tb=True)
-        site=pywikibot.Site("wikidata", "wikidata")
-        new_item = pywikibot.ItemPage(site)
-        new_item.editLabels(labels=label, summary="Setting labels")
-    # Add description here or in another function
-        pyItem=PyItem(id=new_item.getID(), item=new_item)
-        return pyItem
-    except Exception as msg:
-        print("create_item crash")
-        print(msg)
-        #pywikibot.exception(msg)
-
-#kind of overload of item in pywikibot
 class PyItem():
-    def __init__(self, **kwargs):
+    def __init__(
+            self,
+            id:str="Q0",
+            item=None,
+            **kwargs):
+        '''
+        Kind of overload of item in pywikibot
+
+        Parameters
+        ----------
+        id : str, optional
+            wikidata id
+        item : , optional
+            item in wikidata
+        '''
         self.site = pywikibot.Site("wikidata", "wikidata")
         self.repo = self.site.data_repository()
-        self.id=kwargs.get("id","Q0")
-        self.item=kwargs.get("item")
-        
+        self.item=item
+        self.id=id
+
         if self.item is None and self.id !="Q0":
             self.item=pywikibot.ItemPage(self.repo, self.id)
             self.item.get()
         
-    def get_country(self):
+    def get_country(self)-> str:
+        '''
+        Return the country id of the item
+        '''
         if (u'P17' in self.item.claims):
              P17=self.item.claims.get(u'P17')
              return P17[0].getTarget().getID()
         else:
              return None
             
-    def add_value(self, prop, value, comment,**kwargs):
-        if not isinstance(value,int) or (isinstance(value,int) and value!=0) or kwargs.get("date",False): #date is somehow not different from 0
+    def add_value(
+            self, 
+            prop: str, 
+            value, 
+            comment:str,
+            date:bool=False,
+            noId:bool=False,
+            ):
+        '''
+        Add value to the item
+
+        Parameters
+        ----------
+        prop : str
+            Propriety where the value should be added
+        value : 
+            Value to be added, by default an id is expected
+        comment : str
+            Comment for wikidata history
+        date : bool, optional
+            If the value is a date
+        noId : bool, optional
+            If the value is not an id
+        '''
+        if not isinstance(value,int) or (isinstance(value,int) and value!=0) or date: #date is somehow not different from 0
             if prop not in self.item.claims:  # already there do nothing
                 claim = pywikibot.Claim(self.repo, prop)
-                if kwargs.get("date",False) or kwargs.get("noId",False):
+                if date or noId:
                     target=value
                 else:
                     target = pywikibot.ItemPage(self.repo, value)
@@ -101,26 +122,77 @@ class PyItem():
                 claim.setTarget(target)
                 self.item.addClaim(claim, summary=u'Adding ' + comment)  
 
-    def delete_value(self, prop, vId, comment):
+    def delete_value(
+            self, 
+            prop: str, 
+            vId: str, 
+            comment: str
+            ):
+        '''
+        Delete a value from a property
+
+        Parameters
+        ----------
+        prop : str
+            Propriety where the value should be added
+        vId : str
+            id to be deleted
+        comment : str
+            Comment for wikidata history
+        '''
         if prop in self.item.claims:
             for ii, e in enumerate(self.item.claims.get(prop)):
                 if e.getTarget().getID() == vId:  # Already there
                     claim =  self.item.claims[prop][ii]
                     self.item.removeClaims(claim)
 
-    def delete_property(self, prop):
+    def delete_property(self, prop:str):
+        '''
+        Delete all values from a property
+
+        Parameters
+        ----------
+        prop : str
+            Propriety where the value should be added
+        '''
         if prop in self.item.claims :
             self.item.removeClaims(self.item.claims[prop])
 
 # Same as add value but for comprend
-    def add_values(self,prop,value,comment,overpass,**kwargs):
+    def add_values(
+            self,
+            prop: str,
+            value,
+            comment: str,
+            overpass: bool,
+            date:bool=False,
+            noId:bool=False,
+            ):
+        '''
+        Add value to the item in a property that has already other items
+
+        Parameters
+        ----------
+        prop : str
+            Propriety where the value should be added
+        value : 
+            Value to be added, by default an id is expected
+        comment : str
+            Comment for wikidata history
+        overpass : bool
+            If true, it will add the value also if it already present. Useful for sorting algorithms.
+        date : bool, optional
+            If the value is a date
+        noId : bool, optional
+            If the value is not an id
+        '''
         # check if the value is not already 
         Addc = True
         
         if not overpass:  # To add a value and then delete it for sorting purpose
             if prop in self.item.claims:  # already there do nothing
                 for e in self.item.claims.get(prop) :
-                    if kwargs.get("date",False) or kwargs.get("noId",False):
+                    if date or noId:
                         if e.getTarget() == value:  # Already there
                             claim=e
                             Addc = False
@@ -134,7 +206,7 @@ class PyItem():
         # add the value
         if Addc:
             claim = pywikibot.Claim(self.repo, prop)
-            if kwargs.get("date",False) or kwargs.get("noId",False):
+            if date or noId:
                 target=value
             else:
                 target = pywikibot.ItemPage(self.repo, value)
@@ -142,8 +214,23 @@ class PyItem():
             self.item.addClaim(claim, summary=u'Adding ' + comment)
         return Addc, claim
 
-    #note: as claim is defined, the pyItem calling does not matter
-    def add_qualifier(self,claim,prop,target_q):
+    def add_qualifier(
+            self,
+            claim,
+            prop:str,
+            target_q):
+        '''
+        Add a qualifier to a claim
+
+        Parameters
+        ----------
+        claim : TYPE
+            Claim where the qualifier needs to be added
+        prop : str
+            DESCRIPTION.
+        target_q : TYPE
+            qualifier to be added
+        '''
         Addc = True
         for qual in claim.qualifiers.get(prop, []): #the get(prop, []) avoids a crash if the qualifier is not present
             if qual.target==target_q:
@@ -154,13 +241,28 @@ class PyItem():
             q.setTarget(target_q)
             claim.addQualifier(q)
 
-    def link_year(self, year,**kwargs):
+    def link_year(
+            self, 
+            year:int,
+            test:bool=False,
+            id_master:str=None,
+            ):
+        '''
+        Link an item to the next and previous editions
+
+        Parameters
+        ----------
+        year : int
+        test : bool, optional
+            Are we testing the function?
+        id_master : str, optional
+            Id of the parent of the item
+        '''
         year_previous=int(year)-1
         year_next=int(year)+1
-        id_master=kwargs.get("id_master")
         id_previous=None
         id_next=None
-        
+
         if id_master is None:
             if (u'P5138' in self.item.claims):
                 id_master= self.item.claims.get(u'P5138')[0].getTarget().getID()
@@ -178,7 +280,7 @@ class PyItem():
                     v=claim.getTarget().getID()
                     pyItem_v=PyItem(item=claim.getTarget(),id=v)
                     label=pyItem_v.get_label('fr')
-                    
+
                     if str(year_previous) in label:
                         id_previous=v
                         pyItem_previous=pyItem_v
@@ -187,7 +289,7 @@ class PyItem():
                         pyItem_next=pyItem_v
         
             #link the whole
-            if kwargs.get("test",False):
+            if test:
                 return id_master, id_previous, id_next
             else:
                 if id_previous:
@@ -199,7 +301,10 @@ class PyItem():
         else:
             raise ValueError("id_master not defined in link_year")
 
-    def get_label(self,language):
+    def get_label(self,language:str)-> str:
+        '''
+        Return a label of an item
+        '''
         if language in self.item.labels:
             return self.item.labels[language]
         elif 'en'  in self.item.labels:
@@ -209,23 +314,43 @@ class PyItem():
                    return  self.item.labels[lang]
             return ''
      
-    def get_description(self, language):
+    def get_description(self, language:str)-> str:
+        '''
+        Return a description of an item
+        '''
         if language in self.item.descriptions:
             return self.item.descriptions[language]
         else:
             return ''
 
-    def get_alias(self, language):
+    def get_alias(self, language:str)-> str:
+        '''
+        Return the alias of an item
+        '''
         if language in self.item.aliases:
             return self.item.aliases[language]
         else:
             return '' 
 
 class Cyclist(PyItem):
-    def __init__(self, **kwargs):
+    def __init__(
+            self,
+            name:str=None,
+            nosortkey:bool=False,
+            **kwargs):
+        '''
+        Class to handle cyclist
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the rider
+        nosortkey : bool, optional
+            Look for the last name in order to define it as sortkey
+        '''
+
         super().__init__(**kwargs)
         
-        name=kwargs.get("name")
         if name is None and self.item is not None:
             name=self.get_label('fr')
         
@@ -235,8 +360,6 @@ class Cyclist(PyItem):
         
         self.dossard = 0
         self.team=None
-        
-        nosortkey=kwargs.get('nosortkey',False)
         self.sortkey =None
         if nosortkey==False:
             self.find_sortkey()
@@ -245,12 +368,18 @@ class Cyclist(PyItem):
         self.rank=0
         self.national_team=False
     
-    def find_start_sortkey(self,start_words,names_cor_table):
+    def find_start_sortkey(self,start_words:str,names_cor_table:list):
+        '''
+        Look for the start of last name using Van or De as indicator
+        '''
         for ii in range(1,len(names_cor_table)):
            if names_cor_table[ii] in start_words:
                self.sortkey=concaten(names_cor_table,ii)
     
     def find_sortkey(self):
+        '''
+        Look for the last name
+        '''
         names_cor_table = self.nameObj.name_cor.split(" ")
         family_name_start=[u'van',u'de']
         
@@ -262,13 +391,15 @@ class Cyclist(PyItem):
             sortkey=self.find_start_sortkey(family_name_start,names_cor_table) 
             if sortkey is None: 
                  if False:# bot_or_site():
-                     print(self.nameObj.name)
                      ii = input('Index of the family name : ')
                      self.sortkey=concaten(names_cor_table ,int(ii))       
                  else: #site
                      self.sortkey=concaten(names_cor_table ,1) #arbitrary
                      
-    def get_present_team(self, time_of_race):
+    def get_present_team(self, time_of_race: pywikibot.WbTime) -> str:
+        '''
+        Search for the present team of the rider
+        '''
         result = 'Q1'
         tt=time_of_race.toTimestamp()
         
@@ -291,9 +422,11 @@ class Cyclist(PyItem):
                     result = this_team.getTarget().getID()
                     break
         return result
-    
-    #return ID of country from nationality
-    def get_nationality(self, time_of_race):
+
+    def get_nationality(self, time_of_race: pywikibot.WbTime) -> str:
+        '''
+        return ID of country from nationality
+        '''
         try:
             result="Q0"
 
@@ -328,8 +461,7 @@ class Cyclist(PyItem):
                                     break
 
             if  result=="Q15180": #USSR
-                print("USSR rider")
-                print(self.id)
+                print("USSR rider, id: " + str(self.id))
             if result=="Q55": #NED   
                 result="Q29999"
             
@@ -338,10 +470,22 @@ class Cyclist(PyItem):
                 print(msg)   
          
 class Race(PyItem):
-    def __init__(self,**kwargs):
+    def __init__(
+            self,
+            name:str=None,
+            date:pywikibot.WbTime=None,
+            **kwargs):
+        '''
+        Class to handle races
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the race
+        date : pywikibot.WbTime, optional
+            Date of the race
+        '''
         super().__init__(**kwargs)
-        name=kwargs.get("name")
-        date=kwargs.get("date") 
         
         if name is None and self.item is not None:
             name=self.get_label('fr')
@@ -357,22 +501,22 @@ class Race(PyItem):
             self.date=self.get_date()
         else:
             self.date=date
-        #if still none
-        #if self.date is None:
-        #    self.date=pywikibot.WbTime(site=self.site, year=1900, month=1, day=1, precision='day')
 
     def find_sortkey(self):
+        '''
+        Look for a sortkey for the race, here for national championship
+        '''
         team_name_start=[u"championnats d'",u"championnats des ",u"championnats du ",u"championnats de "]
         self.nameObj.find_start_sortkey(team_name_start)
         self.sortkey =self.nameObj.sortkey
     
-    def get_begin_date(self):
+    def get_begin_date(self)-> pywikibot.WbTime:
         if (u'P580' in self.item.claims):
             self.race_begin = self.item.claims.get(u'P580')[0].getTarget()
 
         return self.race_begin
     
-    def get_date(self):
+    def get_date(self)->pywikibot.WbTime:
         if (u'P585' in self.item.claims):
              this_claim = self.item.claims.get(u'P585')
              self.date = this_claim[0].getTarget()
@@ -382,7 +526,7 @@ class Race(PyItem):
     
         return self.date
 
-    def get_year(self):
+    def get_year(self)->int:
         self.get_date()
         if self.date is None:
             print("date not found")
@@ -390,13 +534,16 @@ class Race(PyItem):
         else:
             return int(self.date.year)
     
-    def get_end_date(self):
+    def get_end_date(self)-> pywikibot.WbTime:
         if (u'P582' in self.item.claims):
             self.race_end = self.item.claims.get(u'P582')[0].getTarget()
 
         return self.race_end
 
-    def get_class(self):
+    def get_class(self)-> str:
+        '''
+        Return the class id of the race
+        '''
         class_list=[
             "Q22231106",
             "Q22231107",
@@ -427,7 +574,10 @@ class Race(PyItem):
                     return tempQ
         return None   
     
-    def get_is_women(self):
+    def get_is_women(self)-> bool:
+        '''
+        Check if it a women race
+        '''
         if (u'P2094' in self.item.claims):
             P2094=self.item.claims.get(u'P2094')
             for p2094 in P2094:
@@ -435,7 +585,10 @@ class Race(PyItem):
                     return True
         return False
     
-    def get_race_name(self):
+    def get_race_name(self)-> str:
+         '''
+         Return the name of the race, without the year
+         '''
          label_raw=self.get_label('fr')
          if label_raw[len(label_raw)-4:].isdigit():
              label=label_raw[:len(label_raw)-5]
@@ -443,10 +596,30 @@ class Race(PyItem):
              label=label_raw
          return label
      
-    def add_winner(self, value, order, general_or_stage,**kwargs):
+    def add_winner(
+            self, 
+            value: str, 
+            order:int, 
+            general_or_stage:int,
+            stage:bool=False,
+            ):
+        '''
+        Add winners to a race
+
+        Parameters
+        ----------
+        value : str
+            id the rider
+        order : int
+            Rank in the race
+        general_or_stage : int
+            Code to determine which ranking it is
+        stage : bool, optional
+            Is it a stage?
+        '''
         prop = "P1346"
         #general_or_stage to "vainqueur de xy"
-        if kwargs.get("stage",False):
+        if stage:
             dic_order1={0:'Q20882763',1:'Q20882747',2:'Q20883008',3:'Q20883213',4:'Q20883140',5: "Q20882922", 8:'Q20883329'}
         else:
             dic_order1={0:'Q20882667',2:'Q20883007', 3:'Q20883212', 4:'Q20883139',5: "Q20882921", 8:'Q20883328'}
@@ -456,9 +629,9 @@ class Race(PyItem):
         if order == 1:
             if general_or_stage in dic_order1:
                 qualifier_nummer=dic_order1[general_or_stage]
-        elif order == 2 and general_or_stage==0 and not kwargs.get("stage",False):
+        elif order == 2 and general_or_stage==0 and not stage:
             qualifier_nummer = 'Q20882668'
-        elif order == 3 and general_or_stage==0 and not kwargs.get("stage",False):
+        elif order == 3 and general_or_stage==0 and not stage:
             qualifier_nummer = 'Q20882669'
         else:
             Addc = False
@@ -483,7 +656,10 @@ class Race(PyItem):
                 target_q=pywikibot.ItemPage(self.repo, qualifier_nummer)
                 self.add_qualifier(claim,'P642',target_q)
                 
-    def get_is_stage(self):
+    def get_is_stage(self)-> bool:
+        '''
+        Check if the "race" is actually a stage
+        '''
         stagesQ=[
         	"Q18131152",
         	"Q20646667", 
@@ -502,7 +678,10 @@ class Race(PyItem):
                     return True
         return False
     
-    def add_speed(self,time):
+    def add_speed(self,time: int):
+        '''
+        Calculate and add the speed to a race
+        '''
         if (u'P3157' in self.item.claims): #distance
             P3157=self.item.claims.get(u'P3157')
             distance=P3157[0].getTarget().amount
@@ -512,15 +691,27 @@ class Race(PyItem):
             self.add_value("P2052", speed_with_unit, u'speed',noId=True)
 
 class Team(PyItem):
-    def __init__(self, **kwargs):
+    def __init__(
+            self,
+            name:str=None,
+            date:pywikibot.WbTime=None,
+            **kwargs):
+        '''
+        Class to handle teams and team seasons
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the team
+        date : pywikibot.WbTime, optional
+            Date of the season
+        '''
         super().__init__(**kwargs)
-        name=kwargs.get("name")
         
         if name is None and self.item is not None:
             name=self.get_label('fr')
             
         self.nameObj=Name(name)
-        date=kwargs.get("date")
         if date is None and self.item is not None:
             self.get_date()
         else:
@@ -528,14 +719,16 @@ class Team(PyItem):
              
         self.codeUCI = ''
         self.find_sortkey()
-       
             
     def find_sortkey(self):
+        '''
+        Find the sort key, especially for national team
+        '''
         team_name_start=[u"equipe d'",u"equipe des ",u"equipe du ",u"equipe de "]
         self.nameObj.find_start_sortkey(team_name_start)
         self.sortkey=self.nameObj.sortkey
     
-    def get_date(self):
+    def get_date(self) ->pywikibot.WbTime:
         self.date =None
         if (u'P585' in self.item.claims):
             this_claim = self.item.claims.get(u'P585')
@@ -545,23 +738,59 @@ class Team(PyItem):
             self.date = this_claim[0].getTarget()
 
 class Search(CyclingInitBot):
-    def __init__(self, search_str):
+    def __init__(self, 
+                 search_str:str):
+        '''
+        Class to search in wikidata for a string        
+
+        Parameters
+        ----------
+        search_str : str
+            String to be searched
+        '''
         super().__init__()
         self.search_str=search_str
         self.site = pywikibot.Site("wikidata", "wikidata")
         self.repo = self.site.data_repository()
         
-    def rider(self, first_name, last_name, **kwargs):
+    def rider(self,
+              first_name:str, 
+              last_name:str,
+              fc_id=None):
+        '''
+        Function to search for a rider
+
+        Parameters
+        ----------
+        first_name : str
+        last_name : str
+        fc_id : TYPE, optional
+            Id in firstcycling of the rider
+        '''
         return self.complexe(
             rider_bool=True,
             disam=self.is_it_a_cyclist,
             exception_table=exception.list_of_rider_ex(),
             first_name=first_name, 
             last_name=last_name,
-            fc_id=kwargs.get("fc_id"))
+            fc_id=fc_id)
     
-    def team_by_code(self, **kwargs):
-        if kwargs.get("man_or_woman","woman")=="man" or kwargs.get("is_women",True)==False:
+    def team_by_code(
+            self, 
+            man_or_woman:str="woman",
+            is_women:bool=True,
+            ):
+        '''
+        Search for a team using its UCI code
+
+        Parameters
+        ----------
+        man_or_woman : str, optional
+            age category and gender of the races to be created
+        is_women : bool, optional
+            Is it a women race/team
+        '''
+        if man_or_woman=="man" or is_women==False:
             exception_table=exception.list_of_team_code_ex_man()
             dis=self.is_it_a_menteam
         else:
@@ -574,8 +803,22 @@ class Search(CyclingInitBot):
            exception_table=exception_table,
            ) 
 
-    def team_by_name(self, **kwargs):
-        if kwargs.get("man_or_woman","woman")=="man" or kwargs.get("is_women",True)==False:
+    def team_by_name(
+            self, 
+            man_or_woman:str="woman",
+            is_women:bool=True,
+            ):
+        '''
+        Search for a team using its name
+
+        Parameters
+        ----------
+        man_or_woman : str, optional
+            age category and gender of the races to be created
+        is_women : bool, optional
+            Is it a women race/team
+        '''        
+        if man_or_woman=="man" or is_women==False:
             exception_table=exception.list_of_team_name_ex_man()
             dis=self.is_it_a_menteam
         else:
@@ -589,6 +832,9 @@ class Search(CyclingInitBot):
            )        
             
     def race(self):
+        '''
+        Search for a race
+        '''
         result = "Q0", ""
         race_table=race_list.load()
         
@@ -609,27 +855,68 @@ class Search(CyclingInitBot):
         return result 
 
     def national_team(self,positive_list,negative_list):
+        '''
+        Search for a national team
+        '''
         return self.simple(disam=self.is_it_a_nationalteam,
                     positive_list=positive_list,
                     negative_list=negative_list
                     )
 
+    def get_items(self,item_title: str):
+        '''
+        Search for an item with its title
+        '''
+        params = {
+            'action': 'wbsearchentities',
+            'format': 'json',
+            'language': 'fr',
+            'type': 'item',
+            'search': item_title,
+            'limit': 10}
+        #params.update({'continue': 1})
+        rq = pywikibot.data.api.Request(site=self.site, parameters=params)
+        res = rq.submit()
+        if res['success'] != 1:
+            print('WD search failed')
+        else:
+            return res
+
     #search_item
-    def simple(self,**kwargs):
-        search_name=kwargs.get("search_name",self.search_str)
-        disam=kwargs.get('disam') #disambiguation_function
+    def simple(
+            self,
+            search_name:str=None,
+            disam=None, #disambiguation_function
+            fallback=None,
+            force_disam:bool=False,
+             **kwargs) -> str:
+        '''
+        Search a string
+
+        Parameters
+        ----------
+        search_name : str, optional
+            String to be search, will override self.search_str
+        disam : TYPE, optional
+            Function to disambiguate between items. For instance if 2 persons are returned and one is a cyclist, the cyclist will be returned
+        fallback : TYPE, optional
+            Function to search with another method, if it did not work
+        force_disam : bool, optional
+            If the disambiguation function is not returning true, then the result won't be returned
+        '''
+        if search_name==None:
+            search_name=self.search_str
         wd_entries=self.get_items(search_name)
-        
+
         if(wd_entries['search'] == []):
             # no result
             result_id = u'Q0'
-            fallback=kwargs.get("fallback")
             if fallback is not None:
                 result_id=fallback(**kwargs)
         elif len(wd_entries['search'])==1:
             temp_id = wd_entries['search'][0]['id']
             
-            if kwargs.get('force_disam',False)==False:  #disam criteria must be always filed
+            if force_disam==False:  #disam criteria must be always filed
                 result_id=temp_id ##then we don't care, we just return the result
             else:
                 if disam(temp_id,**kwargs): #it must be correct, for instance a rider
@@ -657,9 +944,25 @@ class Search(CyclingInitBot):
         return result_id
 
     #search_itemv2
-    def complexe(self,**kwargs):
-        rider_bool=kwargs.get("rider_bool",False)
-        
+    def complexe(
+            self,
+            rider_bool:bool=False,
+            first_name:str='',
+            last_name:str='',
+            exception_table:dict={},
+            **kwargs) -> str:
+        '''
+        As simple but additionally look for exception table
+
+        Parameters
+        ----------
+        rider_bool : bool, optional
+            Is it a rider?
+        first_name : str, optional
+        last_name : str, optional
+        exception_table : dict, optional
+            List of rider which returns directly an id to avoid issues.
+        '''
         if self.search_str not in [None, '', 0]: # to check
             if rider_bool:
                 this_name=CyclistName(self.search_str) #reverted
@@ -667,8 +970,6 @@ class Search(CyclingInitBot):
                 this_name=Name(self.search_str)
             search_name=this_name.name_cor
         else:
-            first_name=kwargs.get('first_name','')
-            last_name=kwargs.get('last_name','')
             name=first_name + " " + last_name
             if name!=" ":
                this_name=CyclistName(name)
@@ -676,8 +977,6 @@ class Search(CyclingInitBot):
             else:
                return u'Q1', ''
         #exception management
-        exception_table=kwargs.get('exception_table',{})
-
         for key in exception_table:
             if rider_bool:
                 this_exception=CyclistName(key)  
@@ -689,7 +988,10 @@ class Search(CyclingInitBot):
         
         return self.simple(search_name=search_name,**kwargs)
     
-    def is_it_a_cyclist(self,item_id,**kwargs):
+    def is_it_a_cyclist(self,item_id:str,**kwargs)-> bool:
+        '''
+        Test is the item had cyclist as occupation
+        '''
         item = pywikibot.ItemPage(self.repo, item_id)
         item.get()
         if(u'P106' in item.claims): 
@@ -702,7 +1004,10 @@ class Search(CyclingInitBot):
                     return False
         return False
 
-    def is_it_a_teamseason(self,item_id,**kwargs):
+    def is_it_a_teamseason(self,item_id: str,**kwargs) -> bool:
+        '''
+        Test if the item is a team season
+        '''
         item = pywikibot.ItemPage(self.repo, item_id)
         item.get()
         if(u'P31' in item.claims):  
@@ -711,16 +1016,30 @@ class Search(CyclingInitBot):
                     return True
         return False 
 
-    def find_sortkey(self,label,words):
+    def find_sortkey(self,label: str,words: list)-> bool:
         for word in words:
             if label.find(word)!=-1:
                 return True
         return False
 
-    def is_it_a_nationalteam(self,item_id,**kwargs):
-        positive_list=kwargs.get('positive_list',[])
-        negative_list=kwargs.get('negative_list',[])
-        
+    def is_it_a_nationalteam(
+            self,
+            item_id:str,
+            positive_list:list=[],
+            negative_list:list=[],
+            **kwargs)-> bool:
+        '''
+        Test if the item is a national team
+
+        Parameters
+        ----------
+        item_id : TYPE
+            id in wikidata of the item
+        positive_list : list, optional
+            List of key words that indicates that it is the case
+        negative_list : list, optional
+            List of key words that indicates that it is not the case
+        '''
         pyItem=PyItem(id=item_id)
         this_label=pyItem.get_label('fr')
         
@@ -731,6 +1050,9 @@ class Search(CyclingInitBot):
             return False
         
     def is_it_a_womenteam(self,item_id,**kwargs):
+        '''
+        Test if the item is a women team
+        '''
         if self.is_it_a_teamseason(item_id):
             item = pywikibot.ItemPage(self.repo, item_id)
             item.get()
@@ -740,15 +1062,13 @@ class Search(CyclingInitBot):
                 for p2094 in P2094:
                     if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q1451845"]:#, #cats and women cycling, Q1451845 required for national team
                         return True
-            #if (u'P31' in item.claims):
-            #    P31=item.claims.get(u'P31')
-            #    for p31 in P31:
-            #        if p31.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#cats
-            #            return True                    
                     
         return False
             
     def is_it_a_menteam(self,item_id,**kwargs):
+        '''
+        Test if the item is a men team
+        '''
         if self.is_it_a_teamseason(item_id):
             item = pywikibot.ItemPage(self.repo, item_id)
             item.get()
@@ -766,9 +1086,10 @@ class Search(CyclingInitBot):
             return True
         return False    
     
-    def search_fc_id(self, **kwargs):
-        fc_id=kwargs.get("fc_id")
-        
+    def search_fc_id(self, fc_id=None):
+        '''
+        Search using the firstcycling id
+        '''
         query_part1 = """SELECT ?item
         WHERE{
           ?item wdt:P10902 ?fcid .
@@ -791,9 +1112,15 @@ class Search(CyclingInitBot):
 
 class Log():
     def __init__(self):
+        '''
+        Save logs
+        '''
         self.txt=""
         
-    def concat(self, new):
+    def concat(self, new:str):
+        '''
+        Add text to the log
+        '''
         print(new) #for local
         self.txt+="\n" + str(new) #write a log that is returned to the site
     

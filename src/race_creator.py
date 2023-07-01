@@ -10,8 +10,17 @@ from .func import get_class_id, define_article, date_finder, man_or_women_to_is_
 
 from .base import CyclingInitBot, Race, create_item, PyItem
 import copy
+import pywikibot
 
-def get_class_WWT(classe):    
+def get_class_WWT(classe: str):    
+    '''
+    Return the appartenance to UCI calendar, WWT and UWT
+
+    Parameters
+    ----------
+    classe : str
+        class name of the race
+    '''
     UCI=True
     
     dic_WWT={
@@ -48,67 +57,102 @@ def get_class_WWT(classe):
         return UCI, False, False    
 
 class RaceCreator(CyclingInitBot):
-    def __init__(self,**kwargs):
+    def __init__(
+            self,
+            start_date: pywikibot.WbTime=None,
+            end_date:pywikibot.WbTime=None,
+            classe:str=None,
+            country: str=None,
+            country_id: str=None,
+            id_race_master: str=None,
+            edition_nr=None,
+            year=None,
+            UWT:bool=False,
+            WWT:bool=False,
+            UCI:bool=False,
+            race_name: str=None,
+            man_or_woman:str=None,
+            single_race: bool=False,
+            only_stages:bool=False,
+            create_stages:bool=True,
+            stage_race_id:str=None,
+            first_stage:int=None,
+            last_stage:int=None,
+            **kwargs):
+        '''
+        Create an edition race with or without its stages
+
+        Parameters
+        ----------
+        start_date : pywikibot.WbTime, optional
+            First day of the race
+        end_date : pywikibot.WbTime, optional
+            Last day of the race
+        classe : str, optional
+            class name of the race
+        country : str, optional
+            UCI code of a country, if false then all countries will be created
+        country_id : str, optional
+            wikidata id of the country
+        id_race_master : str, optional
+            id of the race, without year
+        edition_nr, optional
+            number of the edition for the current year
+        year : TYPE, optional
+        UWT : bool, optional
+            Is the race part of the world tour?
+        WWT : bool, optional
+            Is the race part of the women world tour?
+        UCI : bool, optional
+            Is the race part of the UCI calendar?
+        race_name : str, optional
+            race name for the current year
+        man_or_woman : str, optional
+            age category and gender of the races to be created
+        single_race : bool, optional
+            Is it a single stage race
+        only_stages: bool, optional
+            To create only the stage of a race without the race itself
+        create_stages: bool, optional
+            Should the stages be created
+        stage_race_id : str, optional
+            wikidata id of the race, when wanting to create only it stage
+        first_stage : int, optional
+            Number of first stage, 0 is for prolog
+        last_stage : int, optional
+            Number of the last stage            
+        '''
         super().__init__(**kwargs)
+                
+        for k in ["start_date", "end_date","classe","country", "country_id","id_race_master","edition_nr",
+                  "year","UWT","WWT","UCI","race_name","man_or_woman","single_race","create_stages","stage_race_id",
+                  "first_stage","last_stage"]:
+            setattr(self,k,locals()[k])
         
         self.verbose=False
         self.class_id=None
-        self.country=None
-        self.year=None
-        self.start_date=None
-        
-        self.start_date=kwargs.get('start_date')
-        self.end_date=kwargs.get('end_date')
-        self.classe=kwargs.get('classe') #text 1.2 not id
-        self.countryCIO=kwargs.get('countryCIO')
-        self.country=kwargs.get('country') #country id
-        self.id_race_master=kwargs.get('id_race_master')
-        self.edition_nr=kwargs.get('edition_nr')
-        self.year=kwargs.get('year')
-        self.UWT=kwargs.get('UWT')
-        self.WWT=kwargs.get('WWT')
-        self.UCI=kwargs.get('UCI')
-        self.race_name=kwargs.get('race_name')
-        self.man_or_woman=kwargs.get('man_or_woman')
         
         self.is_women=None
         if self.man_or_woman is not None:
             self.is_women=man_or_women_to_is_women(self.man_or_woman)
         
-        self.single_race=kwargs.get('single_race',False)
-        if self.countryCIO is not None and self.country is None:
-            self.country=self.nation_table[self.countryCIO]["country"]
+        if self.country is not None and self.country_id is None:
+            self.country_id=self.nation_table[self.country]["country"]
             
         if self.single_race:
-            self.only_stages=False
-            self.create_stages_bool=False
-            self.end_date=None
-            self.create_main_bool=True
+            self.create_stages=False
+            self.create_main=True
         else:
-            self.only_stages=kwargs.get('only_stages',False)
-            self.create_main_bool= not self.only_stages
-            self.end_date=kwargs.get('end_date')
-            
-            if self.only_stages:
-                self.create_stages_bool=True
-                
-                present_id=kwargs.get('stage_race_id')
-                if present_id is None:
-                    raise ValueError("create stage require stage_race_id")
-                    self.log.concat("create stage require stage_race_id")
+            self.create_main= not self.only_stages
 
-                self.first_stage=kwargs.get('first_stage')
-                if self.first_stage is None:
-                    raise ValueError("create stage require first_stage")
-                    self.log.concat("create stage require first_stage")
+            if self.only_stages:
+                self.create_stages=True
                 
-                self.last_stage=kwargs.get('last_stage')
-                if self.last_stage is None:
-                    raise ValueError("create stage require last_stage")
-                    self.log.concat("create stage require last_stage")
-                   
-                #present_id is know we have a lot of info
-                self.race=Race(id=present_id)
+                if self.stage_race_id is None:
+                    raise ValueError("create only stages require stage_race_id")
+                    self.log.concat("create only stages require stage_race_id")
+                #stage_race_id is known we have a lot of info
+                self.race=Race(id=stage_race_id)
                 
                 if self.start_date is None:
                     self.start_date=self.race.get_begin_date()
@@ -124,20 +168,12 @@ class RaceCreator(CyclingInitBot):
                     self.country=self.race.get_country()
                 if self.is_women is None:
                     self.is_women=self.race.get_is_women()
-                    
-            else:
-                self.create_stages_bool=kwargs.get('create_stages')
-                
-                if self.create_stages_bool:
-                    self.first_stage=kwargs.get('first_stage')
-                    if self.first_stage is None:
-                        raise ValueError("create stage require first_stage")
-                        self.log.concat("create stage require first_stage")
-                    
-                    self.last_stage=kwargs.get('last_stage')
-                    if self.last_stage is None:
-                        raise ValueError("create stage require last_stage")
-                        self.log.concat("create stage require last_stage")
+
+            if self.create_stages:        
+                for k in ["first_stage","last_stage"]:
+                    if getattr(self,k) is None:
+                        raise ValueError("create stage require "+k)
+                        self.log.concat("create stage require "+k)
 
         if self.year is None and self.start_date is not None: 
             self.year=self.start_date.year
@@ -146,31 +182,20 @@ class RaceCreator(CyclingInitBot):
         self.genre, self.race_name=define_article(self.race_name)
             
     def main(self):
+        '''
+        Main function of this script
+        '''
         try: 
-            if self.country is None:
-                raise ValueError("country not found")
-                self.log.concat("country not found")
-                return 10, self.log, "Q1"
-            
-            if self.year is None:
-                raise ValueError("year of the race not found")
-                self.log.concat("year of the race not found")
-                return 10, self.log, "Q1"
-            
-            if self.race_name is None:
-                raise ValueError("race name not defined")
-                self.log.concat("race name not defined")
-                return 10, self.log, "Q1"
+            for k in ["country","year","race_name","start_date"]:
+                if getattr(self,k) is None:
+                    raise ValueError(k+" country not found")
+                    self.log.concat(k +"country not found")
+                    return 10, self.log, "Q1"
 
-            if self.start_date is None:
-                raise ValueError("date of the race not found")
-                self.log.concat("date of the race not found")
-                return 10, self.log, "Q1"
-            
-            if self.create_main_bool:
-                self.create_main()
-            if self.create_stages_bool:
-                self.create_stages()
+            if self.create_main:
+                self.create_main_f()
+            if self.create_stages:
+                self.create_stages_f()
 
             return 0, self.log, self.race.id     
         except Exception as msg:
@@ -181,6 +206,9 @@ class RaceCreator(CyclingInitBot):
             return 10, self.log, "Q1"   
     
     def UCI_to_calendar_id(self):
+        '''
+        Search the corresponding calendar to add, depending on if the race is UWT, WWT or not
+        '''
         calendar_id=None
         if self.WWT:
              calendar_id=calendarWWTID(str(self.year))
@@ -190,7 +218,10 @@ class RaceCreator(CyclingInitBot):
              calendar_id=calendaruciID(str(self.year))
         return calendar_id   
 
-    def stage_label(self,number):
+    def stage_label(self,number:int):
+        '''
+        Create the label of the stage
+        '''
         if number==0:
             label_part1_fr = u"Prologue"
         elif number==1:
@@ -201,7 +232,10 @@ class RaceCreator(CyclingInitBot):
         return {'fr': label_part1_fr+" " + self.genre + self.race_name + 
                 " "+ str(self.year)}
 
-    def create_stages(self):
+    def create_stages_f(self):
+        '''
+        Function that creates the stages
+        '''
         self.log.concat("stage creation")
         pyItem_stage_previous=None
         
@@ -243,7 +277,10 @@ class RaceCreator(CyclingInitBot):
                     pyItem_stage_previous.add_value("P156",pyItem_stage.id,u'link next')
                 pyItem_stage_previous=copy.copy(pyItem_stage)
         
-    def create_main(self):
+    def create_main_f(self):
+        '''
+        Function that create the edition of a race
+        '''
         self.UCI, self.WWT, self.UWT=get_class_WWT(self.classe) #not required for stages, where classe is not defined
         
         mylabel={'fr': self.race_name + " " + str(self.year)}
