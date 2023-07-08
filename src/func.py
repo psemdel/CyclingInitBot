@@ -375,7 +375,7 @@ def table_reader(
 
         #differentiate local from remote
         if fc is not None:
-            if stage_num==0:
+            if stage_num==-1:
                 stage_num=None
             
             if general_or_stage is not None: #single day race

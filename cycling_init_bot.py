@@ -10,7 +10,7 @@ import pywikibot
 site = pywikibot.Site("wikidata", "wikidata")
 
 def cycling_init_bot():
-    selector=2
+    selector=9
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -52,8 +52,8 @@ def cycling_init_bot():
         from src.national_championship_creator import NationalChampionshipCreator
         
         man_or_woman=u'man'
-        start_year=1971
-        end_year=1985
+        start_year=1989
+        end_year=2010
 
         f=NationalChampionshipCreator(
             man_or_woman,
@@ -175,7 +175,7 @@ def cycling_init_bot():
     elif selector==9:
         from src.classification_importer import ClassificationImporter
         
-        id_race='Q116304222'
+        id_race='Q120116745'
         stage_or_general=9# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
         #5 team, #6 team points, #7 youth points, #8 == sprints, #9 == all
         maxkk=10
@@ -186,8 +186,8 @@ def cycling_init_bot():
             maxkk, 
             test=False,
             startliston=True,
-            fc=9054, 
-            stage_num=0, #only for stage, put 0 otherwise
+            fc=9064, 
+            stage_num=7, #only for stage, put -1 otherwise for the main race
             year=2023)
         
         if stage_or_general==9:
@@ -329,6 +329,12 @@ def cycling_init_bot():
         
         f=NationalCreator2()
         f.main()
+    elif selector==22:
+        from src.palmares_importer import PalmaresImporter
+        
+        f=PalmaresImporter(base_str="Contre-la-montre masculin aux championnats du Danemark de cyclisme sur route")
+        f.main()
+        
     else: 
         print('do nothing')
    
