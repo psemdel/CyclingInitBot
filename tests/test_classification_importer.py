@@ -5,7 +5,7 @@ import unittest
 
 from src.func import table_reader
 from src.classification_importer import ClassificationImporter
-
+from src.base import PyItem
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
@@ -135,6 +135,31 @@ class TestClassificationImporter(unittest.TestCase):
         startlist, in_parent=cl.is_there_a_startlist() 
         self.assertTrue(startlist is None)
         self.assertEqual(in_parent, False) 
+    
+    def test_main(self):
+        id_race='Q4115189' #sandbox
+        stage_or_general=1# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
+        #5 team, #6 team points, #7 youth points, #8 == sprints, #9 == all
+        maxkk=10
+        
+        pyItem=PyItem(id=id_race)
+        pyItem.add_value("P2094","Q1451845","add women cycling")
+        
+        f=ClassificationImporter(
+            stage_or_general,
+            id_race,
+            maxkk, 
+            test=False,
+            startliston=True,
+            fc=9064, 
+            stage_num=1, #only for stage, put -1 otherwise for the main race
+            year=2005)
+        
+        if stage_or_general==9:
+            print("run all")
+            f.run_all()
+        else:
+            f.main()
         
 if __name__ == '__main__':
     unittest.main()

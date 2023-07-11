@@ -91,6 +91,25 @@ class TestStartList(unittest.TestCase):
         self.assertEqual(res_list_of_cyclists[103].national_team,True)
        # self.assertEqual(res_list_of_cyclists[104].national_team,True)
  
+    def test_main(self):
+        id_race='Q4115189' #sandbox
+        prologue_or_final=0 #0=prologue, 1=final, 2=one day race
+        chrono=True
+        man_or_woman=u'woman'
+
+        f=StartlistImporter(
+            prologue_or_final,
+            id_race, 
+            chrono,
+            man_or_woman, 
+            force_nation_team=False,
+            test=False,
+            fc=9064,
+            add_unknown_rider=False)
+        f.main()
+        
+        
+
         
 if __name__ == '__main__':
     unittest.main()

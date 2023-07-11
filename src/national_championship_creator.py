@@ -223,7 +223,6 @@ class NationalChampionshipCreator(CyclingInitBot):
         country_id : str
             id in wikidata corresponding to the country
         '''
-    
         pyItem.add_value("P31", id_race, 'Nature')
         pyItem.add_value("P641", "Q3609", 'cyclisme sur route')
         self.pyNatChamp.add_values("P527",pyItem.id,'adding to master',False)
@@ -272,7 +271,7 @@ class NationalChampionshipCreator(CyclingInitBot):
             pyItem_allchamp=PyItem(id=id_allchamp)
             
             if (id_allchamp == u'Q0')or(id_allchamp == u'Q1'):
-                self.log.concat(dic[man_or_woman]+" aux championnats nationaux de cyclisme sur route " + str(year)+' not found')
+                self.log.concat(dic[enligne][man_or_woman]+" aux championnats nationaux de cyclisme sur route " + str(year)+' not found')
                 raise ValueError(dic[enligne][man_or_woman]+' not found')
             else:
                 pyItem_allchamp=PyItem(id=id_allchamp)
@@ -333,4 +332,8 @@ class NationalChampionshipCreator(CyclingInitBot):
                                      enligne,
                                      t)
         except Exception as e:
+            import sys
+            _, e_, exc_tb = sys.exc_info()
+            print(e)
+            print("line " + str(exc_tb.tb_lineno))
             self.log.concat(e)
