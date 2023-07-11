@@ -189,6 +189,26 @@ class TestFunc(unittest.TestCase):
     def test_get_fc_dic(self):
         keys=get_fc_dic(9058,year=2023)
         self.assertEqual(keys,[0,2,3,5])
+        keys=get_fc_dic(9058,year=2023,stage_num=-1)
+        self.assertEqual(keys,[0,2,3,5])
+        
+        keys=get_fc_dic(9064,year=2005,stage_num=-1)
+        self.assertEqual(keys,[0,1,2,3,4])
+        
+        keys=get_fc_dic(17,year=2022)
+        self.assertEqual(keys,[0,1,2,3,4])
+        
+        keys=get_fc_dic(17,year=2023,stage_num=1)
+        self.assertEqual(keys,[1,0,4,2,3,5])
+        
+        keys=get_fc_dic(17,year=2022,stage_num=1)
+        self.assertEqual(keys,[1,0,4,2,5])
+
+        keys=get_fc_dic(9064,year=2005,stage_num=0)
+        self.assertEqual(keys,[1,0])
+        
+        keys=get_fc_dic(9064,year=2005,stage_num=1)
+        self.assertEqual(keys,[1,0]) 
         
 if __name__ == '__main__':
     unittest.main()        

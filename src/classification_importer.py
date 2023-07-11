@@ -60,6 +60,7 @@ class ClassificationImporter(CyclingInitBot):
             self.year=self.race.get_year()
 
         self.is_women=self.race.get_is_women()
+        
         if self.fc==0:
             fc=None
         self.fc=fc

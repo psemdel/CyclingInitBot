@@ -224,9 +224,8 @@ class StartlistImporter(CyclingInitBot):
             df, all_riders_found, _, log=table_reader(
                 self.file,
                 self.fc,
-                start_list=True,
                 verbose=self.verbose,
-                need_complete=not self.create_missing,
+                need_complete=not self.add_unknown_rider,
                 rider=True,
                 year=self.year)
             self.log.concat(log)

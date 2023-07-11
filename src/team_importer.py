@@ -84,7 +84,7 @@ class TeamImporter(CyclingInitBot):
                 o=Team(id=e)
                 dic[o.sortkey]=o
             sorted_team =  sorted(dic.items(), key=lambda tup: tup[0])   
-            self.log.concat("sorted teams:"+ str(sorted_team))
+            self.log.concat("sorted teams:"+ str([s[0] for s in sorted_team]))
             
             if not self.test:
                 if(self.prop in self.race.item.claims):  #already there do nothing

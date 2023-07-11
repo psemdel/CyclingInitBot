@@ -36,6 +36,17 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(r1, "Q1110856")
         self.assertEqual(r2 , "du ")
         
+    def test_search_team_by_name(self):
+        s=Search("vrienden van het platteland 2005")
+        self.assertEqual(s.team_by_name(),'Q83155030')
+        s=Search("Team Bigla 2005")
+        self.assertEqual(s.team_by_name(),'Q82342943') 
+        
+    def test_search_team_by_name_man(self):        
+        s=Search("Trek-Segafredo 2020")
+        self.assertEqual(s.team_by_name(man_or_woman="man"),'Q78075353')  
+        s=Search("Trek-Segafredo 2020")
+        self.assertEqual(s.team_by_name(is_women=False),'Q78075353') 
         
     def test_search_team_by_code(self):
         s=Search("MTS 2020")
@@ -58,6 +69,14 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(s.team_by_code(man_or_woman="man"),'Q78075314')
         s=Search("COF 2022")
         self.assertEqual(s.team_by_code(man_or_woman="man"),'Q109109760')
+        s=Search("TFS 2020")
+        self.assertEqual(s.team_by_code(is_women=False),'Q78075353')
+        s=Search("DQT 2020")
+        self.assertEqual(s.team_by_code(is_women=False),'Q78075314')
+        s=Search("COF 2022")
+        self.assertEqual(s.team_by_code(is_women=False),'Q109109760')        
+        
+        
 
     def test_is_it_a_cyclist(self):
         s=Search("TFS 2020")

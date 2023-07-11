@@ -287,6 +287,7 @@ general_or_stage_to_fc={
     8:'sprint'#sprint 
     }
 general_or_stage_to_fc_inv = {v: k for k, v in general_or_stage_to_fc.items()}
+general_or_stage_to_fc_inv["teamcomp"]=5
 
 def get_fc_dic(
         fc:int,
@@ -304,17 +305,18 @@ def get_fc_dic(
         Number of the stage
     year : int, optional
     '''
-    if stage_num==0:
+    if stage_num==-1:
         stage_num=None
     t=combi_results_startlist(fc,year,stage_num=stage_num)
     general_or_stages=[]
-    
+
     for k in t.standings:
         general_or_stages.append(general_or_stage_to_fc_inv[k])
 
-    if len(general_or_stages)==0: #old race style
+    if len(general_or_stages)==0: #old race style for main race
         for k in general_or_stage_to_classification_num_inv:
             t=combi_results_startlist(fc,year,stage_num=stage_num,classification_num=k)
+
             if t is not None:
                 general_or_stages.append(general_or_stage_to_classification_num_inv[k])
 
@@ -332,7 +334,7 @@ def table_reader(
         team:bool=False,
         need_complete:bool=False,
         convert_team_code:bool=True,
-        man_or_woman:str="woman",
+        man_or_woman:str=None,
         is_women:bool=True,
         ) -> (pd.core.frame.DataFrame, bool, bool, str):
     '''
