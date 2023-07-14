@@ -313,9 +313,14 @@ def get_fc_dic(
     for k in t.standings:
         general_or_stages.append(general_or_stage_to_fc_inv[k])
 
+    if len(general_or_stages)==1 and 1 in general_or_stages: #suspect only sta but no gc, --> probably one day race
+        general_or_stages=[0]
+
     if len(general_or_stages)==0: #old race style for main race
         for k in general_or_stage_to_classification_num_inv:
-            t=combi_results_startlist(fc,year,stage_num=stage_num,classification_num=k)
+            t=None
+            if not (k is None and stage_num is None):
+                t=combi_results_startlist(fc,year,stage_num=stage_num,classification_num=k)
 
             if t is not None:
                 general_or_stages.append(general_or_stage_to_classification_num_inv[k])
