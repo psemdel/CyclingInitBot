@@ -777,8 +777,8 @@ class Search(CyclingInitBot):
     
     def team_by_code(
             self, 
-            man_or_woman:str="woman",
-            is_women:bool=True,
+            man_or_woman:str=None,
+            is_women:bool=None,
             ):
         '''
         Search for a team using its UCI code
@@ -805,8 +805,8 @@ class Search(CyclingInitBot):
 
     def team_by_name(
             self, 
-            man_or_woman:str="woman",
-            is_women:bool=True,
+            man_or_woman:str=None,
+            is_women:bool=None,
             ):
         '''
         Search for a team using its name
@@ -1049,7 +1049,7 @@ class Search(CyclingInitBot):
         else:
             return False
         
-    def is_it_a_womenteam(self,item_id,**kwargs):
+    def is_it_a_womenteam(self,item_id:str,**kwargs):
         '''
         Test if the item is a women team
         '''
@@ -1065,7 +1065,7 @@ class Search(CyclingInitBot):
                     
         return False
             
-    def is_it_a_menteam(self,item_id,**kwargs):
+    def is_it_a_menteam(self,item_id: str,**kwargs):
         '''
         Test if the item is a men team
         '''
@@ -1086,7 +1086,7 @@ class Search(CyclingInitBot):
             return True
         return False    
     
-    def search_fc_id(self, fc_id=None):
+    def search_fc_id(self, fc_id:int=None):
         '''
         Search using the firstcycling id
         '''

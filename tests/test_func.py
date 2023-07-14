@@ -193,10 +193,10 @@ class TestFunc(unittest.TestCase):
         self.assertEqual(keys,[0,2,3,5])
         
         keys=get_fc_dic(9064,year=2005,stage_num=-1)
-        self.assertEqual(keys,[0,1,2,3,4])
+        self.assertEqual(keys,[0,2,3,4])
         
         keys=get_fc_dic(17,year=2022)
-        self.assertEqual(keys,[0,1,2,3,4])
+        self.assertEqual(keys,[0,2,3,4])
         
         keys=get_fc_dic(17,year=2023,stage_num=1)
         self.assertEqual(keys,[1,0,4,2,3,5])
@@ -209,6 +209,16 @@ class TestFunc(unittest.TestCase):
         
         keys=get_fc_dic(9064,year=2005,stage_num=1)
         self.assertEqual(keys,[1,0]) 
+
+        keys=get_fc_dic(9062,year=2015,stage_num=-1)
+        self.assertEqual(keys,[0,2,3,4,8])
+        
+        keys=get_fc_dic(9049,year=2015,stage_num=-1)
+        self.assertEqual(keys,[0])
+        
+        keys=get_fc_dic(9049,year=2023,stage_num=-1)
+        self.assertEqual(keys,[0])
+        
         
 if __name__ == '__main__':
     unittest.main()        
