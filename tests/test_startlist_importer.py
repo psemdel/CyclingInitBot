@@ -11,6 +11,7 @@ import unittest
 
 from src.startlist_importer import StartlistImporter
 from src.func import cyclists_table_reader, table_reader
+from src.base import PyItem
 
 site = pywikibot.Site("wikidata", "wikidata")
 repo = site.data_repository()
@@ -96,6 +97,12 @@ class TestStartList(unittest.TestCase):
         prologue_or_final=0 #0=prologue, 1=final, 2=one day race
         chrono=True
         man_or_woman=u'woman'
+        
+        pyItem=PyItem(id=id_race)
+        pyItem.add_value("P2094","Q1451845","add women cycling")
+        
+        d=pywikibot.WbTime(site=site, year=2023, month=7, day=8, precision='day')  
+        pyItem.add_value("P585",d,"add date",date=True)
 
         f=StartlistImporter(
             prologue_or_final,

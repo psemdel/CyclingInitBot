@@ -31,12 +31,12 @@ class StartlistImporter(CyclingInitBot):
 
         Parameters
         ----------
-        prologue_or_final : TYPE
+        prologue_or_final : int
             Is the start list imported from the result of the first stage/prologue, or from the final results?
             Code is prologue=0, final=1, single day race=2
-        id_race : TYPE
+        id_race : str
             wikidata id of the race,
-        chrono : TYPE
+        chrono : bool
             Is there an ITT during the whole race
         man_or_woman : str
             age category and gender of the races to be created

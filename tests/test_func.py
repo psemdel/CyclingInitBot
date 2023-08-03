@@ -172,6 +172,7 @@ class TestFunc(unittest.TestCase):
         self.assertTrue("WorldCC" in df.columns)
         self.assertTrue("Clm" in df.columns)
         
+        #vuelta
         df,_,_,_= table_reader('Results',9058,year=2023)
         self.assertTrue("Pos" in df.columns)
         self.assertTrue("Time" in df.columns)
@@ -212,12 +213,12 @@ class TestFunc(unittest.TestCase):
 
         keys=get_fc_dic(9062,year=2015,stage_num=-1)
         self.assertEqual(keys,[0,2,3,4,8])
-        
+        #RVV, different behavior for old and new races...
         keys=get_fc_dic(9049,year=2015,stage_num=-1)
         self.assertEqual(keys,[0])
         
         keys=get_fc_dic(9049,year=2023,stage_num=-1)
-        self.assertEqual(keys,[0])
+        self.assertEqual(keys,[1])
         
         
 if __name__ == '__main__':
