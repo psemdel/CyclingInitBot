@@ -14,9 +14,9 @@ import pandas as pd
 
 class ClassificationImporter(CyclingInitBot):
     def __init__(self, 
-                 general_or_stage, 
-                 id_race,
-                 maxkk,
+                 general_or_stage: int, 
+                 id_race: str,
+                 maxkk: int,
                  startliston:bool=True,
                  file:str='Results',
                  fc:int=None,
@@ -28,11 +28,11 @@ class ClassificationImporter(CyclingInitBot):
 
         Parameters
         ----------
-        general_or_stage : TYPE
+        general_or_stage : int
             Code displaying which ranking we want
-        id_race : TYPE
+        id_race : str
             Wikidata id of the race
-        maxkk : TYPE
+        maxkk : int
             Maximum rank to be imported to wikidata
         startliston : bool, optional
             Do we want to check the startlist for teams
@@ -49,6 +49,9 @@ class ClassificationImporter(CyclingInitBot):
                   "year"]:
             setattr(self,k,locals()[k])
         
+        if self.stage_num==-1: #convention
+            self.stage_num=None
+            
         self.race=Race(id=id_race)
         self.verbose=False
         
@@ -80,6 +83,7 @@ class ClassificationImporter(CyclingInitBot):
         '''
         #code
         self.general_or_stage=general_or_stage
+        self.general_or_stage_fc=general_or_stage
         self.general_or_stage_addwinner=[0, 2, 3,4,8]
         
         general_or_stage_prop={
@@ -200,9 +204,12 @@ class ClassificationImporter(CyclingInitBot):
 
         for general_or_stage in general_or_stages:
             if len(general_or_stages)==1 and self.stage_num==None:
-                general_or_stage=0 #for single day race
-            
-            self.general_or_stage_init(general_or_stage)
+                #for single day race, fc sees it as a "sta", but in wikidata we want to insert a gc
+                self.general_or_stage_init(0)
+                self.general_or_stage_fc=1
+            else:
+                self.general_or_stage_init(general_or_stage)
+                
             print("run all, starting code: "+ str(self.general_or_stage))
             try:
                 code, self.log=self.main()      
@@ -230,12 +237,14 @@ class ClassificationImporter(CyclingInitBot):
             if self.team_bool: #team
                 df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, team=True, 
                                            year=self.year,convert_team_code=True, is_women=self.is_women,
-                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage
+                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage,
+                                           general_or_stage_fc=self.general_or_stage_fc
                                            ) 
             else: #if self.WWT: #rider, but team needed
                 df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, rider=True,team=True,
                                            year=self.year, is_women=self.is_women,
-                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage
+                                           stage_num=self.stage_num, general_or_stage=self.general_or_stage,
+                                           general_or_stage_fc=self.general_or_stage_fc
                                            )   
             self.log.concat(log)
             
@@ -299,10 +308,13 @@ class ClassificationImporter(CyclingInitBot):
                 #add victory automatically to the team
                 if (self.general_or_stage==0 and not self.race.get_is_stage()) or\
                    (self.general_or_stage==1 and self.race.get_is_stage()):
+                    print("automatic victory adding")
+                       
                     row=df[df['Rank'].astype('str')=='1.0'] 
                     if len(row)==0:
                         row=df[df['Rank'].astype('str')=='1'] 
                     
+                    print(row["ID Team"].values)
                     if "ID Team" in row and len(row["ID Team"].values)>0 and row["ID Team"].values[0] not in ['Q0','Q1']:
                         this_team=Team(id=row["ID Team"].values[0])
                         _, claim=this_team.add_values('P2522',self.race.id,'victory',False)

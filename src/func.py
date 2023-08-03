@@ -313,9 +313,6 @@ def get_fc_dic(
     for k in t.standings:
         general_or_stages.append(general_or_stage_to_fc_inv[k])
 
-    if len(general_or_stages)==1 and 1 in general_or_stages: #suspect only sta but no gc, --> probably one day race
-        general_or_stages=[0]
-
     if len(general_or_stages)==0: #old race style for main race
         for k in general_or_stage_to_classification_num_inv:
             t=None
@@ -333,6 +330,7 @@ def table_reader(
         verbose:bool=False,
         year:int=datetime.now().year,
         general_or_stage:int=None,
+        general_or_stage_fc:int=None,
         stage_num:int=None,
         result_points:bool=False,
         rider:bool=False,
@@ -355,6 +353,8 @@ def table_reader(
     year : int, optional
     general_or_stage : int, optional
         Code displaying which ranking we want
+     general_or_stage_fc : int, optional
+         Code displaying which ranking we want, for fc. Needed to overcome the difference in handling gc for single stage race   
     stage_num : int, optional
         Number of the stage
     result_points: bool
@@ -379,25 +379,27 @@ def table_reader(
         log=''
         all_riders_found=True
         all_teams_found=True
-
+        
         #differentiate local from remote
         if fc is not None:
             if stage_num==-1:
                 stage_num=None
+            if general_or_stage_fc is None:
+                general_or_stage_fc=general_or_stage
             
-            if general_or_stage is not None: #single day race
+            if general_or_stage is not None: #for startlist for instance
                 if general_or_stage==5:# team, no need to mix the tables
                     r=RaceEdition(race_id=fc,year=year)
                     t=r.results(
                         stage_num=stage_num,
-                        classification_num=general_or_stage_to_classification_num[general_or_stage]
+                        classification_num=general_or_stage_to_classification_num[general_or_stage_fc]
                         )
                 else:
                     t=combi_results_startlist(
                         fc,
                         year,
                         stage_num=stage_num,
-                        classification_num=general_or_stage_to_classification_num[general_or_stage]
+                        classification_num=general_or_stage_to_classification_num[general_or_stage_fc]
                         )
             else:
                 t=combi_results_startlist(

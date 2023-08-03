@@ -58,7 +58,7 @@ class TestRace(unittest.TestCase):
         r1=Race(id="Q116302534")
         self.assertFalse(r1.get_is_stage())    
         r1=Race(id="Q116687807")
-        self.assertTrue(r1.get_is_stage())           
+        self.assertTrue(r1.get_is_stage())    
 
 if __name__ == '__main__':
     unittest.main()
