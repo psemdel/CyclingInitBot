@@ -125,8 +125,8 @@ class RaceCreator(CyclingInitBot):
         super().__init__(**kwargs)
                 
         for k in ["start_date", "end_date","classe","country", "country_id","id_race_master","edition_nr",
-                  "year","UWT","WWT","UCI","race_name","man_or_woman","single_race","create_stages","stage_race_id",
-                  "first_stage","last_stage"]:
+                  "year","UWT","WWT","UCI","race_name","man_or_woman","single_race","only_stages",
+                  "create_stages","stage_race_id","first_stage","last_stage"]:
             setattr(self,k,locals()[k])
         
         self.verbose=False
@@ -164,8 +164,8 @@ class RaceCreator(CyclingInitBot):
                     self.year=self.race.get_year()
                 if self.race_name is None:
                     self.race_name=self.race.get_race_name()
-                if self.countryCIO is None:
-                    self.country=self.race.get_country()
+                if self.country_id is None:
+                    self.country_id=self.race.get_country()
                 if self.is_women is None:
                     self.is_women=self.race.get_is_women()
 
@@ -186,10 +186,10 @@ class RaceCreator(CyclingInitBot):
         Main function of this script
         '''
         try: 
-            for k in ["country","year","race_name","start_date"]:
+            for k in ["country_id","year","race_name","start_date"]:
                 if getattr(self,k) is None:
-                    raise ValueError(k+" country not found")
-                    self.log.concat(k +"country not found")
+                    raise ValueError(k+"  not found")
+                    self.log.concat(k +" not found")
                     return 10, self.log, "Q1"
 
             if self.create_main:
@@ -257,7 +257,7 @@ class RaceCreator(CyclingInitBot):
                 
                 pyItem_stage.add_value("P361",self.race.id,u'part of')
                 pyItem_stage.add_value("P641","Q3609",u'cyclisme sur route')
-                pyItem_stage.add_value("P17",self.country,u'country')
+                pyItem_stage.add_value("P17",self.country_id,u'country')
                 pyItem_stage.add_value("P1545",str(number),u'order',noId=True)
 
                 stage_date=date_finder(number,self.first_stage,self.last_stage, 
@@ -293,7 +293,7 @@ class RaceCreator(CyclingInitBot):
 
             self.race.add_value("P31",self.id_race_master,u'Nature')
             self.race.add_value("P641","Q3609",u'cyclisme sur route')
-            self.race.add_value("P17",self.country,u'country')
+            self.race.add_value("P17",self.country_id,u'country')
         
             if self.single_race:
                 self.race.add_value("P585", self.start_date, u' date',date=True)

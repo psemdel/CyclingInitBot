@@ -16,6 +16,8 @@ def cycling_init_bot():
     #7-8: create races
     #9-10: complete the ranking and start list
     #11-21: others
+    f=None
+    done=False
     
     if selector==0:
         from src.national_team_creator import NationalTeamCreator
@@ -30,7 +32,6 @@ def cycling_init_bot():
             end_year,
             country=None #u'FRA'  #None is not
             )
-        f.main()    
                                
     elif selector==1:
         from src.national_championship_creator import NationalChampionshipCreator
@@ -46,7 +47,6 @@ def cycling_init_bot():
             CC=True, 
             clm=True, 
             road=False)
-        f.main()    
 
     elif selector==2:#
         from src.national_championship_creator import NationalChampionshipCreator
@@ -63,7 +63,6 @@ def cycling_init_bot():
             country="DEN",  #optional/False u'ESA'
             clm=True, 
             road=True)
-        f.main()    
         
     elif selector==3: 
         from src.calendar_importer import CalendarImporter
@@ -77,7 +76,6 @@ def cycling_init_bot():
             man_or_woman, 
             year,
             test=False)
-        f.main() 
 
     elif selector==4: 
         #more details in the table with activate and group
@@ -104,7 +102,6 @@ def cycling_init_bot():
             UCIcode,
             year,
             category_id="Q2466826")
-        f.main()    
         
     elif selector==5:   
         from src.sorter import NameSorter
@@ -116,8 +113,7 @@ def cycling_init_bot():
             id_team, 
             prop,
             test=False)
-        f.main()    
-
+  
     elif selector==6:
         from src.sorter import DateSorter
         id_team=u'Q115517229'
@@ -129,7 +125,6 @@ def cycling_init_bot():
             id_team, 
             prop,
             test=False)
-        f.main()   
 
     elif selector==7:
         from src.race_creator import RaceCreator
@@ -153,7 +148,6 @@ def cycling_init_bot():
             last_stage=4,
             year=2022
             )
-        f.main()
          
     elif selector==8:
          from src.race_creator import RaceCreator
@@ -170,12 +164,11 @@ def cycling_init_bot():
                 country='BEL',
                 classe='1.2',
                 year=2021)
-         f.main()
          
     elif selector==9:
         from src.classification_importer import ClassificationImporter
         
-        id_race='Q120116745'
+        id_race='Q122311265'
         stage_or_general=9# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
         #5 team, #6 team points, #7 youth points, #8 == sprints, #9 == all
         maxkk=10
@@ -186,14 +179,15 @@ def cycling_init_bot():
             maxkk, 
             test=False,
             startliston=True,
-            fc=9064, 
-            stage_num=7, #only for stage, put -1 otherwise for the main race
+            fc=9066, 
+            stage_num=3, #only for stage, put -1 otherwise for the main race
             year=2023)
         
         if stage_or_general==9:
             f.run_all()
         else:
             f.main()
+        done=True
 
     elif selector==10:
         from src.startlist_importer import StartlistImporter
@@ -212,7 +206,6 @@ def cycling_init_bot():
             test=False,
             fc=9054,
             add_unknown_rider=False)
-        f.main()
 
     elif selector==12:
         from src.rider_fast_init import RiderFastInit 
@@ -224,7 +217,6 @@ def cycling_init_bot():
             name, 
             country, 
             man_or_woman)
-        f.main()
 
     elif selector==13:
         from src.champ_list_creator import ChampListCreator
@@ -237,7 +229,6 @@ def cycling_init_bot():
             man_or_woman,
             start_year,
             actualize)
-        f.main()
 
     elif selector==14:   
         from src.uci_classification import UCIClassification
@@ -251,7 +242,6 @@ def cycling_init_bot():
             bypass=True,  #don't interru pt if not all riders found
             year=2022,
             test=False)
-        f.main()
 
     elif selector==15:  
         from src.uci_classification import UCITeamClassification
@@ -264,20 +254,18 @@ def cycling_init_bot():
             bypass=True,
             year=2022,
             test=False)
-        f.main()
 
     elif selector==16: 
         #only stage
         from src.race_creator import RaceCreator
         
         f= RaceCreator(
-            stage_race_id="Q110774135",#only for onlystages
-            first_stage=1,
-            last_stage=6,
+            stage_race_id="Q116313088",#only for onlystages
+            first_stage=0,
+            last_stage=5,
             man_or_woman='woman',
             only_stages=True
             )
-        f.main()
         
     elif selector==17:
         from src.get_rider_tricot import Scan
@@ -291,12 +279,11 @@ def cycling_init_bot():
             chrono, 
             man_or_woman,
             test=False)
-        f.main()
     
     elif selector==18:
         from src.get_rider_tricot import ScanExisting
         
-        id_race='Q116303680'
+        id_race='Q116313069'
         chrono=False
         man_or_woman=u'woman'
         #had already the results
@@ -306,13 +293,13 @@ def cycling_init_bot():
             chrono, 
             man_or_woman,
             test=False)
-        f.main()
+
     elif selector==19:
         from src.sparql import SparQL
         
         f=SparQL()
         f.list_elements()
-    
+        done=True
     elif selector==20:
         from src.team_importer import TeamImporter
         
@@ -322,21 +309,43 @@ def cycling_init_bot():
             id_race, 
             test=False,
             fc=9054)
-        f.main()
         
     elif selector==21:
         from src.nat import NationalCreator2
         
         f=NationalCreator2()
-        f.main()
     elif selector==22:
         from src.palmares_importer import PalmaresImporter
         
         f=PalmaresImporter(base_str="Contre-la-montre masculin aux championnats du Danemark de cyclisme sur route")
         f.main()
+    elif selector==23:    
+        from src.final_result_importer import FinalResultImporter
         
+        id_race='Q116313069'
+        maxkk=10
+        fc=9057
+        chrono=False
+        man_or_woman=u'woman'
+        single_race=True
+        
+        f=FinalResultImporter(
+            id_race,
+            maxkk,
+            fc,
+            chrono,
+            man_or_woman,
+            single_race,
+            year=2023,
+            force_nation_team=False,
+            add_unknown_rider=False
+            )
+ 
     else: 
         print('do nothing')
+        
+    if f is not None and not done:
+        f.main()
    
 if __name__ == '__main__':
     cycling_init_bot()
