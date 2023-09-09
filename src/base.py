@@ -637,9 +637,9 @@ class Race(PyItem):
             Addc = False
             
         if Addc:
+            kk=0
             if prop in self.item.claims:
                 list_of_winners = self.item.claims.get(prop)
-                kk=0
                 for winner in list_of_winners:
                     if winner.getTarget().getID() == value:  # Already there
                         Addc = False
@@ -654,7 +654,7 @@ class Race(PyItem):
                 self.item.addClaim(claim, summary=u'Adding winner')
                 
             #adding the qualifier
-            if qualifier_nummer is not None and kk==1: #if the rider is found several times, it is safer not to introduce anything
+            if qualifier_nummer is not None and kk<=1: #if the rider is found several times, it is safer not to introduce anything
                 target_q=pywikibot.ItemPage(self.repo, qualifier_nummer)
                 self.add_qualifier(claim,'P642',target_q)
                 

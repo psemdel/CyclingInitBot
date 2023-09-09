@@ -244,7 +244,8 @@ class StartlistImporter(CyclingInitBot):
 
             self.log.concat('table read and sorted')
             self.list_of_cyclists, _= cyclists_table_reader(df)
-
+            list_of_lost=[]
+            
             if not self.test:
                 already_list=False
                 if 'P710' in self.race.item.claims:
@@ -289,12 +290,12 @@ class StartlistImporter(CyclingInitBot):
                             for jj, e in enumerate(list_of_comprend):
                                 if e.getTarget().getID()==cyclist.id: #Already there
                                     claim=e
-                                    if self.prologue_or_final==1:
+                                    if self.prologue_or_final==1 and e in list_of_lost:
                                         list_of_lost.remove(e)
                                         
                         if claim is None:  ##add the rider to the property
                             if self.prologue_or_final==1:
-                                self.log.concat('\n rider not found, id: '+str(cyclist.id))
+                                self.log.concat('\n rider not found in present startlist, id: '+str(cyclist.id))
                             _, claim=self.race.add_values('P710', cyclist.id, 'starterlist', False)
                             self.race.add_qualifier(claim,'P1618',str(cyclist.dossard))
                             
