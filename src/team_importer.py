@@ -16,6 +16,7 @@ Created on Sun Jul 22 16:21:08 2018
 from .base import CyclingInitBot, Race, Team
 from .func import table_reader
 import sys
+import traceback
 import pandas as pd
 
 class TeamImporter(CyclingInitBot):
@@ -97,8 +98,7 @@ class TeamImporter(CyclingInitBot):
                 return 0, self.log   
                        
         except Exception as msg:
-            _, _, exc_tb = sys.exc_info()
-            print("line " + str(exc_tb.tb_lineno))
-            print(msg)
+            print(traceback.format_exc())
             self.log.concat("General Error in team_importer")
+            self.log.concat(traceback.format_exc())
             return 10, self.log  

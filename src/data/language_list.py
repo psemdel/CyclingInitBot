@@ -3,7 +3,7 @@
 def load():
 
     return [ "fr", "en",
-            "aa", "ab", "ace", "aeb-latn", "af", "ak", "aln", 
+            "aa", "ab", "ace", "aeb-latn", "af", "aln", 
             "an", "ang", "arn", 
             "ary", "arz", "ast", "atj", 
             "av", "avk", "ay", "az",  

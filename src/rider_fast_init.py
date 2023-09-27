@@ -6,6 +6,7 @@ Created on Tue Dec 17 23:05:33 2019
 @author: maxime
 """
 from .base import CyclingInitBot, create_item
+import traceback
 
 class RiderFastInit(CyclingInitBot):
     def __init__(
@@ -77,6 +78,7 @@ class RiderFastInit(CyclingInitBot):
             return 0, self.log, self.pyItem.id
         
         except Exception as msg:
-            print(msg)
+            print(traceback.format_exc())
             self.log.concat("General Error in rider_fast_init")
+            self.log.concat(traceback.format_exc())
             return 10, self.log, "Q1"

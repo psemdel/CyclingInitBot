@@ -102,7 +102,7 @@ class GetRiderTricot(CyclingInitBot):
                     sub_df2=sub_df2[sub_df2["Year"]==self.time_of_race.year]
 
                 if len(sub_df2)>0:
-                    if int(sub_df2['Year'])==self.time_of_race.year: #then it is clear
+                    if int(sub_df2['Year'].iloc[0])==self.time_of_race.year: #then it is clear
                         quali=sub_df2["Champ"].values[0]
                     else: #not clear, look for a championship this year
                         sub_df3=sub_df1[sub_df1["Champ"]==sub_df["Champ"].values[0]]

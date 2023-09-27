@@ -11,6 +11,7 @@ from .func import table_reader, get_fc_dic
 import math
 import sys
 import pandas as pd
+import traceback
 
 class ClassificationImporter(CyclingInitBot):
     def __init__(self, 
@@ -348,8 +349,7 @@ class ClassificationImporter(CyclingInitBot):
                     self.log.concat('completion of startlist with DNF finished')
                 return 0, self.log                          
         except Exception as msg:
-            _, _, exc_tb = sys.exc_info()
-            print("line " + str(exc_tb.tb_lineno))
-            print(msg)
+            print(traceback.format_exc())
             self.log.concat("General Error in classification_importer")
+            self.log.concat(traceback.format_exc())
             return 10, self.log  

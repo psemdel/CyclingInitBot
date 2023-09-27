@@ -4,6 +4,7 @@ Created on Thu Jan  4 15:28:39 2018
 @author: psemdel
 """
 import pywikibot
+import traceback
 from .base import CyclingInitBot, PyItem, create_item
 
 class TeamCreator(CyclingInitBot):
@@ -96,8 +97,9 @@ class TeamCreator(CyclingInitBot):
 
             return 0, self.log, pyItem.id
         except Exception as msg:
-            print(msg)
+            print(traceback.format_exc())
             self.log.concat("General Error in team creator " + msg)
+            self.log.concat(traceback.format_exc())
             return 10, self.log, "Q1"
 
     
