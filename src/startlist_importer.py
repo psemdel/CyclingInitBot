@@ -7,6 +7,7 @@ Created on Thu Dec 19 20:34:29 2019
 """
 import pywikibot
 import sys
+import traceback
 import pandas as pd
 from .base import CyclingInitBot, Race, Search
 from .get_rider_tricot import GetRiderTricot
@@ -321,8 +322,7 @@ class StartlistImporter(CyclingInitBot):
             print("start list insertion finished")
             return 0, self.log                          
         except Exception as msg:
-            _, _, exc_tb = sys.exc_info()
-            print("line " + str(exc_tb.tb_lineno))
-            print(msg)
+            print(traceback.format_exc())
             self.log.concat("General Error in startlist_importer")
+            self.log.concat(traceback.format_exc())
             return 10, self.log     

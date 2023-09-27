@@ -1307,7 +1307,7 @@ def load():
         "adj fr man": "islandais",
         "adj en":"Iceland",
         "genre": "d'",
-        "group":2,
+        "group":1,
         "country":"Q189",
         "National championship master":"Q2803099",
         "team woman":"Q99545212",

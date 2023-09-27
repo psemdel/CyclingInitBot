@@ -8,6 +8,7 @@ import pywikibot
 from .base import CyclingInitBot, PyItem, create_item
 from .func import man_or_women_to_is_women
 import sys
+import traceback
 
 class NationalTeamCreator(CyclingInitBot):
     def __init__(
@@ -30,7 +31,7 @@ class NationalTeamCreator(CyclingInitBot):
             UCI code of a country, if false then all countries will be created
         '''
         super().__init__(**kwargs)
-        for k in ["man_or_woman","start_year","end_year"]:
+        for k in ["man_or_woman","start_year","end_year","country"]:
             setattr(self,k,locals()[k])
         
         d={
@@ -62,10 +63,9 @@ class NationalTeamCreator(CyclingInitBot):
                     
             return 0, self.log, id_present                   
         except Exception as msg:
-            _, _, exc_tb = sys.exc_info()
-            print("line " + str(exc_tb.tb_lineno))
-            print(msg)
+            print(traceback.format_exc())
             self.log.concat("General Error in national team creator")
+            self.log.concat(traceback.format_exc())
             return 10, self.log, "Q1"
     
     def national_team_label(self,year:int):
@@ -77,7 +77,7 @@ class NationalTeamCreator(CyclingInitBot):
             adjen = u'men'
             adjes = u''
         else:
-            adj = u' féminine '
+            adj = u' féminine'
             adjen = u'women'
             adjes = u'femenino'
             
@@ -87,7 +87,7 @@ class NationalTeamCreator(CyclingInitBot):
             genre_es=""
         
         return {'fr': "équipe" + " " + self.this_nation["genre"] + \
-                 self.this_nation["name fr"] + adj + "de cyclisme sur route " +str(year),
+                 self.this_nation["name fr"] + adj + " de cyclisme sur route " +str(year),
                  'en': self.this_nation["adj en"] + " " +adjen + \
                  u"'s national road cycling team " +  str(year),
                  'es': u"Equipo nacional " + adjes + " de " + genre_es +\
@@ -164,6 +164,6 @@ class NationalTeamCreator(CyclingInitBot):
     
                 return pyItem.id        
         except Exception as msg:
-            _, _, exc_tb = sys.exc_info()
-            print("line " + str(exc_tb.tb_lineno))
-            print(msg)
+            print(traceback.format_exc())
+            self.log.concat("General Error in rider_fast_init")
+            self.log.concat(traceback.format_exc())

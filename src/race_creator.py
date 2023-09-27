@@ -11,6 +11,7 @@ from .func import get_class_id, define_article, date_finder, man_or_women_to_is_
 from .base import CyclingInitBot, Race, create_item, PyItem
 import copy
 import pywikibot
+import traceback
 
 def get_class_WWT(classe: str):    
     '''
@@ -202,7 +203,9 @@ class RaceCreator(CyclingInitBot):
             print(msg)
             return 10, self.log, "Q1"      
         except:
+            print(traceback.format_exc())
             self.log.concat("General Error in race creator")
+            self.log.concat(traceback.format_exc())
             return 10, self.log, "Q1"   
     
     def UCI_to_calendar_id(self):
