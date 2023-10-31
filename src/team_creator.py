@@ -96,9 +96,8 @@ class TeamCreator(CyclingInitBot):
                     pyItem.add_values('P2094',"Q1451845","women cycling",False)
 
             return 0, self.log, pyItem.id
-        except Exception as msg:
-            print(traceback.format_exc())
-            self.log.concat("General Error in team creator " + msg)
+        except:
+            self.log.concat("General Error in team creator")
             self.log.concat(traceback.format_exc())
             return 10, self.log, "Q1"
 

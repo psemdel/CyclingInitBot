@@ -831,8 +831,39 @@ class Search(CyclingInitBot):
            disam=dis,
            force_disam=True,
            exception_table=exception_table,
-           )        
-            
+           fallback=self.team_by_name_fallback
+           )      
+    
+    def team_by_name_fallback(
+            self,
+            search_name:str=None,
+            disam=None, #disambiguation_function
+            force_disam:bool=False,
+            ):
+        '''
+        Fallback function for the search of team by name.
+        
+        to handle case of " - " which could be "-" in wikidata for instance
+        '''
+        result_id='Q0'
+        kk=0
+        
+        while result_id=='Q0' and kk<3:
+            if kk==0:
+                search_name=search_name.replace(" -","-")
+            elif kk==1:
+                search_name=search_name.replace("- ","-")
+            elif kk==2:
+                search_name=search_name.replace("team","")
+            elif kk==3:
+                search_name=search_name.replace("cycling","")
+                
+            while search_name.find("  ")!=-1:    
+                search_name=search_name.replace("  "," ") 
+            result_id=self.simple(search_name=search_name,disam=disam,force_disam=force_disam)
+            kk+=1
+        return result_id
+
     def race(self):
         '''
         Search for a race
@@ -856,7 +887,7 @@ class Search(CyclingInitBot):
                 return e['master'], e['genre']
         return result 
 
-    def national_team(self,positive_list,negative_list):
+    def national_team(self,positive_list:list,negative_list:list):
         '''
         Search for a national team
         '''
@@ -914,7 +945,7 @@ class Search(CyclingInitBot):
             # no result
             result_id = u'Q0'
             if fallback is not None:
-                result_id=fallback(**kwargs)
+                result_id=fallback(search_name=search_name,disam=disam,force_disam=force_disam, **kwargs)
         elif len(wd_entries['search'])==1:
             temp_id = wd_entries['search'][0]['id']
             

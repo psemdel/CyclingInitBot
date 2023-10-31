@@ -321,8 +321,7 @@ class StartlistImporter(CyclingInitBot):
                         self.race.add_qualifier(claim,'P1534',target_DNFqual)
             print("start list insertion finished")
             return 0, self.log                          
-        except Exception as msg:
-            print(traceback.format_exc())
+        except:
             self.log.concat("General Error in startlist_importer")
             self.log.concat(traceback.format_exc())
             return 10, self.log     

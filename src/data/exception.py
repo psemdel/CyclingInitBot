@@ -36,13 +36,12 @@ def list_of_rider_ex():
     "emma jorge":"Q64691975",
     "Irina Molicheva":"Q19519046",
     "Francesca Pellegrini":"Q114708293",
-    
+    'Lisa Klein':'Q15825971',
     #men
     'Jefferson Cepeda':'Q21093468',
     'Alexander Cepeda':'Q62576160',
     'Jorge Montenegro':'Q1703889',
     'Oscar Quiroz':'Q107289338',
-    'Lisa Klein':'Q15825971',
     'Olivia Bent':'Q66370887',
     'Olivia Bentley':'Q108914617',
     'Simon Clarke':'Q713274',
@@ -77,7 +76,8 @@ def list_of_rider_ex():
     'Hilton Clarke':'Q716303',
     'Heberth Gutiérrez':'Q56825278',
     'Thomas Frei':'Q686832',
-    'Alexandre Vinokurov':'Q110872512'
+    'Alexandre Vinokurov':'Q110872512',
+    'Carlos Rodríguez':'Q79787760'
     }
 
 

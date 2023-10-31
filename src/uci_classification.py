@@ -19,6 +19,7 @@ class UCITeamClassification(CyclingInitBot):
                  bypass:bool=False,
                  cleaner:bool=False,
                  year:int=None,
+                 pcs_link: str=None,
                  **kwargs):
         '''
         Insert the yearly UCI ranking into the team items
@@ -42,7 +43,7 @@ class UCITeamClassification(CyclingInitBot):
         super().__init__(**kwargs)
         
         for k in ["man_or_woman","file","fc","id_master_UCI",
-                  "bypass","cleaner","year"]:
+                  "bypass","cleaner","year","pcs_link"]:
             setattr(self,k,locals()[k])
         
     def main(self):
@@ -51,7 +52,7 @@ class UCITeamClassification(CyclingInitBot):
         '''
         try:
             #Check the non optional arguments, done like that otherwise it is difficult to find which position arg is what
-            if self.man_or_woman is None or self.file is None or\
+            if self.man_or_woman is None or (self.file is None and self.pcs_link is None) or\
                self.id_master_UCI is None or self.year is None:
                    raise ValueError("Missing mandatory input by UCI classification")
                    self.log.concat("Missing mandatory input by UCI classification")
@@ -66,7 +67,8 @@ class UCITeamClassification(CyclingInitBot):
                             convert_team_code=True,
                             need_complete=not self.bypass,
                             result_points=True,
-                            man_or_woman=self.man_or_woman)  
+                            man_or_woman=self.man_or_woman,
+                            pcs_link=self.pcs_link)  
             
             self.log.concat(log)    
             if not all_teams_found and self.bypass==False:
@@ -105,6 +107,7 @@ class UCIClassification(CyclingInitBot):
             bypass:bool=False,
             cleaner:bool=False,
             year:int=None,
+            pcs_link: str=None,
             **kwargs):
         '''
         Insert the yearly UCI ranking into the rider items
@@ -129,14 +132,17 @@ class UCIClassification(CyclingInitBot):
         '''
         super().__init__(**kwargs)
 
-
+        for k in ["UCIranking","man_or_woman","file","fc","id_master_UCI",
+                  "bypass","cleaner","year","pcs_link"]:
+            setattr(self,k,locals()[k])
+            
     def main(self):
         '''
         Main function of this script
         '''
         try:
             #Check the non optional arguments, done like that otherwise it is difficult to find which position arg is what
-            if self.man_or_woman is None or self.file is None or\
+            if self.man_or_woman is None or (self.file is None and self.pcs_link is None) or\
                self.id_master_UCI is None or self.year is None:
                    raise ValueError("Missing mandatory input by UCI classification")
                    self.log.concat("Missing mandatory input by UCI classification")
@@ -152,7 +158,8 @@ class UCIClassification(CyclingInitBot):
                             convert_team_code=True,
                             need_complete=not self.bypass,
                             result_points=True,
-                            man_or_woman=self.man_or_woman)
+                            man_or_woman=self.man_or_woman,
+                            pcs_link=self.pcs_link)
             self.log.concat(log)
     
             #post-processing
@@ -204,8 +211,9 @@ class UCIClassification(CyclingInitBot):
                                 #we assume that listofcyclist in sorted normally from 1st to last and that an additional sorting is not required
                                 #add the ranking
                                 _, claim=this_team.add_values('P1344',self.id_master_UCI,'classification',False)
-                                this_team.add_qualifier(claim,'P710',this_rider.item)
-                                this_team.add_qualifier(claim,'P1545',str(this_rider.rank))
+                                if len(claim.qualifiers.get('P710', []))==0:
+                                    this_team.add_qualifier(claim,'P710',this_rider.item)
+                                    this_team.add_qualifier(claim,'P1545',str(this_rider.rank))
                                 
                                 team_done.append(this_team.id)
                                 

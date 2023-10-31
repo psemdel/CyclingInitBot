@@ -17,6 +17,7 @@ from .name import Name
 from .base import Search, Cyclist, Team
 from .FirstCyclingAPI.first_cycling_api.combi import combi_results_startlist
 from .FirstCyclingAPI.first_cycling_api.race import RaceEdition
+from .pcs_parser import get_pcs
 
 import sys
 
@@ -339,6 +340,7 @@ def table_reader(
         convert_team_code:bool=True,
         man_or_woman:str=None,
         is_women:bool=True,
+        pcs_link: str=None
         ) -> (pd.core.frame.DataFrame, bool, bool, str):
     '''
     Read an excel or csv file
@@ -371,6 +373,8 @@ def table_reader(
         age category and gender of the races to be created 
     is_women : bool
         Is it a women race/team?
+    pcs_link: str
+        Link to Procyclingstats to be parsed
     '''
     try:
         local_saved_list=["champ","champ_clm","champ_man","champ_man_clm"]
@@ -408,7 +412,8 @@ def table_reader(
                     stage_num=stage_num,
                     )
             df=t.results_table
-            
+        elif pcs_link is not None:
+            df=get_pcs(pcs_link)
         else: #real file
             if filename[-3:]=='csv': #with the site, the extension is given
                 filepath='uploads/'+filename
@@ -441,7 +446,7 @@ def table_reader(
                 raise ValueError("import file uses ; separator, correct to ,")
 
         #pre-processing
-        if fc is not None: 
+        if fc is not None or pcs_link is not None: 
             point_column_name="Points"
             time_column_name="Time"
         else:
@@ -591,10 +596,9 @@ def cyclists_table_reader(df:pd.core.frame.DataFrame):
                 if not math.isnan(df["BIB"].values[ii]):
                     this_rider.dossard=int(df["BIB"].values[ii])
             if 'Rank' in df.columns:
-                if type(df["Rank"].values[ii])==str:
+                if isinstance(df["Rank"].values[ii],str):
                     this_rider.rank=str(df["Rank"].values[ii]) 
-                elif (type(df["Rank"].values[ii])==float or 
-                   type(df["Rank"].values[ii])==int) and not math.isnan(df["Rank"].values[ii]):
+                elif isinstance(df["Rank"].values[ii],(int, float,np.integer)) and not math.isnan(df["Rank"].values[ii]):
                     this_rider.rank=str(int(df["Rank"].values[ii]))
                         
             list_of_cyclists.append(this_rider)
