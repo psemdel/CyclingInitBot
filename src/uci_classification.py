@@ -6,12 +6,13 @@ Created on Thu Nov  7 21:44:28 2019
 @author: maxime
 """
 import pywikibot
-import sys
 from .base import CyclingInitBot, Team
 from .func import table_reader, cyclists_table_reader
+import traceback
 
-class UCITeamClassification(CyclingInitBot):
+class UCIClassification(CyclingInitBot):
     def __init__(self,
+                 UCIranking:bool=False,
                  man_or_woman:str=None,
                  file:str=None,
                  fc:int=None,
@@ -20,12 +21,17 @@ class UCITeamClassification(CyclingInitBot):
                  cleaner:bool=False,
                  year:int=None,
                  pcs_link: str=None,
+                 fc_rank: int=None,
+                 page: int=None,
+                 date_rank: str=None,
                  **kwargs):
         '''
         Insert the yearly UCI ranking into the team items
 
         Parameters
         ----------
+        UCIranking : str, optional
+            Is it the UCI ranking that will be inserted --> then fill also the team  
         man_or_woman : str, optional
             age category and gender of the races to be created
         file : str, optional
@@ -39,25 +45,37 @@ class UCITeamClassification(CyclingInitBot):
         cleaner : bool, optional
             to remove the last insertion of this function
         year : int, optional
+        pcs_link: str
+            Link to Procyclingstats to be parsed
+        fc_rank : int, optional
+            Number of the ranking  
+        page: int, optional
+            To get next page of the ranking
+        date_rank: str, optional
+            String for the date of the ranking
         '''
         super().__init__(**kwargs)
         
-        for k in ["man_or_woman","file","fc","id_master_UCI",
-                  "bypass","cleaner","year","pcs_link"]:
+        for k in ["UCIranking","man_or_woman","file","fc","id_master_UCI",
+                  "bypass","cleaner","year","pcs_link","fc_rank",
+                 "date_rank","page" ]:
             setattr(self,k,locals()[k])
-        
+            
+    def main(self):
+        #Check the non optional arguments, done like that otherwise it is difficult to find which position arg is what
+        if self.man_or_woman is None or (self.file is None and self.pcs_link is None and (self.fc_rank is None or self.date_rank is None)) or\
+           self.id_master_UCI is None or self.year is None:
+               raise ValueError("Missing mandatory input by UCI classification")
+               self.log.concat("Missing mandatory input by UCI classification")
+               return 10, self.log
+
+class UCITeamClassification(UCIClassification):
     def main(self):
         '''
         Main function of this script
         '''
         try:
-            #Check the non optional arguments, done like that otherwise it is difficult to find which position arg is what
-            if self.man_or_woman is None or (self.file is None and self.pcs_link is None) or\
-               self.id_master_UCI is None or self.year is None:
-                   raise ValueError("Missing mandatory input by UCI classification")
-                   self.log.concat("Missing mandatory input by UCI classification")
-                   return 10, self.log
-               
+            super().main()
             df, _, all_teams_found,log=table_reader(
                             self.file,
                             self.fc,
@@ -68,7 +86,10 @@ class UCITeamClassification(CyclingInitBot):
                             need_complete=not self.bypass,
                             result_points=True,
                             man_or_woman=self.man_or_woman,
-                            pcs_link=self.pcs_link)  
+                            pcs_link=self.pcs_link,
+                            fc_rank=self.fc_rank,
+                            page=self.page,
+                            date_rank=self.date_rank)  
             
             self.log.concat(log)    
             if not all_teams_found and self.bypass==False:
@@ -88,66 +109,19 @@ class UCITeamClassification(CyclingInitBot):
                             this_team.add_qualifier(claim,'P1352',target_q)
                    
             return 0, self.log
-        except Exception as msg:
-            print(msg)
-            self.log.concat("General Error in UCI team ranking")
-            return 10, self.log        
         except:
             self.log.concat("General Error in UCI team ranking")
-            return 10, self.log    
+            self.log.concat(traceback.format_exc())
+            return 10, self.log        
                 
-class UCIClassification(CyclingInitBot):
-    def __init__(
-            self,
-            UCIranking:bool=False,
-            man_or_woman:str=None,
-            file:str=None,
-            fc:int=None,
-            id_master_UCI:str=None,
-            bypass:bool=False,
-            cleaner:bool=False,
-            year:int=None,
-            pcs_link: str=None,
-            **kwargs):
-        '''
-        Insert the yearly UCI ranking into the rider items
-
-        Parameters
-        ----------
-        UCIranking : str, optional
-            Is it the UCI ranking that will be inserted --> then fill also the team        
-        man_or_woman : str, optional
-            age category and gender of the races to be created
-        file : str, optional
-            name of the file to be read
-        fc : int, optional
-            Id in firstcycling
-        id_master_UCI : str, optional
-            id in wikidata of the UCI calendar to fill
-        bypass : bool, optional
-            To bypass the completeness check
-        cleaner : bool, optional
-            to remove the last insertion of this function
-        year : int, optional
-        '''
-        super().__init__(**kwargs)
-
-        for k in ["UCIranking","man_or_woman","file","fc","id_master_UCI",
-                  "bypass","cleaner","year","pcs_link"]:
-            setattr(self,k,locals()[k])
-            
+class UCIRiderClassification(UCIClassification):
     def main(self):
         '''
         Main function of this script
         '''
         try:
             #Check the non optional arguments, done like that otherwise it is difficult to find which position arg is what
-            if self.man_or_woman is None or (self.file is None and self.pcs_link is None) or\
-               self.id_master_UCI is None or self.year is None:
-                   raise ValueError("Missing mandatory input by UCI classification")
-                   self.log.concat("Missing mandatory input by UCI classification")
-                   return 10, self.log
-
+            super().main()
             df, all_riders_found, all_teams_found,log=table_reader(
                             self.file,
                             self.fc,
@@ -159,7 +133,10 @@ class UCIClassification(CyclingInitBot):
                             need_complete=not self.bypass,
                             result_points=True,
                             man_or_woman=self.man_or_woman,
-                            pcs_link=self.pcs_link)
+                            pcs_link=self.pcs_link,
+                            fc_rank=self.fc_rank,
+                            page=self.page,
+                            date_rank=self.date_rank)
             self.log.concat(log)
     
             #post-processing
@@ -232,9 +209,7 @@ class UCIClassification(CyclingInitBot):
                             this_rider.delete_value(u'P1344', self.id_master_UCI, 'cleaning')
             
             return 0, self.log
-        except Exception as msg:
-            _, _, exc_tb = sys.exc_info()
-            self.log.concat("line " + str(exc_tb.tb_lineno))
-            self.log.concat(msg)
+        except:
             self.log.concat("General Error in UCI ranking")
+            self.log.concat(traceback.format_exc())
             return 10, self.log        

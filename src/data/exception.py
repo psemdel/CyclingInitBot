@@ -77,7 +77,8 @@ def list_of_rider_ex():
     'Heberth Gutiérrez':'Q56825278',
     'Thomas Frei':'Q686832',
     'Alexandre Vinokurov':'Q110872512',
-    'Carlos Rodríguez':'Q79787760'
+    'Carlos Rodríguez':'Q79787760',
+    'Carlos Rodriguez':'Q79787760',
     }
 
 

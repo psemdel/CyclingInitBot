@@ -38,7 +38,7 @@ class CalendarImporter(CyclingInitBot):
         Main function of this script
         '''
         #delete the first line of file
-        df, _,_,log=table_reader(self.filename,verbose=self.verbose)
+        df, _,_,log=table_reader(self.filename,None,verbose=self.verbose)
         self.log.concat(log)
         if self.verbose:
             self.log.concat(df)
@@ -68,24 +68,12 @@ class CalendarImporter(CyclingInitBot):
                         race_begin = pywikibot.WbTime(
                             site=self.site,
                             year=int(table_date[2]),
-                            month=int(table_date[1]),
-                            day=int(table_date[0]),
+                            month=int(table_date[0]),
+                            day=int(table_date[1]),
                             precision='day')
                         
                         single_race=get_single_or_stage(row['Class']) 
-                        
-                        s2=Search( master_name + " " +str(year-1))
-                        id_previous =s2.simple()
-                        edition_nr=None
-
-                        if id_previous not in ['Q0','Q1']:
-                            pyItem_previous=PyItem(id=id_previous)
-
-                            if(u'P393' in pyItem_previous.item.claims): #edition
-                                edition_list = pyItem_previous.item.claims.get(u'P393')
-                                edition_nr=int(edition_list[0].getTarget())+1
                         #note: country is a name which is not correct, make inherit the country
-                        #note 2: get edition from last year
                         if single_race:
                             if not self.test:
                                  raceCreator=RaceCreator(
@@ -93,9 +81,9 @@ class CalendarImporter(CyclingInitBot):
                                      single_race=single_race,
                                      man_or_woman=self.man_or_woman,
                                      start_date=race_begin,
-                                     edition_nr=edition_nr,
+                                     edition_nr=None,
                                      id_race_master=id_master,
-                                     country=id_country,
+                                     country_id=id_country,
                                      classe=row['Class'],
                                      year=year
                                      )                               
@@ -112,8 +100,8 @@ class CalendarImporter(CyclingInitBot):
                                 stage_race_end = pywikibot.WbTime(
                                     site=self.site,
                                     year=int(table_date[2]),
-                                    month=int(table_date[1]),
-                                    day=int(table_date[0]),
+                                    month=int(table_date[0]),
+                                    day=int(table_date[1]),
                                     precision='day')
     
                                 if not self.test:
@@ -122,9 +110,9 @@ class CalendarImporter(CyclingInitBot):
                                           single_race=single_race,
                                           man_or_woman=self.man_or_woman,
                                           start_date=race_begin,
-                                          edition_nr=edition_nr,
+                                          edition_nr=None,
                                           id_race_master=id_master,
-                                          country=id_country,
+                                          country_id=id_country,
                                           classe=row['Class'],
                                           end_date=stage_race_end,
                                           only_stages=False,

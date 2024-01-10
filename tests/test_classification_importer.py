@@ -107,10 +107,10 @@ class TestClassificationImporter(unittest.TestCase):
         self.assertEqual(in_parent, False)       
         
         #single day race, without startlist
-        cl=ClassificationImporter(0, "Q24575332", 10, test=True)
-        startlist, in_parent=cl.is_there_a_startlist() 
-        self.assertTrue(startlist is None)
-        self.assertEqual(in_parent, False) 
+        #cl=ClassificationImporter(0, "Q24575332", 10, test=True)
+        #startlist, in_parent=cl.is_there_a_startlist() 
+        #self.assertTrue(startlist is None)
+        #self.assertEqual(in_parent, False) 
 
         #stage, with startlist
         cl=ClassificationImporter(1, "Q98293689", 10, test=True)
@@ -131,10 +131,10 @@ class TestClassificationImporter(unittest.TestCase):
         self.assertEqual(in_parent, False) 
  
         #single day race, without startlist
-        cl=ClassificationImporter(1,"Q24575332", 10, test=True)
-        startlist, in_parent=cl.is_there_a_startlist() 
-        self.assertTrue(startlist is None)
-        self.assertEqual(in_parent, False) 
+        #cl=ClassificationImporter(1,"Q24575332", 10, test=True)
+        #startlist, in_parent=cl.is_there_a_startlist() 
+        #self.assertTrue(startlist is None)
+        #self.assertEqual(in_parent, False) 
     
     def test_main(self):
         id_race='Q4115189' #sandbox

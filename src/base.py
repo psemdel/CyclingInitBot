@@ -218,7 +218,8 @@ class PyItem():
             self,
             claim,
             prop:str,
-            target_q):
+            target_q,
+            update:bool=False):
         '''
         Add a qualifier to a claim
 
@@ -236,7 +237,12 @@ class PyItem():
             if qual.target==target_q:
                 print("qualificatif found")
                 Addc = False
+            
         if Addc:
+            if update:
+                q=pywikibot.page.Claim(self.site, prop, is_qualifier=True)
+                q.setTarget(qual.target)
+                claim.removeQualifier(q)
             q=pywikibot.page.Claim(self.site, prop, is_qualifier=True)
             q.setTarget(target_q)
             claim.addQualifier(q)
@@ -279,14 +285,16 @@ class PyItem():
                 for claim in item_master.claims.get(u'P527'):
                     v=claim.getTarget().getID()
                     pyItem_v=PyItem(item=claim.getTarget(),id=v)
-                    label=pyItem_v.get_label('fr')
-
-                    if str(year_previous) in label:
-                        id_previous=v
-                        pyItem_previous=pyItem_v
-                    elif str(year_next) in label:
-                        id_next=v
-                        pyItem_next=pyItem_v
+                    
+                    for _, label in pyItem_v.item.labels.items():
+                        if str(year_previous) in label:
+                            id_previous=v
+                            pyItem_previous=pyItem_v
+                            break
+                        elif str(year_next) in label:
+                            id_next=v
+                            pyItem_next=pyItem_v
+                            break
         
             #link the whole
             if test:
@@ -1093,7 +1101,7 @@ class Search(CyclingInitBot):
             if (u'P2094' in item.claims):
                 P2094=item.claims.get(u'P2094')
                 for p2094 in P2094:
-                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q1451845"]:#, #cats and women cycling, Q1451845 required for national team
+                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q1451845","Q119942457"]:#, #cats and women cycling, Q1451845 required for national team
                         return True
                     
         return False
@@ -1109,7 +1117,7 @@ class Search(CyclingInitBot):
             if (u'P2094' in item.claims):
                 P2094=item.claims.get(u'P2094')
                 for p2094 in P2094:
-                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#, "Q1451845" #cats and women cycling 
+                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q119942457","Q1451845"]:#, "Q1451845" #cats and women cycling 
                         return False
             if (u'P31' in item.claims):
                 P31=item.claims.get(u'P31')

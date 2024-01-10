@@ -11,6 +11,8 @@ def load():
         "genre":"du ",
         "National championship master":"Q506424",
         "Road race woman":"Q934877",
+        "Road race man":"Q13603535",
+        "Clm man":"Q2557477",
         "Clm woman":"Q2630733"
         }
     dic['Afrique']={
@@ -19,21 +21,26 @@ def load():
         "National championship master":"Q1771238",
         "Road race woman":"Q25400085",
         "Clm woman":"Q25400088",
-        "Road race man":"Q23069702"
+        "Road race man":"Q23069702",
+        "Clm man":"Q23069708"
         }   
     dic['Asie']={
         "name fr":"Asie",
         "genre":"d'",
         "National championship master":"Q4806618",
         "Road race woman":"Q50061750",
-        "Clm woman":"Q50062728"
+        "Clm woman":"Q50062728",
+        "Road race man":"Q83283600",
+        "Clm man":"Q83283604"
         }      
     dic['Amérique']={
         "name fr":'panaméricains',
         "genre":"",
         "National championship master":"Q18384474",
         "Road race woman":"Q31271454",
-        "Clm woman":"Q31271381"
+        "Clm woman":"Q31271381",
+        "Road race man":"Q117834380",
+        "Clm man":"Q85519577"
         }  
     dic['Océanie']={
         "name fr":'Océanie',
@@ -41,7 +48,8 @@ def load():
         "National championship master":"Q2954777",
         "Road race woman":"Q54315111",
         "Clm woman":"Q54314912",
-        "Road race man":"Q23889469"
+        "Road race man":"Q23889479",
+        "Clm man":"Q23889469"
         }  
     dic['Europe']={
         "name fr":'Europe',

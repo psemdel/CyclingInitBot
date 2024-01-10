@@ -59,7 +59,7 @@ class NationalTeamCreator(CyclingInitBot):
             else:
                 for country, e in self.nation_table.items():
                     if e["group"]==1:
-                        id_present=self.sub_function(country, e)
+                        id_present=self.create_team(country, e)
                     
             return 0, self.log, id_present                   
         except Exception as msg:

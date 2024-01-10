@@ -8,7 +8,7 @@ Created on Thu Jan  4 15:29:49 2018
 from .data.calendar_list import calendaruciID, calendarWWTID, calendarUWTID
 from .func import get_class_id, define_article, date_finder, man_or_women_to_is_women
 
-from .base import CyclingInitBot, Race, create_item, PyItem
+from .base import CyclingInitBot, Race, create_item, PyItem, Search
 import copy
 import pywikibot
 import traceback
@@ -279,51 +279,89 @@ class RaceCreator(CyclingInitBot):
                     pyItem_stage.add_value("P155",pyItem_stage_previous.id,u'link previous') 
                     pyItem_stage_previous.add_value("P156",pyItem_stage.id,u'link next')
                 pyItem_stage_previous=copy.copy(pyItem_stage)
+                
+    def check_year_already_present(
+            self,
+            year:int,
+            id_master:str=None,
+            ):
+        '''
+        Check if the race edition is already present, even if under another title
+        ----------
+        year : int
+        id_master : str, optional
+            id of the race parent
+        '''
+        item_master = pywikibot.ItemPage(self.repo, id_master)
+        item_master.get()
         
+        #look for next and previous
+        if (u'P527' in item_master.claims):
+            for claim in item_master.claims.get(u'P527'):
+                v=claim.getTarget().getID()
+                pyItem_v=PyItem(item=claim.getTarget(),id=v)
+                
+                for _, label in pyItem_v.item.labels.items():
+                    if str(year) in label:
+                        return True
+        return False        
     def create_main_f(self):
         '''
         Function that create the edition of a race
         '''
         self.UCI, self.WWT, self.UWT=get_class_WWT(self.classe) #not required for stages, where classe is not defined
         
-        mylabel={'fr': self.race_name + " " + str(self.year)}
-        self.race=create_item(mylabel)
-        
-        if self.race.id!=u'Q1':
-            if self.race.get_description('fr')=='':
-                mydescription={'fr':u'édition ' + str(self.year) +" "+ self.genre + self.race_name}
-                self.race.item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
-
-            self.race.add_value("P31",self.id_race_master,u'Nature')
-            self.race.add_value("P641","Q3609",u'cyclisme sur route')
-            self.race.add_value("P17",self.country_id,u'country')
-        
-            if self.single_race:
-                self.race.add_value("P585", self.start_date, u' date',date=True)
-            else:
-                self.race.add_value("P580",self.start_date,u'starting date', date=True)
-                if self.end_date:
-                    self.race.add_value("P582",self.end_date,u'ending date',date=True)
-        
-            if self.edition_nr is not None:
-                 self.race.add_value("P393",str(self.edition_nr),u'edition nr',noId=True)
-
-            calendar_id=self.UCI_to_calendar_id()
-            if calendar_id is not None:
-                self.race.add_value("P361",calendar_id,u'part of')
-                pyItem_cal=PyItem(id=calendar_id)
-                pyItem_cal.add_values("P527",self.race.id,u'in',False)
-
-            if self.class_id:
-                self.race.add_values("P279", self.class_id,u'Class',0)   
-                
-            if self.is_women:
-                
-                self.race.add_value('P2094',"Q1451845","women cycling")
+        if not self.check_year_already_present(self.year, self.id_race_master):
+            mylabel={'fr': self.race_name + " " + str(self.year)}
+            self.race=create_item(mylabel)
             
-            self.race.link_year(self.year,id_master=self.id_race_master) 
-            pyItem_master=PyItem(id=self.id_race_master)
-            pyItem_master.add_values("P527",self.race.id,u'adding a year',False)
+            if self.race.id!=u'Q1':
+                if self.race.get_description('fr')=='':
+                    mydescription={'fr':u'édition ' + str(self.year) +" "+ self.genre + self.race_name}
+                    self.race.item.editDescriptions(mydescription, summary=u'Setting/updating descriptions.')
+    
+                self.race.add_value("P31",self.id_race_master,u'Nature')
+                self.race.add_value("P641","Q3609",u'cyclisme sur route')
+                self.race.add_value("P17",self.country_id,u'country')
+            
+                if self.single_race:
+                    self.race.add_value("P585", self.start_date, u' date',date=True)
+                else:
+                    self.race.add_value("P580",self.start_date,u'starting date', date=True)
+                    if self.end_date:
+                        self.race.add_value("P582",self.end_date,u'ending date',date=True)
+            
+                #get edition from last year
+                if self.edition_nr is None:
+                    s2=Search( self.race_name + " " +str(self.year-1))
+                    id_previous =s2.simple()
+    
+                    if id_previous not in ['Q0','Q1']:
+                        pyItem_previous=PyItem(id=id_previous)
+    
+                        if(u'P393' in pyItem_previous.item.claims): #edition
+                            edition_list = pyItem_previous.item.claims.get(u'P393')
+                            self.edition_nr=int(edition_list[0].getTarget())+1
+                    
+                if self.edition_nr is not None:                
+                     self.race.add_value("P393",str(self.edition_nr),u'edition nr',noId=True)
+    
+                calendar_id=self.UCI_to_calendar_id()
+                if calendar_id is not None:
+                    self.race.add_value("P361",calendar_id,u'part of')
+                    pyItem_cal=PyItem(id=calendar_id)
+                    pyItem_cal.add_values("P527",self.race.id,u'in',False)
+    
+                if self.class_id:
+                    self.race.add_values("P279", self.class_id,u'Class',0)   
+                    
+                if self.is_women:
+                    
+                    self.race.add_value('P2094',"Q1451845","women cycling")
+                
+                self.race.link_year(self.year,id_master=self.id_race_master) 
+                pyItem_master=PyItem(id=self.id_race_master)
+                pyItem_master.add_values("P527",self.race.id,u'adding a year',False)
 
     
       

@@ -192,7 +192,7 @@ class NationalChampionshipCreator(CyclingInitBot):
             firstword=u"Course en ligne "
         else:
             firstword= u"Contre-la-montre "
-           
+       
         return {'fr': firstword + dic_adj[enligne][man_or_woman] + " aux championnats " + e["genre"]+\
                e["name fr"] + " de cyclisme sur route " + str(year)
                }
@@ -319,7 +319,8 @@ class NationalChampionshipCreator(CyclingInitBot):
 
                     for enligne in l:
                         key= self.race_dic[enligne][man_or_woman]
-                        if key in e:
+
+                        if key in e: #if this race is known in the "DB"
                             mylabel_race =self.race_label(e, year,man_or_woman,enligne)
                             pyItemRace=create_item(mylabel_race)
                             
