@@ -57,34 +57,42 @@ class FinalResultImporter(CyclingInitBot):
             self.prologue_or_final=1
         
     def main(self):
-        print("starting result import")
-        f=ClassificationImporter(
-            self.stage_or_general,
-            self.id_race,
-            self.maxkk, 
-            test=False,
-            startliston=True,
-            fc=self.fc, 
-            stage_num=-1, #only for stage, put -1 otherwise for the main race
-            year=self.year)
-        f.run_all()
-        
-        print("starting startlist import")
-        f=StartlistImporter(
-            self.prologue_or_final,
-            self.id_race, 
-            self.chrono,
-            self.man_or_woman, 
-            force_nation_team=self.force_nation_team,
-            test=False,
-            fc=self.fc,
-            add_unknown_rider=self.add_unknown_rider)
-        f.main()
-        
-        print("starting team import")
-        f=TeamImporter(
-            self.id_race, 
-            test=False,
-            fc=self.fc)
-        f.main()
+        log1=""
+        log2=""
+        log3=""
+        try:
+            print("starting result import")
+            f=ClassificationImporter(
+                self.stage_or_general,
+                self.id_race,
+                self.maxkk, 
+                test=False,
+                startliston=True,
+                fc=self.fc, 
+                stage_num=-1, #only for stage, put -1 otherwise for the main race
+                year=self.year)
+            _, log1= f.run_all()
+            
+            print("starting startlist import")
+            f=StartlistImporter(
+                self.prologue_or_final,
+                self.id_race, 
+                self.chrono,
+                self.man_or_woman, 
+                force_nation_team=self.force_nation_team,
+                test=False,
+                fc=self.fc,
+                add_unknown_rider=self.add_unknown_rider)
+            _, log2= f.main()
+            
+            print("starting team import")
+            f=TeamImporter(
+                self.id_race, 
+                test=False,
+                fc=self.fc)
+            _, log3= f.main()
+            
+            return 0, log1+"\n" + log2+"\n" + log3
+        except:
+            return 10, log1+"\n" + log2+"\n" + log3
     

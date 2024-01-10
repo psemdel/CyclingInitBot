@@ -104,3 +104,9 @@ class CyclistName(Name):
                 first_name=first_name + " " + names_table[ii].lower()
             
             self.name_cor=first_name + " " + last_name
+            #remove the spaces
+            while self.name_cor[0]==" ":
+                self.name_cor=self.name_cor[1:]
+            while self.name_cor[-1]==" ":
+                self.name_cor=self.name_cor[:-1]
+            

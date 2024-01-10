@@ -97,8 +97,7 @@ class TeamImporter(CyclingInitBot):
                 self.log.concat('teams inserted')
                 return 0, self.log   
                        
-        except Exception as msg:
-            print(traceback.format_exc())
+        except:
             self.log.concat("General Error in team_importer")
             self.log.concat(traceback.format_exc())
             return 10, self.log  

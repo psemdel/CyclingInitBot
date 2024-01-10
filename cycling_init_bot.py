@@ -10,7 +10,7 @@ import pywikibot
 site = pywikibot.Site("wikidata", "wikidata")
 
 def cycling_init_bot():
-    selector=9
+    selector=0
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -23,22 +23,22 @@ def cycling_init_bot():
         from src.national_team_creator import NationalTeamCreator
         
         man_or_woman=u'man'
-        start_year=2023
-        end_year=2023
+        start_year=2024
+        end_year=2024
         
         f=NationalTeamCreator(
             man_or_woman,
             start_year,
             end_year,
-            country=None #u'FRA'  #None is not
+            #country="ISL"#None #u'FRA'  #None is not
             )
                                
     elif selector==1:
         from src.national_championship_creator import NationalChampionshipCreator
 
         man_or_woman=u'both' #both
-        start_year=2023
-        end_year=2023
+        start_year=2024
+        end_year=2024
         
         f=NationalChampionshipCreator(
             man_or_woman,
@@ -46,21 +46,21 @@ def cycling_init_bot():
             end_year,
             CC=True, 
             clm=True, 
-            road=False)
+            road=True)
 
     elif selector==2:#
         from src.national_championship_creator import NationalChampionshipCreator
         
-        man_or_woman=u'man'
-        start_year=1989
-        end_year=2010
+        man_or_woman=u'both'
+        start_year=2024
+        end_year=2024
 
         f=NationalChampionshipCreator(
             man_or_woman,
             start_year,
             end_year,
             CC=False,
-            country="DEN",  #optional/False u'ESA'
+            #country="DEN",  #optional/False u'ESA'
             clm=True, 
             road=True)
         
@@ -68,8 +68,8 @@ def cycling_init_bot():
         from src.calendar_importer import CalendarImporter
        
         man_or_woman=u'woman'
-        filename='Calendar2023'
-        year=2023
+        filename='Calendar2024'
+        year=2024
         
         f=CalendarImporter(
             filename, 
@@ -192,7 +192,7 @@ def cycling_init_bot():
     elif selector==10:
         from src.startlist_importer import StartlistImporter
         
-        id_race='Q116304222'
+        id_race='Q116313493'
         prologue_or_final=1 #0=prologue, 1=final, 2=one day race
         chrono=False
         man_or_woman=u'woman'
@@ -204,13 +204,13 @@ def cycling_init_bot():
             man_or_woman, 
             force_nation_team=False,
             test=False,
-            fc=9054,
+            fc=9059,
             add_unknown_rider=False)
 
     elif selector==12:
         from src.rider_fast_init import RiderFastInit 
-        name=u"Courtney Sherwell"
-        country=u'AUS'
+        name=u"Cristina Cortinovis"
+        country=u'ITA'
         man_or_woman=u'woman'
         
         f=RiderFastInit(
@@ -231,29 +231,38 @@ def cycling_init_bot():
             actualize)
 
     elif selector==14:   
-        from src.uci_classification import UCIClassification
+        from src.uci_classification import UCIRiderClassification
        
-        f=UCIClassification(
-            UCIranking=False,
-            id_master_UCI='Q109000605',
-            file='AsiaRanking2022man', #'UCIranking'  CIranking2020man
+        #https://firstcycling.com/ranking.php?h=1&rank=7&y=2023-42
+        #for ii in range(23,35):
+        f=UCIRiderClassification(
+            UCIranking=True,
+            id_master_UCI='Q116203560',
+            file=None,
+            #file='AsiaRanking2022man', #'UCIranking'  UCIranking2020man
             cleaner=False, #delete the UC I ranking
             man_or_woman='man',
             bypass=True,  #don't interru pt if not all riders found
-            year=2022,
+            year=2023,
+            #pcs_link='https://www.procyclingstats.com/rankings.php?date=2023-10-31&nation=&age=&zage=&page=smallerorequal&team=&offset=3300&teamlevel=&filter=Filter&p=me&s=uci-individual',
+            fc_rank=1,
+            page=34,
+            date_rank="2023-44",
             test=False)
 
     elif selector==15:  
         from src.uci_classification import UCITeamClassification
         
         f=UCITeamClassification(
-            id_master_UCI='Q109000605'  ,
-            filename='AsiaRanking2022teamman' ,
+            id_master_UCI='Q115787169'  ,
+            file='Results' ,
             cleaner=False,
             man_or_woman='man',
             bypass=True,
-            year=2022,
-            test=False)
+            year=2023,
+            #pcs_link="https://www.procyclingstats.com/rankings/we/uci-teams",
+            test=False,
+            )
 
     elif selector==16: 
         #only stage
@@ -303,12 +312,12 @@ def cycling_init_bot():
     elif selector==20:
         from src.team_importer import TeamImporter
         
-        id_race='Q116304222'
+        id_race='Q116313269'
         
         f=TeamImporter(
             id_race, 
             test=False,
-            fc=9054)
+            fc=9909)
         
     elif selector==21:
         from src.nat import NationalCreator2

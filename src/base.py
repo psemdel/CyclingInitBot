@@ -218,7 +218,8 @@ class PyItem():
             self,
             claim,
             prop:str,
-            target_q):
+            target_q,
+            update:bool=False):
         '''
         Add a qualifier to a claim
 
@@ -236,7 +237,12 @@ class PyItem():
             if qual.target==target_q:
                 print("qualificatif found")
                 Addc = False
+            
         if Addc:
+            if update:
+                q=pywikibot.page.Claim(self.site, prop, is_qualifier=True)
+                q.setTarget(qual.target)
+                claim.removeQualifier(q)
             q=pywikibot.page.Claim(self.site, prop, is_qualifier=True)
             q.setTarget(target_q)
             claim.addQualifier(q)
@@ -279,14 +285,16 @@ class PyItem():
                 for claim in item_master.claims.get(u'P527'):
                     v=claim.getTarget().getID()
                     pyItem_v=PyItem(item=claim.getTarget(),id=v)
-                    label=pyItem_v.get_label('fr')
-
-                    if str(year_previous) in label:
-                        id_previous=v
-                        pyItem_previous=pyItem_v
-                    elif str(year_next) in label:
-                        id_next=v
-                        pyItem_next=pyItem_v
+                    
+                    for _, label in pyItem_v.item.labels.items():
+                        if str(year_previous) in label:
+                            id_previous=v
+                            pyItem_previous=pyItem_v
+                            break
+                        elif str(year_next) in label:
+                            id_next=v
+                            pyItem_next=pyItem_v
+                            break
         
             #link the whole
             if test:
@@ -831,8 +839,39 @@ class Search(CyclingInitBot):
            disam=dis,
            force_disam=True,
            exception_table=exception_table,
-           )        
-            
+           fallback=self.team_by_name_fallback
+           )      
+    
+    def team_by_name_fallback(
+            self,
+            search_name:str=None,
+            disam=None, #disambiguation_function
+            force_disam:bool=False,
+            ):
+        '''
+        Fallback function for the search of team by name.
+        
+        to handle case of " - " which could be "-" in wikidata for instance
+        '''
+        result_id='Q0'
+        kk=0
+        
+        while result_id=='Q0' and kk<3:
+            if kk==0:
+                search_name=search_name.replace(" -","-")
+            elif kk==1:
+                search_name=search_name.replace("- ","-")
+            elif kk==2:
+                search_name=search_name.replace("team","")
+            elif kk==3:
+                search_name=search_name.replace("cycling","")
+                
+            while search_name.find("  ")!=-1:    
+                search_name=search_name.replace("  "," ") 
+            result_id=self.simple(search_name=search_name,disam=disam,force_disam=force_disam)
+            kk+=1
+        return result_id
+
     def race(self):
         '''
         Search for a race
@@ -856,7 +895,7 @@ class Search(CyclingInitBot):
                 return e['master'], e['genre']
         return result 
 
-    def national_team(self,positive_list,negative_list):
+    def national_team(self,positive_list:list,negative_list:list):
         '''
         Search for a national team
         '''
@@ -914,7 +953,7 @@ class Search(CyclingInitBot):
             # no result
             result_id = u'Q0'
             if fallback is not None:
-                result_id=fallback(**kwargs)
+                result_id=fallback(search_name=search_name,disam=disam,force_disam=force_disam, **kwargs)
         elif len(wd_entries['search'])==1:
             temp_id = wd_entries['search'][0]['id']
             
@@ -1062,7 +1101,7 @@ class Search(CyclingInitBot):
             if (u'P2094' in item.claims):
                 P2094=item.claims.get(u'P2094')
                 for p2094 in P2094:
-                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q1451845"]:#, #cats and women cycling, Q1451845 required for national team
+                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q1451845","Q119942457"]:#, #cats and women cycling, Q1451845 required for national team
                         return True
                     
         return False
@@ -1078,7 +1117,7 @@ class Search(CyclingInitBot):
             if (u'P2094' in item.claims):
                 P2094=item.claims.get(u'P2094')
                 for p2094 in P2094:
-                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#, "Q1451845" #cats and women cycling 
+                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q119942457","Q1451845"]:#, "Q1451845" #cats and women cycling 
                         return False
             if (u'P31' in item.claims):
                 P31=item.claims.get(u'P31')

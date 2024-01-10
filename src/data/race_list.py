@@ -73,7 +73,12 @@ def load():
         'master':"Q21030967",
         "genre":"de "
         }      
- 
+    dic["La Vuelta Femenina2"]={
+        'names':['Vuelta',"España"],
+        'master':"Q21030967",
+        "genre":"de "
+        }   
+    
     dic["Grand Prix de Plouay féminin"]={
         'names':['GP',"Plouay"],
         'master':"Q1110856",
@@ -346,17 +351,17 @@ def load():
         }   
     dic["Battle of the North"]={
         'names':["Tour","Norway"],
-        'master':"Q17619325",
+        'master':"Q111732273",
         "genre":"du "
         }  
     dic["Battle of the North2"]={
         'names':["Battle","North"],
-        'master':"Q17619325",
+        'master':"Q111732273",
         "genre":"du "
         } 
     dic["Battle of the North3"]={
         'names':["Tour","Scandinavia"],
-        'master':"Q17619325",
+        'master':"Q111732273",
         "genre":"du "
         }  
     
@@ -445,6 +450,11 @@ def load():
         'master':"Q79033337",
         "genre":"du "
         }     
+    dic["Tour de Malaisie féminin2"]={
+        'names':["Le Tour de Femina"],
+        'master':"Q79033337",
+        "genre":"du "
+        }      
     dic["Tour du Guangxi féminin"]={
         'names':["Tour","Guangxi"],
         'master':"Q42394196",
@@ -526,8 +536,8 @@ def load():
         "genre":"du "
         }        
     dic["Vuelta Tica Internacional"]={
-        'names':['Vuelta',"Tica"],
-        'master':"Q66385803",
+        'names':['Vuelta',"Tica","Internacional"],
+        'master':"Q16960754",
         "genre":"de la "
         } 
     dic["Tour féminin du Guatemala"]={
@@ -535,6 +545,7 @@ def load():
         'master':"Q55739408",
         "genre":"du "
         } 
+ 
     dic["Tour de Burgos féminin"]={
         'names':['Vuelta',"Burgos"],
         'master':"Q60963675",
@@ -633,7 +644,7 @@ def load():
         "genre":"du "
         }    
     dic["Circuit Het Nieuwsblad féminin"]={
-        'names':["Omloop","Het Nieuwsblad"],
+        'names':["Omloop","Nieuwsblad"],
         'master':"Q2973966",
         "genre":"du "
         }   
@@ -794,12 +805,12 @@ def load():
         } 
     dic["Classique de Saint-Sébastien féminine"]={
         'names':["San","Sebastian"],
-        'master':"Q60882083",
+        'master':"Q110381925",
         "genre":"de la "
         } 
     dic["Classique de Saint-Sébastien féminine2"]={
         'names':["Itzulia","Women"],
-        'master':"Q60882083",
+        'master':"Q110381925",
         "genre":"de la "
         } 
     dic["Erondegemse Pijl"]={
@@ -897,8 +908,19 @@ def load():
         'master':"Q3716453",
         "genre":"de la "
         } 
+    dic["Festival Elsy Jacobs a Garnich"]={
+        'names':["Garnich","Elsy","Jacobs"],
+        'master':"Q124086510",
+        "genre":"du "
+        }
+    dic["Festival Elsy Jacobs a Luxembourg"]={
+        'names':["Luxembourg","Elsy","Jacobs"],
+        'master':"Q124088008",
+        "genre":"du "
+        }
+    
     dic["Grand Prix Elsy Jacobs"]={
-        'names':["Elsy","Jacobs"],
+        'names':["Grand Prix","Elsy","Jacobs"],
         'master':"Q2364254",
         "genre":"du "
         }     
@@ -994,7 +1016,7 @@ def load():
         }
     dic["Leiedal Koerse"]={
         'names':["Leiedal","Koerse"],
-        'master':"Q2454861",
+        'master':"Q118950659",
         "genre":"de la "
         }
     dic["Tour d'Andalousie féminin"]={
@@ -1002,6 +1024,12 @@ def load():
         'master':"Q110764063",
         "genre":"du "
         }    
+    dic["Tour d'Andalousie féminin2"]={
+        'names':["Andalucia","Vuelta"],
+        'master':"Q110764063",
+        "genre":"du "
+        }     
+    
     dic["Kyiv Cup Women"]={
         'names':["Kyiv","Cup"],
         'master':"Q110764507",
@@ -1177,6 +1205,152 @@ def load():
         'master':"Q116301437",
         "genre":"du "
         }     
+    dic["Trofeo Felanitx"]={
+        'names':['Trofeo','Felanitx'],
+        'master':"Q124069540",
+        "genre":"du "        
+        }
+    dic["Trofeo Palma Femina"]={
+        'names':['Trofeo','Palma'],
+        'master':"Q124069567",
+        "genre":"du "        
+        }    
+    dic["Trofeo Binissalem Andratx"]={
+        'names':['Trofeo','Binissalem'],
+        'master':"Q124069568",
+        "genre":"du "        
+        }       
+    dic["Grand Prix Suf City El Salvador"]={
+        'names':["Grand Prix","Suf","Salvador"],
+        'master':"Q124069617",
+        "genre":"du "        
+        }
+    dic["Grand Prix Presidente"]={
+        'names':["Grand Prix","Presidente"],
+        'master':"Q124069630",
+        "genre":"du "        
+        }
+    dic["Vuelta a el Salvador"]={
+        'names':["Vuelta","Salvador"],
+        'master':"Q124069640",
+        "genre":"du "        
+        }
+    dic["Grand Prix Indes"]={
+        'names':["Grand Prix","Indes"],
+        'master':"Q124069681",
+        "genre":"du "        
+        }
+    dic["Grand Prix El Salvador"]={
+        'names':["Grand Prix","Salvador"],
+        'master':"Q17071800",
+        "genre":"du "        
+        }
+    dic["Région Pays de la Loire Tour"]={
+        'names':["Pays","Loire","Tour"],
+        'master':"Q124069706",
+        "genre":"du "        
+        }
+    dic["Thessaly Time Trial Women"]={
+        'names':["Thessaly","Time Trial"],
+        'master':"Q124078187",
+        "genre":"du "        
+        }    
+    dic["Thessaly Road Race Women"]={
+        'names':["Thessaly","Road Race"],
+        'master':"Q124078301",
+        "genre":"de la "        
+        } 
+    dic["Gastown Grand Prix"]={
+        'names':["Gastown","Grand Prix"],
+        'master':"Q120555684",
+        "genre":"du "        
+        }    
+    dic["Chrono Roland bouge"]={
+        'names':["Chrono","Roland"],
+        'master':"Q124088342",
+        "genre":"du "        
+        }  
+    dic["Grote Prijs Beveren"]={
+        'names':["Prijs","Beveren"],
+        'master':"Q124088267",
+        "genre":"du "        
+        }  
+    dic["Giro Mediterraneo Rosa"]={
+        'names':["Giro","Mediterraneo"],
+        'master':"Q124089963",
+        "genre":"du "        
+        }      
+    dic["Cyclis Classic"]={
+        'names':["Cyclis","Classic"],
+        'master':"Q124090080",
+        "genre":"de la "        
+        }     
+    dic["Tour of Bostonliq Ladies"]={
+        'names':["Tour","Bostonliq"],
+        'master':"Q124090189",
+        "genre":"du "        
+        }         
+    dic["Tour de Catalogne féminin"]={
+        'names':["Volta","Catalunya"],
+        'master':"Q124090307",
+        "genre":"du "        
+        }     
+    dic["Tour de Pologne féminin"]={
+        'names':["Tour","Pologne"],
+        'master':"Q3049639",
+        "genre":"du "        
+        }     
+    dic["Tour du Portugal féminin"]={
+        'names':["Volta","Portugal"],
+        'master':"Q122898721",
+        "genre":"du "        
+        }        
+    dic["Tour de Berlin Féminin"]={
+        'names':["Tour","Berlin"],
+        'master':"Q120185091",
+        "genre":"du "        
+        }      
+    dic["Egmont Cycling Race Women"]={
+        'names':["Egmont","Race"],
+        'master':"Q124090624",
+        "genre":"de la "        
+        }  
+    dic["Grote Prijs Lucien Van Impe"]={
+        'names':["Lucien","Van Impe"],
+        'master':"Q124090724",
+        "genre":"du "        
+        }  
+    dic["Grand Prix Soğanlı Women"]={
+        'names':["Grand Prix","Soğanlı"],
+        'master':"Q124090809",
+        "genre":"du "        
+        }  
+    dic["Pionera Race"]={
+        'names':["Pionera","Race"],
+        'master':"Q124090882",
+        "genre":"de la "        
+        }  
+    dic["Mirabelle Classic"]={
+        'names':["Mirabelle","Classic"],
+        'master':"Q124090976",
+        "genre":"de la "        
+        } 
+    dic["GP Internacional de Ciclismo de Santa Catarina Feminino"]={
+        'names':["GP","Santa Catarina"],
+        'master':"Q124091065",
+        "genre":"du "        
+        }  
+    dic["GP Urubici de Ciclismo Feminino"]={
+        'names':["GP","Urubici"],
+        'master':"Q124091144",
+        "genre":"du "        
+        }  
+    dic["Grand Tour de Ciclismo de Santa Catarina Feminino"]={
+        'names':["Grand Tour","Santa Catarina"],
+        'master':"Q124091205",
+        "genre":"du "        
+        }  
+
 
  #too dangerous!!   
     
