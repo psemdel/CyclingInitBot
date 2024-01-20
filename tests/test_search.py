@@ -193,6 +193,25 @@ class TestSearch(unittest.TestCase):
         s=Search('GONZÁLEZ Roberto')
         self.assertEqual(s.rider('', ''),'Q28048282')
         
+        #disambiguation needed, because only one person but not rider
+        s=Search('Zarah Leander')
+        self.assertEqual(s.rider('', ''),'Q1')
+        self.assertEqual(s.rider('', '',force_disam=True),'Q1')
+        
+        s=Search('Emmanuel Macron')
+        self.assertEqual(s.rider('', ''),'Q1')
+        self.assertEqual(s.rider('', '',force_disam=True),'Q1')
+        
+        s=Search('Lauri Seppänen')
+        self.assertEqual(s.rider('', ''),'Q16650327')
+        self.assertEqual(s.rider('', '',force_disam=True),'Q0') 
+        
+        s=Search('')
+        self.assertEqual(s.rider('Elizabeth','Banks',force_disam=True),'Q47295776')
+        s=Search('Anna van der Breggen')
+        self.assertEqual(s.rider('','',force_disam=True),'Q563737')
+        
+        
     def test_search_fc_id(self):
         s=Search('Anna van der Breggen')
         self.assertEqual(s.search_fc_id(fc_id=89434),"Q289826")

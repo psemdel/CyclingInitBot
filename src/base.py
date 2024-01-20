@@ -198,7 +198,7 @@ class PyItem():
                             Addc = False
                             print('Item already present')
                             break   
-                    elif e.getTarget().getID() == value:  # Already there
+                    elif e.getTarget() is not None and e.getTarget().getID() == value:  # Already there
                             claim=e
                             Addc = False
                             print('Item already present')
@@ -766,7 +766,9 @@ class Search(CyclingInitBot):
     def rider(self,
               first_name:str, 
               last_name:str,
-              fc_id=None):
+              fc_id=None,
+              force_disam:bool=False
+              ):
         '''
         Function to search for a rider
 
@@ -776,6 +778,8 @@ class Search(CyclingInitBot):
         last_name : str
         fc_id : TYPE, optional
             Id in firstcycling of the rider
+        force_disam : bool, optional
+            If the disambiguation function is not returning true, then the result won't be returned            
         '''
         return self.complexe(
             rider_bool=True,
@@ -783,7 +787,8 @@ class Search(CyclingInitBot):
             exception_table=exception.list_of_rider_ex(),
             first_name=first_name, 
             last_name=last_name,
-            fc_id=fc_id)
+            fc_id=fc_id,
+            force_disam=force_disam)
     
     def team_by_code(
             self, 
@@ -852,6 +857,15 @@ class Search(CyclingInitBot):
         Fallback function for the search of team by name.
         
         to handle case of " - " which could be "-" in wikidata for instance
+        
+        Parameters
+        ----------    
+        search_name : str, optional
+            String to be search, will override self.search_str
+        disam : TYPE, optional
+            Function to disambiguate between items. For instance if 2 persons are returned and one is a cyclist, the cyclist will be returned
+        force_disam : bool, optional
+            If the disambiguation function is not returning true, then the result won't be returned
         '''
         result_id='Q0'
         kk=0
@@ -1031,23 +1045,55 @@ class Search(CyclingInitBot):
     
     def is_it_a_cyclist(self,item_id:str,**kwargs)-> bool:
         '''
+        Disambiguation method
         Test is the item had cyclist as occupation
+        
+        Parameters
+        ----------
+        item_id : str
+            id in wikidata of the item
         '''
         item = pywikibot.ItemPage(self.repo, item_id)
         item.get()
         if(u'P106' in item.claims): 
             for occu in item.claims.get(u'P106'):
-                try:
-                    if occu.getTarget().getID() == 'Q2309784': 
+                if occu.getTarget() is not None and occu.getTarget().getID() in \
+                ['Q2309784',  #cyclist
+                 'Q15117395', #track cyclist
+                 'Q52217314', #road cyclist
+                 'Q15117415', #cyclo-cross
+                 'Q19799599', #mountain bike
+                 'Q15306067', #triathlete
+                 'Q53645345', #duathelete
+                 'Q13382576', #rowing
+                 'Q13382566', #rowing2
+                 'Q10866633'  #speed squatting
+                 ]: 
+                    return True
+        if(u'P641' in item.claims): #fallback
+            for sport in item.claims.get(u'P641'):
+                if sport.getTarget() is not None and sport.getTarget().getID() in \
+                    ['Q3609', #road cycling
+                     'Q221635', #track cycling
+                     'Q2215841', #cycling
+                     'Q215184', #BMX
+                     'Q672066', #descent
+                     'Q1031445', #cross-country
+                     'Q1360806', #cross-country marathon
+                     'Q111721834', #gravel
+                     ]:
                         return True
-                except Exception as msg:
-                    print(msg)
-                    return False
         return False
 
     def is_it_a_teamseason(self,item_id: str,**kwargs) -> bool:
         '''
+        Disambiguation method
         Test if the item is a team season
+        
+        Parameters
+        ----------
+        item_id : str
+            id in wikidata of the item
         '''
         item = pywikibot.ItemPage(self.repo, item_id)
         item.get()
@@ -1058,6 +1104,9 @@ class Search(CyclingInitBot):
         return False 
 
     def find_sortkey(self,label: str,words: list)-> bool:
+        '''
+        Search if one of the words is contained in the label
+        '''
         for word in words:
             if label.find(word)!=-1:
                 return True
@@ -1070,11 +1119,12 @@ class Search(CyclingInitBot):
             negative_list:list=[],
             **kwargs)-> bool:
         '''
+        Disambiguation method
         Test if the item is a national team
 
         Parameters
         ----------
-        item_id : TYPE
+        item_id : str
             id in wikidata of the item
         positive_list : list, optional
             List of key words that indicates that it is the case
@@ -1092,7 +1142,13 @@ class Search(CyclingInitBot):
         
     def is_it_a_womenteam(self,item_id:str,**kwargs):
         '''
+        Disambiguation method
         Test if the item is a women team
+        
+        Parameters
+        ----------
+        item_id : str
+            id in wikidata of the item
         '''
         if self.is_it_a_teamseason(item_id):
             item = pywikibot.ItemPage(self.repo, item_id)
@@ -1108,7 +1164,13 @@ class Search(CyclingInitBot):
             
     def is_it_a_menteam(self,item_id: str,**kwargs):
         '''
+        Disambiguation method
         Test if the item is a men team
+        
+        Parameters
+        ----------
+        item_id : str
+            id in wikidata of the item
         '''
         if self.is_it_a_teamseason(item_id):
             item = pywikibot.ItemPage(self.repo, item_id)
