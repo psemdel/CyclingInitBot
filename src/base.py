@@ -11,6 +11,7 @@ from .data import nation_team_table, language_list, race_list, exception
 from .name import Name, CyclistName, concaten
 from datetime import datetime
 
+
 ### All classes in the code ###
 class CyclingInitBot():
     def __init__(
@@ -27,7 +28,7 @@ class CyclingInitBot():
         self.log=Log()
         self.test=test
 
-def create_item(label:dict):   
+def create_item(label:dict, is_women:bool=None):   
     '''
     Create a new item in wikidata
     '''
@@ -35,22 +36,44 @@ def create_item(label:dict):
     present_id=search.simple()
     site = pywikibot.Site("wikidata", "wikidata")
     repo=site.data_repository()
+    create=False
     
     if (present_id == u'Q0'):
+        create=True
+    elif (present_id == u'Q1'):
+        print(label['fr'] + ' already present several times')
+        return None
+    else:
+        item = pywikibot.ItemPage(repo, present_id)
+        if is_women is None:
+            print(label['fr'] + ' already present')
+            return PyItem(id=present_id, item=item)
+        else:
+            w=False
+            
+            item.get()
+            if (u'P2094' in item.claims):
+                P2094=item.claims.get(u'P2094')
+                for p2094 in P2094:
+                    if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q119942457","Q1451845"]:
+                        w=True
+
+            if (u'P31' in item.claims):
+                P31=item.claims.get(u'P31')
+                for p31 in P31:
+                    if p31.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#cats
+                        w=True            
+
+            if (is_women and not w) or (not is_women and w): #there is an item but for the other team
+                create=True
+                
+    if create:
         print(label['fr'] + ' created')
-        site=pywikibot.Site("wikidata", "wikidata")
         new_item = pywikibot.ItemPage(site)
         new_item.editLabels(labels=label, summary="Setting labels")
     # Add description here or in another function
         pyItem=PyItem(id=new_item.getID(), item=new_item)
         return pyItem
-    elif (present_id == u'Q1'):
-        print(label['fr'] + ' already present several times')
-        return None
-    else:
-        print(label['fr'] + ' already present')
-        item = pywikibot.ItemPage(repo, present_id)
-        return PyItem(id=present_id, item=item)
 
 class PyItem():
     def __init__(
@@ -76,6 +99,8 @@ class PyItem():
         if self.item is None and self.id !="Q0":
             self.item=pywikibot.ItemPage(self.repo, self.id)
             self.item.get()
+            
+            
         
     def get_country(self)-> str:
         '''
@@ -208,7 +233,7 @@ class PyItem():
             claim = pywikibot.Claim(self.repo, prop)
             if date or noId:
                 target=value
-            else:
+            elif value!="Q0":
                 target = pywikibot.ItemPage(self.repo, value)
             claim.setTarget(target)
             self.item.addClaim(claim, summary=u'Adding ' + comment)
@@ -246,7 +271,7 @@ class PyItem():
             q=pywikibot.page.Claim(self.site, prop, is_qualifier=True)
             q.setTarget(target_q)
             claim.addQualifier(q)
-
+    
     def link_year(
             self, 
             year:int,
@@ -277,24 +302,8 @@ class PyItem():
             else:
                 return #no way to finish
         if id_master:
-            item_master = pywikibot.ItemPage(self.repo, id_master)
-            item_master.get()
-            
-            #look for next and previous
-            if (u'P527' in item_master.claims):
-                for claim in item_master.claims.get(u'P527'):
-                    v=claim.getTarget().getID()
-                    pyItem_v=PyItem(item=claim.getTarget(),id=v)
-                    
-                    for _, label in pyItem_v.item.labels.items():
-                        if str(year_previous) in label:
-                            id_previous=v
-                            pyItem_previous=pyItem_v
-                            break
-                        elif str(year_next) in label:
-                            id_next=v
-                            pyItem_next=pyItem_v
-                            break
+            id_previous, pyItem_previous=year_child(year_previous, id_master)
+            id_next, pyItem_next=year_child(year_next, id_master)
         
             #link the whole
             if test:
@@ -1228,7 +1237,34 @@ class Log():
         self.txt+="\n" + str(new) #write a log that is returned to the site
     
 
+def year_child(
+        year:int,
+        id_master:str,      
+        ):
+    '''
+    Search in a master, the child associated with a year
 
+    Parameters
+    ----------
+    year : int
+    id_master : str
+        Id of the parent of the item
+    '''
+    site = pywikibot.Site("wikidata", "wikidata")
+    repo = site.data_repository()
+    
+    item_master = pywikibot.ItemPage(repo, id_master)
+    item_master.get()
+    
+    if (u'P527' in item_master.claims):
+        for claim in item_master.claims.get(u'P527'):
+            v=claim.getTarget().getID()
+            pyItem_v=PyItem(item=claim.getTarget(),id=v)
+            
+            for _, label in pyItem_v.item.labels.items():
+                if str(year) in label:
+                    return v, pyItem_v
+    return None, None
 
 
 

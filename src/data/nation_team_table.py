@@ -320,6 +320,10 @@ def load():
         "team woman U19":"Q99646113",
         "team man U19":"Q99642861",       
         "team all":"Q99646843",
+        "Road race woman":"Q110307075",
+        "Clm woman":"Q110307076",
+        "Road race man":"Q110307073",
+        "Clm man":"Q110307074",
         }
     
     dic['BRN']={
@@ -1229,6 +1233,11 @@ def load():
         "team woman U19":"Q99646119",
         "team man U19":"Q99642867",       
         "team all":"Q99646668",
+        "Road race woman": "Q112568052",
+        "Clm woman":"Q112568053",
+        "Road race man": "Q112568047",
+        "Clm man":"Q107288797",        
+        
     } 
      
     dic['IRI']={
@@ -1433,6 +1442,11 @@ def load():
         "team woman U19":"Q99646129",
         "team man U19":"Q99642877",       
         "team all":"Q99646634",
+        "Road race woman":"Q112515420",
+        "Road race man":"Q112515410",
+        "Clm woman":"Q112515421",
+        "Clm man":"Q112515412",
+    
     } 
     
     dic['LAT']={
@@ -2252,8 +2266,12 @@ def load():
         "team woman U19":"Q99646306",
         "team man U19":"Q99643193",       
         "team all":"Q99646656",
-        "Road race woman":"Q45172237",
-        "Clm woman":"Q45172232",
+        "Road race woman":"Q112670789",
+        "Clm woman":"Q112670790",
+        "Road race man":"Q112670795",        
+        "Clm man":"Q112670796",        
+        
+        
     }
 
     dic['TUR']={ 
@@ -2456,6 +2474,10 @@ def load():
         "team woman U19":"Q99646153",
         "team man U19":"Q99642901",       
         "team all":"Q99646636",
+        "Road race woman":"Q112341566",
+        "Clm woman":"Q112341567",
+        "Road race man":"Q112341558",        
+        "Clm man":"Q112341559",
         }
     
     dic['URS']={

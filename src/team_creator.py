@@ -45,13 +45,17 @@ class TeamCreator(CyclingInitBot):
             self.label[lang] = self.name + " " + str(self.year)
             if self.UCIcode and self.UCIcode!="":
                 self.alias[lang]=[self.UCIcode + " "   + str(self.year)]
+                
+        self.is_women=False
+        if self.category_id in ["Q2466826","Q26849121","Q80425135","Q119942457"]:
+            self.is_women=True
     
     def main(self):
         '''
         Main function of this script
         '''
         try:
-            pyItem=create_item(self.label)
+            pyItem=create_item(self.label, is_women=self.is_women)
             if pyItem is not None:
                 self.log.concat("team id: "+ pyItem.id)
                 description={'fr':'Saison ' + str(self.year) +" de l'équipe cycliste " + self.name}

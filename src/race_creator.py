@@ -4,11 +4,9 @@ Created on Thu Jan  4 15:29:49 2018
 
 @author: maxime delzenne
 """
-                                  
-from .data.calendar_list import calendaruciID, calendarWWTID, calendarUWTID
 from .func import get_class_id, define_article, date_finder, man_or_women_to_is_women
 
-from .base import CyclingInitBot, Race, create_item, PyItem, Search
+from .base import CyclingInitBot, Race, create_item, PyItem, Search, year_child
 import copy
 import pywikibot
 import traceback
@@ -212,13 +210,14 @@ class RaceCreator(CyclingInitBot):
         '''
         Search the corresponding calendar to add, depending on if the race is UWT, WWT or not
         '''
-        calendar_id=None
         if self.WWT:
-             calendar_id=calendarWWTID(str(self.year))
+             id_master="Q21075974" #WWT
         elif self.UWT:
-             calendar_id=calendarUWTID(str(self.year))
-        elif self.UCI and self.man_or_woman==u"woman":  
-             calendar_id=calendaruciID(str(self.year))
+             id_master="Q635366" #UWT
+        elif self.UCI and self.man_or_woman==u"woman": 
+             id_master="Q1693153" #Calendrier international féminin UCI 
+        
+        calendar_id, _= year_child(self.year, id_master)
         return calendar_id   
 
     def stage_label(self,number:int):
