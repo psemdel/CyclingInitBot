@@ -5,7 +5,7 @@ Created on Thu Jan  4 15:30:20 2018
 @author: maxime delzenne
 """
 import pywikibot
-from .base import CyclingInitBot, PyItem, create_item, Search
+from .base import CyclingInitBot, PyItem, create_item, year_child
 from .data import cc_table
 from .func import man_or_women_to_is_women
 
@@ -131,14 +131,10 @@ class NationalChampionshipCreator(CyclingInitBot):
             pyItem_master=PyItem(id=self.id_NatChampMaster)
             pyItem_master.add_values("P527",self.pyNatChamp.id,'add new year',False)
     
-            if not self.CC:        
-                s=Search('Championnats nationaux de cyclisme sur route en ' +  str(year))
-                id_allchamp = s.simple()
-                if id_allchamp in ['Q0',"Q1"]:  
-                    raise ValueError(u'Championnats nationaux de cyclisme sur route en ' + str(year)+' not found')
-                else:
-                    self.pyNatChamp.add_value("P361", id_allchamp, u'part of')
-                    pyItem_allchamp=PyItem(id=id_allchamp)
+            if not self.CC: 
+                id_allchamp, pyItem_allchamp=year_child(year, "Q2306612") #Q2306612 is Championnats nationaux de cyclisme sur route
+                
+                if pyItem_allchamp is not None:
                     pyItem_allchamp.add_values("P527",self.pyNatChamp.id,'add champ',False)
                 self.pyNatChamp.add_value("P17", country_id, u'country')
                 
@@ -254,27 +250,19 @@ class NationalChampionshipCreator(CyclingInitBot):
         if self.is_women:
             pyItem.add_value('P2094',"Q1451845","women cycling")
         
-        dic={
-            True:{'woman': "Course en ligne féminine",
-                  'man': "Course en ligne masculine"
-                 },
-            False:{'woman': "Contre-la-montre féminin",
-                  'man': "Contre-la-montre masculin"
-                 } 
+        dic_id={
+            True:{"woman": "Q106858462", #Course en ligne féminine aux championnats nationaux de cyclisme sur route
+                  "man": "Q106858458"  #Course en ligne masculine aux championnats nationaux de cyclisme sur route
+                  },
+            False:{"woman":"Q106858463", #Contre-la-montre feminin aux championnats nationaux de cyclisme sur route
+                   "man": "Q106858459" #Contre-la-montre masculin aux championnats nationaux de cyclisme sur route
+                  }
             }
 
         if not self.CC:
             pyItem.add_value("P17", country_id, u'country')
-            
-            s=Search(dic[enligne][man_or_woman]+" aux championnats nationaux de cyclisme sur route " + str(year))
-            id_allchamp = s.simple()
-            pyItem_allchamp=PyItem(id=id_allchamp)
-            
-            if (id_allchamp == u'Q0')or(id_allchamp == u'Q1'):
-                self.log.concat(dic[enligne][man_or_woman]+" aux championnats nationaux de cyclisme sur route " + str(year)+' not found')
-                raise ValueError(dic[enligne][man_or_woman]+' not found')
-            else:
-                pyItem_allchamp=PyItem(id=id_allchamp)
+            _, pyItem_allchamp=year_child(year, dic_id[enligne][man_or_woman]) #Q2306612 is Championnats nationaux de cyclisme sur route
+            if pyItem_allchamp is not None:
                 pyItem_allchamp.add_values("P527",pyItem.id,'add champ',False)
             
     def sub_function(

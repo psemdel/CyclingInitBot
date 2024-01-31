@@ -109,9 +109,9 @@ class GetRiderTricot(CyclingInitBot):
                         sub_df3=sub_df3[sub_df3["Year"]==self.time_of_race.year]
                         if len(sub_df3)>0:
                             this_date=pywikibot.WbTime(site=self.site,
-                                                       year=int(sub_df3["Year"]), 
-                                                       month=int(sub_df3["Month"]), 
-                                                       day=int(sub_df3["Day"]), 
+                                                       year=int(sub_df3["Year"].iloc[0]), 
+                                                       month=int(sub_df3["Month"].iloc[0]), 
+                                                       day=int(sub_df3["Day"].iloc[0]), 
                                                        precision='day')    
                             
                             if this_date.toTimestamp()>=self.time_of_race.toTimestamp(): #otherwise it is another champ

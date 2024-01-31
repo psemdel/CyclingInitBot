@@ -289,7 +289,7 @@ class StartlistImporter(CyclingInitBot):
                         claim=None
                         if already_list:
                             for jj, e in enumerate(list_of_comprend):
-                                if e.getTarget().getID()==cyclist.id: #Already there
+                                if e.getTarget() is not None and e.getTarget().getID()==cyclist.id: #Already there
                                     claim=e
                                     if self.prologue_or_final==1 and e in list_of_lost:
                                         list_of_lost.remove(e)

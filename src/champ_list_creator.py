@@ -8,7 +8,7 @@ Created on Thu Dec 19 20:35:53 2019
 from datetime import date
 import pandas as pd
  
-from .base import CyclingInitBot, PyItem, Race
+from .base import CyclingInitBot, PyItem, Race, year_child
 from .data import calendar_list
 
 class ChampListCreator(CyclingInitBot):
@@ -35,7 +35,6 @@ class ChampListCreator(CyclingInitBot):
         self.end_year=date.today().year+1
         self.actualize=actualize
 
-        self.dic =calendar_list.nationChampionshipMaster()
         self.dic_road_race_women, self.dic_clm_women,\
         self.dic_road_race_men, self.dic_clm_men=calendar_list.worldCCchampionships()
         
@@ -201,8 +200,7 @@ class ChampListCreator(CyclingInitBot):
         for year in range(self.start_year,self.end_year):
             year=str(year)
             self.log.concat(self.road_or_clm + " start year " + year)
-            
-            pyItem_all_national=PyItem(id=self.dic[year])
+            _, pyItem_all_national=year_child(year, "Q2306612") #Q2306612 is Championnats nationaux de cyclisme sur route
             
             if(u'P527' in pyItem_all_national.item.claims):
                  for e in pyItem_all_national.item.claims.get(u'P527'): 

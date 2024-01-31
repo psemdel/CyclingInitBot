@@ -6,7 +6,7 @@ Created on Mon Jul 31 21:19:04 2023
 @author: maxime
 """
 
-from .base import CyclingInitBot
+from .base import CyclingInitBot, Log
 from .classification_importer import ClassificationImporter
 from .startlist_importer import StartlistImporter
 from .team_importer import TeamImporter
@@ -57,9 +57,7 @@ class FinalResultImporter(CyclingInitBot):
             self.prologue_or_final=1
         
     def main(self):
-        log1=""
-        log2=""
-        log3=""
+        log_total=Log()
         try:
             print("starting result import")
             f=ClassificationImporter(
@@ -72,6 +70,7 @@ class FinalResultImporter(CyclingInitBot):
                 stage_num=-1, #only for stage, put -1 otherwise for the main race
                 year=self.year)
             _, log1= f.run_all()
+            log_total.concat(log1.txt)
             
             print("starting startlist import")
             f=StartlistImporter(
@@ -84,6 +83,7 @@ class FinalResultImporter(CyclingInitBot):
                 fc=self.fc,
                 add_unknown_rider=self.add_unknown_rider)
             _, log2= f.main()
+            log_total.concat(log2.txt)
             
             print("starting team import")
             f=TeamImporter(
@@ -91,8 +91,9 @@ class FinalResultImporter(CyclingInitBot):
                 test=False,
                 fc=self.fc)
             _, log3= f.main()
+            log_total.concat(log3.txt)
             
-            return 0, log1+"\n" + log2+"\n" + log3
+            return 0, log_total
         except:
-            return 10, log1+"\n" + log2+"\n" + log3
+            return 10, log_total
     

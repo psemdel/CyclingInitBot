@@ -344,7 +344,8 @@ def table_reader(
         convert_team_code:bool=True,
         man_or_woman:str=None,
         is_women:bool=True,
-        pcs_link: str=None
+        pcs_link: str=None,
+        force_disam:bool=False
         ) -> (pd.core.frame.DataFrame, bool, bool, str):
     '''
     Read an excel or csv file
@@ -385,6 +386,8 @@ def table_reader(
         Is it a women race/team?
     pcs_link: str
         Link to Procyclingstats to be parsed
+    force_disam : bool, optional
+        If the disambiguation function is not returning true, then the result won't be returned          
     '''
     try:
         local_saved_list=["champ","champ_clm","champ_man","champ_man_clm"]
@@ -511,7 +514,7 @@ def table_reader(
                     fc_id=df['Rider_ID'].values[ii]
 
                 s=Search(name) 
-                id_rider=s.rider(first_name,last_name,fc_id=fc_id)
+                id_rider=s.rider(first_name,last_name,fc_id=fc_id,force_disam=force_disam)
 
                 if id_rider in ['Q0','Q1']:
                     if first_name is not None:
