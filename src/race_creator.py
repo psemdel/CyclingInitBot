@@ -216,6 +216,8 @@ class RaceCreator(CyclingInitBot):
              id_master="Q635366" #UWT
         elif self.UCI and self.man_or_woman==u"woman": 
              id_master="Q1693153" #Calendrier international féminin UCI 
+        else:
+             return None
         
         calendar_id, _= year_child(self.year, id_master)
         return calendar_id   

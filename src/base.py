@@ -136,7 +136,8 @@ class PyItem():
         noId : bool, optional
             If the value is not an id
         '''
-        if not isinstance(value,int) or (isinstance(value,int) and value!=0) or date: #date is somehow not different from 0
+        if ((not isinstance(value,int) or (isinstance(value,int) and value!=0) or date)
+           and (not isinstance(value,str) or (isinstance(value,str) and value!="Q0"))): #date is somehow not different from 0
             if prop not in self.item.claims:  # already there do nothing
                 claim = pywikibot.Claim(self.repo, prop)
                 if date or noId:
@@ -213,6 +214,8 @@ class PyItem():
         '''
         # check if the value is not already 
         Addc = True
+        target = None
+        claim= None
         
         if not overpass:  # To add a value and then delete it for sorting purpose
             if prop in self.item.claims:  # already there do nothing
@@ -235,8 +238,9 @@ class PyItem():
                 target=value
             elif value!="Q0":
                 target = pywikibot.ItemPage(self.repo, value)
-            claim.setTarget(target)
-            self.item.addClaim(claim, summary=u'Adding ' + comment)
+            if target is not None:
+                claim.setTarget(target)
+                self.item.addClaim(claim, summary=u'Adding ' + comment)
         return Addc, claim
 
     def add_qualifier(
