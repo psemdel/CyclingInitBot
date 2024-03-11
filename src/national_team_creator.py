@@ -86,7 +86,7 @@ class NationalTeamCreator(CyclingInitBot):
         else:
             genre_es=""
         
-        return {'fr': "équipe" + " " + self.this_nation["genre"] + \
+        return {'fr': "équipe " + self.this_nation["genre"] + \
                  self.this_nation["name fr"] + adj + " de cyclisme sur route " +str(year),
                  'en': self.this_nation["adj en"] + " " +adjen + \
                  u"'s national road cycling team " +  str(year),
