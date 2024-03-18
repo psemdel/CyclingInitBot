@@ -69,7 +69,7 @@ class FinalResultImporter(CyclingInitBot):
                 fc=self.fc, 
                 stage_num=-1, #only for stage, put -1 otherwise for the main race
                 year=self.year)
-            _, log1= f.run_all()
+            res1, log1= f.run_all()
             log_total.concat(log1.txt)
             
             print("starting startlist import")
@@ -82,7 +82,7 @@ class FinalResultImporter(CyclingInitBot):
                 test=False,
                 fc=self.fc,
                 add_unknown_rider=self.add_unknown_rider)
-            _, log2= f.main()
+            res2, log2= f.main()
             log_total.concat(log2.txt)
             
             print("starting team import")
@@ -90,10 +90,13 @@ class FinalResultImporter(CyclingInitBot):
                 self.id_race, 
                 test=False,
                 fc=self.fc)
-            _, log3= f.main()
+            res3, log3= f.main()
             log_total.concat(log3.txt)
             
-            return 0, log_total
+            if res1==0 and res2==0 and res3==0:
+                return 0, log_total
+            else:
+                return max(res1,res2,res3), log_total
         except:
             return 10, log_total
     

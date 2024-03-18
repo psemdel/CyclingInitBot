@@ -65,7 +65,7 @@ class TeamImporter(CyclingInitBot):
             if self.year is None:
                 raise ValueError('no year found')
                 
-            df, _, _, log=table_reader(
+            df, _, all_teams_found, log=table_reader(
                 self.file,
                 self.fc, 
                 team=True, 
@@ -78,24 +78,28 @@ class TeamImporter(CyclingInitBot):
             self.log.concat('result_table created')
             if self.verbose:
                 print(df2)
-                
-            #sorting
-            dic={}
-            for e in df2:
-                o=Team(id=e)
-                dic[o.sortkey]=o
-            sorted_team =  sorted(dic.items(), key=lambda tup: tup[0])   
-            self.log.concat("sorted teams:"+ str([s[0] for s in sorted_team]))
             
-            if not self.test:
-                if(self.prop in self.race.item.claims):  #already there do nothing
-                    self.log.concat(u'Classification already there')
-                else: 
-                    for v in sorted_team:
-                        self.race.add_values(self.prop, v[1].id, 'participating team', False) 
-                     
-                self.log.concat('teams inserted')
-                return 0, self.log   
+            if not all_teams_found:
+                self.log.concat('not all teams found, request interrupted')
+                return 11, self.log
+            else:
+                #sorting
+                dic={}
+                for e in df2:
+                    o=Team(id=e)
+                    dic[o.sortkey]=o
+                sorted_team =  sorted(dic.items(), key=lambda tup: tup[0])   
+                self.log.concat("sorted teams:"+ str([s[0] for s in sorted_team]))
+                
+                if not self.test:
+                    if(self.prop in self.race.item.claims):  #already there do nothing
+                        self.log.concat(u'Classification already there')
+                    else: 
+                        for v in sorted_team:
+                            self.race.add_values(self.prop, v[1].id, 'participating team', False) 
+                         
+                    self.log.concat('teams inserted')
+                    return 0, self.log   
                        
         except:
             self.log.concat("General Error in team_importer")
