@@ -281,13 +281,14 @@ class ClassificationImporter(CyclingInitBot):
                                target_q = pywikibot.WbQuantity(amount=row['Points'], site=self.site)
                                self.race.add_qualifier(claim,'P1358',target_q)
                            elif row['Rank']==1:
-                               target_q = pywikibot.WbQuantity(amount=row['Time'], site=self.site, unit=itemSeconds)   
-                               self.race.add_qualifier(claim,'P2781',target_q)
-                               if ((self.general_or_stage==0 and not self.race.get_is_stage()) or
-                                   self.general_or_stage==1 and self.race.get_is_stage()):
-                                   self.race.add_speed(row['Time'])
+                               if "Time" in row:
+                                   target_q = pywikibot.WbQuantity(amount=row['Time'], site=self.site, unit=itemSeconds)   
+                                   self.race.add_qualifier(claim,'P2781',target_q)
+                                   if ((self.general_or_stage==0 and not self.race.get_is_stage()) or
+                                       self.general_or_stage==1 and self.race.get_is_stage()):
+                                       self.race.add_speed(row['Time'])
                            else:
-                               if row['Ecart']!=-1:
+                               if 'Ecart' in row and row['Ecart']!=-1:
                                    target_q = pywikibot.WbQuantity(amount=row['Ecart'], site=self.site, unit=itemSeconds)
                                    self.race.add_qualifier(claim,'P2911',target_q)
                            #look for team in startlist
@@ -314,8 +315,7 @@ class ClassificationImporter(CyclingInitBot):
                     row=df[df['Rank'].astype('str')=='1.0'] 
                     if len(row)==0:
                         row=df[df['Rank'].astype('str')=='1'] 
-                    
-                    print(row["ID Team"].values)
+
                     if "ID Team" in row and len(row["ID Team"].values)>0 and row["ID Team"].values[0] not in ['Q0','Q1']:
                         this_team=Team(id=row["ID Team"].values[0])
                         _, claim=this_team.add_values('P2522',self.race.id,'victory',False)

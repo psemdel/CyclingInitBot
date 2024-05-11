@@ -262,19 +262,20 @@ class PyItem():
             qualifier to be added
         '''
         Addc = True
-        for qual in claim.qualifiers.get(prop, []): #the get(prop, []) avoids a crash if the qualifier is not present
-            if qual.target==target_q:
-                print("qualificatif found")
-                Addc = False
-            
-        if Addc:
-            if update:
+        if target_q is not None:
+            for qual in claim.qualifiers.get(prop, []): #the get(prop, []) avoids a crash if the qualifier is not present
+                if qual.target==target_q:
+                    print("qualificatif found")
+                    Addc = False
+                
+            if Addc:
+                if update:
+                    q=pywikibot.page.Claim(self.site, prop, is_qualifier=True)
+                    q.setTarget(qual.target)
+                    claim.removeQualifier(q)
                 q=pywikibot.page.Claim(self.site, prop, is_qualifier=True)
-                q.setTarget(qual.target)
-                claim.removeQualifier(q)
-            q=pywikibot.page.Claim(self.site, prop, is_qualifier=True)
-            q.setTarget(target_q)
-            claim.addQualifier(q)
+                q.setTarget(target_q)
+                claim.addQualifier(q)
     
     def link_year(
             self, 

@@ -39,16 +39,6 @@ class GetRiderTricot(CyclingInitBot):
         self.rider=Cyclist(id=id_rider)
         for k in ["time_of_race","claim","chrono","man_or_woman"]:
             setattr(self,k,locals()[k])
- 
-    def insert_quali(self,quali):
-        '''
-        Insert a qualifier to a claim
-        '''
-        if quali is not None:  
-           target_qualifier = pywikibot.ItemPage(self.repo, quali)
-           qualifier_tricot=pywikibot.page.Claim(self.site, 'P2912', is_qualifier=True)
-           qualifier_tricot.setTarget(target_qualifier)
-           self.claim.addQualifier(qualifier_tricot) 
           
     def sub_function(self):
         '''
@@ -124,7 +114,8 @@ class GetRiderTricot(CyclingInitBot):
                     rider_label=self.rider.get_label('fr')
                     print(rider_label+' is the ' + k + " " + self.road_or_clm + ' champ')
                     if not self.test:
-                        self.insert_quali(quali)
+                        target_q = pywikibot.ItemPage(self.repo, quali)
+                        self.rider.add_qualifier(self.claim,'P2912', target_q) #here the self.rider does not matter, the method is used as meta and apply on self.claim
                     else:
                         return quali
                     break
