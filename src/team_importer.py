@@ -71,7 +71,8 @@ class TeamImporter(CyclingInitBot):
                 team=True, 
                 year=self.year,
                 convert_team_code=True, 
-                is_women=self.is_women
+                is_women=self.is_women,
+                need_complete=True
                 ) 
             self.log.concat(log)
             df2=pd.unique(df["ID Team"])

@@ -58,7 +58,47 @@ class TestRace(unittest.TestCase):
         r1=Race(id="Q116302534")
         self.assertFalse(r1.get_is_stage())    
         r1=Race(id="Q116687807")
-        self.assertTrue(r1.get_is_stage())    
+        self.assertTrue(r1.get_is_stage())
+        
+    def test_is_chrono(self):
+        r1=Race(id="Q124094746")
+        self.assertFalse(r1.is_chrono())
+        r1=Race(id="Q124011771")
+        self.assertFalse(r1.is_chrono())        
+        r1=Race(id="Q126036178")
+        self.assertFalse(r1.is_chrono())        
+        r1=Race(id="Q112762179")
+        self.assertTrue(r1.is_chrono())
+        r1=Race(id="Q104387520")
+        self.assertTrue(r1.is_chrono())
+        r1=Race(id="Q104388654")
+        self.assertTrue(r1.is_chrono())        
+
+    def test_check_has_chrono(self):
+        r1=Race(id="Q124094746")
+        self.assertFalse(r1.check_has_chrono())
+        r1=Race(id="Q124011771")
+        self.assertFalse(r1.check_has_chrono())        
+        r1=Race(id="Q126036178")
+        self.assertFalse(r1.check_has_chrono())        
+        r1=Race(id="Q112762179")
+        self.assertTrue(r1.check_has_chrono())
+        r1=Race(id="Q104387520")
+        self.assertTrue(r1.check_has_chrono())
+        r1=Race(id="Q104388654")
+        self.assertTrue(r1.check_has_chrono())      
+        r1=Race(id="Q104386369")
+        self.assertTrue(r1.check_has_chrono())    
+        r1=Race(id="Q78663025")
+        self.assertTrue(r1.check_has_chrono())          
+        
+    def test_single_race(self):
+        r1=Race(id="Q104167542")
+        self.assertTrue(r1.single_race())        
+        r1=Race(id="Q78663025")
+        self.assertFalse(r1.single_race())         
+        r1=Race(id="Q104386369")
+        self.assertFalse(r1.single_race())          
 
 if __name__ == '__main__':
     unittest.main()

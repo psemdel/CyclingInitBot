@@ -909,6 +909,8 @@ def load():
         "team woman U19":"Q99646227",
         "team man U19":"Q99642976",       
         "team all":"Q86989093",
+        "Clm woman":"Q105550571",
+        "Road race woman":"Q105550570",
         }  
 
     dic['EST']={

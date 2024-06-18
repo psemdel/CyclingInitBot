@@ -345,7 +345,8 @@ def table_reader(
         man_or_woman:str=None,
         is_women:bool=True,
         pcs_link: str=None,
-        force_disam:bool=False
+        force_disam:bool=False,
+        startlist_from_res:bool=False
         ) -> (pd.core.frame.DataFrame, bool, bool, str):
     '''
     Read an excel or csv file
@@ -419,12 +420,22 @@ def table_reader(
                         classification_num=general_or_stage_to_classification_num[general_or_stage_fc]
                         )
             else:
-                t=combi_results_startlist(
-                    fc,
-                    year,
-                    stage_num=stage_num,
-                    )
-            df=t.results_table
+                if startlist_from_res:
+                    r=RaceEdition(race_id=fc,year=year)
+                    t=r.results(
+                        stage_num=stage_num,
+                        classification_num=general_or_stage_to_classification_num[0]
+                        )
+                else:
+                    t=combi_results_startlist(
+                        fc,
+                        year,
+                        stage_num=stage_num,
+                        )
+            if "results_table" in t.__dir__():
+                df=t.results_table
+            else:
+                return None, False, False, log
         elif fc_rank is not None:
             ranking = Ranking(h=1, rank=fc_rank, y=date_rank, page=page) #, page=2
             df=ranking.table

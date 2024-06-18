@@ -165,6 +165,7 @@ class ClassificationImporter(CyclingInitBot):
         '''
         Add DNF in the start list, if the rider abandonned during the stage
         '''
+        #get stage number
         stage_nummer=-1
         if(u'P1545' in self.race.item.claims):  
             list_of_order=self.race.item.claims.get(u'P1545')
@@ -172,22 +173,34 @@ class ClassificationImporter(CyclingInitBot):
         
         sub_df=df[df['Rank'].apply(lambda x: (type(x)==str or math.isnan(x)))]
         for ii in range(len(sub_df)):
-            this_id=sub_df["ID Rider"].values[ii]
+            row=sub_df.iloc[ii]
 
-            if this_id not in ['Q1','Q0']:
-                target = pywikibot.ItemPage(self.repo, this_id)
+            if row["ID Rider"] not in ['Q1','Q0']:
+                target = pywikibot.ItemPage(self.repo, row["ID Rider"])
                 this_starter=None
+                target_DNFqual = pywikibot.ItemPage(self.repo, u'Q1210380')
+                target_DNSqual = pywikibot.ItemPage(self.repo, u'Q1210382')
+                target_DSQqual = pywikibot.ItemPage(self.repo, u'Q1229261')
+                target_OOTqual = pywikibot.ItemPage(self.repo, u'Q7113430')
+                
                 for starter in self.startlist:
                    if starter.getTarget()==target: #Already there
                         this_starter=starter
                         break
                     
                 if this_starter!=None:
-                     pyItem=PyItem(id=this_id) #does not really matter, we need a pyItem to call the method
-                    
-                     target_q = pywikibot.ItemPage(self.repo, u'Q1210380')
+                     pyItem=PyItem(id=row["ID Rider"]) #does not really matter, we need a pyItem to call the method
                      if not self.test:
-                         pyItem.add_qualifier(this_starter,'P1534',target_q)
+                         if row["Rank"]==0 or row["Rank"]=="DNF": #no ranking
+                             pyItem.add_qualifier(this_starter,'P1534',target_DNFqual)
+                         elif row["Rank"]=="DNS":
+                             pyItem.add_qualifier(this_starter,'P1534',target_DNSqual)
+                         elif row["Rank"]=="DSQ": 
+                             pyItem.add_qualifier(this_starter,'P1534',target_DSQqual)
+                         elif row["Rank"]=="OOT": 
+                             pyItem.add_qualifier(this_starter,'P1534',target_OOTqual) 
+                         else: #DNF is default
+                             pyItem.add_qualifier(this_starter,'P1534',target_DNFqual)
 
                      if stage_nummer!=-1: 
                          if not self.test:   
@@ -230,11 +243,6 @@ class ClassificationImporter(CyclingInitBot):
             if self.year is None:
                 raise ValueError('no year found')
                 
-            if self.WWT and self.general_or_stage==0 and not self.race.get_is_stage():
-                maxkk=None #we need full ranking here
-            else:
-                maxkk=self.maxkk
-                
             if self.team_bool: #team
                 df, _, _, log=table_reader(self.file,self.fc,result_points=self.result_points, team=True, 
                                            year=self.year,convert_team_code=True, is_women=self.is_women,
@@ -248,11 +256,13 @@ class ClassificationImporter(CyclingInitBot):
                                            general_or_stage_fc=self.general_or_stage_fc
                                            )   
             self.log.concat(log)
+            if df is None:
+                return 10, self.log 
             
-            df2=df.iloc[:self.maxkk]
+            df_res=df.iloc[:self.maxkk]
             self.log.concat('result_table created')
             if self.verbose:
-                print(df2)
+                print(df_res)
                 
             self.is_there_a_startlist()
             if self.startlist is not None:
@@ -263,8 +273,8 @@ class ClassificationImporter(CyclingInitBot):
                     self.log.concat(u'Classification already there')
                 else: 
                     #claim=pywikibot.Claim(self.repo, self.prop)  
-                    for ii in range(len(df2)):
-                        row=df2.iloc[ii]
+                    for ii in range(len(df_res)):
+                        row=df_res.iloc[ii]
                         if self.team_bool:
                             this_id=row["ID Team"]
                         else:

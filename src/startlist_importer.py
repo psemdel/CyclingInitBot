@@ -18,8 +18,8 @@ class StartlistImporter(CyclingInitBot):
             self,
             prologue_or_final: int, 
             id_race: str, 
-            chrono: bool,
-            man_or_woman: str, 
+            chrono: bool=None,
+            man_or_woman: str=None, 
             force_nation_team: bool=False,
             file:str="Results",
             fc:int=None,
@@ -32,16 +32,18 @@ class StartlistImporter(CyclingInitBot):
 
         Parameters
         ----------
-        prologue_or_final : int
-            Is the start list imported from the result of the first stage/prologue, or from the final results?
-            Code is prologue=0, final=1, single day race=2
         id_race : str
             wikidata id of the race,
-        chrono : bool
+        prologue_or_final : int, optional
+            Is the start list imported from the result of the first stage/prologue, or from the final results?
+            Code is prologue=0, final=1, single day race=2
+            
+            Mainly obsolete with fc, as the startlist is always the same then            
+        chrono : bool, optional
             Is there an ITT during the whole race
-        man_or_woman : str
+        man_or_woman : str, optional
             age category and gender of the races to be created
-        force_nation_team : bool
+        force_nation_team : bool, optional
             Is there only national team?
         file : str, optional
             name of the file to be read
@@ -56,11 +58,18 @@ class StartlistImporter(CyclingInitBot):
             setattr(self,k,locals()[k])
 
         self.race=Race(id=id_race)
-        self.time_of_race=self.race.get_date()
-        self.year=self.time_of_race.year
-
+        
         if self.fc==0:
             self.fc=None
+        
+        if self.man_or_woman is None:
+            self.man_or_woman=self.race.get_man_or_woman()
+            
+        if self.chrono is None:
+            self.chrono=self.race.check_has_chrono()
+        
+        self.time_of_race=self.race.get_date()
+        self.year=self.time_of_race.year
 
     def IDtoCIOsearch(self,country_id:str):
         '''
@@ -325,3 +334,74 @@ class StartlistImporter(CyclingInitBot):
             self.log.concat("General Error in startlist_importer")
             self.log.concat(traceback.format_exc())
             return 10, self.log     
+
+class StartlistImporterFromRes(StartlistImporter):
+    def main(self):
+        '''
+        Main function of this script
+        '''
+        try:
+            df, all_riders_found, _, log=table_reader(
+                self.file,
+                self.fc,
+                verbose=self.verbose,
+                need_complete=not self.add_unknown_rider,
+                rider=True,
+                year=self.year,
+                startlist_from_res=True)  
+            
+            print(df)
+            
+            self.log.concat(log)
+            #Sort by dossard
+            if df is None:
+                raise ValueError("table reader failed")  
+                
+            if not all_riders_found and not self.add_unknown_rider:
+                self.log.concat(u'Not all riders found, request stopped')
+                return 1, self.log   
+            
+            self.log.concat('table read and sorted')
+            self.list_of_cyclists, _= cyclists_table_reader(df)
+            list_of_lost=[]
+
+            already_list=False
+            if 'P710' in self.race.item.claims:
+                already_list=True
+                list_of_comprend=self.race.item.claims.get(u'P710')
+
+            if not self.test:
+                target_DNFqual = pywikibot.ItemPage(self.repo, u'Q1210380')
+                self.log.concat(u'inserting start list')
+                for ii, cyclist in enumerate(self.list_of_cyclists):
+                    if cyclist.id not in ['Q0','Q1']:
+                        #look for it
+                        claim=None
+                        if already_list:
+                            for jj, e in enumerate(list_of_comprend): #ugly intersection
+                                if e.getTarget() is not None and e.getTarget().getID()==cyclist.id: #Already there
+                                    claim=e
+                                         
+                        if claim is None:  ##add the rider to the property
+                             _, claim=self.race.add_values('P710', cyclist.id, 'starterlist', False)
+                             
+                             if cyclist.team: #national team
+                                 target_q = pywikibot.ItemPage(self.repo, cyclist.team)
+                                 self.race.add_qualifier(claim,'P54',target_q)
+                                 
+                             self.add_rank(claim,cyclist)
+                        if not self.force_nation_team and self.prologue_or_final!=1: #when only national team, no national tricot
+                             #to avoid being called every time, should be centralized
+                             grt=GetRiderTricot(cyclist.id, self.time_of_race, claim, self.chrono, self.man_or_woman)
+                             grt.main()
+                
+                    #all riders are classified, assumption the other are DNF
+                    if self.prologue_or_final==1:
+                        for claim in list_of_lost:
+                            self.race.add_qualifier(claim,'P1534',target_DNFqual)
+            print("start list insertion finished")
+            return 0, self.log       
+        except:
+            self.log.concat("General Error in startlist_importer")
+            self.log.concat(traceback.format_exc())
+            return 10, self.log             

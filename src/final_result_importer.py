@@ -6,7 +6,7 @@ Created on Mon Jul 31 21:19:04 2023
 @author: maxime
 """
 
-from .base import CyclingInitBot, Log
+from .base import CyclingInitBot, Log, Race
 from .classification_importer import ClassificationImporter
 from .startlist_importer import StartlistImporter
 from .team_importer import TeamImporter
@@ -17,9 +17,9 @@ class FinalResultImporter(CyclingInitBot):
                  maxkk: int,
                  fc:int,
                  chrono: bool,
-                 man_or_woman: str, 
                  single_race:bool,
                  year:int=None,
+                 man_or_woman: str=None, 
                  force_nation_team: bool=False,
                  add_unknown_rider:bool=False,
                  **kwargs):
@@ -50,8 +50,15 @@ class FinalResultImporter(CyclingInitBot):
         for k in ["maxkk","id_race", "fc", "year","chrono","man_or_woman","force_nation_team","add_unknown_rider"]:
             setattr(self,k,locals()[k])
             
+        self.race=Race(id=id_race)    
+        if self.man_or_woman is None:
+            self.man_or_woman=self.race.get_man_or_woman()
+            
         self.stage_or_general=9 #only all acceptable
-        if single_race:
+        if self.single_race is None:
+            self.single_race=self.race.single_race()
+        
+        if self.single_race:
             self.prologue_or_final=2
         else:
             self.prologue_or_final=1
@@ -76,8 +83,6 @@ class FinalResultImporter(CyclingInitBot):
             f=StartlistImporter(
                 self.prologue_or_final,
                 self.id_race, 
-                self.chrono,
-                self.man_or_woman, 
                 force_nation_team=self.force_nation_team,
                 test=False,
                 fc=self.fc,
@@ -93,10 +98,7 @@ class FinalResultImporter(CyclingInitBot):
             res3, log3= f.main()
             log_total.concat(log3.txt)
             
-            if res1==0 and res2==0 and res3==0:
-                return 0, log_total
-            else:
-                return max(res1,res2,res3), log_total
+            return max(res1,res2,res3), log_total
         except:
             return 10, log_total
     
