@@ -52,15 +52,13 @@ def create_item(label:dict, is_women:bool=None):
             w=False
             
             item.get()
-            if (u'P2094' in item.claims):
-                P2094=item.claims.get(u'P2094')
-                for p2094 in P2094:
+            if u'P2094' in item.claims:
+                for p2094 in item.claims.get(u'P2094'):
                     if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q119942457","Q1451845"]:
                         w=True
 
-            if (u'P31' in item.claims):
-                P31=item.claims.get(u'P31')
-                for p31 in P31:
+            if u'P31' in item.claims:
+                for p31 in item.claims.get(u'P31'):
                     if p31.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#cats
                         w=True            
 
@@ -106,7 +104,7 @@ class PyItem():
         '''
         Return the country id of the item
         '''
-        if (u'P17' in self.item.claims):
+        if u'P17' in self.item.claims:
              P17=self.item.claims.get(u'P17')
              return P17[0].getTarget().getID()
         else:
@@ -300,9 +298,9 @@ class PyItem():
         id_next=None
 
         if id_master is None:
-            if (u'P5138' in self.item.claims):
+            if u'P5138' in self.item.claims:
                 id_master= self.item.claims.get(u'P5138')[0].getTarget().getID()
-            elif (u'P361' in self.item.claims):
+            elif u'P361' in self.item.claims:
                 id_master= self.item.claims.get(u'P361')[0].getTarget().getID()
             else:
                 return #no way to finish
@@ -425,9 +423,8 @@ class Cyclist(PyItem):
         result = 'Q1'
         tt=time_of_race.toTimestamp()
         
-        if (u'P54' in self.item.claims):
-            allteams = self.item.claims.get(u'P54')
-            for this_team in allteams:
+        if u'P54' in self.item.claims:
+            for this_team in self.item.claims.get(u'P54'):
                 bt=None
                 et=None
                 if ('P580' in this_team.qualifiers):
@@ -533,16 +530,16 @@ class Race(PyItem):
         self.sortkey =self.nameObj.sortkey
     
     def get_begin_date(self)-> pywikibot.WbTime:
-        if (u'P580' in self.item.claims):
+        if u'P580' in self.item.claims:
             self.race_begin = self.item.claims.get(u'P580')[0].getTarget()
 
         return self.race_begin
     
     def get_date(self)->pywikibot.WbTime:
-        if (u'P585' in self.item.claims):
+        if u'P585' in self.item.claims:
              this_claim = self.item.claims.get(u'P585')
              self.date = this_claim[0].getTarget()
-        elif (u'P580' in self.item.claims):
+        elif u'P580' in self.item.claims:
             this_claim  = self.item.claims.get(u'P580')
             self.date = this_claim[0].getTarget()
     
@@ -557,7 +554,7 @@ class Race(PyItem):
             return int(self.date.year)
     
     def get_end_date(self)-> pywikibot.WbTime:
-        if (u'P582' in self.item.claims):
+        if u'P582' in self.item.claims:
             self.race_end = self.item.claims.get(u'P582')[0].getTarget()
 
         return self.race_end
@@ -567,15 +564,11 @@ class Race(PyItem):
         Return the class id of the race
         '''
         class_list=[
-            "Q22231106",
             "Q22231107",
             "Q22231108",
             "Q22231109",
-            "Q22231110",
-            "Q22231111",
             "Q22231112",
             "Q2231113",
-            "Q22231114",
             "Q22231115",
             "Q22231116",
             "Q22231117",
@@ -585,27 +578,81 @@ class Race(PyItem):
             "Q23005601",
             "Q23005603",
             "Q74275170",
-            "Q74275176" 
+            "Q74275176" ,
+            "Q22231110",
+            "Q22231111",
+            "Q30336909",
+            "Q30339152",
+            "Q98686837",
+            "Q106636603",
+            "Q60669131",
+            "Q106636613",
+            "Q106636614",
+            "Q106636615",
+            "Q106636616",
+            "Q115563610",
+            "Q115563611",
+            "Q22231116",
+            "Q22231114",
+            "Q22231108",
+            "Q74275170",
+            "Q101069484",
+            "Q106637289",
+            "Q22231106",
+            "Q23005601"
          ]
         
-        if (u'P279' in self.item.claims):
-            P279=self.item.claims.get(u'P279')
-            for p279 in P279:
+        if u'P279' in self.item.claims:
+            for p279 in self.item.claims.get(u'P279'):
                 tempQ=p279.getTarget().getID()
                 if tempQ in class_list:
                     return tempQ
         return None   
     
+    def single_race(self)-> str:
+        class_id=self.get_class()
+        if class_id in [
+                "Q22231106",
+                "Q22231110",
+                "Q22231111",
+                "Q30336909",
+                "Q30339152",
+                "Q98686837",
+                "Q106636603",
+                "Q60669131",
+                "Q106636613",
+                "Q106636614",
+                "Q106636615",
+                "Q106636616",
+                "Q115563610",
+                "Q115563611",
+                "Q22231116",
+                "Q22231114",
+                "Q22231108",
+                "Q74275170",
+                "Q101069484",
+                "Q106637289",
+                "Q22231106",
+                "Q23005601"]:
+            return True
+        else:
+            return False        
+    
     def get_is_women(self)-> bool:
         '''
         Check if it a women race
         '''
-        if (u'P2094' in self.item.claims):
-            P2094=self.item.claims.get(u'P2094')
-            for p2094 in P2094:
+        if u'P2094' in self.item.claims:
+            for p2094 in self.item.claims.get(u'P2094'):
                 if p2094.getTarget().getID()=="Q1451845":
                     return True
         return False
+    
+    def get_man_or_woman(self)-> bool:
+        if self.get_is_women():
+            return "woman"
+        else:
+            return "man"
     
     def get_race_name(self)-> str:
          '''
@@ -617,6 +664,37 @@ class Race(PyItem):
          else:
              label=label_raw
          return label
+     
+    def is_chrono(self)->bool:
+        '''
+        Determine is an item is an ITT or a TTT
+        '''
+        class_list=["Q2348250","Q2266066","Q485321","Q20679712"]
+        
+        if u'P279' in self.item.claims:
+            for p279 in self.item.claims.get(u'P279'):
+                if p279.getTarget().getID() in class_list:
+                    return True
+        if u'P31' in self.item.claims:
+            for p31 in self.item.claims.get(u'P31'):
+                if p31.getTarget().getID() in class_list:
+                    return True        
+            
+        return False
+     
+    def check_has_chrono(self)->bool:
+        '''
+        Determine if the race is an ITT or a TTT and if it has stages which are ITT or TTT
+        '''
+        if self.is_chrono():
+            return True
+
+        if u'P527' in self.item.claims:
+            for p527 in self.item.claims.get(u'P527'):
+                race_v=Race(item=p527.getTarget(),id=p527.getTarget().getID())
+                if race_v.is_chrono():
+                    return True
+        return False
      
     def add_winner(
             self, 
@@ -661,8 +739,7 @@ class Race(PyItem):
         if Addc:
             kk=0
             if prop in self.item.claims:
-                list_of_winners = self.item.claims.get(prop)
-                for winner in list_of_winners:
+                for winner in self.item.claims.get(prop):
                     if winner.getTarget().getID() == value:  # Already there
                         Addc = False
                         claim=winner
@@ -695,9 +772,8 @@ class Race(PyItem):
         	"Q2266066",
         	"Q485321"]
         
-        if (u'P31' in self.item.claims):
-            P31=self.item.claims.get(u'P31')
-            for p31 in P31:
+        if 'P31' in self.item.claims:
+            for p31 in self.item.claims.get(u'P31'):
                 if p31.getTarget().getID() in stagesQ:
                     return True
         return False
@@ -706,7 +782,7 @@ class Race(PyItem):
         '''
         Calculate and add the speed to a race
         '''
-        if (u'P3157' in self.item.claims): #distance
+        if u'P3157' in self.item.claims: #distance
             P3157=self.item.claims.get(u'P3157')
             distance=P3157[0].getTarget().amount
             speed=round(distance/time*3600,2)
@@ -754,10 +830,10 @@ class Team(PyItem):
     
     def get_date(self) ->pywikibot.WbTime:
         self.date =None
-        if (u'P585' in self.item.claims):
+        if u'P585' in self.item.claims:
             this_claim = self.item.claims.get(u'P585')
             self.date = this_claim[0].getTarget()
-        elif (u'P580' in self.item.claims):
+        elif u'P580' in self.item.claims:
             this_claim  = self.item.claims.get(u'P580')
             self.date = this_claim[0].getTarget()
 
@@ -1069,7 +1145,7 @@ class Search(CyclingInitBot):
         '''
         item = pywikibot.ItemPage(self.repo, item_id)
         item.get()
-        if(u'P106' in item.claims): 
+        if u'P106' in item.claims: 
             for occu in item.claims.get(u'P106'):
                 if occu.getTarget() is not None and occu.getTarget().getID() in \
                 ['Q2309784',  #cyclist
@@ -1084,7 +1160,7 @@ class Search(CyclingInitBot):
                  'Q10866633'  #speed squatting
                  ]: 
                     return True
-        if(u'P641' in item.claims): #fallback
+        if u'P641' in item.claims: #fallback
             for sport in item.claims.get(u'P641'):
                 if sport.getTarget() is not None and sport.getTarget().getID() in \
                     ['Q3609', #road cycling
@@ -1111,7 +1187,7 @@ class Search(CyclingInitBot):
         '''
         item = pywikibot.ItemPage(self.repo, item_id)
         item.get()
-        if(u'P31' in item.claims):  
+        if u'P31' in item.claims:  
             for nature in item.claims.get(u'P31'):
                 if nature.getTarget().getID() == 'Q53534649':  
                     return True
@@ -1168,9 +1244,8 @@ class Search(CyclingInitBot):
             item = pywikibot.ItemPage(self.repo, item_id)
             item.get()
             
-            if (u'P2094' in item.claims):
-                P2094=item.claims.get(u'P2094')
-                for p2094 in P2094:
+            if u'P2094' in item.claims:
+                for p2094 in item.claims.get(u'P2094'):
                     if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q1451845","Q119942457"]:#, #cats and women cycling, Q1451845 required for national team
                         return True
                     
@@ -1190,14 +1265,12 @@ class Search(CyclingInitBot):
             item = pywikibot.ItemPage(self.repo, item_id)
             item.get()
             
-            if (u'P2094' in item.claims):
-                P2094=item.claims.get(u'P2094')
-                for p2094 in P2094:
+            if u'P2094' in item.claims:
+                for p2094 in item.claims.get(u'P2094'):
                     if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q119942457","Q1451845"]:#, "Q1451845" #cats and women cycling 
                         return False
-            if (u'P31' in item.claims):
-                P31=item.claims.get(u'P31')
-                for p31 in P31:
+            if u'P31' in item.claims:
+                for p31 in item.claims.get(u'P31'):
                     if p31.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#cats
                         return False                    
             return True
@@ -1261,7 +1334,7 @@ def year_child(
     item_master = pywikibot.ItemPage(repo, id_master)
     item_master.get()
     
-    if (u'P527' in item_master.claims):
+    if u'P527' in item_master.claims:
         for claim in item_master.claims.get(u'P527'):
             v=claim.getTarget().getID()
             pyItem_v=PyItem(item=claim.getTarget(),id=v)

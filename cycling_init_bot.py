@@ -10,7 +10,7 @@ import pywikibot
 site = pywikibot.Site("wikidata", "wikidata")
 
 def cycling_init_bot():
-    selector=0
+    selector=24
     #0-4: init the year
     #5-6: sorter
     #7-8: create races
@@ -60,7 +60,7 @@ def cycling_init_bot():
             start_year,
             end_year,
             CC=False,
-            #country="DEN",  #optional/False u'ESA'
+            country="ERI",  #optional/False u'ESA'
             clm=True, 
             road=True)
         
@@ -168,7 +168,7 @@ def cycling_init_bot():
     elif selector==9:
         from src.classification_importer import ClassificationImporter
         
-        id_race='Q122311265'
+        id_race='Q124040414'
         stage_or_general=9# 1 == stage, #0 == general, #2 == point, #3 mountains,#4 youth, 
         #5 team, #6 team points, #7 youth points, #8 == sprints, #9 == all
         maxkk=10
@@ -179,9 +179,10 @@ def cycling_init_bot():
             maxkk, 
             test=False,
             startliston=True,
-            fc=9066, 
-            stage_num=3, #only for stage, put -1 otherwise for the main race
-            year=2023)
+            fc=9063, 
+            stage_num=-1, #only for stage, put -1 otherwise for the main race
+            year=2024
+            )
         
         if stage_or_general==9:
             f.run_all()
@@ -192,8 +193,8 @@ def cycling_init_bot():
     elif selector==10:
         from src.startlist_importer import StartlistImporter
         
-        id_race='Q116313493'
-        prologue_or_final=1 #0=prologue, 1=final, 2=one day race
+        id_race='Q124012053'
+        prologue_or_final=0 #0=prologue, 1=final, 2=one day race
         chrono=False
         man_or_woman=u'woman'
         
@@ -204,7 +205,7 @@ def cycling_init_bot():
             man_or_woman, 
             force_nation_team=False,
             test=False,
-            fc=9059,
+            fc=14577,
             add_unknown_rider=False)
 
     elif selector==12:
@@ -223,7 +224,7 @@ def cycling_init_bot():
         
         man_or_woman=u'woman'
         actualize=True
-        start_year=2023
+        start_year=2024
         
         f=ChampListCreator(
             man_or_woman,
@@ -349,7 +350,39 @@ def cycling_init_bot():
             force_nation_team=False,
             add_unknown_rider=False
             )
- 
+        f.main()
+    elif selector==24:
+        from src.update_result import UpdateResult
+        id_race='Q124012053'
+        fc=14577
+        maxkk=10
+
+        f=UpdateResult(
+            id_race,
+            maxkk,
+            fc,
+            force_nation_team=False,
+            add_unknown_rider=False
+            )
+        f.main()
+    elif selector==25:
+        from src.startlist_importer import StartlistImporterFromRes
+        prologue_or_final=2 #does not matter
+        id_race='Q75693290'
+        chrono=False
+        man_or_woman=u'woman'
+        
+        f=StartlistImporterFromRes(
+            prologue_or_final,
+            id_race, 
+            chrono,
+            man_or_woman, 
+            force_nation_team=False,
+            test=False,
+            fc=12169,
+            add_unknown_rider=False)        
+        f.main()
+        
     else: 
         print('do nothing')
         
