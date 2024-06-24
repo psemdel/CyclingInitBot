@@ -37,6 +37,7 @@ def list_of_rider_ex():
     "Irina Molicheva":"Q19519046",
     "Francesca Pellegrini":"Q114708293",
     'Lisa Klein':'Q15825971',
+    'Trine Hansen':'Q26007186',
     #men
     'Jefferson Cepeda':'Q21093468',
     'Alexander Cepeda':'Q62576160',

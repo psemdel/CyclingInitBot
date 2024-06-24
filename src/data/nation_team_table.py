@@ -1216,6 +1216,9 @@ def load():
         "team woman U19":"Q99646118",
         "team man U19":"Q99642866",       
         "team all":"Q99646667",
+        "Road race woman":"Q112568135",
+        "Clm woman":"Q112568136",
+       
     } 
     
     dic['IND']={
