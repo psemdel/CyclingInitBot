@@ -426,6 +426,12 @@ def table_reader(
                         stage_num=stage_num,
                         classification_num=general_or_stage_to_classification_num[0]
                         )
+                    if "results_table" not in t.__dir__(): #fallback with stage
+                        t=r.results(
+                            stage_num=stage_num,
+                            classification_num=general_or_stage_to_classification_num[1]
+                            )                    
+                    
                 else:
                     t=combi_results_startlist(
                         fc,
