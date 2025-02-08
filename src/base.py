@@ -755,7 +755,7 @@ class Race(PyItem):
             #adding the qualifier
             if qualifier_nummer is not None and kk<=1: #if the rider is found several times, it is safer not to introduce anything
                 target_q=pywikibot.ItemPage(self.repo, qualifier_nummer)
-                self.add_qualifier(claim,'P642',target_q)
+                self.add_qualifier(claim,'P2501',target_q)
                 
     def get_is_stage(self)-> bool:
         '''
@@ -1064,7 +1064,7 @@ class Search(CyclingInitBot):
             if force_disam==False:  #disam criteria must be always filed
                 result_id=temp_id ##then we don't care, we just return the result
             else:
-                if disam(temp_id,**kwargs): #it must be correct, for instance a rider
+                if disam(temp_id,**kwargs)[0]: #it must be correct, for instance a rider
                     result_id=temp_id 
                 else:
                     print(search_name + " found at " + temp_id + " but disambiguation failed")
@@ -1072,6 +1072,7 @@ class Search(CyclingInitBot):
         else:
             # several results
             cand=[]
+            best_prio=1000
             result_id = u'Q1'
             #for all candidate look if one fulfill the criteria, for instance be a rider
             
@@ -1079,7 +1080,12 @@ class Search(CyclingInitBot):
                 all_res = wd_entries['search']
                 for res in all_res:
                     temp_id=res['id']
-                    if disam(temp_id,**kwargs): #no force param here, as it must always be checked
+                    found, prio=disam(temp_id,**kwargs)
+                    
+                    if found and prio<=best_prio: #no force param here, as it must always be checked
+                        if prio<best_prio: # reset list if a better candidate is found 
+                            cand=[]
+                            best_prio=prio
                         cand.append(temp_id)
                         result_id=temp_id
                 if len(cand)>1:
@@ -1137,6 +1143,8 @@ class Search(CyclingInitBot):
         '''
         Disambiguation method
         Test is the item had cyclist as occupation
+        return a bool and a priority
+    
         
         Parameters
         ----------
@@ -1147,19 +1155,26 @@ class Search(CyclingInitBot):
         item.get()
         if u'P106' in item.claims: 
             for occu in item.claims.get(u'P106'):
-                if occu.getTarget() is not None and occu.getTarget().getID() in \
-                ['Q2309784',  #cyclist
-                 'Q15117395', #track cyclist
-                 'Q52217314', #road cyclist
-                 'Q15117415', #cyclo-cross
-                 'Q19799599', #mountain bike
-                 'Q15306067', #triathlete
-                 'Q53645345', #duathelete
-                 'Q13382576', #rowing
-                 'Q13382566', #rowing2
-                 'Q10866633'  #speed squatting
-                 ]: 
-                    return True
+                if occu.getTarget() is not None: 
+                    if occu.getTarget().getID() in \
+                    ['Q2309784',  #cyclist
+                     'Q15117395', #track cyclist
+                     'Q52217314', #road cyclist
+                     'Q15117415', #cyclo-cross
+                     'Q19799599', #mountain bike
+                     ]: 
+                        return True, 1
+                    elif occu.getTarget().getID() in \
+                    ['Q15306067', #triathlete
+                     'Q53645345', #duathelete
+                     ]:      
+                        return True, 2                       
+                    elif occu.getTarget().getID() in \
+                        ['Q13382576', #rowing
+                         'Q13382566', #rowing2
+                         'Q10866633'  #speed squatting
+                         ]: 
+                        return True, 3
         if u'P641' in item.claims: #fallback
             for sport in item.claims.get(u'P641'):
                 if sport.getTarget() is not None and sport.getTarget().getID() in \
@@ -1172,8 +1187,8 @@ class Search(CyclingInitBot):
                      'Q1360806', #cross-country marathon
                      'Q111721834', #gravel
                      ]:
-                        return True
-        return False
+                        return True, 1
+        return False, 1000
 
     def is_it_a_teamseason(self,item_id: str,**kwargs) -> bool:
         '''
@@ -1190,8 +1205,8 @@ class Search(CyclingInitBot):
         if u'P31' in item.claims:  
             for nature in item.claims.get(u'P31'):
                 if nature.getTarget().getID() == 'Q53534649':  
-                    return True
-        return False 
+                    return True, 1
+        return False, 1000
 
     def find_sortkey(self,label: str,words: list)-> bool:
         '''
@@ -1226,9 +1241,9 @@ class Search(CyclingInitBot):
         
         if (self.find_sortkey(this_label, positive_list) and 
            not self.find_sortkey(this_label, negative_list)):
-            return True
+            return True, 1
         else:
-            return False
+            return False, 1000
         
     def is_it_a_womenteam(self,item_id:str,**kwargs):
         '''
@@ -1247,9 +1262,9 @@ class Search(CyclingInitBot):
             if u'P2094' in item.claims:
                 for p2094 in item.claims.get(u'P2094'):
                     if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q1451845","Q119942457"]:#, #cats and women cycling, Q1451845 required for national team
-                        return True
+                        return True, 1
                     
-        return False
+        return False, 1000
             
     def is_it_a_menteam(self,item_id: str,**kwargs):
         '''
@@ -1268,13 +1283,13 @@ class Search(CyclingInitBot):
             if u'P2094' in item.claims:
                 for p2094 in item.claims.get(u'P2094'):
                     if p2094.getTarget().getID() in ["Q2466826","Q26849121","Q80425135","Q119942457","Q1451845"]:#, "Q1451845" #cats and women cycling 
-                        return False
+                        return False, 1000
             if u'P31' in item.claims:
                 for p31 in item.claims.get(u'P31'):
                     if p31.getTarget().getID() in ["Q2466826","Q26849121","Q80425135"]:#cats
-                        return False                    
-            return True
-        return False    
+                        return False, 1000                   
+            return True, 1
+        return False, 1000   
     
     def search_fc_id(self, fc_id:int=None):
         '''

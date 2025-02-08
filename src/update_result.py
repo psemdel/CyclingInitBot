@@ -68,16 +68,17 @@ class UpdateResult(CyclingInitBot):
             self.startlist=False
             if 'P710' in self.race.item.claims:   
                 self.startlist=True
+                
+            filled={-1:{"id":self.id_race}}
+            res1=0
+            res2=0
+            res3=0
             
             if not self.single_race:
                 first_stage=None
                 last_stage=None
                 last_stage_in_fc=None
-                res1=0
-                res2=0
-                res3=0
-                
-                filled={-1:{"id":self.id_race}}
+
                 #search for stage
                 if u'P527' in self.race.item.claims:
                     for p527 in self.race.item.claims.get(u'P527'):
@@ -141,11 +142,23 @@ class UpdateResult(CyclingInitBot):
                     self.prologue_or_final=1 #race completed
                 else:
                     self.prologue_or_final=0
-            else:
+            else: #single race
                 self.prologue_or_final=2
-
-            print(filled)
                 
+                if 'P2321' in self.race.item.claims:    
+                    filled[-1]["wd"]=True
+                else:
+                    filled[-1]["wd"]=False
+
+                t=combi_results_startlist(self.fc,self.year, classification_num=None, stage_num=None)
+                
+                if "results_table" in t.__dir__():
+                    filled[-1]["fc"]=True
+                else:
+                    filled[-1]["fc"]=False
+            
+            print(filled)
+            
             if not self.startlist or self.prologue_or_final==1:
                 print("starting startlist import")
                 f=StartlistImporter(

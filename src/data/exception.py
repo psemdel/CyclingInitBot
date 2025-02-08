@@ -39,6 +39,7 @@ def list_of_rider_ex():
     'Lisa Klein':'Q15825971',
     'Trine Hansen':'Q26007186',
     'Francesca Pellegrini':'Q114708293',
+    'Sara Martín':'Q42308195',
     #men
     'Jefferson Cepeda':'Q21093468',
     'Alexander Cepeda':'Q62576160',
@@ -81,6 +82,9 @@ def list_of_rider_ex():
     'Alexandre Vinokurov':'Q110872512',
     'Carlos Rodríguez':'Q79787760',
     'Carlos Rodriguez':'Q79787760',
+    'Xabier Isasa':'Q109806990',
+    'Matthew Rice':'Q115476017',
+    'Martin Pedersen':'Q112194625'
     }
 
 

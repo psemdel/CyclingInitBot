@@ -126,10 +126,10 @@ class ChampListCreator(CyclingInitBot):
                  there_is_qual=False
                  id_this_qual=None
                  
-                 for qual in winner.qualifiers.get('P642', []):
+                 for qual in winner.qualifiers.get('P2501', []):
                      there_is_qual=True
                  if there_is_qual:
-                     id_this_qual=winner.qualifiers['P642'][0].getTarget().getID()
+                     id_this_qual=winner.qualifiers['P2501'][0].getTarget().getID()
                  else:
                      print(pyItem.get_label('fr'))
                      print("no qualifier")

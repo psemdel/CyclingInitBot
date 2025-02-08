@@ -50,9 +50,9 @@ class UCIClassification(CyclingInitBot):
         fc_rank : int, optional
             Number of the ranking  
         page: int, optional
-            To get next page of the ranking
+            To get next page of the ranking, for fc
         date_rank: str, optional
-            String for the date of the ranking
+            String for the date of the ranking, for fc
         '''
         super().__init__(**kwargs)
         
